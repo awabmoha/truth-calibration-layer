@@ -1,0 +1,22 @@
+{
+  "hidden_state_method": "answer_last",
+  "analysis_timestamp": "2026-06-03T16:47:13.501776+00:00",
+  "n_records": 100,
+  "n_train": 65,
+  "n_test": 35,
+  "positive_rate_all": 0.91,
+  "raw_generation_confidence": {
+    "accuracy_at_0_5": 0.7428571428571429,
+    "ece": 0.30154668930877443,
+    "mce": 0.6029596152236215,
+    "brier": 0.18326885375917434,
+    "auc": 0.4791666666666667
+  },
+  "tcl_v0_probe_confidence": {
+    "accuracy_at_0_5": 0.8571428571428571,
+    "ece": 0.13628051729852886,
+    "mce": 0.5655204262960911,
+    "brier": 0.10579441151947616,
+    "auc": 0.71875
+  }
+}

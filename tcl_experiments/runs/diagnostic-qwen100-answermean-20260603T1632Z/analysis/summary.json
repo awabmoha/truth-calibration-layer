@@ -1,0 +1,32 @@
+{
+  "records_path": "runs\\diagnostic-qwen100-answermean-20260603T1632Z\\records_answer_mean.jsonl",
+  "out_dir": "runs\\diagnostic-qwen100-answermean-20260603T1632Z\\analysis",
+  "test_size": 0.35,
+  "bins": 10,
+  "metrics": [
+    {
+      "hidden_state_method": "answer_mean",
+      "analysis_timestamp": "2026-06-03T16:36:45.979683+00:00",
+      "n_records": 100,
+      "n_train": 65,
+      "n_test": 35,
+      "positive_rate_all": 0.91,
+      "raw_generation_confidence": {
+        "accuracy_at_0_5": 0.7428571428571429,
+        "ece": 0.30154668930877443,
+        "mce": 0.6029596152236215,
+        "brier": 0.18326885375917434,
+        "auc": 0.4791666666666667
+      },
+      "tcl_v0_probe_confidence": {
+        "accuracy_at_0_5": 0.9142857142857143,
+        "ece": 0.08158904310122352,
+        "mce": 0.1978934338283317,
+        "brier": 0.08609424034540128,
+        "auc": 0.5104166666666666
+      }
+    }
+  ],
+  "errors": [],
+  "claim_boundary": "These metrics are TCL-v0 probe diagnostics only. They do not validate the full TCL framework."
+}

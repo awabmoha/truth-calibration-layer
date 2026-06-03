@@ -1,0 +1,32 @@
+{
+  "records_path": "runs\\smoke-20260603T161916Z-4f8c00e2\\records_answer_mean.jsonl",
+  "out_dir": "runs\\smoke-20260603T161916Z-4f8c00e2\\analysis",
+  "test_size": 0.35,
+  "bins": 10,
+  "metrics": [
+    {
+      "hidden_state_method": "answer_mean",
+      "analysis_timestamp": "2026-06-03T16:20:48.460211+00:00",
+      "n_records": 20,
+      "n_train": 13,
+      "n_test": 7,
+      "positive_rate_all": 0.9,
+      "raw_generation_confidence": {
+        "accuracy_at_0_5": 1.0,
+        "ece": 0.3908647219410438,
+        "mce": 0.479317041940428,
+        "brier": 0.1617538722829525,
+        "auc": 1.0
+      },
+      "tcl_v0_probe_confidence": {
+        "accuracy_at_0_5": 0.8571428571428571,
+        "ece": 0.14010032242646986,
+        "mce": 0.14010032242646986,
+        "brier": 0.1423952618293172,
+        "auc": 0.0
+      }
+    }
+  ],
+  "errors": [],
+  "claim_boundary": "These metrics are TCL-v0 probe diagnostics only. They do not validate the full TCL framework."
+}

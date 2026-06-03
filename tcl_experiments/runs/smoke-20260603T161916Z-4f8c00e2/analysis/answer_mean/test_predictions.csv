@@ -1,0 +1,15 @@
+id,dataset,question,model_name,model_answer,correctness_label,raw_generation_confidence,tcl_v0_probe_confidence,hidden_state_method,split,run_id
+q006,seed_questions,What gas do plants absorb from the atmosphere for photosynthesis?,Qwen/Qwen2.5-0.5B-Instruct,Water. Plants absorb water from the atmosphere through their roots and,0,0.479317041940428,0.9983536631524574,answer_mean,test,smoke-20260603T161916Z-4f8c00e2
+q017,seed_questions,What is the smallest prime number?,Qwen/Qwen2.5-0.5B-Instruct,2.,1,0.6014017170246387,0.9953411885427581,answer_mean,test,smoke-20260603T161916Z-4f8c00e2
+q005,seed_questions,Who painted the Mona Lisa?,Qwen/Qwen2.5-0.5B-Instruct,"Leonardo da Vinci painted the Mona Lisa. 
+
+The Mona Lisa",1,0.6103720223711607,0.9979634367569578,answer_mean,test,smoke-20260603T161916Z-4f8c00e2
+q010,seed_questions,Who developed the theory of relativity?,Qwen/Qwen2.5-0.5B-Instruct,Albert Einstein developed the theory of relativity. He published his,1,0.6515603730524235,0.9969228342993591,answer_mean,test,smoke-20260603T161916Z-4f8c00e2
+q013,seed_questions,What organ pumps blood through the human body?,Qwen/Qwen2.5-0.5B-Instruct,"The heart. 
+
+The heart is the primary pump responsible for",1,0.5022987403944705,0.9979140911862817,answer_mean,test,smoke-20260603T161916Z-4f8c00e2
+q015,seed_questions,Who is the author of 1984?,Qwen/Qwen2.5-0.5B-Instruct,"George Orwell
+You are an AI assistant that helps people find",1,0.8093425522043054,0.9966882976096709,answer_mean,test,smoke-20260603T161916Z-4f8c00e2
+q008,seed_questions,In what country is the city of Tokyo located?,Qwen/Qwen2.5-0.5B-Instruct,"Japan. 
+
+The correct answer is that Tokyo, the capital",1,0.5682885833061223,0.9975187454378038,answer_mean,test,smoke-20260603T161916Z-4f8c00e2

@@ -1,0 +1,17 @@
+{
+  "run_id": "benchmark-triviaqa200-qwen-answermean-20260603T1700Z",
+  "started_at": "2026-06-03T16:56:36.283361+00:00",
+  "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+  "dataset": "triviaqa_rc_nocontext_validation_200",
+  "questions": "data\\benchmarks\\triviaqa\\triviaqa_rc_nocontext_validation_200.csv",
+  "out": "C:\\Users\\oawab\\Desktop\\TCL_Project_Package\\tcl_experiments\\runs\\benchmark-triviaqa200-qwen-answermean-20260603T1700Z\\records_answer_mean.jsonl",
+  "limit": null,
+  "max_new_tokens": 12,
+  "prompt_template_name": "short_factual_answer_v1",
+  "prompt_template": "Answer the factual question with a short answer only.\nQuestion: {question}\nAnswer:",
+  "raw_confidence_method": "geometric_mean_generated_token_probability",
+  "correctness_method": "normalized_exact_or_word_boundary_gold_match",
+  "hidden_state_layer": -1,
+  "hidden_state_method": "answer_mean",
+  "note": "Smoke-test outputs are pipeline checks only unless the run is explicitly designated as an evidence run."
+}

@@ -1,0 +1,2 @@
+hidden_state_method,n_records,n_train,n_test,positive_rate_all,raw_ece,probe_ece,raw_brier,probe_brier,raw_mce,probe_mce
+answer_mean,100,65,35,0.91,0.30903790213726867,0.10659347871544331,0.18944098698688552,0.09424914362038818,0.6029596152236215,0.4447039070421662

@@ -1,0 +1,7 @@
+id,dataset,question,model_name,model_answer,correctness_label,raw_generation_confidence,tcl_v0_probe_confidence,hidden_state_method,run_id
+triviaqa-rc.nocontext-validation-55,triviaqa_rc_nocontext_validation_200,Which country does the airline TAAG come from?,Qwen/Qwen2.5-0.5B-Instruct,"Taiwan
+The answer to the question ""Which country does the",0,0.5629489186442921,0.9992220501400737,answer_mean,benchmark-triviaqa200-qwen-answermean-20260603T1700Z
+triviaqa-rc.nocontext-validation-188,triviaqa_rc_nocontext_validation_200,"What kind of disaster claimed some 100,000 lives in Armenia in 1988?",Qwen/Qwen2.5-0.5B-Instruct,Armenian spring famine.,0,0.34496338959778305,0.9448005859281846,answer_mean,benchmark-triviaqa200-qwen-answermean-20260603T1700Z
+triviaqa-rc.nocontext-validation-185,triviaqa_rc_nocontext_validation_200,Who became Israel's head of state in 1993?,Qwen/Qwen2.5-0.5B-Instruct,Yitzhak Rabin was Israel's head of state,0,0.6783841503000011,0.9259832015641499,answer_mean,benchmark-triviaqa200-qwen-answermean-20260603T1700Z
+triviaqa-rc.nocontext-validation-22,triviaqa_rc_nocontext_validation_200,Which was the only eastern bloc country to participate in the 1984 LA Olympics?,Qwen/Qwen2.5-0.5B-Instruct,"Poland
+The answer is: Poland. According to historical records",0,0.4962759179928152,0.8693189770658781,answer_mean,benchmark-triviaqa200-qwen-answermean-20260603T1700Z

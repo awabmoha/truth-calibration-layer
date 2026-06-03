@@ -1,0 +1,14 @@
+{
+  "records_path": "runs\\smoke-20260603T160850Z-e179317a\\records_answer_mean.jsonl",
+  "out_dir": "runs\\smoke-20260603T160850Z-e179317a\\analysis",
+  "test_size": 0.35,
+  "bins": 10,
+  "metrics": [],
+  "errors": [
+    {
+      "hidden_state_method": "answer_mean",
+      "error": "All examples have the same correctness label for method 'answer_mean'. Use a stronger/weaker model or more questions so the probe has both correct and incorrect examples."
+    }
+  ],
+  "claim_boundary": "These metrics are TCL-v0 probe diagnostics only. They do not validate the full TCL framework."
+}

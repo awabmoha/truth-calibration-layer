@@ -1,0 +1,64 @@
+id,dataset,question,model_name,model_answer,correctness_label,raw_generation_confidence,tcl_v0_probe_confidence,hidden_state_method,split,run_id
+d085,diagnostic_questions_100,Who developed the polio vaccine commonly associated with the first successful vaccine?,Qwen/Qwen2.5-0.5B-Instruct,"Jonas Salk, an American scientist and physician, is credited",1,0.46308501336043906,0.995892250858793,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d033,diagnostic_questions_100,What is the largest desert on Earth?,Qwen/Qwen2.5-0.5B-Instruct,"The largest desert on Earth is the Sahara Desert, located in",0,0.6077970618661763,0.9854639019338618,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d024,diagnostic_questions_100,What is the largest planet in the solar system?,Qwen/Qwen2.5-0.5B-Instruct,"Jupiter. 
+
+The largest planet in our solar system, Jupiter",1,0.5361165919828765,0.9882630731048486,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d063,diagnostic_questions_100,What is the study of living organisms called?,Qwen/Qwen2.5-0.5B-Instruct,"Biology
+The study of living organisms, including their structure and",1,0.5291124465264497,0.9583346551639272,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d027,diagnostic_questions_100,What is the chemical symbol for gold?,Qwen/Qwen2.5-0.5B-Instruct,"Au (pronounced ""A-U"")",1,0.3970403847763785,0.9935296595438822,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d054,diagnostic_questions_100,What is the capital city of Greece?,Qwen/Qwen2.5-0.5B-Instruct,"Athens. 
+
+The capital city of Greece is Athens. It",1,0.7293873906002479,0.9990901546740523,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d047,diagnostic_questions_100,Which element has the chemical symbol Fe?,Qwen/Qwen2.5-0.5B-Instruct,"Iron. 
+
+The chemical symbol for iron is Fe. It",1,0.5650100507387181,0.9990127415498591,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d093,diagnostic_questions_100,Who was the first woman to win a Nobel Prize?,Qwen/Qwen2.5-0.5B-Instruct,Marie Curie won the 1903 Nobel Prize,1,0.7967932712425698,0.9997047638827165,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d065,diagnostic_questions_100,Who wrote The Odyssey?,Qwen/Qwen2.5-0.5B-Instruct,"Homer of ancient Greece wrote The Odyssey. 
+
+The Odyssey is",1,0.4692671955068564,0.9980900821186313,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d052,diagnostic_questions_100,What is the hardest natural substance?,Qwen/Qwen2.5-0.5B-Instruct,"Diamond. 
+
+The hardest natural substance is diamond, which has",1,0.524245108899518,0.980391429671828,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d064,diagnostic_questions_100,What is the chemical symbol for carbon?,Qwen/Qwen2.5-0.5B-Instruct,C. Carbon (atomic number 6) has the chemical,1,0.5387619679719176,0.9952049708964095,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d002,diagnostic_questions_100,Who wrote the play Romeo and Juliet?,Qwen/Qwen2.5-0.5B-Instruct,"William Shakespeare wrote the plays Romeo and Juliet, Macbeth,",1,0.5613771088542893,0.9982880068372109,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d058,diagnostic_questions_100,What is the capital city of Mexico?,Qwen/Qwen2.5-0.5B-Instruct,"Mexico City, officially known as Ciudad de México (Spanish:",1,0.6075832229150164,0.99925990842025,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d066,diagnostic_questions_100,What is the capital city of Saudi Arabia?,Qwen/Qwen2.5-0.5B-Instruct,"Riyadh. 
+
+The capital city of Saudi Arabia is Riyadh.",1,0.7398629063394521,0.9991428881595527,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d025,diagnostic_questions_100,What is the name of Earth's natural satellite?,Qwen/Qwen2.5-0.5B-Instruct,"Moon
+The name of Earth's natural satellite is Moon.",1,0.7747345463370926,0.9941659556151112,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d057,diagnostic_questions_100,Who wrote Frankenstein?,Qwen/Qwen2.5-0.5B-Instruct,Mary Shelley wrote Frankenstein. She was an English writer and,1,0.5544910839040454,0.9997638370944736,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d090,diagnostic_questions_100,What is the capital city of Sweden?,Qwen/Qwen2.5-0.5B-Instruct,"Stockholm. 
+
+The capital city of Sweden is Stockholm. It",1,0.7191380163274539,0.9997866049664721,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d081,diagnostic_questions_100,Who wrote Alice's Adventures in Wonderland?,Qwen/Qwen2.5-0.5B-Instruct,"Lewis Carroll wrote ""Alice's Adventures in Wonderland"" and """,1,0.6908436322953717,0.9950023105890664,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d084,diagnostic_questions_100,What is the nearest star to Earth?,Qwen/Qwen2.5-0.5B-Instruct,"Proxima Centauri, located 4.24",0,0.733219720506819,0.9977370959512286,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d073,diagnostic_questions_100,Who wrote Don Quixote?,Qwen/Qwen2.5-0.5B-Instruct,Miguel de Cervantes is credited as the author of Don,1,0.7221813945469566,0.9998595790141811,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d017,diagnostic_questions_100,What is the smallest prime number?,Qwen/Qwen2.5-0.5B-Instruct,2.,1,0.6014017170246387,0.9615028536185428,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d003,diagnostic_questions_100,What planet is known as the Red Planet?,Qwen/Qwen2.5-0.5B-Instruct,Mars. It is the fourth planet from the Sun and the,1,0.47521412623244563,0.9985104227991727,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d099,diagnostic_questions_100,What is the instrument used to measure temperature?,Qwen/Qwen2.5-0.5B-Instruct,Thermometer.,1,0.42123677702867285,0.9540470860591098,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d040,diagnostic_questions_100,What is the longest river in the world by common school convention?,Qwen/Qwen2.5-0.5B-Instruct,"The Amazon River, which flows through Brazil and Peru. It",0,0.49932718571927664,0.9987673977663973,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d049,diagnostic_questions_100,Who wrote The Great Gatsby?,Qwen/Qwen2.5-0.5B-Instruct,"F. Scott Fitzgerald wrote ""The Great Gatsby."" He",1,0.7402319761819003,0.9937133430907952,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d043,diagnostic_questions_100,What is the largest mammal?,Qwen/Qwen2.5-0.5B-Instruct,"The largest mammal is the blue whale, which can grow",1,0.6762412243996077,0.9590200211124505,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d070,diagnostic_questions_100,What is the capital city of Turkey?,Qwen/Qwen2.5-0.5B-Instruct,"Ankara. 
+
+The capital city of Turkey is Ankara. It",1,0.712118818024921,0.9994124987129399,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d034,diagnostic_questions_100,What is the boiling point of water in Celsius at sea level?,Qwen/Qwen2.5-0.5B-Instruct,"100 degrees Celsius. 
+
+The boiling point of",1,0.7010036806377942,0.975219147576306,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d074,diagnostic_questions_100,What is the capital city of Argentina?,Qwen/Qwen2.5-0.5B-Instruct,"Buenos Aires. 
+
+The capital city of Argentina is Buenos Aires",1,0.7807861432839448,0.9994088910701228,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d037,diagnostic_questions_100,What is the chemical symbol for oxygen?,Qwen/Qwen2.5-0.5B-Instruct,"O2. 
+
+The chemical symbol for oxygen is ""O",1,0.5587142228947226,0.9893824516711937,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d097,diagnostic_questions_100,Who wrote War and Peace?,Qwen/Qwen2.5-0.5B-Instruct,Leo Tolstoy is the author of War and Peace.,1,0.6552129295288504,0.9997123781415186,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d068,diagnostic_questions_100,What is the main source of energy for Earth?,Qwen/Qwen2.5-0.5B-Instruct,"The Sun. 
+
+The Sun provides the primary source of energy",1,0.45167085184658745,0.9949856741302306,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d095,diagnostic_questions_100,What is the pH value of pure water at room temperature?,Qwen/Qwen2.5-0.5B-Instruct,"7.0
+
+The pH value of pure water at",1,0.7866597825514445,0.8021065661716683,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d059,diagnostic_questions_100,Which planet has the most prominent ring system?,Qwen/Qwen2.5-0.5B-Instruct,Saturn has the most prominent ring system. It is also known,1,0.4483974581138391,0.9613387884413671,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z
+d061,diagnostic_questions_100,Who was the first human to walk on the Moon?,Qwen/Qwen2.5-0.5B-Instruct,Neil Armstrong became the first person to walk on the Moon.,1,0.6776008652256047,0.9967182504779837,answer_mean,test,diagnostic-qwen100-answermean-20260603T1632Z

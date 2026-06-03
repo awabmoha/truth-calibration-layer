@@ -1,0 +1,17 @@
+{
+  "run_id": "diagnostic-qwen100-answerlast-20260603T1645Z",
+  "started_at": "2026-06-03T16:41:35.936344+00:00",
+  "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+  "dataset": "diagnostic_questions_100",
+  "questions": "data\\diagnostic_questions_100.csv",
+  "out": "C:\\Users\\oawab\\Desktop\\TCL_Project_Package\\tcl_experiments\\runs\\diagnostic-qwen100-answerlast-20260603T1645Z\\records_answer_last.jsonl",
+  "limit": null,
+  "max_new_tokens": 12,
+  "prompt_template_name": "short_factual_answer_v1",
+  "prompt_template": "Answer the factual question with a short answer only.\nQuestion: {question}\nAnswer:",
+  "raw_confidence_method": "geometric_mean_generated_token_probability",
+  "correctness_method": "normalized_exact_or_gold_substring_match",
+  "hidden_state_layer": -1,
+  "hidden_state_method": "answer_last",
+  "note": "Smoke-test outputs are pipeline checks only unless the run is explicitly designated as an evidence run."
+}

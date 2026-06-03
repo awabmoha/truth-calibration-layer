@@ -1,0 +1,50 @@
+{
+  "records_path": "runs\\benchmark-triviaqa200-qwen-answermean-20260603T1700Z\\records_answer_mean.jsonl",
+  "out_dir": "runs\\benchmark-triviaqa200-qwen-answermean-20260603T1700Z\\analysis_calibrated",
+  "test_size": 0.35,
+  "split_mode": "record",
+  "calibrate": true,
+  "bins": 10,
+  "metrics": [
+    {
+      "hidden_state_method": "answer_mean",
+      "analysis_timestamp": "2026-06-03T17:36:33.273304+00:00",
+      "n_records": 200,
+      "n_train": 130,
+      "n_validation": 30,
+      "n_test": 40,
+      "split_mode": "record",
+      "calibration_status": "fitted_on_validation_scores",
+      "positive_rate_all": 0.18,
+      "raw_generation_confidence": {
+        "accuracy_at_0_5": 0.675,
+        "ece": 0.3291638602097115,
+        "mce": 0.4544312635253378,
+        "brier": 0.19228698534478522,
+        "wrong_conf_ge_0_8": 0,
+        "wrong_conf_ge_0_9": 0,
+        "auc": 0.9047619047619048
+      },
+      "tcl_v0_probe_confidence": {
+        "accuracy_at_0_5": 0.775,
+        "ece": 0.20856175511130853,
+        "mce": 0.956668612544136,
+        "brier": 0.18499081724792069,
+        "wrong_conf_ge_0_8": 4,
+        "wrong_conf_ge_0_9": 3,
+        "auc": 0.7575757575757576
+      },
+      "tcl_v0_calibrated_confidence": {
+        "accuracy_at_0_5": 0.675,
+        "ece": 0.27418921384448147,
+        "mce": 0.9741604626471471,
+        "brier": 0.22703772085949164,
+        "wrong_conf_ge_0_8": 4,
+        "wrong_conf_ge_0_9": 1,
+        "auc": 0.7575757575757576
+      }
+    }
+  ],
+  "errors": [],
+  "claim_boundary": "These metrics are TCL-v0 probe diagnostics only. They do not validate the full TCL framework."
+}

@@ -1,0 +1,106 @@
+# TCL-v0 Experiment Pipeline
+
+This folder is the first practical step for the Truth Calibration Layer idea.
+The goal is intentionally small:
+
+> Test whether frozen LLM hidden states contain useful signal for predicting answer correctness.
+
+TCL-v0 does not implement the full four-dimensional trust vector. It implements only the first dimension:
+`hidden_state -> correctness/confidence score`.
+
+Current best diagnostic variant:
+
+```text
+conservative TCL-v0 confidence = min(raw_generation_confidence, tcl_v0_probe_confidence)
+```
+
+This conservative score is used because the plain probe can become overconfident on fluent wrong answers.
+
+## What It Records
+
+For each factual question, the pipeline records:
+
+- dataset name
+- question
+- accepted answers
+- model name
+- prompt template
+- model answer
+- exact/substring correctness label
+- raw generation confidence and its method
+- hidden-state layer and extraction method
+- hidden-state vector
+- run metadata
+
+Then it trains a simple probe on the hidden states and compares:
+
+- raw generation confidence
+- TCL-v0 probe confidence
+- conservative TCL-v0 confidence
+- calibrated TCL-v0 confidence, when requested
+
+using accuracy, expected calibration error, maximum calibration error, Brier score, reliability bins, and high-confidence wrong-answer counts.
+
+## Files
+
+- `requirements.txt` - Python dependencies.
+- `data/seed_questions.csv` - small starter factual QA set.
+- `scripts/run_inference.py` - runs an LLM, extracts hidden states, and writes records.
+- `scripts/train_probe.py` - trains TCL-v0 and writes calibration metrics, including conservative confidence.
+- `scripts/prepare_triviaqa_subset.py` - prepares a reproducible TriviaQA subset and split files.
+- `scripts/make_review_csv.py` - creates a manual-review CSV from recorded model outputs.
+- `scripts/metrics.py` - shared calibration utilities.
+
+## Quick Start
+
+Use this only after agreeing to run a smoke test. The tiny model and seed questions are for checking that the pipeline works; they are not evidence for TCL.
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe scripts\run_inference.py --model sshleifer/tiny-gpt2 --limit 20 --hidden-state-method answer_mean
+.\.venv\Scripts\python.exe scripts\train_probe.py --records runs\<run_id>\records_answer_mean.jsonl --out-dir runs\<run_id>\analysis
+```
+
+`sshleifer/tiny-gpt2` is only for a fast smoke test. For meaningful evidence, use a stronger instruction model later.
+
+## Hidden-State Methods
+
+`scripts/run_inference.py` supports:
+
+- `answer_mean` - mean-pooled generated-answer hidden states.
+- `answer_last` - final generated-token hidden state.
+- `prompt_answer_mean` - mean-pooled prompt plus generated-answer hidden states.
+
+The preferred starting method is `answer_mean`, because TCL-v0 is trying to predict correctness of the produced answer.
+
+## Benchmark Diagnostic
+
+The first benchmark diagnostic used:
+
+- Dataset: TriviaQA `rc.nocontext`, validation subset.
+- Model: `Qwen/Qwen2.5-0.5B-Instruct`.
+- Hidden-state method: `answer_mean`.
+- Best current diagnostic score: conservative TCL-v0 confidence.
+
+Main benchmark reports live in:
+
+```text
+runs/benchmark-triviaqa200-qwen-answermean-20260603T1700Z/
+```
+
+Key reports:
+
+- `RUN_REPORT.md`
+- `FAILURE_ANALYSIS.md`
+- `CALIBRATION_REPORT.md`
+- `CONSERVATIVE_CONFIDENCE_REPORT.md`
+- `MANUAL_REVIEW_TEST_REPORT.md`
+
+## Claim Boundary
+
+TCL-v0 is a confidence-only probe experiment. A successful run may support the narrow claim that frozen hidden states improve calibration under tested conditions. It does not show that TCL makes a model truthful, solves hallucination, or validates the full four-dimensional TCL framework.
+
+Current cautious claim:
+
+Conservative TCL-v0 produced the best metrics on the first 200-example TriviaQA diagnostic. The 40 held-out test examples were manually reviewed with 0 label changes. This is still not broad validation; larger runs and targeted manual label review are still required.
