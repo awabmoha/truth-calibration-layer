@@ -453,7 +453,10 @@ Report:
 
 - `tcl_experiments/TCL-v0-squad-context-100-summary.md`
 - `tcl_experiments/TCL-v0-squad-context-500-summary.md`
+- `tcl_experiments/TCL-v0-squad500-manual-review-report.md`
 
 Interpretation:
 
 SQuAD is a better next benchmark than NQ-Open for this local phase because it gives small models enough positive and negative examples. On SQuAD-500, Qwen shows mixed but useful gains under conservative TCL-v0: better Brier score, threshold accuracy, and AUC, but raw confidence still has better ECE. SmolLM2 shows stronger gains: conservative TCL-v0 improves ECE, Brier score, threshold accuracy, AUC, and high-confidence error counts over raw confidence. This is useful evidence for continuing, but not broad validation.
+
+Targeted SQuAD-500 high-confidence wrong review found 1 likely false-negative label out of 14 Qwen candidates and 1 likely false-negative label out of 27 SmolLM2 candidates. The review does not overturn the SQuAD-500 result.

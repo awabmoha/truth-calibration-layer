@@ -25,6 +25,7 @@ Can frozen LLM hidden states predict answer correctness better than raw softmax/
 - `TCL-Theory-Paper-Theoretical-Framework.docx` - final theory-stage paper.
 - `TCL-v0-experiment-plan.md` - practical plan for the first TCL-v0 experiments.
 - `TCL-v0-results-summary.md` - current diagnostic results and claim boundaries.
+- `TCL-v0-evidence-report-v1.md` - consolidated preliminary evidence report.
 - `tcl_experiments/` - scripts, datasets, benchmark prep, and diagnostic run records.
 
 Older paper drafts and the document build script are kept local-only and are not part of the tracked research package.
@@ -131,7 +132,7 @@ Important: do not treat a successful run as full TCL validation. Each run should
 
 ## Next Step
 
-The next recommended step is manually reviewing SQuAD-500 held-out high-confidence wrong cases and v2 label changes before using the numbers in any public-facing research claim.
+The next recommended step is turning the evidence report into a short TCL-v0 writeup with method, tables, limitations, and a future GPU-scale experiment plan.
 
 ## Author
 

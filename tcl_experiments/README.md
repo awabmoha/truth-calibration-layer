@@ -109,6 +109,7 @@ Key reports:
 - `TCL-v0-clean-nq-open-100-summary.md`
 - `TCL-v0-squad-context-100-summary.md`
 - `TCL-v0-squad-context-500-summary.md`
+- `TCL-v0-squad500-manual-review-report.md`
 
 ## Claim Boundary
 

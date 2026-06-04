@@ -79,6 +79,14 @@ The v2 rule still avoids fuzzy edit-distance matching, but allows exact normaliz
 
 These are TCL-v0 confidence diagnostics only. They do not validate full TCL, do not prove generalization, and do not show that LLMs become truthful. They support the narrower hypothesis that frozen hidden states can contain useful correctness-calibration signal under tested conditions.
 
+## Manual Review
+
+A targeted held-out review of high-confidence wrong candidates found 1 likely false-negative label for Qwen and 1 likely false-negative label for SmolLM2. The review does not overturn the SQuAD-500 result.
+
+Review report:
+
+- `TCL-v0-squad500-manual-review-report.md`
+
 ## Next Step
 
-Run a targeted manual review of the SQuAD-500 held-out test split, especially high-confidence wrong cases and v2 label changes, before using these numbers in any public-facing research claim.
+Use the SQuAD-500 diagnostic and targeted manual review as the main evidence base for a short TCL-v0 writeup.
