@@ -4,7 +4,6 @@ import argparse
 import csv
 import json
 import math
-import re
 import uuid
 from collections.abc import Mapping
 from datetime import datetime, timezone
@@ -15,34 +14,13 @@ import torch
 from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+from labeling import CORRECTNESS_METHOD, is_correct
+
 
 ROOT = Path(__file__).resolve().parents[1]
 PROMPT_TEMPLATE_NAME = "short_factual_answer_v1"
 PROMPT_TEMPLATE = "Answer the factual question with a short answer only.\nQuestion: {question}\nAnswer:"
 RAW_CONFIDENCE_METHOD = "geometric_mean_generated_token_probability"
-CORRECTNESS_METHOD = "normalized_exact_or_word_boundary_gold_match"
-
-
-def normalize(text: str) -> str:
-    text = text.lower().strip()
-    text = re.sub(r"[^a-z0-9\s]", " ", text)
-    text = re.sub(r"\s+", " ", text)
-    return text.strip()
-
-
-def is_correct(answer: str, accepted: list[str]) -> bool:
-    norm_answer = normalize(answer)
-    if not norm_answer:
-        return False
-    for gold in accepted:
-        norm_gold = normalize(gold)
-        if not norm_gold:
-            continue
-        if norm_answer == norm_gold:
-            return True
-        if len(norm_gold) >= 3 and re.search(rf"\b{re.escape(norm_gold)}\b", norm_answer):
-            return True
-    return False
 
 
 def read_splits(path: str | None) -> dict[str, str]:
@@ -215,7 +193,7 @@ def main():
                 "prompt_template": PROMPT_TEMPLATE_NAME,
                 "prompt": prompt,
                 "model_answer": answer,
-                "correctness_label": int(is_correct(answer, accepted)),
+                "correctness_label": int(is_correct(answer, accepted, question)),
                 "correctness_method": CORRECTNESS_METHOD,
                 "raw_generation_confidence": conf,
                 "raw_confidence_method": RAW_CONFIDENCE_METHOD,

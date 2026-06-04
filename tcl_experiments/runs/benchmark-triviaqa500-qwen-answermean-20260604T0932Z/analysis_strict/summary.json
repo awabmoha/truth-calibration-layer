@@ -1,0 +1,59 @@
+{
+  "records_path": "runs\\benchmark-triviaqa500-qwen-answermean-20260604T0932Z\\records_answer_mean.strict.jsonl",
+  "out_dir": "runs\\benchmark-triviaqa500-qwen-answermean-20260604T0932Z\\analysis_strict",
+  "test_size": 0.35,
+  "split_mode": "record",
+  "calibrate": true,
+  "bins": 10,
+  "metrics": [
+    {
+      "hidden_state_method": "answer_mean",
+      "analysis_timestamp": "2026-06-04T10:41:02.942416+00:00",
+      "n_records": 500,
+      "n_train": 325,
+      "n_validation": 75,
+      "n_test": 100,
+      "split_mode": "record",
+      "calibration_status": "fitted_on_validation_scores",
+      "positive_rate_all": 0.2,
+      "raw_generation_confidence": {
+        "accuracy_at_0_5": 0.63,
+        "ece": 0.2792790880275095,
+        "mce": 0.35373455947270815,
+        "brier": 0.21068278375742444,
+        "wrong_conf_ge_0_8": 0,
+        "wrong_conf_ge_0_9": 0,
+        "auc": 0.8402032749858837
+      },
+      "tcl_v0_probe_confidence": {
+        "accuracy_at_0_5": 0.84,
+        "ece": 0.12518632607757996,
+        "mce": 0.3601472868469868,
+        "brier": 0.13799612826773366,
+        "wrong_conf_ge_0_8": 4,
+        "wrong_conf_ge_0_9": 3,
+        "auc": 0.8040654997176736
+      },
+      "tcl_v0_conservative_confidence": {
+        "accuracy_at_0_5": 0.84,
+        "ece": 0.10876775420289396,
+        "mce": 0.3601472868469868,
+        "brier": 0.1267915725666199,
+        "wrong_conf_ge_0_8": 0,
+        "wrong_conf_ge_0_9": 0,
+        "auc": 0.810841332580463
+      },
+      "tcl_v0_calibrated_confidence": {
+        "accuracy_at_0_5": 0.7,
+        "ece": 0.27855491008782435,
+        "mce": 0.416009146034844,
+        "brier": 0.2365276194473183,
+        "wrong_conf_ge_0_8": 0,
+        "wrong_conf_ge_0_9": 0,
+        "auc": 0.8040654997176736
+      }
+    }
+  ],
+  "errors": [],
+  "claim_boundary": "These metrics are TCL-v0 probe diagnostics only. They do not validate the full TCL framework."
+}

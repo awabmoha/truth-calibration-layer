@@ -101,6 +101,7 @@ Key reports:
 - `HIGH_RISK_REVIEW_REPORT.md`
 - `EXTENDED_MANUAL_REVIEW_REPORT.md`
 - `TCL-v0-cross-model-comparison.md`
+- `TCL-v0-labeling-rule-update.md`
 
 ## Claim Boundary
 
@@ -108,4 +109,4 @@ TCL-v0 is a confidence-only probe experiment. A successful run may support the n
 
 Current cautious claim:
 
-Conservative TCL-v0 produced the best metrics on the 200-example and 500-example TriviaQA diagnostics. The pattern now appears across two small CPU-runnable models, Qwen2.5-0.5B-Instruct and SmolLM2-360M-Instruct. This is still not broad validation; a second benchmark source and stronger correctness-labeling checks are still required.
+Conservative TCL-v0 produced the best metrics on the 200-example and 500-example TriviaQA diagnostics. The pattern now appears across two small CPU-runnable models, Qwen2.5-0.5B-Instruct and SmolLM2-360M-Instruct. The stricter `strict_answer_segment_match_v1` label rule should be used for future runs. This is still not broad validation; a second benchmark source is still required.

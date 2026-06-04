@@ -258,6 +258,36 @@ Result:
 
 The conservative TCL-v0 pattern now appears across two small models on the same TriviaQA subset. This supports continuing the research direction, but it is still not broad validation.
 
+## Stricter Labeling Rule
+
+The automatic correctness rule was improved after manual review exposed false positives from accepted-answer substring matching.
+
+New method:
+
+```text
+strict_answer_segment_match_v1
+```
+
+Relabeling existing records only, with no model reruns:
+
+| Run | Old Positives | Strict Positives | Label Changes |
+|---|---:|---:|---:|
+| Qwen 500 | 110 | 100 | 14 |
+| SmolLM2 500 | 46 | 35 | 13 |
+
+Strict-label metric summary:
+
+| Model | Signal | ECE | Brier | Accuracy at 0.5 | Wrong >= 0.8 | Wrong >= 0.9 |
+|---|---|---:|---:|---:|---:|---:|
+| Qwen 500 | Raw generation confidence | 0.2793 | 0.2107 | 0.6300 | 0 | 0 |
+| Qwen 500 | Conservative TCL-v0 | 0.1088 | 0.1268 | 0.8400 | 0 | 0 |
+| SmolLM2 500 | Raw generation confidence | 0.4519 | 0.2953 | 0.4800 | 6 | 3 |
+| SmolLM2 500 | Conservative TCL-v0 | 0.0661 | 0.0597 | 0.9300 | 0 | 0 |
+
+Report:
+
+- `tcl_experiments/TCL-v0-labeling-rule-update.md`
+
 ## Research Interpretation
 
 The strongest current statement is:
@@ -289,4 +319,4 @@ Not allowed:
 
 ## Next Step
 
-The next research step is either to test a second benchmark source or improve the automatic correctness-labeling rule before scaling further.
+The next research step is to test a second benchmark source using the stricter label rule.

@@ -68,9 +68,9 @@ On the current 500-example TriviaQA diagnostics:
 - dataset: TriviaQA `rc.nocontext`, validation subset
 - split: 325 train, 75 validation, 100 test
 - hidden-state method: `answer_mean`
-- extended manual review: all 26 automatic positive test labels reviewed, 3 false positives corrected
+- current correctness method: `strict_answer_segment_match_v1`
 
-Across both small CPU-runnable models, conservative TCL-v0 improved calibration metrics over raw generation confidence while producing zero wrong held-out test examples with confidence >= 0.8.
+Across both small CPU-runnable models, conservative TCL-v0 improved calibration metrics over raw generation confidence while producing zero wrong held-out test examples with confidence >= 0.8 under the stricter label rule.
 
 Current cautious interpretation:
 
@@ -125,7 +125,7 @@ Important: do not treat a successful run as full TCL validation. Each run should
 
 ## Next Step
 
-The next recommended step is testing whether the conservative TCL-v0 pattern holds on a second benchmark source, or improving the correctness-labeling rule before scaling further.
+The next recommended step is testing whether the conservative TCL-v0 pattern holds on a second benchmark source.
 
 ## Author
 

@@ -1,0 +1,38 @@
+{
+  "hidden_state_method": "answer_mean",
+  "analysis_timestamp": "2026-06-04T10:41:02.960486+00:00",
+  "n_records": 500,
+  "n_train": 325,
+  "n_validation": 75,
+  "n_test": 100,
+  "split_mode": "record",
+  "calibration_status": "not_available",
+  "positive_rate_all": 0.07,
+  "raw_generation_confidence": {
+    "accuracy_at_0_5": 0.48,
+    "ece": 0.45189099729063803,
+    "mce": 0.9212325016657511,
+    "brier": 0.29528070781218196,
+    "wrong_conf_ge_0_8": 6,
+    "wrong_conf_ge_0_9": 3,
+    "auc": 0.5714285714285714
+  },
+  "tcl_v0_probe_confidence": {
+    "accuracy_at_0_5": 0.9,
+    "ece": 0.09612678737320873,
+    "mce": 0.8522094234600613,
+    "brier": 0.08244129363979211,
+    "wrong_conf_ge_0_8": 5,
+    "wrong_conf_ge_0_9": 2,
+    "auc": 0.9339477726574501
+  },
+  "tcl_v0_conservative_confidence": {
+    "accuracy_at_0_5": 0.93,
+    "ece": 0.06608273062171696,
+    "mce": 0.6441585997271333,
+    "brier": 0.05968221982196175,
+    "wrong_conf_ge_0_8": 0,
+    "wrong_conf_ge_0_9": 0,
+    "auc": 0.9308755760368663
+  }
+}
