@@ -27,6 +27,8 @@ Can frozen LLM hidden states predict answer correctness better than raw softmax/
 - `TCL-v0-results-summary.md` - current diagnostic results and claim boundaries.
 - `TCL-v0-evidence-report-v1.md` - consolidated preliminary evidence report.
 - `TCL-v0-research-writeup.md` - short TCL-v0 method/results writeup.
+- `TCL-v0-research-writeup.docx` - generated DOCX version of the TCL-v0 writeup.
+- `TCL-v0-research-writeup.pdf` - standalone PDF version of the TCL-v0 writeup.
 - `tcl_experiments/` - scripts, datasets, benchmark prep, and diagnostic run records.
 
 Older paper drafts and the document build script are kept local-only and are not part of the tracked research package.
@@ -127,13 +129,13 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-The current scripts are in `tcl_experiments/scripts/`.
+The current scripts are in `tcl_experiments/scripts/`, including reproducible builders for the TCL-v0 writeup DOCX/PDF artifacts.
 
 Important: do not treat a successful run as full TCL validation. Each run should be documented as a TCL-v0 diagnostic only.
 
 ## Next Step
 
-The next recommended step is deciding whether the TCL-v0 research writeup should become a standalone PDF or an empirical appendix to the theory paper.
+The next recommended step is to review the standalone TCL-v0 PDF, then decide whether to prepare a public-facing release note or run the next empirical check on a stronger benchmark/model setup.
 
 ## Author
 
