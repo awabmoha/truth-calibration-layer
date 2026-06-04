@@ -24,6 +24,12 @@ PROMPT_TEMPLATE = (
     "Question: {question}\n"
     "Answer:"
 )
+CONTEXT_PROMPT_TEMPLATE = (
+    "Answer with only the short answer phrase from the context. Do not explain.\n"
+    "Context: {context}\n"
+    "Question: {question}\n"
+    "Answer:"
+)
 RAW_CONFIDENCE_METHOD = "geometric_mean_generated_token_probability"
 
 
@@ -54,7 +60,16 @@ def read_questions(path: Path, limit: int | None):
     return rows
 
 
-def build_prompt(tokenizer, question: str) -> str:
+def build_prompt(tokenizer, question: str, context: str = "") -> str:
+    context = context.strip()
+    if context:
+        user_content = (
+            f"Context: {context}\n"
+            f"Question: {question}\n"
+            "Answer with only the answer phrase from the context."
+        )
+    else:
+        user_content = f"Question: {question}\nAnswer with only the answer phrase."
     messages = [
         {
             "role": "system",
@@ -62,11 +77,13 @@ def build_prompt(tokenizer, question: str) -> str:
         },
         {
             "role": "user",
-            "content": f"Question: {question}\nAnswer with only the answer phrase.",
+            "content": user_content,
         },
     ]
     if getattr(tokenizer, "chat_template", None):
         return tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    if context:
+        return CONTEXT_PROMPT_TEMPLATE.format(context=context, question=question)
     return PROMPT_TEMPLATE.format(question=question)
 
 
@@ -117,6 +134,7 @@ def write_run_config(out_path: Path, args, run_id: str, started_at: str) -> None
         "max_new_tokens": args.max_new_tokens,
         "prompt_template_name": PROMPT_TEMPLATE_NAME,
         "prompt_template": PROMPT_TEMPLATE,
+        "context_prompt_template": CONTEXT_PROMPT_TEMPLATE,
         "raw_confidence_method": RAW_CONFIDENCE_METHOD,
         "correctness_method": CORRECTNESS_METHOD,
         "hidden_state_layer": args.hidden_state_layer,
@@ -171,7 +189,8 @@ def main():
     splits = read_splits(args.splits)
     with out_path.open("w", encoding="utf-8") as f:
         for row in tqdm(questions, desc="questions"):
-            prompt = build_prompt(tokenizer, row["question"])
+            context = row.get("context", "").strip()
+            prompt = build_prompt(tokenizer, row["question"], context=context)
             inputs = tokenizer(prompt, return_tensors="pt")
             prompt_len = inputs["input_ids"].shape[1]
 
@@ -210,6 +229,7 @@ def main():
                 "id": item_id,
                 "dataset": args.dataset,
                 "question": row["question"],
+                "context": context,
                 "accepted_answers": accepted,
                 "model_name": args.model,
                 "prompt_template": PROMPT_TEMPLATE_NAME,

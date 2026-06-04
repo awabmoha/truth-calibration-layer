@@ -48,6 +48,8 @@ using accuracy, expected calibration error, maximum calibration error, Brier sco
 - `scripts/run_inference.py` - runs an LLM, extracts hidden states, and writes records.
 - `scripts/train_probe.py` - trains TCL-v0 and writes calibration metrics, including conservative confidence.
 - `scripts/prepare_triviaqa_subset.py` - prepares a reproducible TriviaQA subset and split files.
+- `scripts/prepare_nq_open_subset.py` - prepares a reproducible NQ-Open subset and split files.
+- `scripts/prepare_squad_subset.py` - prepares a reproducible context-grounded SQuAD subset and split files.
 - `scripts/make_review_csv.py` - creates a manual-review CSV from recorded model outputs.
 - `scripts/metrics.py` - shared calibration utilities.
 
@@ -105,6 +107,7 @@ Key reports:
 - `TCL-v0-nq-open-benchmark-summary.md`
 - `TCL-v0-benchmark-protocol-update.md`
 - `TCL-v0-clean-nq-open-100-summary.md`
+- `TCL-v0-squad-context-100-summary.md`
 
 ## Claim Boundary
 
@@ -112,4 +115,4 @@ TCL-v0 is a confidence-only probe experiment. A successful run may support the n
 
 Current cautious claim:
 
-Conservative TCL-v0 produced the best metrics on the 200-example and 500-example TriviaQA diagnostics. The pattern now appears across two small CPU-runnable models, Qwen2.5-0.5B-Instruct and SmolLM2-360M-Instruct. A second benchmark source, NQ-Open, has also been tested with the stricter label rule; it is useful but sparse under the current short-answer setup. This is still not broad validation.
+Conservative TCL-v0 produced the best metrics on the 200-example and 500-example TriviaQA diagnostics. The pattern appears across two small CPU-runnable models on TriviaQA. NQ-Open has also been tested with the stricter label rule; it is useful but sparse under the current short-answer setup. SQuAD with context is now the cleaner next benchmark: Qwen showed useful probe signal on SQuAD-100, while SmolLM2 was mixed. This is still not broad validation.

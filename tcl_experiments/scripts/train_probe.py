@@ -169,6 +169,7 @@ def evaluate_group(records, method_name: str, out_dir: Path, test_size: float, b
             "id": r["id"],
             "dataset": r.get("dataset"),
             "question": r["question"],
+            "context": r.get("context", ""),
             "model_name": r.get("model_name", r.get("model")),
             "model_answer": r["model_answer"],
             "correctness_label": int(record_value(r, "correctness_label", "is_correct")),

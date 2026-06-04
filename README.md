@@ -26,8 +26,8 @@ Can frozen LLM hidden states predict answer correctness better than raw softmax/
 - `TCL-v0-experiment-plan.md` - practical plan for the first TCL-v0 experiments.
 - `TCL-v0-results-summary.md` - current diagnostic results and claim boundaries.
 - `tcl_experiments/` - scripts, datasets, benchmark prep, and diagnostic run records.
-- `build_tcl_doc.js` - document build script used for the paper package.
-- Older paper versions are kept for traceability.
+
+Older paper drafts and the document build script are kept local-only and are not part of the tracked research package.
 
 ## Current TCL-v0 Design
 
@@ -72,11 +72,11 @@ On the current 500-example TriviaQA diagnostics:
 
 Across both small CPU-runnable models on TriviaQA, conservative TCL-v0 improved calibration metrics over raw generation confidence while producing zero wrong held-out test examples with confidence >= 0.8 under the stricter label rule.
 
-TCL-v0 has also been tested on a second benchmark source, NQ-Open. NQ-Open is much sparser under the current short-answer setup, but it still supports the central direction: hidden-state probe confidence improves calibration over raw confidence, and conservative TCL-v0 remains a strong safer variant.
+TCL-v0 has also been tested on NQ-Open and SQuAD. NQ-Open is much sparser under the current short-answer setup. SQuAD with context is a cleaner next benchmark because the small local models produce enough correct and incorrect answers for probe diagnostics.
 
 The benchmark protocol has since been improved to preserve raw outputs separately from cleaned answers and to use chat-template prompting when available.
 
-A clean 100-example NQ-Open protocol check confirmed the improved pipeline works, but the held-out test split remained sparse with only one correct answer per model.
+A clean 100-example NQ-Open protocol check confirmed the improved pipeline works, but the held-out test split remained sparse with only one correct answer per model. A 100-example SQuAD context diagnostic produced healthier test splits and mixed but useful results: Qwen showed improved Brier/AUC and no high-confidence wrong answers under conservative TCL-v0, while SmolLM2 was more mixed.
 
 Current cautious interpretation:
 
@@ -131,7 +131,7 @@ Important: do not treat a successful run as full TCL validation. Each run should
 
 ## Next Step
 
-The next recommended step is choosing a cleaner short-answer benchmark or scaling only if the benchmark is likely to produce enough positives for meaningful probe training.
+The next recommended step is scaling the context-grounded SQuAD benchmark after the 100-example protocol check, then repeating the same label-audit and cross-model comparison.
 
 ## Author
 

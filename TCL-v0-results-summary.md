@@ -405,3 +405,48 @@ Report:
 Interpretation:
 
 The improved protocol works technically, but the NQ-Open split remains too sparse for strong conclusions at this scale. A larger run or a cleaner short-answer benchmark is needed for stronger evidence.
+
+## SQuAD Context 100 Diagnostic
+
+The next diagnostic used a context-grounded short-answer benchmark to avoid the sparse-positive problem seen in NQ-Open.
+
+Dataset:
+
+- Source: `rajpurkar/squad`
+- Config: `plain_text`
+- Source split: `validation`
+- Prepared subset: 100 examples
+- Recorded splits: 65 train, 15 validation, 20 test
+- Prompt: `chat_short_factual_answer_v1` with context included
+
+Runs:
+
+- Qwen: `tcl_experiments/runs/benchmark-squad100-qwen-answermean-20260604T1214Z/`
+- SmolLM2: `tcl_experiments/runs/benchmark-squad100-smollm2-360m-answermean-20260604T1632Z/`
+
+Label summary:
+
+| Model | All Correct | Test Correct |
+|---|---:|---:|
+| Qwen | 85/100 | 14/20 |
+| SmolLM2 | 61/100 | 12/20 |
+
+Metric summary:
+
+| Model | Signal | ECE | Brier | Accuracy at 0.5 | AUC | Wrong >= 0.8 | Wrong >= 0.9 |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Qwen | Raw generation confidence | 0.1755 | 0.2183 | 0.7000 | 0.6667 | 3 | 2 |
+| Qwen | TCL-v0 probe confidence | 0.1790 | 0.1696 | 0.8000 | 0.8452 | 2 | 2 |
+| Qwen | Conservative TCL-v0 | 0.2203 | 0.1401 | 0.8000 | 0.9286 | 0 | 0 |
+| SmolLM2 | Raw generation confidence | 0.2101 | 0.2196 | 0.6500 | 0.7500 | 3 | 0 |
+| SmolLM2 | TCL-v0 probe confidence | 0.2837 | 0.2695 | 0.7000 | 0.7500 | 2 | 2 |
+| SmolLM2 | Validation-calibrated TCL-v0 | 0.1994 | 0.2211 | 0.7000 | 0.7500 | 1 | 0 |
+| SmolLM2 | Conservative TCL-v0 | 0.2550 | 0.2512 | 0.7000 | 0.7708 | 1 | 0 |
+
+Report:
+
+- `tcl_experiments/TCL-v0-squad-context-100-summary.md`
+
+Interpretation:
+
+SQuAD is a better next benchmark than NQ-Open for this local phase because it gives small models enough positive and negative examples. The Qwen result supports the TCL-v0 direction, especially for Brier score, ranking/AUC, and high-confidence-error reduction under conservative TCL-v0. The SmolLM2 result is mixed and does not show the same broad improvement. This is useful evidence for continuing, but not broad validation.
