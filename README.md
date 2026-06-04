@@ -74,6 +74,8 @@ Across both small CPU-runnable models on TriviaQA, conservative TCL-v0 improved 
 
 TCL-v0 has also been tested on a second benchmark source, NQ-Open. NQ-Open is much sparser under the current short-answer setup, but it still supports the central direction: hidden-state probe confidence improves calibration over raw confidence, and conservative TCL-v0 remains a strong safer variant.
 
+The benchmark protocol has since been improved to preserve raw outputs separately from cleaned answers and to use chat-template prompting when available.
+
 Current cautious interpretation:
 
 ```text
@@ -127,7 +129,7 @@ Important: do not treat a successful run as full TCL validation. Each run should
 
 ## Next Step
 
-The next recommended step is improving the benchmark protocol for sparse open-domain QA before scaling further.
+The next recommended step is a smaller clean NQ-Open rerun, likely 100 examples, before scaling the improved protocol to another 500-example benchmark.
 
 ## Author
 

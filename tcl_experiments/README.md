@@ -103,6 +103,7 @@ Key reports:
 - `TCL-v0-cross-model-comparison.md`
 - `TCL-v0-labeling-rule-update.md`
 - `TCL-v0-nq-open-benchmark-summary.md`
+- `TCL-v0-benchmark-protocol-update.md`
 
 ## Claim Boundary
 

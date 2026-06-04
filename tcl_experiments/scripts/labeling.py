@@ -57,6 +57,11 @@ def answer_segments(answer: str) -> list[str]:
     return deduped
 
 
+def extract_primary_answer(answer: str) -> str:
+    segments = answer_segments(answer)
+    return segments[0] if segments else ""
+
+
 def close_long_answer_match(norm_segment: str, norm_gold: str) -> bool:
     return False
 
@@ -71,6 +76,8 @@ def single_token_match(norm_segment: str, norm_gold: str, norm_question: str) ->
     tokens = norm_segment.split()
     if not tokens:
         return False
+    if norm_gold.isdigit():
+        return re.search(rf"\b{re.escape(norm_gold)}\b", norm_segment) is not None
     if norm_question and "river" in norm_question:
         if tokens[0] == norm_gold:
             return True
@@ -98,6 +105,9 @@ def segment_matches_gold(segment: str, gold: str, question: str) -> bool:
     gold_tokens = norm_gold.split()
     if len(gold_tokens) == 1:
         return single_token_match(norm_segment, norm_gold, norm_question)
+    if gold_tokens[0].isdigit():
+        segment_tokens = norm_segment.split()
+        return bool(segment_tokens) and segment_tokens[0] == gold_tokens[0]
 
     if norm_segment.startswith(norm_gold):
         return True

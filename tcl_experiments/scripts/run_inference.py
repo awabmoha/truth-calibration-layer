@@ -14,12 +14,16 @@ import torch
 from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-from labeling import CORRECTNESS_METHOD, is_correct
+from labeling import CORRECTNESS_METHOD, extract_primary_answer, is_correct
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PROMPT_TEMPLATE_NAME = "short_factual_answer_v1"
-PROMPT_TEMPLATE = "Answer the factual question with a short answer only.\nQuestion: {question}\nAnswer:"
+PROMPT_TEMPLATE_NAME = "chat_short_factual_answer_v1"
+PROMPT_TEMPLATE = (
+    "Answer with only the short factual answer. Do not explain.\n"
+    "Question: {question}\n"
+    "Answer:"
+)
 RAW_CONFIDENCE_METHOD = "geometric_mean_generated_token_probability"
 
 
@@ -48,6 +52,22 @@ def read_questions(path: Path, limit: int | None):
     if limit:
         rows = rows[:limit]
     return rows
+
+
+def build_prompt(tokenizer, question: str) -> str:
+    messages = [
+        {
+            "role": "system",
+            "content": "You answer factual questions with only the shortest correct answer. No explanation.",
+        },
+        {
+            "role": "user",
+            "content": f"Question: {question}\nAnswer with only the answer phrase.",
+        },
+    ]
+    if getattr(tokenizer, "chat_template", None):
+        return tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    return PROMPT_TEMPLATE.format(question=question)
 
 
 def generation_confidence(scores, sequences, prompt_len: int) -> float:
@@ -151,7 +171,7 @@ def main():
     splits = read_splits(args.splits)
     with out_path.open("w", encoding="utf-8") as f:
         for row in tqdm(questions, desc="questions"):
-            prompt = PROMPT_TEMPLATE.format(question=row["question"])
+            prompt = build_prompt(tokenizer, row["question"])
             inputs = tokenizer(prompt, return_tensors="pt")
             prompt_len = inputs["input_ids"].shape[1]
 
@@ -166,8 +186,9 @@ def main():
                 )
                 full_ids = generated.sequences
                 answer_ids = full_ids[0, prompt_len:]
-                answer = tokenizer.decode(answer_ids, skip_special_tokens=True).strip()
-                conf = generation_confidence(generated.scores, full_ids, prompt_len)
+                raw_answer = tokenizer.decode(answer_ids, skip_special_tokens=True).strip()
+                answer = extract_primary_answer(raw_answer)
+                conf = generation_confidence(generated.scores, full_ids, prompt_len) if answer else 0.0
 
                 hidden_out = model(
                     input_ids=full_ids,
@@ -193,6 +214,7 @@ def main():
                 "model_name": args.model,
                 "prompt_template": PROMPT_TEMPLATE_NAME,
                 "prompt": prompt,
+                "raw_model_output": raw_answer,
                 "model_answer": answer,
                 "correctness_label": int(is_correct(answer, accepted, row["question"])),
                 "correctness_method": CORRECTNESS_METHOD,

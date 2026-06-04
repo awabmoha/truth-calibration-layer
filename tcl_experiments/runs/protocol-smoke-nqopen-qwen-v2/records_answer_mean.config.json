@@ -1,0 +1,17 @@
+{
+  "run_id": "protocol-smoke-nqopen-qwen-v2",
+  "started_at": "2026-06-04T11:47:04.025087+00:00",
+  "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+  "dataset": "nq_open_validation_protocol_smoke_qwen",
+  "questions": "data\\benchmarks\\nq_open\\nq_open_validation_500.csv",
+  "out": "runs\\protocol-smoke-nqopen-qwen-v2\\records_answer_mean.jsonl",
+  "limit": 20,
+  "max_new_tokens": 16,
+  "prompt_template_name": "short_factual_answer_v2",
+  "prompt_template": "Answer with only the short factual answer. Do not explain.\nQuestion: {question}\nAnswer:",
+  "raw_confidence_method": "geometric_mean_generated_token_probability",
+  "correctness_method": "strict_answer_segment_match_v1",
+  "hidden_state_layer": -1,
+  "hidden_state_method": "answer_mean",
+  "note": "Smoke-test outputs are pipeline checks only unless the run is explicitly designated as an evidence run."
+}

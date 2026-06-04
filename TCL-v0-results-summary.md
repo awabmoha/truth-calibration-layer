@@ -353,3 +353,22 @@ Not allowed:
 ## Next Step
 
 The next research step is to improve the benchmark protocol for sparse open-domain QA, either by scaling NQ-Open, improving answer extraction, or adding a third benchmark with cleaner short-answer labels.
+
+## Benchmark Protocol Update
+
+The benchmark protocol was improved after NQ-Open exposed measurement-quality issues.
+
+Updates:
+
+- future runs use chat-template prompting when available
+- records preserve both `raw_model_output` and cleaned `model_answer`
+- empty cleaned answers receive confidence `0.0`
+- numeric-unit matching was improved without reintroducing fuzzy false positives
+
+Report:
+
+- `tcl_experiments/TCL-v0-benchmark-protocol-update.md`
+
+Next protocol step:
+
+Run a smaller clean NQ-Open rerun, likely 100 examples, before spending laptop time on another 500-example benchmark.
