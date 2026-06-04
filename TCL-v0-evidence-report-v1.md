@@ -120,23 +120,19 @@ The next valuable step is not another run. It is consolidation:
 - decide which result is the headline diagnostic
 - prepare a stronger future experiment plan for GPU-scale models
 
-## Next Research Milestone
+## Current Research Writeup
 
-The next milestone is a short TCL-v0 research writeup:
+The evidence has now been consolidated into a short TCL-v0 research writeup:
 
 ```text
 TCL-v0: Frozen Hidden States as Confidence Signals for Answer Correctness
 ```
 
-It should include:
+Writeup file:
 
-- theory motivation from TCL
-- TCL-v0 method
-- datasets and models
-- results table
-- high-confidence error analysis
-- claim boundaries
-- next experiment plan
+- `TCL-v0-research-writeup.md`
+
+The next milestone is to tighten that writeup into a shareable draft and decide whether it should remain a standalone TCL-v0 note or become an empirical appendix to the theory paper.
 
 ## Bottom Line
 
