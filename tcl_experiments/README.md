@@ -87,6 +87,7 @@ Main benchmark reports live in:
 
 ```text
 runs/benchmark-triviaqa200-qwen-answermean-20260603T1700Z/
+runs/benchmark-triviaqa500-qwen-answermean-20260604T0932Z/
 ```
 
 Key reports:
@@ -96,6 +97,7 @@ Key reports:
 - `CALIBRATION_REPORT.md`
 - `CONSERVATIVE_CONFIDENCE_REPORT.md`
 - `MANUAL_REVIEW_TEST_REPORT.md`
+- `HIGH_RISK_REVIEW_REPORT.md`
 
 ## Claim Boundary
 
@@ -103,4 +105,4 @@ TCL-v0 is a confidence-only probe experiment. A successful run may support the n
 
 Current cautious claim:
 
-Conservative TCL-v0 produced the best metrics on the first 200-example TriviaQA diagnostic. The 40 held-out test examples were manually reviewed with 0 label changes. This is still not broad validation; larger runs and targeted manual label review are still required.
+Conservative TCL-v0 produced the best metrics on the 200-example and 500-example TriviaQA diagnostics. The first 40-example held-out test review and the 500-run high-risk review both produced 0 label changes. This is still not broad validation; additional targeted manual review and a second model or dataset are still required.

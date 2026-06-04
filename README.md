@@ -62,13 +62,15 @@ conservative_confidence = min(raw_generation_confidence, tcl_v0_probe_confidence
 
 This rule was added because a plain hidden-state probe improved some average metrics but could become dangerously overconfident on fluent wrong answers. The conservative version prevents TCL-v0 from raising confidence above the model's raw generation confidence.
 
-On the first 200-example TriviaQA diagnostic:
+On the current 500-example TriviaQA diagnostic:
 
 - model: `Qwen/Qwen2.5-0.5B-Instruct`
 - dataset: TriviaQA `rc.nocontext`, validation subset
-- split: 130 train, 30 validation, 40 test
+- split: 325 train, 75 validation, 100 test
 - hidden-state method: `answer_mean`
-- held-out test manual review: 40 examples reviewed, 0 label changes
+- high-risk manual review: 5 high-confidence wrong probe cases reviewed, 0 label changes
+
+Conservative TCL-v0 improved ECE, Brier score, MCE, and 0.5-threshold accuracy over raw generation confidence on the held-out test split, while producing zero wrong test examples with confidence >= 0.8.
 
 Current cautious interpretation:
 
@@ -123,11 +125,10 @@ Important: do not treat a successful run as full TCL validation. Each run should
 
 ## Next Step
 
-The next recommended experiment is a larger TriviaQA diagnostic, likely 500 examples, using conservative TCL-v0 as the primary score.
+The next recommended step is targeted manual review of the 500-example diagnostic before starting a new model or dataset.
 
-Priority manual review after that run:
+Priority manual review:
 
-- wrong answers with confidence >= 0.8
 - examples where raw confidence and TCL-v0 confidence strongly disagree
 - a small random sample from the held-out test split
 

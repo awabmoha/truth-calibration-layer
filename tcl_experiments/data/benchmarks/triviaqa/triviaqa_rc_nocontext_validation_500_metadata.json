@@ -1,0 +1,20 @@
+{
+  "created_at": "2026-06-04T09:32:02.289212+00:00",
+  "dataset": "mandarjoshi/trivia_qa",
+  "config": "rc.nocontext",
+  "source_split": "validation",
+  "limit_requested": 500,
+  "examples_written": 500,
+  "seed": 42,
+  "train_frac": 0.65,
+  "val_frac": 0.15,
+  "split_counts": {
+    "train": 325,
+    "test": 100,
+    "validation": 75
+  },
+  "questions_csv": "C:\\Users\\oawab\\Desktop\\TCL_Project_Package\\tcl_experiments\\data\\benchmarks\\triviaqa\\triviaqa_rc_nocontext_validation_500.csv",
+  "splits_csv": "C:\\Users\\oawab\\Desktop\\TCL_Project_Package\\tcl_experiments\\data\\benchmarks\\triviaqa\\triviaqa_rc_nocontext_validation_500_splits.csv",
+  "manual_review_csv": "C:\\Users\\oawab\\Desktop\\TCL_Project_Package\\tcl_experiments\\data\\benchmarks\\triviaqa\\triviaqa_rc_nocontext_validation_500_manual_review.csv",
+  "claim_boundary": "This prepares benchmark input data only; it does not run TCL-v0 or produce model results."
+}
