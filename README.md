@@ -29,6 +29,7 @@ Can frozen LLM hidden states predict answer correctness better than raw softmax/
 - `TCL-v0-research-writeup.md` - short TCL-v0 method/results writeup.
 - `TCL-v0-research-writeup.docx` - generated DOCX version of the TCL-v0 writeup.
 - `TCL-v0-research-writeup.pdf` - standalone PDF version of the TCL-v0 writeup.
+- `RELEASE_NOTES.md` - current-state note for private sharing or public-readiness review.
 - `tcl_experiments/` - scripts, datasets, benchmark prep, and diagnostic run records.
 
 Older draft papers and the original one-off document builder were removed from the cleaned repository. The tracked package now keeps one canonical theory paper and one TCL-v0 empirical companion writeup.
