@@ -18,7 +18,28 @@ Can frozen LLM hidden states predict answer correctness better than raw generati
 
 This is only one practical slice of the broader TCL theory. It does not implement the full four-dimensional TCL trust vector.
 
-## 2. Method
+## 2. Positioning
+
+TCL-v0 sits between three nearby research directions:
+
+- Neural network calibration: prior work shows that modern neural networks can be miscalibrated and that post-hoc calibration methods such as temperature scaling can help.
+- Language-model self-knowledge: prior work asks whether models can estimate what they know, often through verbalized confidence, multiple-choice confidence, or auxiliary heads.
+- Hallucination and truthfulness evaluation: benchmarks such as TruthfulQA test whether models repeat common falsehoods, while uncertainty methods such as semantic uncertainty estimate whether generations are meaningfully stable.
+
+TCL-v0 is different in one narrow way: it does not ask the model to verbalize confidence, sample many generations, or change the base model. It freezes the model and tests whether a small probe on hidden states can predict whether the produced answer is correct.
+
+## 3. Contributions
+
+This package contributes:
+
+- a theory-to-practice bridge from TCL to a minimal empirical test
+- a reproducible TCL-v0 pipeline for QA calibration diagnostics
+- comparisons between raw generation confidence and hidden-state probe confidence
+- a conservative score that bounds probe confidence by raw generation confidence
+- early evidence across TriviaQA, NQ-Open, and SQuAD
+- claim boundaries that keep the results separate from full TCL validation
+
+## 4. Method
 
 For each QA example, TCL-v0 records:
 
@@ -42,7 +63,7 @@ Current implementation:
 
 The conservative score was introduced because a plain hidden-state probe can become overconfident on fluent wrong answers. Conservative TCL-v0 allows the hidden-state probe to lower confidence but prevents it from raising confidence above raw generation confidence.
 
-## 3. Models And Benchmarks
+## 5. Models And Benchmarks
 
 Local experiments used small CPU-runnable instruction models:
 
@@ -57,7 +78,7 @@ Benchmarks:
 
 NQ-Open was useful as a stress test but too sparse at this scale. SQuAD-500 is currently the cleanest local benchmark because the provided context gives small models a healthier mix of correct and incorrect answers.
 
-## 4. Evaluation
+## 6. Evaluation
 
 TCL-v0 compares:
 
@@ -76,7 +97,7 @@ Metrics:
 - AUC when both classes are present
 - wrong answers with confidence >= 0.8 and >= 0.9
 
-## 5. Main Result: SQuAD-500
+## 7. Main Result: SQuAD-500
 
 SQuAD-500 used 325 train examples, 75 validation examples, and 100 held-out test examples. Labels were relabeled with `strict_answer_segment_match_v2`, which allows exact normalized answer spans inside short answer sentences while still avoiding fuzzy edit-distance matching.
 
@@ -94,7 +115,7 @@ Interpretation:
 
 This is a useful but not universal win. The result supports the idea that hidden states contain calibration signal, while showing that the value of the signal depends on model and score construction.
 
-## 6. Manual Review
+## 8. Manual Review
 
 A targeted SQuAD-500 review examined held-out test examples that were labeled incorrect but received high confidence from at least one score.
 
@@ -105,7 +126,7 @@ A targeted SQuAD-500 review examined held-out test examples that were labeled in
 
 The review found that most high-confidence wrong cases were real failures, not label artifacts. Two likely false negatives were found, but a sensitivity check did not change the overall interpretation.
 
-## 7. Broader Evidence
+## 9. Broader Evidence
 
 TriviaQA supports the same general direction: conservative TCL-v0 improved calibration metrics across Qwen and SmolLM2 under stricter reviewed labels.
 
@@ -117,7 +138,7 @@ Together, the current evidence supports a cautious statement:
 Frozen hidden states appear to contain useful correctness-calibration signal under tested conditions, but the signal must be constrained and tested more broadly.
 ```
 
-## 8. Limitations
+## 10. Limitations
 
 Current limitations:
 
@@ -131,7 +152,7 @@ Current limitations:
 
 The current results should be treated as preliminary diagnostics, not validation.
 
-## 9. Claim Boundaries
+## 11. Claim Boundaries
 
 Allowed:
 
@@ -148,7 +169,7 @@ Not allowed:
 - TCL-v0 generalizes to all models, datasets, or tasks.
 - The four-dimensional TCL trust vector has been implemented or validated.
 
-## 10. Next Experiment Plan
+## 12. Next Experiment Plan
 
 The next meaningful step is not more local CPU runs. The next step is a stronger GPU-scale experiment:
 
@@ -161,7 +182,24 @@ The next meaningful step is not more local CPU runs. The next step is a stronger
 - compare raw, probe, calibrated, and conservative scores
 - optionally test layer-wise probes and a small MLP after logistic regression is stable
 
-## 11. Bottom Line
+## 13. Related Work
+
+Calibration of neural networks is the immediate methodological background. Guo et al. showed that modern neural networks can be poorly calibrated and that temperature scaling is a strong post-hoc baseline. TCL-v0 uses calibration metrics from this tradition, but the intervention is different: it tests hidden-state probes rather than only rescaling output probabilities.
+
+Language-model self-knowledge is also closely related. Kadavath et al. studied whether language models know what they know, including confidence-related behavior and answerability. TCL-v0 shares the focus on correctness awareness, but uses frozen hidden-state vectors and a small external probe instead of relying only on model verbalization or task-specific heads.
+
+Truthfulness benchmarks such as TruthfulQA frame the broader problem: models can generate fluent answers that reproduce common falsehoods. TCL-v0 does not solve truthfulness, but it targets a nearby practical question: whether internal representations can help estimate when a generated answer is likely correct.
+
+Semantic uncertainty methods estimate uncertainty by grouping semantically equivalent generations. TCL-v0 takes a different route: instead of sampling multiple outputs, it uses the hidden state of a single generated answer.
+
+## 14. References
+
+- Guo, Pleiss, Sun, and Weinberger. "On Calibration of Modern Neural Networks." ICML 2017. https://arxiv.org/abs/1706.04599
+- Kadavath et al. "Language Models (Mostly) Know What They Know." 2022. https://arxiv.org/abs/2207.05221
+- Lin, Hilton, and Evans. "TruthfulQA: Measuring How Models Mimic Human Falsehoods." ACL 2022. https://arxiv.org/abs/2109.07958
+- Kuhn, Gal, and Farquhar. "Semantic Uncertainty: Linguistic Invariances for Uncertainty Estimation in Natural Language Generation." 2023. https://arxiv.org/abs/2302.09664
+
+## 15. Bottom Line
 
 TCL-v0 has moved from idea to early evidence. The current data does not prove TCL, but it does justify a stronger follow-up experiment.
 
