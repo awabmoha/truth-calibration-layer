@@ -1,0 +1,13 @@
+id,split,question,accepted_answers,model_answer,old_correctness_label,new_correctness_label,old_correctness_method,new_correctness_method
+squad-validation-67,train,What was the number of solo tackles that Von Miller had in Super Bowl 50?,5 | five,Von Miller had five solo tackles in Super Bowl 50.,0,1,strict_answer_segment_match_v1,strict_answer_segment_match_v2
+squad-validation-70,validation,How many tackles did Von Miller get during the game?,5 | five,Von Miller got five tackles during the game.,0,1,strict_answer_segment_match_v1,strict_answer_segment_match_v2
+squad-validation-79,test,How many tackles did Von Miller accomlish by himself in the game?,five,Von Miller accomplished five tackles in the game.,0,1,strict_answer_segment_match_v1,strict_answer_segment_match_v2
+squad-validation-107,test,Which Super Bowl did Roger Goodell speak about?,the 50th Super Bowl | the 50th | 50th,Roger Goodell's 50th Super Bowl.,0,1,strict_answer_segment_match_v1,strict_answer_segment_match_v2
+squad-validation-176,test,How much did Levi's Stadium cost?,$1.2 billion,Levi's Stadium cost $1.2 billion.,0,1,strict_answer_segment_match_v1,strict_answer_segment_match_v2
+squad-validation-228,train,How many yards did Newton throw for in 2015?,"3,837","Newton threw for 3,837 yards in 2015",0,1,strict_answer_segment_match_v1,strict_answer_segment_match_v2
+squad-validation-230,train,How many touchdowns did Jonathan Stewart have in 13 games?,six,Jonathan Stewart had 989 rushing yards and six touchdowns in,0,1,strict_answer_segment_match_v1,strict_answer_segment_match_v2
+squad-validation-339,train,What body part did Thomas Davis break during the NFC Championship Game?,arm,Thomas Davis's arm.,0,1,strict_answer_segment_match_v1,strict_answer_segment_match_v2
+squad-validation-355,train,"How many teams has Manning played for that reached the Super Bowl, while he was on their team?",two,Manning played for two different teams to reach the Super Bowl.,0,1,strict_answer_segment_match_v1,strict_answer_segment_match_v2
+squad-validation-356,train,Peyton Manning took how many different teams to the Super Bowl?,two,Peyton Manning took two different teams to the Super Bowl.,0,1,strict_answer_segment_match_v1,strict_answer_segment_match_v2
+squad-validation-440,train,What color are the numbers in the Super Bowl 50 logo?,gold,The numbers in the Super Bowl 50 logo are gold.,0,1,strict_answer_segment_match_v1,strict_answer_segment_match_v2
+squad-validation-456,test,"Since this was the 50th one, what was the theme color for the Super Bowl?",gold,The theme color for the Super Bowl was gold.,0,1,strict_answer_segment_match_v1,strict_answer_segment_match_v2

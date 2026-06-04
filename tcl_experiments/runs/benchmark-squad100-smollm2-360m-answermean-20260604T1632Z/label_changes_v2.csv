@@ -1,0 +1,4 @@
+id,split,question,accepted_answers,model_answer,old_correctness_label,new_correctness_label,old_correctness_method,new_correctness_method
+squad-validation-67,train,What was the number of solo tackles that Von Miller had in Super Bowl 50?,5 | five,Von Miller had five solo tackles in Super Bowl 50.,0,1,strict_answer_segment_match_v1,strict_answer_segment_match_v2
+squad-validation-70,train,How many tackles did Von Miller get during the game?,5 | five,Von Miller got five tackles during the game.,0,1,strict_answer_segment_match_v1,strict_answer_segment_match_v2
+squad-validation-79,validation,How many tackles did Von Miller accomlish by himself in the game?,five,Von Miller accomplished five tackles in the game.,0,1,strict_answer_segment_match_v1,strict_answer_segment_match_v2

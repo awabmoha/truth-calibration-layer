@@ -406,47 +406,54 @@ Interpretation:
 
 The improved protocol works technically, but the NQ-Open split remains too sparse for strong conclusions at this scale. A larger run or a cleaner short-answer benchmark is needed for stronger evidence.
 
-## SQuAD Context 100 Diagnostic
+## SQuAD Context Diagnostics
 
-The next diagnostic used a context-grounded short-answer benchmark to avoid the sparse-positive problem seen in NQ-Open.
+The next diagnostics used a context-grounded short-answer benchmark to avoid the sparse-positive problem seen in NQ-Open.
 
 Dataset:
 
 - Source: `rajpurkar/squad`
 - Config: `plain_text`
 - Source split: `validation`
-- Prepared subset: 100 examples
-- Recorded splits: 65 train, 15 validation, 20 test
+- Prepared subsets: 100 examples, then 500 examples
+- 100-example split: 65 train, 15 validation, 20 test
+- 500-example split: 325 train, 75 validation, 100 test
 - Prompt: `chat_short_factual_answer_v1` with context included
+- Current SQuAD correctness method after relabeling: `strict_answer_segment_match_v2`
 
 Runs:
 
 - Qwen: `tcl_experiments/runs/benchmark-squad100-qwen-answermean-20260604T1214Z/`
 - SmolLM2: `tcl_experiments/runs/benchmark-squad100-smollm2-360m-answermean-20260604T1632Z/`
+- Qwen 500: `tcl_experiments/runs/benchmark-squad500-qwen-answermean-20260604T1652Z/`
+- SmolLM2 500: `tcl_experiments/runs/benchmark-squad500-smollm2-360m-answermean-20260604T1820Z/`
 
 Label summary:
 
-| Model | All Correct | Test Correct |
-|---|---:|---:|
-| Qwen | 85/100 | 14/20 |
-| SmolLM2 | 61/100 | 12/20 |
+| Model | Subset | All Correct | Test Correct |
+|---|---:|---:|---:|
+| Qwen | 100 | 85/100 | 14/20 |
+| SmolLM2 | 100 | 64/100 | 12/20 |
+| Qwen | 500 | 383/500 | 77/100 |
+| SmolLM2 | 500 | 272/500 | 53/100 |
 
 Metric summary:
 
-| Model | Signal | ECE | Brier | Accuracy at 0.5 | AUC | Wrong >= 0.8 | Wrong >= 0.9 |
-|---|---|---:|---:|---:|---:|---:|---:|
-| Qwen | Raw generation confidence | 0.1755 | 0.2183 | 0.7000 | 0.6667 | 3 | 2 |
-| Qwen | TCL-v0 probe confidence | 0.1790 | 0.1696 | 0.8000 | 0.8452 | 2 | 2 |
-| Qwen | Conservative TCL-v0 | 0.2203 | 0.1401 | 0.8000 | 0.9286 | 0 | 0 |
-| SmolLM2 | Raw generation confidence | 0.2101 | 0.2196 | 0.6500 | 0.7500 | 3 | 0 |
-| SmolLM2 | TCL-v0 probe confidence | 0.2837 | 0.2695 | 0.7000 | 0.7500 | 2 | 2 |
-| SmolLM2 | Validation-calibrated TCL-v0 | 0.1994 | 0.2211 | 0.7000 | 0.7500 | 1 | 0 |
-| SmolLM2 | Conservative TCL-v0 | 0.2550 | 0.2512 | 0.7000 | 0.7708 | 1 | 0 |
+| Model | Subset | Signal | ECE | Brier | Accuracy at 0.5 | AUC | Wrong >= 0.8 | Wrong >= 0.9 |
+|---|---:|---|---:|---:|---:|---:|---:|---:|
+| Qwen | 500 | Raw generation confidence | 0.0979 | 0.1582 | 0.7800 | 0.7527 | 9 | 6 |
+| Qwen | 500 | TCL-v0 probe confidence | 0.1528 | 0.1687 | 0.7900 | 0.7719 | 10 | 7 |
+| Qwen | 500 | Conservative TCL-v0 | 0.1090 | 0.1521 | 0.8000 | 0.8097 | 5 | 3 |
+| SmolLM2 | 500 | Raw generation confidence | 0.2672 | 0.2849 | 0.5500 | 0.7523 | 20 | 2 |
+| SmolLM2 | 500 | TCL-v0 probe confidence | 0.1898 | 0.1982 | 0.7500 | 0.8282 | 13 | 10 |
+| SmolLM2 | 500 | Validation-calibrated TCL-v0 | 0.1338 | 0.1720 | 0.7500 | 0.8282 | 1 | 1 |
+| SmolLM2 | 500 | Conservative TCL-v0 | 0.1275 | 0.1688 | 0.7600 | 0.8366 | 6 | 0 |
 
 Report:
 
 - `tcl_experiments/TCL-v0-squad-context-100-summary.md`
+- `tcl_experiments/TCL-v0-squad-context-500-summary.md`
 
 Interpretation:
 
-SQuAD is a better next benchmark than NQ-Open for this local phase because it gives small models enough positive and negative examples. The Qwen result supports the TCL-v0 direction, especially for Brier score, ranking/AUC, and high-confidence-error reduction under conservative TCL-v0. The SmolLM2 result is mixed and does not show the same broad improvement. This is useful evidence for continuing, but not broad validation.
+SQuAD is a better next benchmark than NQ-Open for this local phase because it gives small models enough positive and negative examples. On SQuAD-500, Qwen shows mixed but useful gains under conservative TCL-v0: better Brier score, threshold accuracy, and AUC, but raw confidence still has better ECE. SmolLM2 shows stronger gains: conservative TCL-v0 improves ECE, Brier score, threshold accuracy, AUC, and high-confidence error counts over raw confidence. This is useful evidence for continuing, but not broad validation.

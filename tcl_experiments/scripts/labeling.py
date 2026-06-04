@@ -3,11 +3,15 @@ from __future__ import annotations
 import re
 
 
-CORRECTNESS_METHOD = "strict_answer_segment_match_v1"
+CORRECTNESS_METHOD = "strict_answer_segment_match_v2"
 
 ROMAN_NUMERAL = {
     "i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x",
     "xi", "xii", "xiii", "xiv", "xv", "xvi", "xvii", "xviii", "xix", "xx",
+}
+COMMON_SINGLE_TOKEN_FALSE_POSITIVES = {
+    "a", "an", "the", "of", "in", "on", "to", "for", "and", "or", "is", "was",
+    "were", "be", "been", "it", "its", "this", "that", "he", "she", "they",
 }
 
 
@@ -86,7 +90,7 @@ def single_token_match(norm_segment: str, norm_gold: str, norm_question: str) ->
         if len(tokens) >= 2 and tokens[1] in ROMAN_NUMERAL:
             return False
         return True
-    if len(norm_gold) >= 5 and re.search(rf"\b{re.escape(norm_gold)}\b", norm_segment):
+    if norm_gold not in COMMON_SINGLE_TOKEN_FALSE_POSITIVES and re.search(rf"\b{re.escape(norm_gold)}\b", norm_segment):
         return True
     return False
 
@@ -107,7 +111,9 @@ def segment_matches_gold(segment: str, gold: str, question: str) -> bool:
         return single_token_match(norm_segment, norm_gold, norm_question)
     if gold_tokens[0].isdigit():
         segment_tokens = norm_segment.split()
-        return bool(segment_tokens) and segment_tokens[0] == gold_tokens[0]
+        if bool(segment_tokens) and segment_tokens[0] == gold_tokens[0]:
+            return True
+        return re.search(rf"\b{re.escape(norm_gold)}\b", norm_segment) is not None
 
     if norm_segment.startswith(norm_gold):
         return True

@@ -1,0 +1,18 @@
+{
+  "run_id": "benchmark-squad500-smollm2-360m-answermean-20260604T1820Z",
+  "started_at": "2026-06-04T18:19:52.351585+00:00",
+  "model_name": "HuggingFaceTB/SmolLM2-360M-Instruct",
+  "dataset": "squad_validation_500_context",
+  "questions": "tcl_experiments\\data\\benchmarks\\squad\\squad_validation_500.csv",
+  "out": "C:\\Users\\oawab\\Desktop\\TCL_Project_Package\\tcl_experiments\\runs\\benchmark-squad500-smollm2-360m-answermean-20260604T1820Z\\records_answer_mean.jsonl",
+  "limit": null,
+  "max_new_tokens": 16,
+  "prompt_template_name": "chat_short_factual_answer_v1",
+  "prompt_template": "Answer with only the short factual answer. Do not explain.\nQuestion: {question}\nAnswer:",
+  "context_prompt_template": "Answer with only the short answer phrase from the context. Do not explain.\nContext: {context}\nQuestion: {question}\nAnswer:",
+  "raw_confidence_method": "geometric_mean_generated_token_probability",
+  "correctness_method": "strict_answer_segment_match_v1",
+  "hidden_state_layer": -1,
+  "hidden_state_method": "answer_mean",
+  "note": "Smoke-test outputs are pipeline checks only unless the run is explicitly designated as an evidence run."
+}

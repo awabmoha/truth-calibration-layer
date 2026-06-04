@@ -1,0 +1,59 @@
+{
+  "records_path": "tcl_experiments\\runs\\benchmark-squad500-qwen-answermean-20260604T1652Z\\records_answer_mean.jsonl",
+  "out_dir": "tcl_experiments\\runs\\benchmark-squad500-qwen-answermean-20260604T1652Z\\analysis",
+  "test_size": 0.35,
+  "split_mode": "record",
+  "calibrate": true,
+  "bins": 10,
+  "metrics": [
+    {
+      "hidden_state_method": "answer_mean",
+      "analysis_timestamp": "2026-06-04T18:19:20.888153+00:00",
+      "n_records": 500,
+      "n_train": 325,
+      "n_validation": 75,
+      "n_test": 100,
+      "split_mode": "record",
+      "calibration_status": "fitted_on_validation_scores",
+      "positive_rate_all": 0.766,
+      "raw_generation_confidence": {
+        "accuracy_at_0_5": 0.78,
+        "ece": 0.09793079919947562,
+        "mce": 0.43705930648606534,
+        "brier": 0.15815012913353804,
+        "wrong_conf_ge_0_8": 9,
+        "wrong_conf_ge_0_9": 6,
+        "auc": 0.7526821005081874
+      },
+      "tcl_v0_probe_confidence": {
+        "accuracy_at_0_5": 0.79,
+        "ece": 0.15284898033148764,
+        "mce": 0.5743000396465063,
+        "brier": 0.16870572479963916,
+        "wrong_conf_ge_0_8": 10,
+        "wrong_conf_ge_0_9": 7,
+        "auc": 0.771880293619424
+      },
+      "tcl_v0_conservative_confidence": {
+        "accuracy_at_0_5": 0.8,
+        "ece": 0.10901091328447025,
+        "mce": 0.47536120803109827,
+        "brier": 0.152095652158718,
+        "wrong_conf_ge_0_8": 5,
+        "wrong_conf_ge_0_9": 3,
+        "auc": 0.8097120271033315
+      },
+      "tcl_v0_calibrated_confidence": {
+        "accuracy_at_0_5": 0.73,
+        "ece": 0.22687710956260138,
+        "mce": 0.49184949426676616,
+        "brier": 0.1963257182501702,
+        "wrong_conf_ge_0_8": 0,
+        "wrong_conf_ge_0_9": 0,
+        "auc": 0.771880293619424
+      }
+    }
+  ],
+  "errors": [],
+  "claim_boundary": "These metrics are TCL-v0 probe diagnostics only. They do not validate the full TCL framework."
+}

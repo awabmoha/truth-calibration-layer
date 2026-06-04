@@ -108,6 +108,7 @@ Key reports:
 - `TCL-v0-benchmark-protocol-update.md`
 - `TCL-v0-clean-nq-open-100-summary.md`
 - `TCL-v0-squad-context-100-summary.md`
+- `TCL-v0-squad-context-500-summary.md`
 
 ## Claim Boundary
 
@@ -115,4 +116,4 @@ TCL-v0 is a confidence-only probe experiment. A successful run may support the n
 
 Current cautious claim:
 
-Conservative TCL-v0 produced the best metrics on the 200-example and 500-example TriviaQA diagnostics. The pattern appears across two small CPU-runnable models on TriviaQA. NQ-Open has also been tested with the stricter label rule; it is useful but sparse under the current short-answer setup. SQuAD with context is now the cleaner next benchmark: Qwen showed useful probe signal on SQuAD-100, while SmolLM2 was mixed. This is still not broad validation.
+Conservative TCL-v0 produced the best metrics on the 200-example and 500-example TriviaQA diagnostics. The pattern appears across two small CPU-runnable models on TriviaQA. NQ-Open has also been tested with the stricter label rule; it is useful but sparse under the current short-answer setup. SQuAD with context is now the cleaner local benchmark: on SQuAD-500, Qwen showed mixed but useful Brier/accuracy/AUC gains, while SmolLM2 showed stronger calibration gains under conservative TCL-v0. This is still not broad validation.

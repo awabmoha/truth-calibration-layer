@@ -13,7 +13,7 @@ Protocol:
 - split: 65 train, 15 validation, 20 test
 - prompt: `chat_short_factual_answer_v1` with context included
 - records preserve `context`, `raw_model_output`, and cleaned `model_answer`
-- correctness method: `strict_answer_segment_match_v1`
+- relabeled correctness method: `strict_answer_segment_match_v2`
 - hidden-state method: `answer_mean`
 
 ## Runs
@@ -23,10 +23,10 @@ Protocol:
 
 ## Label Summary
 
-| Model | All Correct | All Incorrect | Test Correct | Test Incorrect |
-|---|---:|---:|---:|---:|
-| Qwen | 85 | 15 | 14 | 6 |
-| SmolLM2 | 61 | 39 | 12 | 8 |
+| Model | All Correct | All Incorrect | Test Correct | Test Incorrect | v2 Label Changes |
+|---|---:|---:|---:|---:|---:|
+| Qwen | 85 | 15 | 14 | 6 | 0 |
+| SmolLM2 | 64 | 36 | 12 | 8 | 3 |
 
 ## Test Metrics
 
@@ -37,9 +37,9 @@ Protocol:
 | Qwen | Validation-calibrated TCL-v0 | 0.1782 | 0.1739 | 0.8000 | 0.8452 | 1 | 1 |
 | Qwen | Conservative TCL-v0 | 0.2203 | 0.1401 | 0.8000 | 0.9286 | 0 | 0 |
 | SmolLM2 | Raw generation confidence | 0.2101 | 0.2196 | 0.6500 | 0.7500 | 3 | 0 |
-| SmolLM2 | TCL-v0 probe confidence | 0.2837 | 0.2695 | 0.7000 | 0.7500 | 2 | 2 |
-| SmolLM2 | Validation-calibrated TCL-v0 | 0.1994 | 0.2211 | 0.7000 | 0.7500 | 1 | 0 |
-| SmolLM2 | Conservative TCL-v0 | 0.2550 | 0.2512 | 0.7000 | 0.7708 | 1 | 0 |
+| SmolLM2 | TCL-v0 probe confidence | 0.2997 | 0.2814 | 0.7000 | 0.7500 | 3 | 1 |
+| SmolLM2 | Validation-calibrated TCL-v0 | 0.2384 | 0.2138 | 0.6500 | 0.7500 | 0 | 0 |
+| SmolLM2 | Conservative TCL-v0 | 0.2743 | 0.2649 | 0.7000 | 0.7292 | 2 | 0 |
 
 ## Interpretation
 
@@ -51,11 +51,11 @@ The Qwen run supports the TCL-v0 direction:
 - conservative TCL-v0 has the best Brier score and AUC
 - conservative TCL-v0 removes all wrong test examples with confidence >= 0.8
 
-The SmolLM2 run is mixed:
+The SmolLM2 run remains mixed under v2 labels:
 
 - threshold accuracy improves from 0.65 to 0.70
-- validation-calibrated TCL-v0 slightly improves ECE over raw confidence
 - plain and conservative probe scores do not beat raw confidence on Brier score
+- validation-calibrated TCL-v0 improves Brier score and removes high-confidence wrong answers, but worsens ECE
 
 This means the SQuAD result is not a simple "TCL-v0 always wins" story. It is more useful than that: it shows the probe can help on one model, but the calibration behavior depends on model, dataset, and score construction.
 
@@ -69,13 +69,13 @@ The Qwen high-risk test cases were inspected against their contexts. The most im
 
 Review CSVs:
 
-- `runs/benchmark-squad100-qwen-answermean-20260604T1214Z/review_all.csv`
-- `runs/benchmark-squad100-smollm2-360m-answermean-20260604T1632Z/review_all.csv`
+- `runs/benchmark-squad100-qwen-answermean-20260604T1214Z/review_all_v2labels.csv`
+- `runs/benchmark-squad100-smollm2-360m-answermean-20260604T1632Z/review_all_v2labels.csv`
 
 ## Claim Boundary
 
-These are 100-example diagnostics with only 20 held-out test examples per model. They support continuing the TCL-v0 research direction and show SQuAD is a cleaner next benchmark, but they do not validate the full TCL framework.
+These are 100-example diagnostics with only 20 held-out test examples per model. They support continuing the TCL-v0 research direction and show SQuAD is a cleaner next benchmark, but they do not validate the full TCL framework. The 500-example SQuAD diagnostic is now the stronger context-grounded result.
 
 ## Next Step
 
-Scale the context-grounded benchmark once the protocol is stable, likely SQuAD 500, then repeat the same label-audit and cross-model comparison.
+Use the SQuAD-500 diagnostic as the primary context-grounded benchmark result, then manually review high-confidence wrong cases and v2 label changes before public-facing claims.

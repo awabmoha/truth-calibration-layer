@@ -68,7 +68,7 @@ On the current 500-example TriviaQA diagnostics:
 - dataset: TriviaQA `rc.nocontext`, validation subset
 - split: 325 train, 75 validation, 100 test
 - hidden-state method: `answer_mean`
-- current correctness method: `strict_answer_segment_match_v1`
+- correctness method for those runs: `strict_answer_segment_match_v1`
 
 Across both small CPU-runnable models on TriviaQA, conservative TCL-v0 improved calibration metrics over raw generation confidence while producing zero wrong held-out test examples with confidence >= 0.8 under the stricter label rule.
 
@@ -76,7 +76,7 @@ TCL-v0 has also been tested on NQ-Open and SQuAD. NQ-Open is much sparser under 
 
 The benchmark protocol has since been improved to preserve raw outputs separately from cleaned answers and to use chat-template prompting when available.
 
-A clean 100-example NQ-Open protocol check confirmed the improved pipeline works, but the held-out test split remained sparse with only one correct answer per model. A 100-example SQuAD context diagnostic produced healthier test splits and mixed but useful results: Qwen showed improved Brier/AUC and no high-confidence wrong answers under conservative TCL-v0, while SmolLM2 was more mixed.
+A clean 100-example NQ-Open protocol check confirmed the improved pipeline works, but the held-out test split remained sparse with only one correct answer per model. SQuAD context diagnostics produced healthier test splits. On SQuAD-500, Qwen showed mixed but useful TCL-v0 gains in Brier/accuracy/AUC, while SmolLM2 showed stronger calibration gains under conservative TCL-v0.
 
 Current cautious interpretation:
 
@@ -131,7 +131,7 @@ Important: do not treat a successful run as full TCL validation. Each run should
 
 ## Next Step
 
-The next recommended step is scaling the context-grounded SQuAD benchmark after the 100-example protocol check, then repeating the same label-audit and cross-model comparison.
+The next recommended step is manually reviewing SQuAD-500 held-out high-confidence wrong cases and v2 label changes before using the numbers in any public-facing research claim.
 
 ## Author
 
