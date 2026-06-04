@@ -76,6 +76,8 @@ TCL-v0 has also been tested on a second benchmark source, NQ-Open. NQ-Open is mu
 
 The benchmark protocol has since been improved to preserve raw outputs separately from cleaned answers and to use chat-template prompting when available.
 
+A clean 100-example NQ-Open protocol check confirmed the improved pipeline works, but the held-out test split remained sparse with only one correct answer per model.
+
 Current cautious interpretation:
 
 ```text
@@ -129,7 +131,7 @@ Important: do not treat a successful run as full TCL validation. Each run should
 
 ## Next Step
 
-The next recommended step is a smaller clean NQ-Open rerun, likely 100 examples, before scaling the improved protocol to another 500-example benchmark.
+The next recommended step is choosing a cleaner short-answer benchmark or scaling only if the benchmark is likely to produce enough positives for meaningful probe training.
 
 ## Author
 

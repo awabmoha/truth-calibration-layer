@@ -1,0 +1,2 @@
+id,dataset,split,question,accepted_answers,raw_model_output,model_answer,correctness_label,raw_generation_confidence,tcl_v0_probe_confidence,tcl_v0_conservative_confidence,tcl_v0_calibrated_confidence,probe_minus_raw,raw_minus_conservative,review_label,review_notes
+nq-open-validation-17,nq_open_validation_100,test,who is under the mask of darth vader,Anakin Skywalker,Darth Vader,Darth Vader,0,0.8983524204345174,0.009786854741813565,0.009786854741813565,,-0.8885655656927038,0.8885655656927038,0,Reviewed; label unchanged under accepted answers.

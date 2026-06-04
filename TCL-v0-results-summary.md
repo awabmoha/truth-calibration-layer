@@ -372,3 +372,36 @@ Report:
 Next protocol step:
 
 Run a smaller clean NQ-Open rerun, likely 100 examples, before spending laptop time on another 500-example benchmark.
+
+## Clean NQ-Open 100 Protocol Check
+
+The improved protocol was tested on a fresh 100-example NQ-Open subset.
+
+Runs:
+
+- Qwen: `tcl_experiments/runs/benchmark-nqopen100-qwen-answermean-20260604T1153Z/`
+- SmolLM2: `tcl_experiments/runs/benchmark-nqopen100-smollm2-360m-answermean-20260604T1200Z/`
+
+Result:
+
+- 20 held-out test examples per model
+- 1 correct test answer per model
+- high-risk and positive labels reviewed
+- label changes: 0
+
+Metric summary:
+
+| Model | Signal | ECE | Brier | Accuracy at 0.5 | Wrong >= 0.8 |
+|---|---|---:|---:|---:|---:|
+| Qwen | Raw generation confidence | 0.4143 | 0.2164 | 0.6000 | 0 |
+| Qwen | Conservative TCL-v0 | 0.0551 | 0.0512 | 0.9500 | 0 |
+| SmolLM2 | Raw generation confidence | 0.5005 | 0.3044 | 0.4000 | 1 |
+| SmolLM2 | Conservative TCL-v0 | 0.0450 | 0.0469 | 0.9500 | 0 |
+
+Report:
+
+- `tcl_experiments/TCL-v0-clean-nq-open-100-summary.md`
+
+Interpretation:
+
+The improved protocol works technically, but the NQ-Open split remains too sparse for strong conclusions at this scale. A larger run or a cleaner short-answer benchmark is needed for stronger evidence.

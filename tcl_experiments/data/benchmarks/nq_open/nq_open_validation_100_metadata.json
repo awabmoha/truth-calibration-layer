@@ -1,0 +1,20 @@
+{
+  "created_at": "2026-06-04T11:53:25.493134+00:00",
+  "dataset": "google-research-datasets/nq_open",
+  "config": "nq_open",
+  "source_split": "validation",
+  "limit_requested": 100,
+  "examples_written": 100,
+  "seed": 42,
+  "train_frac": 0.65,
+  "val_frac": 0.15,
+  "split_counts": {
+    "validation": 15,
+    "train": 65,
+    "test": 20
+  },
+  "questions_csv": "C:\\Users\\oawab\\Desktop\\TCL_Project_Package\\tcl_experiments\\data\\benchmarks\\nq_open\\nq_open_validation_100.csv",
+  "splits_csv": "C:\\Users\\oawab\\Desktop\\TCL_Project_Package\\tcl_experiments\\data\\benchmarks\\nq_open\\nq_open_validation_100_splits.csv",
+  "manual_review_csv": "C:\\Users\\oawab\\Desktop\\TCL_Project_Package\\tcl_experiments\\data\\benchmarks\\nq_open\\nq_open_validation_100_manual_review.csv",
+  "claim_boundary": "This prepares benchmark input data only; it does not run TCL-v0 or produce model results."
+}

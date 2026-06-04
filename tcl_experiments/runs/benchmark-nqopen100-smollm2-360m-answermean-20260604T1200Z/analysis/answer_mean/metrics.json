@@ -1,0 +1,38 @@
+{
+  "hidden_state_method": "answer_mean",
+  "analysis_timestamp": "2026-06-04T12:06:46.734559+00:00",
+  "n_records": 100,
+  "n_train": 65,
+  "n_validation": 15,
+  "n_test": 20,
+  "split_mode": "record",
+  "calibration_status": "not_available",
+  "positive_rate_all": 0.07,
+  "raw_generation_confidence": {
+    "accuracy_at_0_5": 0.4,
+    "ece": 0.5004902490148269,
+    "mce": 0.7538488627449252,
+    "brier": 0.3043793463917657,
+    "wrong_conf_ge_0_8": 1,
+    "wrong_conf_ge_0_9": 0,
+    "auc": 0.9473684210526316
+  },
+  "tcl_v0_probe_confidence": {
+    "accuracy_at_0_5": 0.95,
+    "ece": 0.04495622299427848,
+    "mce": 0.04495622299427848,
+    "brier": 0.04685021413229628,
+    "wrong_conf_ge_0_8": 0,
+    "wrong_conf_ge_0_9": 0,
+    "auc": 1.0
+  },
+  "tcl_v0_conservative_confidence": {
+    "accuracy_at_0_5": 0.95,
+    "ece": 0.04495622299427848,
+    "mce": 0.04495622299427848,
+    "brier": 0.04685021413229628,
+    "wrong_conf_ge_0_8": 0,
+    "wrong_conf_ge_0_9": 0,
+    "auc": 1.0
+  }
+}
