@@ -98,6 +98,7 @@ Key reports:
 - `CONSERVATIVE_CONFIDENCE_REPORT.md`
 - `MANUAL_REVIEW_TEST_REPORT.md`
 - `HIGH_RISK_REVIEW_REPORT.md`
+- `EXTENDED_MANUAL_REVIEW_REPORT.md`
 
 ## Claim Boundary
 
@@ -105,4 +106,4 @@ TCL-v0 is a confidence-only probe experiment. A successful run may support the n
 
 Current cautious claim:
 
-Conservative TCL-v0 produced the best metrics on the 200-example and 500-example TriviaQA diagnostics. The first 40-example held-out test review and the 500-run high-risk review both produced 0 label changes. This is still not broad validation; additional targeted manual review and a second model or dataset are still required.
+Conservative TCL-v0 produced the best metrics on the 200-example and 500-example TriviaQA diagnostics. The 500-run extended review corrected 3 automatic false positives, and conservative TCL-v0 still had the best reviewed-label calibration metrics with 0 high-confidence wrong test examples. This is still not broad validation; a second model or dataset is still required.

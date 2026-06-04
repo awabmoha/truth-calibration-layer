@@ -91,6 +91,28 @@ Additional review target:
 
 - `top_confidence_disagreements.csv`
 
+## Extended Manual Review Update
+
+After the high-risk review, the audit was expanded to:
+
+- the 25 top raw-vs-probe confidence disagreement cases
+- all 26 automatic positive labels in the 100-example held-out test split
+
+This found 3 automatic false positives, all caused by accepted-answer substring matching. The reviewed held-out test split has 23 positives instead of 26.
+
+Reviewed-label metric summary:
+
+| Signal | ECE | Brier | MCE | Accuracy at 0.5 | Wrong >= 0.8 | Wrong >= 0.9 |
+|---|---:|---:|---:|---:|---:|---:|
+| Raw generation confidence | 0.2793 | 0.2107 | 0.3537 | 0.6300 | 0 | 0 |
+| TCL-v0 probe confidence | 0.1568 | 0.1622 | 0.4511 | 0.8300 | 5 | 5 |
+| Validation-calibrated TCL-v0 | 0.2339 | 0.1910 | 0.4098 | 0.7100 | 2 | 0 |
+| Conservative TCL-v0 | 0.1021 | 0.1413 | 0.2427 | 0.8300 | 0 | 0 |
+
+Extended review report:
+
+- `EXTENDED_MANUAL_REVIEW_REPORT.md`
+
 ## Claim Boundary
 
 Allowed diagnostic claim:

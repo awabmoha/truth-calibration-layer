@@ -68,9 +68,9 @@ On the current 500-example TriviaQA diagnostic:
 - dataset: TriviaQA `rc.nocontext`, validation subset
 - split: 325 train, 75 validation, 100 test
 - hidden-state method: `answer_mean`
-- high-risk manual review: 5 high-confidence wrong probe cases reviewed, 0 label changes
+- extended manual review: all 26 automatic positive test labels reviewed, 3 false positives corrected
 
-Conservative TCL-v0 improved ECE, Brier score, MCE, and 0.5-threshold accuracy over raw generation confidence on the held-out test split, while producing zero wrong test examples with confidence >= 0.8.
+Using reviewed held-out labels, conservative TCL-v0 improved ECE, Brier score, MCE, and 0.5-threshold accuracy over raw generation confidence, while producing zero wrong test examples with confidence >= 0.8.
 
 Current cautious interpretation:
 
@@ -125,12 +125,7 @@ Important: do not treat a successful run as full TCL validation. Each run should
 
 ## Next Step
 
-The next recommended step is targeted manual review of the 500-example diagnostic before starting a new model or dataset.
-
-Priority manual review:
-
-- examples where raw confidence and TCL-v0 confidence strongly disagree
-- a small random sample from the held-out test split
+The next recommended step is testing whether the conservative TCL-v0 pattern holds on a second model or a second benchmark source.
 
 ## Author
 

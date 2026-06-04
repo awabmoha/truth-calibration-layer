@@ -199,14 +199,31 @@ High-risk review:
 - Label changes: 0
 - All 5 reviewed cases appear to be genuine model errors.
 
+Extended held-out review:
+
+- Reviewed all 26 automatic positive labels in the 100-example test split.
+- Reviewed the 25 top raw-vs-probe disagreement cases.
+- Found 3 automatic false positives caused by accepted-answer substring matching.
+- Reviewed test positives: 23/100.
+
+Reviewed-label metric summary:
+
+| Signal | ECE | Brier | MCE | Accuracy at 0.5 | Wrong >= 0.8 | Wrong >= 0.9 |
+|---|---:|---:|---:|---:|---:|---:|
+| Raw generation confidence | 0.2793 | 0.2107 | 0.3537 | 0.6300 | 0 | 0 |
+| TCL-v0 probe confidence | 0.1568 | 0.1622 | 0.4511 | 0.8300 | 5 | 5 |
+| Validation-calibrated TCL-v0 | 0.2339 | 0.1910 | 0.4098 | 0.7100 | 2 | 0 |
+| Conservative TCL-v0 | 0.1021 | 0.1413 | 0.2427 | 0.8300 | 0 | 0 |
+
 Reports:
 
 - `tcl_experiments/runs/benchmark-triviaqa500-qwen-answermean-20260604T0932Z/RUN_REPORT.md`
 - `tcl_experiments/runs/benchmark-triviaqa500-qwen-answermean-20260604T0932Z/HIGH_RISK_REVIEW_REPORT.md`
+- `tcl_experiments/runs/benchmark-triviaqa500-qwen-answermean-20260604T0932Z/EXTENDED_MANUAL_REVIEW_REPORT.md`
 
 Result:
 
-The 500-example run repeats the main pattern from the 200-example run. Conservative TCL-v0 remains the strongest current diagnostic score because it improves ECE, Brier score, MCE, and threshold accuracy over raw confidence while avoiding high-confidence wrong answers on the held-out test split.
+The 500-example run repeats the main pattern from the 200-example run. After reviewed-label correction, conservative TCL-v0 remains the strongest current diagnostic score because it improves ECE, Brier score, MCE, and threshold accuracy over raw confidence while avoiding high-confidence wrong answers on the held-out test split.
 
 ## Research Interpretation
 
@@ -239,9 +256,4 @@ Not allowed:
 
 ## Next Step
 
-Before starting a new model or dataset, manually review the remaining high-value cases from the 500-example run:
-
-- top confidence-disagreement cases in `top_confidence_disagreements.csv`
-- a small random sample from the 100-example held-out test split
-
-Then commit the 500-example benchmark milestone to GitHub.
+Commit the extended manual-review milestone to GitHub. After that, the next research step is to test whether the same conservative TCL-v0 pattern holds on a second model or second benchmark source.
