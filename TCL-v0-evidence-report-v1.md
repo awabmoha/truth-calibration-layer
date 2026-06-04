@@ -112,12 +112,11 @@ Not allowed:
 
 The local laptop is CPU-only, and SQuAD-500 took several hours for two small models. More local benchmark runs would add cost faster than they add clarity.
 
-The next valuable step is not another run. It is consolidation:
+The next valuable step is not another small local run. The current consolidation is now mostly complete, so the remaining work is public-readiness and stronger follow-up planning:
 
-- finish manual review notes
-- write a clean method section
-- make tables consistent
-- decide which result is the headline diagnostic
+- review the standalone TCL-v0 PDF as the empirical companion artifact
+- prepare a short release note if the repository will be shared
+- predeclare the next stronger benchmark/model experiment
 - prepare a stronger future experiment plan for GPU-scale models
 
 ## Current Research Writeup
@@ -131,8 +130,10 @@ TCL-v0: Frozen Hidden States as Confidence Signals for Answer Correctness
 Writeup file:
 
 - `TCL-v0-research-writeup.md`
+- `TCL-v0-research-writeup.docx`
+- `TCL-v0-research-writeup.pdf`
 
-The next milestone is to tighten that writeup into a shareable draft and decide whether it should remain a standalone TCL-v0 note or become an empirical appendix to the theory paper.
+The writeup is currently a standalone empirical companion note to the theory paper. It should remain separate unless future evidence becomes strong enough to justify a formal empirical appendix.
 
 ## Bottom Line
 

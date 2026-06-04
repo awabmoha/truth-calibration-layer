@@ -352,7 +352,7 @@ Not allowed:
 
 ## Next Step
 
-The next research step is to improve the benchmark protocol for sparse open-domain QA, either by scaling NQ-Open, improving answer extraction, or adding a third benchmark with cleaner short-answer labels.
+The next research step is no longer another small local run. The current local checkpoint is complete enough to support a standalone TCL-v0 writeup. The next useful step is either a public-facing release note or a stronger follow-up experiment using larger models, larger benchmark subsets, and a predeclared manual-review protocol.
 
 ## Benchmark Protocol Update
 

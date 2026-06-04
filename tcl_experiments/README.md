@@ -52,6 +52,8 @@ using accuracy, expected calibration error, maximum calibration error, Brier sco
 - `scripts/prepare_squad_subset.py` - prepares a reproducible context-grounded SQuAD subset and split files.
 - `scripts/make_review_csv.py` - creates a manual-review CSV from recorded model outputs.
 - `scripts/metrics.py` - shared calibration utilities.
+- `scripts/build_tcl_v0_writeup_docx.py` - rebuilds the TCL-v0 research writeup DOCX from the Markdown source.
+- `scripts/build_tcl_v0_writeup_pdf.py` - rebuilds the standalone TCL-v0 research writeup PDF from the Markdown source.
 
 ## Quick Start
 
@@ -91,6 +93,8 @@ Main benchmark reports live in:
 runs/benchmark-triviaqa200-qwen-answermean-20260603T1700Z/
 runs/benchmark-triviaqa500-qwen-answermean-20260604T0932Z/
 runs/benchmark-triviaqa500-smollm2-360m-answermean-20260604T1018Z/
+runs/benchmark-squad500-qwen-answermean-20260604T1652Z/
+runs/benchmark-squad500-smollm2-360m-answermean-20260604T1820Z/
 ```
 
 Key reports:

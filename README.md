@@ -31,7 +31,7 @@ Can frozen LLM hidden states predict answer correctness better than raw softmax/
 - `TCL-v0-research-writeup.pdf` - standalone PDF version of the TCL-v0 writeup.
 - `tcl_experiments/` - scripts, datasets, benchmark prep, and diagnostic run records.
 
-Older paper drafts and the document build script are kept local-only and are not part of the tracked research package.
+Older draft papers and the original one-off document builder were removed from the cleaned repository. The tracked package now keeps one canonical theory paper and one TCL-v0 empirical companion writeup.
 
 ## Current TCL-v0 Design
 
@@ -66,7 +66,17 @@ conservative_confidence = min(raw_generation_confidence, tcl_v0_probe_confidence
 
 This rule was added because a plain hidden-state probe improved some average metrics but could become dangerously overconfident on fluent wrong answers. The conservative version prevents TCL-v0 from raising confidence above the model's raw generation confidence.
 
-On the current 500-example TriviaQA diagnostics:
+The strongest current local result is SQuAD-500:
+
+- models: `Qwen/Qwen2.5-0.5B-Instruct` and `HuggingFaceTB/SmolLM2-360M-Instruct`
+- dataset: SQuAD `plain_text`, validation subset with context included
+- split: 325 train, 75 validation, 100 test
+- hidden-state method: `answer_mean`
+- correctness method: `strict_answer_segment_match_v2`
+
+On SQuAD-500, Qwen showed mixed but useful TCL-v0 gains in Brier score, threshold accuracy, AUC, and high-confidence error counts, while raw generation confidence still had better ECE. SmolLM2 showed stronger calibration gains under conservative TCL-v0 across ECE, Brier score, threshold accuracy, AUC, and high-confidence error counts.
+
+TriviaQA 500 also supports the same direction:
 
 - models: `Qwen/Qwen2.5-0.5B-Instruct` and `HuggingFaceTB/SmolLM2-360M-Instruct`
 - dataset: TriviaQA `rc.nocontext`, validation subset
@@ -80,7 +90,7 @@ TCL-v0 has also been tested on NQ-Open and SQuAD. NQ-Open is much sparser under 
 
 The benchmark protocol has since been improved to preserve raw outputs separately from cleaned answers and to use chat-template prompting when available.
 
-A clean 100-example NQ-Open protocol check confirmed the improved pipeline works, but the held-out test split remained sparse with only one correct answer per model. SQuAD context diagnostics produced healthier test splits. On SQuAD-500, Qwen showed mixed but useful TCL-v0 gains in Brier/accuracy/AUC, while SmolLM2 showed stronger calibration gains under conservative TCL-v0.
+A clean 100-example NQ-Open protocol check confirmed the improved pipeline works, but the held-out test split remained sparse with only one correct answer per model.
 
 Current cautious interpretation:
 
@@ -135,7 +145,7 @@ Important: do not treat a successful run as full TCL validation. Each run should
 
 ## Next Step
 
-The next recommended step is to review the standalone TCL-v0 PDF, then decide whether to prepare a public-facing release note or run the next empirical check on a stronger benchmark/model setup.
+The next recommended step is a public-readiness decision. The repository is organized enough for private sharing/review now. Before making it broadly public, the safer path is to add a short release note and run, or at least pre-register, the next stronger benchmark/model experiment.
 
 ## Author
 
