@@ -225,6 +225,39 @@ Result:
 
 The 500-example run repeats the main pattern from the 200-example run. After reviewed-label correction, conservative TCL-v0 remains the strongest current diagnostic score because it improves ECE, Brier score, MCE, and threshold accuracy over raw confidence while avoiding high-confidence wrong answers on the held-out test split.
 
+## Second-Model Diagnostic
+
+The same 500-example TriviaQA setup was then run on a second small CPU-runnable model:
+
+- Model: `HuggingFaceTB/SmolLM2-360M-Instruct`
+- Run: `tcl_experiments/runs/benchmark-triviaqa500-smollm2-360m-answermean-20260604T1018Z/`
+- Test labels: 8 correct, 92 incorrect
+
+Metric summary:
+
+| Signal | ECE | Brier | MCE | Accuracy at 0.5 | AUC | Wrong >= 0.8 | Wrong >= 0.9 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Raw generation confidence | 0.4419 | 0.2924 | 0.9212 | 0.4900 | 0.5951 | 6 | 3 |
+| TCL-v0 probe confidence | 0.0714 | 0.0676 | 0.8545 | 0.9200 | 0.9416 | 4 | 2 |
+| Validation-calibrated TCL-v0 | 0.1763 | 0.1068 | 0.7577 | 0.8600 | 0.9416 | 6 | 4 |
+| Conservative TCL-v0 | 0.0493 | 0.0478 | 0.3404 | 0.9400 | 0.9457 | 0 | 0 |
+
+Manual review:
+
+- High-risk wrong cases reviewed: 12
+- Automatic positive labels reviewed: 8
+- Label changes: 0
+
+Reports:
+
+- `tcl_experiments/runs/benchmark-triviaqa500-smollm2-360m-answermean-20260604T1018Z/RUN_REPORT.md`
+- `tcl_experiments/runs/benchmark-triviaqa500-smollm2-360m-answermean-20260604T1018Z/HIGH_RISK_REVIEW_REPORT.md`
+- `tcl_experiments/TCL-v0-cross-model-comparison.md`
+
+Result:
+
+The conservative TCL-v0 pattern now appears across two small models on the same TriviaQA subset. This supports continuing the research direction, but it is still not broad validation.
+
 ## Research Interpretation
 
 The strongest current statement is:
@@ -243,7 +276,7 @@ Allowed:
 
 - TCL-v0 has a working diagnostic pipeline.
 - `answer_mean` is the current default hidden-state method for calibration diagnostics.
-- Conservative TCL-v0 performed best on the 200-example and 500-example TriviaQA benchmark diagnostics.
+- Conservative TCL-v0 performed best on the 200-example and 500-example TriviaQA diagnostics, including a second-model run.
 - The current results support continuing the research direction.
 
 Not allowed:
@@ -256,4 +289,4 @@ Not allowed:
 
 ## Next Step
 
-Commit the extended manual-review milestone to GitHub. After that, the next research step is to test whether the same conservative TCL-v0 pattern holds on a second model or second benchmark source.
+The next research step is either to test a second benchmark source or improve the automatic correctness-labeling rule before scaling further.
