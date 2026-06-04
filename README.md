@@ -133,7 +133,7 @@ Important: do not treat a successful run as full TCL validation. Each run should
 
 ## Next Step
 
-The next recommended step is tightening the TCL-v0 research writeup into a shareable draft, then deciding whether to convert it into a PDF or attach it as an appendix to the theory paper.
+The next recommended step is deciding whether the TCL-v0 research writeup should become a standalone PDF or an empirical appendix to the theory paper.
 
 ## Author
 
