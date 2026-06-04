@@ -70,7 +70,9 @@ On the current 500-example TriviaQA diagnostics:
 - hidden-state method: `answer_mean`
 - current correctness method: `strict_answer_segment_match_v1`
 
-Across both small CPU-runnable models, conservative TCL-v0 improved calibration metrics over raw generation confidence while producing zero wrong held-out test examples with confidence >= 0.8 under the stricter label rule.
+Across both small CPU-runnable models on TriviaQA, conservative TCL-v0 improved calibration metrics over raw generation confidence while producing zero wrong held-out test examples with confidence >= 0.8 under the stricter label rule.
+
+TCL-v0 has also been tested on a second benchmark source, NQ-Open. NQ-Open is much sparser under the current short-answer setup, but it still supports the central direction: hidden-state probe confidence improves calibration over raw confidence, and conservative TCL-v0 remains a strong safer variant.
 
 Current cautious interpretation:
 
@@ -125,7 +127,7 @@ Important: do not treat a successful run as full TCL validation. Each run should
 
 ## Next Step
 
-The next recommended step is testing whether the conservative TCL-v0 pattern holds on a second benchmark source.
+The next recommended step is improving the benchmark protocol for sparse open-domain QA before scaling further.
 
 ## Author
 

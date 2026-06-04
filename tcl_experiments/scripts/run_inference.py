@@ -182,7 +182,8 @@ def main():
                     layer=args.hidden_state_layer,
                 )
 
-            accepted = row["answers"].split("|")
+            answer_text = row.get("answers") or row.get("accepted_answers") or ""
+            accepted = [answer.strip() for answer in answer_text.split("|") if answer.strip()]
             item_id = row_id(row)
             record = {
                 "id": item_id,
@@ -193,7 +194,7 @@ def main():
                 "prompt_template": PROMPT_TEMPLATE_NAME,
                 "prompt": prompt,
                 "model_answer": answer,
-                "correctness_label": int(is_correct(answer, accepted, question)),
+                "correctness_label": int(is_correct(answer, accepted, row["question"])),
                 "correctness_method": CORRECTNESS_METHOD,
                 "raw_generation_confidence": conf,
                 "raw_confidence_method": RAW_CONFIDENCE_METHOD,

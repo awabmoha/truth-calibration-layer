@@ -288,6 +288,39 @@ Report:
 
 - `tcl_experiments/TCL-v0-labeling-rule-update.md`
 
+## NQ-Open Second Benchmark
+
+The stricter label rule was then used on a second benchmark source:
+
+- Dataset: `google-research-datasets/nq_open`
+- Config: `nq_open`
+- Split: `validation`
+- Prepared subset: 500 examples
+- Splits: 325 train, 75 validation, 100 test
+
+Runs:
+
+- Qwen: `tcl_experiments/runs/benchmark-nqopen500-qwen-answermean-20260604T1049Z-retry2/`
+- SmolLM2: `tcl_experiments/runs/benchmark-nqopen500-smollm2-360m-answermean-20260604T1118Z/`
+
+Reviewed-label results:
+
+| Model | Signal | ECE | Brier | Accuracy at 0.5 | Wrong >= 0.8 | Wrong >= 0.9 |
+|---|---|---:|---:|---:|---:|---:|
+| Qwen NQ-Open | Raw generation confidence | 0.4883 | 0.2757 | 0.4800 | 0 | 0 |
+| Qwen NQ-Open | Conservative TCL-v0 | 0.1018 | 0.0667 | 0.9200 | 0 | 0 |
+| SmolLM2 NQ-Open | Raw generation confidence | 0.4416 | 0.2376 | 0.6200 | 3 | 0 |
+| SmolLM2 NQ-Open | TCL-v0 probe confidence | 0.0135 | 0.0087 | 0.9900 | 0 | 0 |
+| SmolLM2 NQ-Open | Conservative TCL-v0 | 0.0164 | 0.0100 | 0.9900 | 0 | 0 |
+
+Report:
+
+- `tcl_experiments/TCL-v0-nq-open-benchmark-summary.md`
+
+Interpretation:
+
+NQ-Open is a harder and sparser stress test under the current short-answer setup. The reviewed test splits have very few positives, so these metrics must be treated cautiously. Still, the second benchmark supports the central TCL-v0 direction: hidden-state probe confidence improves calibration over raw confidence, and conservative TCL-v0 remains a strong safer variant.
+
 ## Research Interpretation
 
 The strongest current statement is:
@@ -319,4 +352,4 @@ Not allowed:
 
 ## Next Step
 
-The next research step is to test a second benchmark source using the stricter label rule.
+The next research step is to improve the benchmark protocol for sparse open-domain QA, either by scaling NQ-Open, improving answer extraction, or adding a third benchmark with cleaner short-answer labels.

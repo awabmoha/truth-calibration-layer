@@ -1,0 +1,41 @@
+{
+  "n_test": 100,
+  "auto_positive_count": 1,
+  "reviewed_positive_count": 2,
+  "label_changes": 1,
+  "signals": {
+    "raw_generation_confidence": {
+      "accuracy_at_0_5": 0.62,
+      "ece": 0.4416057381084032,
+      "mce": 0.869871179262797,
+      "brier": 0.23757388154018552,
+      "wrong_conf_ge_0_8": 3,
+      "wrong_conf_ge_0_9": 0
+    },
+    "tcl_v0_probe_confidence": {
+      "accuracy_at_0_5": 0.99,
+      "ece": 0.013464703952133818,
+      "mce": 0.3904957355161603,
+      "brier": 0.008730812718760085,
+      "wrong_conf_ge_0_8": 0,
+      "wrong_conf_ge_0_9": 0
+    },
+    "tcl_v0_conservative_confidence": {
+      "accuracy_at_0_5": 0.99,
+      "ece": 0.016386998248696768,
+      "mce": 0.3904957355161603,
+      "brier": 0.010001177225328834,
+      "wrong_conf_ge_0_8": 0,
+      "wrong_conf_ge_0_9": 0
+    },
+    "tcl_v0_calibrated_confidence": {
+      "accuracy_at_0_5": 0.92,
+      "ece": 0.0788285139311737,
+      "mce": 0.7712494494472382,
+      "brier": 0.05237470128529624,
+      "wrong_conf_ge_0_8": 3,
+      "wrong_conf_ge_0_9": 3
+    }
+  },
+  "claim_boundary": "Reviewed-label NQ-Open TCL-v0 diagnostics only; not full TCL validation."
+}

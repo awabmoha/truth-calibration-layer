@@ -1,0 +1,2 @@
+id,dataset,split,question,accepted_answers,model_answer,correctness_label,raw_generation_confidence,tcl_v0_probe_confidence,tcl_v0_conservative_confidence,tcl_v0_calibrated_confidence,probe_minus_raw,raw_minus_conservative,review_label,review_notes
+nq-open-validation-81,nq_open_validation_500,test,who has the power to approve or veto legislation constitution,the President,Answer: The President of the United States has the power,1,0.6365278978507185,0.9287573275070136,0.6365278978507185,0.9999494697222021,0.29222942965629506,0.0,1,Reviewed; label unchanged.
