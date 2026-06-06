@@ -55,7 +55,8 @@ TCL-v0 Extended Validation Dry Run
 
 Recommended dry-run matrix:
 
-- benchmark: SQuAD with context
+- benchmark 1: SQuAD with context
+- benchmark 2: TriviaQA `rc.nocontext`
 - examples: 200 first, then 1000 if stable
 - model: `Qwen/Qwen2.5-1.5B-Instruct` if the GPU can handle it
 - fallback model: `Qwen/Qwen2.5-0.5B-Instruct`
@@ -63,7 +64,7 @@ Recommended dry-run matrix:
 - device: CUDA
 - dtype: float16
 
-Do not start with the full two-benchmark, two-model matrix on free GPU. First prove that the cloud notebook can finish one clean run and preserve outputs.
+Do not start with the full two-benchmark, two-model matrix on free GPU. First prove that the cloud notebook can finish one clean SQuAD run and preserve outputs, then add TriviaQA as the open-domain stress test.
 
 ## 3. Colab/Kaggle Setup Commands
 
@@ -73,7 +74,7 @@ Recommended path:
 Open notebooks/tcl_v0_kaggle_free_gpu_dry_run.ipynb in Kaggle first.
 ```
 
-That notebook already contains the setup, runtime check, SQuAD-200 dry run, SQuAD-1000 escalation, and output-saving checklist. The commands below are the same workflow written out manually for debugging or Colab fallback.
+That notebook already contains the setup, runtime check, SQuAD-200 dry run, SQuAD-1000 escalation, optional TriviaQA runs, and output-saving checklist. The commands below are the same workflow written out manually for debugging or Colab fallback.
 
 Run these commands in a notebook cell.
 
@@ -110,6 +111,18 @@ If the 1.5B model fails due to memory, use:
 
 ```bash
 bash scripts/run_free_gpu_squad_dry_run.sh 1000 Qwen/Qwen2.5-0.5B-Instruct
+```
+
+After SQuAD-1000 is stable and artifact packaging works, run the open-domain check:
+
+```bash
+bash scripts/run_free_gpu_triviaqa_dry_run.sh 1000 Qwen/Qwen2.5-0.5B-Instruct
+```
+
+If there is enough quota and memory, also try:
+
+```bash
+bash scripts/run_free_gpu_triviaqa_dry_run.sh 1000 Qwen/Qwen2.5-1.5B-Instruct
 ```
 
 ## 4. Prepare Benchmark Data
@@ -236,6 +249,7 @@ runs/<run_id>/artifact_verification.json
 runs/<run_id>/ARTIFACT_VERIFICATION.md
 runs/<run_id>/artifact_manifest.json
 data/benchmarks/squad/*_1000*
+data/benchmarks/triviaqa/*_1000*
 ```
 
 The one-command helper creates `runs/<run_id>_artifact.zip` automatically. Prefer downloading that zip, then keep the raw `runs/<run_id>/` folder too if the notebook platform makes it easy.

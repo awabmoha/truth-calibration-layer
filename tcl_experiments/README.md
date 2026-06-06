@@ -59,6 +59,7 @@ using accuracy, expected calibration error, maximum calibration error, Brier sco
 - `scripts/metrics.py` - shared calibration utilities.
 - `scripts/check_runtime.py` - reports Python, PyTorch, Transformers, and CUDA/GPU availability.
 - `scripts/run_free_gpu_squad_dry_run.sh` - one-command SQuAD dry run for Kaggle/Colab GPU notebooks.
+- `scripts/run_free_gpu_triviaqa_dry_run.sh` - one-command TriviaQA dry run for Kaggle/Colab GPU notebooks.
 - `scripts/build_tcl_v0_writeup_docx.py` - rebuilds the TCL-v0 research writeup DOCX from the Markdown source.
 - `scripts/build_tcl_v0_writeup_pdf.py` - rebuilds the standalone TCL-v0 research writeup PDF from the Markdown source.
 
