@@ -249,6 +249,20 @@ A free-GPU dry run can prove:
 
 It cannot prove full extended validation by itself unless the predeclared matrix is completed and manually reviewed.
 
+## 9.1 Add The Run To The Decision Gate
+
+After downloading a passed run artifact, include it in the extended-validation decision aggregator:
+
+```bash
+python scripts/summarize_extended_validation.py \
+  --run-dir runs/<run_id_1> \
+  --run-dir runs/<run_id_2> \
+  --out-json runs/extended_validation_decision.json \
+  --out-md runs/EXTENDED_VALIDATION_DECISION.md
+```
+
+Use this only after artifact verification passes. The generated decision note is a metric gate; the final research decision still also needs the predeclared manual-review checks from the extended-validation plan.
+
 ## 10. Decision After Free-GPU Dry Run
 
 After the dry run, choose one:
