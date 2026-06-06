@@ -33,11 +33,17 @@ python scripts/make_review_csv.py \
   --records "runs/${RUN_ID}/records_answer_mean.jsonl" \
   --out "runs/${RUN_ID}/manual_review_all.csv"
 
+python scripts/make_targeted_review_csv.py \
+  --records "runs/${RUN_ID}/records_answer_mean.jsonl" \
+  --predictions "runs/${RUN_ID}/analysis/answer_mean/test_predictions.csv" \
+  --out "runs/${RUN_ID}/targeted_manual_review_candidates.csv"
+
 python scripts/verify_run_artifact.py \
   --run-dir "runs/${RUN_ID}" \
   --method answer_mean \
   --min-records "${LIMIT}" \
   --require-manual-review \
+  --require-targeted-review \
   --require-calibrated \
   --out-json "runs/${RUN_ID}/artifact_verification.json" \
   --out-md "runs/${RUN_ID}/ARTIFACT_VERIFICATION.md"

@@ -51,6 +51,7 @@ using accuracy, expected calibration error, maximum calibration error, Brier sco
 - `scripts/prepare_nq_open_subset.py` - prepares a reproducible NQ-Open subset and split files.
 - `scripts/prepare_squad_subset.py` - prepares a reproducible context-grounded SQuAD subset and split files.
 - `scripts/make_review_csv.py` - creates a manual-review CSV from recorded model outputs.
+- `scripts/make_targeted_review_csv.py` - creates the predeclared targeted manual-review candidate set.
 - `scripts/verify_run_artifact.py` - checks returned run artifacts before interpreting TCL-v0 metrics.
 - `scripts/summarize_extended_validation.py` - aggregates verified runs into a TCL-v0 decision note.
 - `scripts/metrics.py` - shared calibration utilities.

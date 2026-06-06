@@ -213,6 +213,7 @@ python scripts/verify_run_artifact.py \
   --method answer_mean \
   --min-records 200 \
   --require-manual-review \
+  --require-targeted-review \
   --require-calibrated \
   --out-json runs/<run_id>/artifact_verification.json \
   --out-md runs/<run_id>/ARTIFACT_VERIFICATION.md
@@ -229,6 +230,7 @@ runs/<run_id>/records_answer_mean.jsonl
 runs/<run_id>/records_answer_mean.config.json
 runs/<run_id>/analysis/
 runs/<run_id>/manual_review_all.csv
+runs/<run_id>/targeted_manual_review_candidates.csv
 runs/<run_id>/artifact_verification.json
 runs/<run_id>/ARTIFACT_VERIFICATION.md
 data/benchmarks/squad/*_1000*

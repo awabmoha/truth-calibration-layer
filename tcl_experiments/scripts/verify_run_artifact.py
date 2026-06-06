@@ -203,6 +203,7 @@ def main():
     parser.add_argument("--method", default="answer_mean")
     parser.add_argument("--min-records", type=int, default=1)
     parser.add_argument("--require-manual-review", action="store_true")
+    parser.add_argument("--require-targeted-review", action="store_true")
     parser.add_argument("--require-calibrated", action="store_true")
     parser.add_argument("--out-json")
     parser.add_argument("--out-md")
@@ -228,6 +229,7 @@ def main():
     conservative_bins_path = method_dir / "tcl_v0_conservative_reliability_bins.csv"
     calibrated_bins_path = method_dir / "tcl_v0_calibrated_reliability_bins.csv"
     manual_review_path = run_dir / "manual_review_all.csv"
+    targeted_review_path = run_dir / "targeted_manual_review_candidates.csv"
 
     expected_files = [
         (records_path, "records", True),
@@ -241,6 +243,7 @@ def main():
         (conservative_bins_path, "conservative reliability bins", True),
         (calibrated_bins_path, "calibrated reliability bins", args.require_calibrated),
         (manual_review_path, "manual review CSV", args.require_manual_review),
+        (targeted_review_path, "targeted manual review CSV", args.require_targeted_review),
     ]
     for path, label, required in expected_files:
         exists = file_status(path, label, errors, warnings, required=required)
