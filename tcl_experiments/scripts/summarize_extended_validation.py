@@ -49,6 +49,19 @@ def infer_model_family(model_name: str, run_id: str):
     return model_name or "unknown"
 
 
+def infer_model_key(model_name: str, run_id: str):
+    if model_name:
+        return model_name
+    text = run_id.lower()
+    if "qwen2.5-1.5b" in text or "qwen15" in text:
+        return "Qwen/Qwen2.5-1.5B-Instruct"
+    if "qwen2.5-0.5b" in text or "qwen05" in text or "qwen" in text:
+        return "Qwen/Qwen2.5-0.5B-Instruct"
+    if "smollm2-360m" in text or "smollm" in text:
+        return "HuggingFaceTB/SmolLM2-360M-Instruct"
+    return "unknown"
+
+
 def choose_analysis_dir(run_dir: Path, requested: str | None):
     if requested:
         return run_dir / requested
@@ -128,6 +141,7 @@ def load_run(run_dir: Path, method: str, analysis_dir_name: str | None):
     dataset = config.get("dataset") or ""
     benchmark = infer_benchmark(dataset, run_id)
     model_family = infer_model_family(model_name, run_id)
+    model_key = infer_model_key(model_name, run_id)
 
     signal_reports = {}
     for signal in SIGNALS:
@@ -139,6 +153,7 @@ def load_run(run_dir: Path, method: str, analysis_dir_name: str | None):
         "analysis_dir": str(analysis_dir),
         "run_id": run_id,
         "model_name": model_name,
+        "model_key": model_key,
         "model_family": model_family,
         "dataset": dataset,
         "benchmark": benchmark,
@@ -157,7 +172,8 @@ def decide(run_reports: list[dict]):
         run for run in run_reports if "tcl_v0_conservative_confidence" in run["signals"]
     ]
     benchmarks = {run["benchmark"] for run in conservative_runs if run["benchmark"] != "unknown"}
-    models = {run["model_family"] for run in conservative_runs if run["model_family"] != "unknown"}
+    models = {run["model_key"] for run in conservative_runs if run["model_key"] != "unknown"}
+    model_families = {run["model_family"] for run in conservative_runs if run["model_family"] != "unknown"}
     completed_runs = len(conservative_runs)
     primary_supported = 0
     primary_mixed = 0
@@ -183,7 +199,7 @@ def decide(run_reports: list[dict]):
     matrix_complete = len(benchmarks) >= 2 and len(models) >= 2 and completed_runs >= 4
     if not matrix_complete:
         decision = "incomplete"
-        rationale = "The tested matrix does not yet include at least two model families and two benchmark types."
+        rationale = "The tested matrix does not yet include at least two distinct models and two benchmark types."
     elif primary_supported >= 3 and high_conf_regressions == 0:
         decision = "supports_continuing_tcl_v0"
         rationale = "Conservative TCL-v0 wins most primary criteria on most runs without high-confidence error regressions."
@@ -200,7 +216,8 @@ def decide(run_reports: list[dict]):
         "matrix_complete": matrix_complete,
         "completed_runs": completed_runs,
         "benchmark_types": sorted(benchmarks),
-        "model_families": sorted(models),
+        "models": sorted(models),
+        "model_families": sorted(model_families),
         "primary_supported_runs": primary_supported,
         "primary_mixed_runs": primary_mixed,
         "primary_failed_runs": primary_failed,
@@ -222,6 +239,7 @@ def build_markdown(report: dict):
         "",
         f"- Completed runs: {decision['completed_runs']}",
         f"- Benchmark types: {', '.join(decision['benchmark_types']) or 'none'}",
+        f"- Models: {', '.join(decision['models']) or 'none'}",
         f"- Model families: {', '.join(decision['model_families']) or 'none'}",
         f"- Matrix complete: {decision['matrix_complete']}",
         "",
