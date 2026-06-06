@@ -75,7 +75,13 @@ If this happens, use free GPU only for script validation and move serious extend
 
 ## Exact First Run
 
-The first run should use the helper script:
+The first run should use the Kaggle-ready notebook:
+
+```text
+notebooks/tcl_v0_kaggle_free_gpu_dry_run.ipynb
+```
+
+Inside that notebook, the first helper-script run is:
 
 ```bash
 bash scripts/run_free_gpu_squad_dry_run.sh 200 Qwen/Qwen2.5-0.5B-Instruct

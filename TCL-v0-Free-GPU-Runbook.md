@@ -67,6 +67,14 @@ Do not start with the full two-benchmark, two-model matrix on free GPU. First pr
 
 ## 3. Colab/Kaggle Setup Commands
 
+Recommended path:
+
+```text
+Open notebooks/tcl_v0_kaggle_free_gpu_dry_run.ipynb in Kaggle first.
+```
+
+That notebook already contains the setup, runtime check, SQuAD-200 dry run, SQuAD-1000 escalation, and output-saving checklist. The commands below are the same workflow written out manually for debugging or Colab fallback.
+
 Run these commands in a notebook cell.
 
 ```bash
