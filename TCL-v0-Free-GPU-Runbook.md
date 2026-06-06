@@ -253,6 +253,16 @@ On Colab, copy the zip to Google Drive or download it.
 
 On Kaggle, save the notebook output as an artifact.
 
+After the zip is back on the local machine, import and verify it:
+
+```bash
+python scripts/import_run_artifact.py \
+  --zip runs/<run_id>_artifact.zip \
+  --extract-dir imported_artifacts \
+  --min-records 200 \
+  --strict
+```
+
 ## 9. How To Interpret A Free-GPU Result
 
 A free-GPU dry run can prove:
