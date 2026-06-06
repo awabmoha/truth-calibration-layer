@@ -277,6 +277,15 @@ python scripts/import_run_artifact.py \
   --strict
 ```
 
+After manually filling `targeted_manual_review_candidates.csv`, validate review completion:
+
+```bash
+python scripts/validate_targeted_review.py \
+  --review-csv imported_artifacts/<run_id>/targeted_manual_review_candidates.csv \
+  --out-json imported_artifacts/<run_id>/targeted_manual_review_status.json \
+  --out-md imported_artifacts/<run_id>/TARGETED_MANUAL_REVIEW_STATUS.md
+```
+
 ## 9. How To Interpret A Free-GPU Result
 
 A free-GPU dry run can prove:

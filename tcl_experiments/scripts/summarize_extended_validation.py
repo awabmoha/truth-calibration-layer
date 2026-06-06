@@ -127,6 +127,7 @@ def load_run(run_dir: Path, method: str, analysis_dir_name: str | None):
     summary_path = analysis_dir / "summary.json"
     config_path = run_dir / f"records_{method}.config.json"
     method_summary_path = analysis_dir / "method_summary.csv"
+    review_status_path = run_dir / "targeted_manual_review_status.json"
 
     if not metrics_path.exists():
         raise FileNotFoundError(f"Missing metrics file: {metrics_path}")
@@ -135,6 +136,14 @@ def load_run(run_dir: Path, method: str, analysis_dir_name: str | None):
     config = load_json(config_path) if config_path.exists() else {}
     method_summary = load_csv_first(method_summary_path) if method_summary_path.exists() else {}
     summary = load_json(summary_path) if summary_path.exists() else {}
+    review_status = load_json(review_status_path) if review_status_path.exists() else {
+        "status": "missing",
+        "n_candidates": None,
+        "n_reviewed": 0,
+        "n_label_changes": None,
+        "n_aggregate_interpretation_changes": None,
+        "errors": ["Missing targeted_manual_review_status.json"],
+    }
 
     run_id = config.get("run_id") or run_dir.name
     model_name = config.get("model_name") or method_summary.get("model_name") or ""
@@ -162,6 +171,7 @@ def load_run(run_dir: Path, method: str, analysis_dir_name: str | None):
         "n_test": metrics.get("n_test"),
         "split_mode": metrics.get("split_mode"),
         "calibration_status": metrics.get("calibration_status"),
+        "targeted_manual_review": review_status,
         "analysis_errors": summary.get("errors", []),
         "signals": signal_reports,
     }
@@ -175,6 +185,14 @@ def decide(run_reports: list[dict]):
     models = {run["model_key"] for run in conservative_runs if run["model_key"] != "unknown"}
     model_families = {run["model_family"] for run in conservative_runs if run["model_family"] != "unknown"}
     completed_runs = len(conservative_runs)
+    reviewed_runs = [
+        run for run in conservative_runs
+        if run.get("targeted_manual_review", {}).get("status") == "complete"
+    ]
+    aggregate_review_changes = sum(
+        int(run.get("targeted_manual_review", {}).get("n_aggregate_interpretation_changes") or 0)
+        for run in conservative_runs
+    )
     primary_supported = 0
     primary_mixed = 0
     primary_failed = 0
@@ -200,6 +218,12 @@ def decide(run_reports: list[dict]):
     if not matrix_complete:
         decision = "incomplete"
         rationale = "The tested matrix does not yet include at least two distinct models and two benchmark types."
+    elif len(reviewed_runs) < completed_runs:
+        decision = "manual_review_pending"
+        rationale = "The metric matrix is complete, but targeted manual review is not complete for every run."
+    elif aggregate_review_changes > 0:
+        decision = "manual_review_changes_require_reanalysis"
+        rationale = "Manual review marked at least one case as changing the aggregate interpretation; metrics must be recomputed or reviewed before a final decision."
     elif primary_supported >= 3 and high_conf_regressions == 0:
         decision = "supports_continuing_tcl_v0"
         rationale = "Conservative TCL-v0 wins most primary criteria on most runs without high-confidence error regressions."
@@ -215,6 +239,8 @@ def decide(run_reports: list[dict]):
         "rationale": rationale,
         "matrix_complete": matrix_complete,
         "completed_runs": completed_runs,
+        "manual_review_completed_runs": len(reviewed_runs),
+        "aggregate_review_changes": aggregate_review_changes,
         "benchmark_types": sorted(benchmarks),
         "models": sorted(models),
         "model_families": sorted(model_families),
@@ -254,6 +280,7 @@ def build_markdown(report: dict):
             f"- Benchmark: `{run['benchmark']}`",
             f"- Records/test: {run['n_records']} / {run['n_test']}",
             f"- Analysis dir: `{run['analysis_dir']}`",
+            f"- Targeted manual review: `{run.get('targeted_manual_review', {}).get('status', 'missing')}`",
         ])
         conservative = run["signals"].get("tcl_v0_conservative_confidence")
         if conservative:
