@@ -53,6 +53,7 @@ using accuracy, expected calibration error, maximum calibration error, Brier sco
 - `scripts/make_review_csv.py` - creates a manual-review CSV from recorded model outputs.
 - `scripts/make_targeted_review_csv.py` - creates the predeclared targeted manual-review candidate set.
 - `scripts/verify_run_artifact.py` - checks returned run artifacts before interpreting TCL-v0 metrics.
+- `scripts/package_run_artifact.py` - zips a verified run folder plus benchmark metadata for download.
 - `scripts/summarize_extended_validation.py` - aggregates verified runs into a TCL-v0 decision note.
 - `scripts/metrics.py` - shared calibration utilities.
 - `scripts/check_runtime.py` - reports Python, PyTorch, Transformers, and CUDA/GPU availability.

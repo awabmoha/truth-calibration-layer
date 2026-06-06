@@ -48,5 +48,10 @@ python scripts/verify_run_artifact.py \
   --out-json "runs/${RUN_ID}/artifact_verification.json" \
   --out-md "runs/${RUN_ID}/ARTIFACT_VERIFICATION.md"
 
+python scripts/package_run_artifact.py \
+  --run-dir "runs/${RUN_ID}" \
+  --benchmark-glob "data/benchmarks/squad/squad_validation_${LIMIT}*" \
+  --out "runs/${RUN_ID}_artifact.zip"
+
 echo "Completed ${RUN_ID}"
-echo "Save runs/${RUN_ID}/ before closing the notebook session."
+echo "Save runs/${RUN_ID}_artifact.zip and runs/${RUN_ID}/ before closing the notebook session."

@@ -226,6 +226,7 @@ This check confirms that records, probe metrics, reliability bins, test predicti
 Free notebooks can disconnect. Before closing the session, save:
 
 ```text
+runs/<run_id>_artifact.zip
 runs/<run_id>/records_answer_mean.jsonl
 runs/<run_id>/records_answer_mean.config.json
 runs/<run_id>/analysis/
@@ -233,10 +234,22 @@ runs/<run_id>/manual_review_all.csv
 runs/<run_id>/targeted_manual_review_candidates.csv
 runs/<run_id>/artifact_verification.json
 runs/<run_id>/ARTIFACT_VERIFICATION.md
+runs/<run_id>/artifact_manifest.json
 data/benchmarks/squad/*_1000*
 ```
 
-On Colab, copy the folder to Google Drive or download it as a zip.
+The one-command helper creates `runs/<run_id>_artifact.zip` automatically. Prefer downloading that zip, then keep the raw `runs/<run_id>/` folder too if the notebook platform makes it easy.
+
+If you need to rebuild the zip manually, run:
+
+```bash
+python scripts/package_run_artifact.py \
+  --run-dir runs/<run_id> \
+  --benchmark-glob "data/benchmarks/squad/squad_validation_<limit>*" \
+  --out runs/<run_id>_artifact.zip
+```
+
+On Colab, copy the zip to Google Drive or download it.
 
 On Kaggle, save the notebook output as an artifact.
 
