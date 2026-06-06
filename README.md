@@ -25,6 +25,8 @@ Can frozen LLM hidden states predict answer correctness better than raw softmax/
 - `TCL-Theory-Paper-Theoretical-Framework.docx` - final theory-stage paper.
 - `TCL-v0-experiment-plan.md` - practical plan for the first TCL-v0 experiments.
 - `TCL-v0-Extended-Validation-Plan.md` - predeclared gate for the next stronger TCL-v0 validation stage.
+- `TCL-v0-Free-GPU-Decision.md` - recommendation for using free GPU resources before paid cloud.
+- `TCL-v0-Free-GPU-Runbook.md` - Colab/Kaggle execution guide for free-GPU dry runs.
 - `TCL-v0-results-summary.md` - current diagnostic results and claim boundaries.
 - `TCL-v0-evidence-report-v1.md` - consolidated preliminary evidence report.
 - `TCL-v0-research-writeup.md` - short TCL-v0 method/results writeup.

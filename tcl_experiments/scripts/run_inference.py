@@ -33,6 +33,39 @@ CONTEXT_PROMPT_TEMPLATE = (
 RAW_CONFIDENCE_METHOD = "geometric_mean_generated_token_probability"
 
 
+def select_device(value: str) -> torch.device:
+    if value == "auto":
+        return torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if value == "cuda" and not torch.cuda.is_available():
+        raise RuntimeError("CUDA was requested, but torch.cuda.is_available() is false.")
+    return torch.device(value)
+
+
+def select_dtype(value: str, device: torch.device):
+    if value == "auto":
+        return torch.float16 if device.type == "cuda" else torch.float32
+    if value == "float32":
+        return torch.float32
+    if value == "float16":
+        return torch.float16
+    if value == "bfloat16":
+        return torch.bfloat16
+    raise ValueError(f"Unknown torch dtype: {value}")
+
+
+def runtime_info(device: torch.device, dtype) -> dict:
+    info = {
+        "torch_version": torch.__version__,
+        "device": str(device),
+        "torch_dtype": str(dtype).replace("torch.", ""),
+        "cuda_available": torch.cuda.is_available(),
+    }
+    if torch.cuda.is_available():
+        info["cuda_device_count"] = torch.cuda.device_count()
+        info["cuda_device_name"] = torch.cuda.get_device_name(0)
+    return info
+
+
 def read_splits(path: str | None) -> dict[str, str]:
     if not path:
         return {}
@@ -122,7 +155,7 @@ def extract_hidden_state(hidden_states, prompt_len: int, method: str, layer: int
     return vector.detach().float().cpu().numpy().astype(float)
 
 
-def write_run_config(out_path: Path, args, run_id: str, started_at: str) -> None:
+def write_run_config(out_path: Path, args, run_id: str, started_at: str, runtime: dict) -> None:
     config = {
         "run_id": run_id,
         "started_at": started_at,
@@ -139,6 +172,9 @@ def write_run_config(out_path: Path, args, run_id: str, started_at: str) -> None
         "correctness_method": CORRECTNESS_METHOD,
         "hidden_state_layer": args.hidden_state_layer,
         "hidden_state_method": args.hidden_state_method,
+        "requested_device": args.device,
+        "requested_torch_dtype": args.torch_dtype,
+        "runtime": runtime,
         "note": "Smoke-test outputs are pipeline checks only unless the run is explicitly designated as an evidence run.",
     }
     config_path = out_path.with_suffix(".config.json")
@@ -156,6 +192,18 @@ def main():
     parser.add_argument("--max-new-tokens", type=int, default=12)
     parser.add_argument("--splits", default=None, help="Optional CSV with id,split columns.")
     parser.add_argument(
+        "--device",
+        choices=["auto", "cpu", "cuda"],
+        default="auto",
+        help="Device for model inference. 'auto' uses CUDA when available.",
+    )
+    parser.add_argument(
+        "--torch-dtype",
+        choices=["auto", "float32", "float16", "bfloat16"],
+        default="auto",
+        help="Model dtype. 'auto' uses float16 on CUDA and float32 on CPU.",
+    )
+    parser.add_argument(
         "--hidden-state-method",
         choices=["answer_mean", "answer_last", "prompt_answer_mean"],
         default="answer_mean",
@@ -169,6 +217,10 @@ def main():
     parser.add_argument("--run-id", default=None)
     args = parser.parse_args()
 
+    device = select_device(args.device)
+    torch_dtype = select_dtype(args.torch_dtype, device)
+    runtime = runtime_info(device, torch_dtype)
+
     run_id = args.run_id or f"smoke-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}"
     started_at = datetime.now(timezone.utc).isoformat()
     if args.out is None:
@@ -176,13 +228,14 @@ def main():
     else:
         out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    write_run_config(out_path, args, run_id, started_at)
+    write_run_config(out_path, args, run_id, started_at, runtime)
 
     tokenizer = AutoTokenizer.from_pretrained(args.model)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    model = AutoModelForCausalLM.from_pretrained(args.model)
+    model = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=torch_dtype)
+    model.to(device)
     model.eval()
 
     questions = read_questions(Path(args.questions), args.limit)
@@ -192,6 +245,7 @@ def main():
             context = row.get("context", "").strip()
             prompt = build_prompt(tokenizer, row["question"], context=context)
             inputs = tokenizer(prompt, return_tensors="pt")
+            inputs = {key: value.to(device) for key, value in inputs.items()}
             prompt_len = inputs["input_ids"].shape[1]
 
             with torch.no_grad():
