@@ -203,6 +203,23 @@ python scripts/make_review_csv.py \
 
 For the final extended-validation decision, manual review should focus on high-confidence wrong cases and strong raw-vs-TCL disagreement cases. This broader review CSV is only the first artifact.
 
+## 7.1 Artifact Verification
+
+The one-command dry-run script automatically verifies the returned artifact. If you need to rerun verification manually, use:
+
+```bash
+python scripts/verify_run_artifact.py \
+  --run-dir runs/<run_id> \
+  --method answer_mean \
+  --min-records 200 \
+  --require-manual-review \
+  --require-calibrated \
+  --out-json runs/<run_id>/artifact_verification.json \
+  --out-md runs/<run_id>/ARTIFACT_VERIFICATION.md
+```
+
+This check confirms that records, probe metrics, reliability bins, test predictions, and review files exist before any result is interpreted.
+
 ## 8. Save Outputs Before The Session Ends
 
 Free notebooks can disconnect. Before closing the session, save:
@@ -212,6 +229,8 @@ runs/<run_id>/records_answer_mean.jsonl
 runs/<run_id>/records_answer_mean.config.json
 runs/<run_id>/analysis/
 runs/<run_id>/manual_review_all.csv
+runs/<run_id>/artifact_verification.json
+runs/<run_id>/ARTIFACT_VERIFICATION.md
 data/benchmarks/squad/*_1000*
 ```
 

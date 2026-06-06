@@ -33,5 +33,14 @@ python scripts/make_review_csv.py \
   --records "runs/${RUN_ID}/records_answer_mean.jsonl" \
   --out "runs/${RUN_ID}/manual_review_all.csv"
 
+python scripts/verify_run_artifact.py \
+  --run-dir "runs/${RUN_ID}" \
+  --method answer_mean \
+  --min-records "${LIMIT}" \
+  --require-manual-review \
+  --require-calibrated \
+  --out-json "runs/${RUN_ID}/artifact_verification.json" \
+  --out-md "runs/${RUN_ID}/ARTIFACT_VERIFICATION.md"
+
 echo "Completed ${RUN_ID}"
 echo "Save runs/${RUN_ID}/ before closing the notebook session."

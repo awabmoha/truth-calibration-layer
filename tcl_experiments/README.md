@@ -51,6 +51,7 @@ using accuracy, expected calibration error, maximum calibration error, Brier sco
 - `scripts/prepare_nq_open_subset.py` - prepares a reproducible NQ-Open subset and split files.
 - `scripts/prepare_squad_subset.py` - prepares a reproducible context-grounded SQuAD subset and split files.
 - `scripts/make_review_csv.py` - creates a manual-review CSV from recorded model outputs.
+- `scripts/verify_run_artifact.py` - checks returned run artifacts before interpreting TCL-v0 metrics.
 - `scripts/metrics.py` - shared calibration utilities.
 - `scripts/check_runtime.py` - reports Python, PyTorch, Transformers, and CUDA/GPU availability.
 - `scripts/run_free_gpu_squad_dry_run.sh` - one-command SQuAD dry run for Kaggle/Colab GPU notebooks.
