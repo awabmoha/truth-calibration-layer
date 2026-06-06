@@ -286,6 +286,17 @@ python scripts/validate_targeted_review.py \
   --out-md imported_artifacts/<run_id>/TARGETED_MANUAL_REVIEW_STATUS.md
 ```
 
+If manual review changes any labels or marks any case as changing the aggregate interpretation, recompute reviewed-label metrics:
+
+```bash
+python scripts/recompute_reviewed_metrics.py \
+  --predictions imported_artifacts/<run_id>/analysis/answer_mean/test_predictions.csv \
+  --review-csv imported_artifacts/<run_id>/targeted_manual_review_candidates.csv \
+  --out-predictions imported_artifacts/<run_id>/reviewed_test_predictions.csv \
+  --out-metrics imported_artifacts/<run_id>/reviewed_test_metrics.json \
+  --out-dir imported_artifacts/<run_id>/reviewed_reliability_bins
+```
+
 ## 9. How To Interpret A Free-GPU Result
 
 A free-GPU dry run can prove:
