@@ -59,6 +59,7 @@ using accuracy, expected calibration error, maximum calibration error, Brier sco
 - `scripts/import_run_artifact.py` - safely unpacks a downloaded run artifact and reruns verification locally.
 - `scripts/summarize_extended_validation.py` - aggregates verified runs into a TCL-v0 decision note.
 - `scripts/write_extended_validation_decision_note.py` - writes the final stopping-rule decision note from aggregator output.
+- `scripts/run_post_cloud_pipeline.py` - imports artifact zips, verifies runs, aggregates metrics, and writes the final decision note.
 - `scripts/metrics.py` - shared calibration utilities.
 - `scripts/check_runtime.py` - reports Python, PyTorch, Transformers, and CUDA/GPU availability.
 - `scripts/run_free_gpu_squad_dry_run.sh` - one-command SQuAD dry run for Kaggle/Colab GPU notebooks.

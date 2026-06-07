@@ -277,6 +277,18 @@ python scripts/import_run_artifact.py \
   --strict
 ```
 
+For multiple returned artifact zips, run the full post-cloud pipeline:
+
+```bash
+python scripts/run_post_cloud_pipeline.py \
+  --zip runs/<run_id_1>_artifact.zip \
+  --zip runs/<run_id_2>_artifact.zip \
+  --extract-dir imported_artifacts \
+  --out-dir runs/post_cloud_decision \
+  --min-records 200 \
+  --strict
+```
+
 After manually filling `targeted_manual_review_candidates.csv`, validate review completion:
 
 ```bash
