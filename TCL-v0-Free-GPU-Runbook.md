@@ -322,6 +322,14 @@ python scripts/summarize_extended_validation.py \
 
 Use this only after artifact verification passes. The generated decision note is a metric gate; the final research decision still also needs the predeclared manual-review checks from the extended-validation plan.
 
+Then write the stopping-rule decision note:
+
+```bash
+python scripts/write_extended_validation_decision_note.py \
+  --decision-json runs/extended_validation_decision.json \
+  --out-md runs/TCL-v0-EXTENDED-VALIDATION-FINAL-DECISION.md
+```
+
 ## 10. Decision After Free-GPU Dry Run
 
 After the dry run, choose one:
