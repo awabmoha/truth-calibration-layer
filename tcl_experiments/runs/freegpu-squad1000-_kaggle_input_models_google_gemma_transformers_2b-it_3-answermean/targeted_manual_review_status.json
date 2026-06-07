@@ -1,0 +1,16 @@
+{
+  "status": "complete",
+  "review_csv": "tcl_experiments\\runs\\freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\targeted_manual_review_completed.csv",
+  "n_candidates": 86,
+  "n_reviewed": 86,
+  "n_label_changes": 2,
+  "n_aggregate_interpretation_changes": 2,
+  "reason_counts": {
+    "high_confidence_wrong": 66,
+    "low_confidence_incorrect_sample": 10,
+    "raw_vs_conservative_disagreement": 71,
+    "low_confidence_correct_sample": 10
+  },
+  "errors": [],
+  "claim_boundary": "This validates TCL-v0 targeted manual review only. It does not validate the full TCL theory."
+}

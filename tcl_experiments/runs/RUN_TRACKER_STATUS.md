@@ -2,14 +2,14 @@
 
 Tracker: `TCL-v0-Extended-Validation-Run-Tracker.csv`
 Status: `pass`
-Rows: `5`
+Rows: `12`
 
 ## Counts
 
-- artifact_downloaded: 1
-- failed: 1
+- artifact_downloaded: 2
+- failed: 3
 - planned: 1
-- verified: 2
+- reviewed: 6
 
 ## Claim Boundary
 

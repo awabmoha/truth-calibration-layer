@@ -1,0 +1,230 @@
+{
+  "status": "pass",
+  "run_dir": "runs/freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean",
+  "record_count": 1000,
+  "test_prediction_count": 200,
+  "files": [
+    {
+      "path": "runs/freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/records_answer_mean.jsonl",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs/freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/records_answer_mean.config.json",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs/freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/summary.json",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs/freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/method_summary.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs/freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/metrics.json",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs/freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/test_predictions.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs/freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/raw_reliability_bins.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs/freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/tcl_v0_reliability_bins.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs/freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/tcl_v0_conservative_reliability_bins.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs/freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/tcl_v0_calibrated_reliability_bins.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs/freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/manual_review_all.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs/freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/targeted_manual_review_candidates.csv",
+      "status": "present",
+      "required": true
+    }
+  ],
+  "methods": {
+    "answer_mean": {
+      "n_records": 1000,
+      "n_train": 650,
+      "n_validation": 150,
+      "n_test": 200,
+      "split_mode": "record",
+      "calibration_status": "fitted_on_validation_scores",
+      "comparisons": {
+        "tcl_v0_probe_confidence": {
+          "wins_vs_raw": 6,
+          "losses_vs_raw": 1,
+          "ties_vs_raw": 0,
+          "metrics": {
+            "accuracy_at_0_5": {
+              "raw": 0.65,
+              "candidate": 0.835,
+              "delta_candidate_minus_raw": 0.18499999999999994,
+              "winner": "candidate"
+            },
+            "auc": {
+              "raw": 0.5125274725274725,
+              "candidate": 0.9018681318681319,
+              "delta_candidate_minus_raw": 0.3893406593406593,
+              "winner": "candidate"
+            },
+            "brier": {
+              "raw": 0.2909880753764364,
+              "candidate": 0.13643604447357074,
+              "delta_candidate_minus_raw": -0.15455203090286565,
+              "winner": "candidate"
+            },
+            "ece": {
+              "raw": 0.248978631084034,
+              "candidate": 0.14201906166767633,
+              "delta_candidate_minus_raw": -0.10695956941635767,
+              "winner": "candidate"
+            },
+            "mce": {
+              "raw": 0.31789896156341446,
+              "candidate": 0.5901339396162275,
+              "delta_candidate_minus_raw": 0.27223497805281305,
+              "winner": "raw"
+            },
+            "wrong_conf_ge_0_8": {
+              "raw": 64,
+              "candidate": 13,
+              "delta_candidate_minus_raw": -51,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_9": {
+              "raw": 35,
+              "candidate": 12,
+              "delta_candidate_minus_raw": -23,
+              "winner": "candidate"
+            }
+          }
+        },
+        "tcl_v0_conservative_confidence": {
+          "wins_vs_raw": 6,
+          "losses_vs_raw": 1,
+          "ties_vs_raw": 0,
+          "metrics": {
+            "accuracy_at_0_5": {
+              "raw": 0.65,
+              "candidate": 0.835,
+              "delta_candidate_minus_raw": 0.18499999999999994,
+              "winner": "candidate"
+            },
+            "auc": {
+              "raw": 0.5125274725274725,
+              "candidate": 0.8757142857142857,
+              "delta_candidate_minus_raw": 0.3631868131868131,
+              "winner": "candidate"
+            },
+            "brier": {
+              "raw": 0.2909880753764364,
+              "candidate": 0.13385631967675657,
+              "delta_candidate_minus_raw": -0.15713175569967983,
+              "winner": "candidate"
+            },
+            "ece": {
+              "raw": 0.248978631084034,
+              "candidate": 0.12112506752930503,
+              "delta_candidate_minus_raw": -0.127853563554729,
+              "winner": "candidate"
+            },
+            "mce": {
+              "raw": 0.31789896156341446,
+              "candidate": 0.5901339396162275,
+              "delta_candidate_minus_raw": 0.27223497805281305,
+              "winner": "raw"
+            },
+            "wrong_conf_ge_0_8": {
+              "raw": 64,
+              "candidate": 11,
+              "delta_candidate_minus_raw": -53,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_9": {
+              "raw": 35,
+              "candidate": 6,
+              "delta_candidate_minus_raw": -29,
+              "winner": "candidate"
+            }
+          }
+        },
+        "tcl_v0_calibrated_confidence": {
+          "wins_vs_raw": 6,
+          "losses_vs_raw": 1,
+          "ties_vs_raw": 0,
+          "metrics": {
+            "accuracy_at_0_5": {
+              "raw": 0.65,
+              "candidate": 0.8,
+              "delta_candidate_minus_raw": 0.15000000000000002,
+              "winner": "candidate"
+            },
+            "auc": {
+              "raw": 0.5125274725274725,
+              "candidate": 0.9018681318681319,
+              "delta_candidate_minus_raw": 0.3893406593406593,
+              "winner": "candidate"
+            },
+            "brier": {
+              "raw": 0.2909880753764364,
+              "candidate": 0.12345447759685932,
+              "delta_candidate_minus_raw": -0.16753359777957708,
+              "winner": "candidate"
+            },
+            "ece": {
+              "raw": 0.248978631084034,
+              "candidate": 0.11713384851549678,
+              "delta_candidate_minus_raw": -0.1318447825685372,
+              "winner": "candidate"
+            },
+            "mce": {
+              "raw": 0.31789896156341446,
+              "candidate": 0.4607477671767623,
+              "delta_candidate_minus_raw": 0.14284880561334784,
+              "winner": "raw"
+            },
+            "wrong_conf_ge_0_8": {
+              "raw": 64,
+              "candidate": 5,
+              "delta_candidate_minus_raw": -59,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_9": {
+              "raw": 35,
+              "candidate": 1,
+              "delta_candidate_minus_raw": -34,
+              "winner": "candidate"
+            }
+          }
+        }
+      }
+    }
+  },
+  "warnings": [],
+  "errors": [],
+  "claim_boundary": "This verifies a TCL-v0 run artifact only. It does not validate the full TCL theory."
+}

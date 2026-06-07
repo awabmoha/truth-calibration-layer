@@ -1,0 +1,230 @@
+{
+  "status": "pass",
+  "run_dir": "tcl_experiments\\runs\\freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean",
+  "record_count": 1000,
+  "test_prediction_count": 200,
+  "files": [
+    {
+      "path": "tcl_experiments\\runs\\freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\records_answer_mean.jsonl",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "tcl_experiments\\runs\\freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\records_answer_mean.config.json",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "tcl_experiments\\runs\\freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\analysis\\summary.json",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "tcl_experiments\\runs\\freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\analysis\\method_summary.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "tcl_experiments\\runs\\freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\analysis\\answer_mean\\metrics.json",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "tcl_experiments\\runs\\freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\analysis\\answer_mean\\test_predictions.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "tcl_experiments\\runs\\freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\analysis\\answer_mean\\raw_reliability_bins.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "tcl_experiments\\runs\\freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\analysis\\answer_mean\\tcl_v0_reliability_bins.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "tcl_experiments\\runs\\freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\analysis\\answer_mean\\tcl_v0_conservative_reliability_bins.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "tcl_experiments\\runs\\freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\analysis\\answer_mean\\tcl_v0_calibrated_reliability_bins.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "tcl_experiments\\runs\\freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\manual_review_all.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "tcl_experiments\\runs\\freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\targeted_manual_review_candidates.csv",
+      "status": "present",
+      "required": true
+    }
+  ],
+  "methods": {
+    "answer_mean": {
+      "n_records": 1000,
+      "n_train": 650,
+      "n_validation": 150,
+      "n_test": 200,
+      "split_mode": "record",
+      "calibration_status": "fitted_on_validation_scores",
+      "comparisons": {
+        "tcl_v0_probe_confidence": {
+          "wins_vs_raw": 6,
+          "losses_vs_raw": 1,
+          "ties_vs_raw": 0,
+          "metrics": {
+            "accuracy_at_0_5": {
+              "raw": 0.23,
+              "candidate": 0.755,
+              "delta_candidate_minus_raw": 0.525,
+              "winner": "candidate"
+            },
+            "auc": {
+              "raw": 0.7291078486730661,
+              "candidate": 0.7636928289102203,
+              "delta_candidate_minus_raw": 0.03458498023715417,
+              "winner": "candidate"
+            },
+            "brier": {
+              "raw": 0.4922919812216266,
+              "candidate": 0.20626916981432453,
+              "delta_candidate_minus_raw": -0.28602281140730207,
+              "winner": "candidate"
+            },
+            "ece": {
+              "raw": 0.5764265596376102,
+              "candidate": 0.19113579596452218,
+              "delta_candidate_minus_raw": -0.38529076367308807,
+              "winner": "candidate"
+            },
+            "mce": {
+              "raw": 0.6561506953098817,
+              "candidate": 0.6961791705279854,
+              "delta_candidate_minus_raw": 0.04002847521810371,
+              "winner": "raw"
+            },
+            "wrong_conf_ge_0_8": {
+              "raw": 80,
+              "candidate": 17,
+              "delta_candidate_minus_raw": -63,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_9": {
+              "raw": 19,
+              "candidate": 11,
+              "delta_candidate_minus_raw": -8,
+              "winner": "candidate"
+            }
+          }
+        },
+        "tcl_v0_conservative_confidence": {
+          "wins_vs_raw": 6,
+          "losses_vs_raw": 1,
+          "ties_vs_raw": 0,
+          "metrics": {
+            "accuracy_at_0_5": {
+              "raw": 0.23,
+              "candidate": 0.755,
+              "delta_candidate_minus_raw": 0.525,
+              "winner": "candidate"
+            },
+            "auc": {
+              "raw": 0.7291078486730661,
+              "candidate": 0.7708921513269339,
+              "delta_candidate_minus_raw": 0.04178430265386779,
+              "winner": "candidate"
+            },
+            "brier": {
+              "raw": 0.4922919812216266,
+              "candidate": 0.18839819782165576,
+              "delta_candidate_minus_raw": -0.30389378339997086,
+              "winner": "candidate"
+            },
+            "ece": {
+              "raw": 0.5764265596376102,
+              "candidate": 0.17501330168157467,
+              "delta_candidate_minus_raw": -0.40141325795603555,
+              "winner": "candidate"
+            },
+            "mce": {
+              "raw": 0.6561506953098817,
+              "candidate": 0.6961791705279854,
+              "delta_candidate_minus_raw": 0.04002847521810371,
+              "winner": "raw"
+            },
+            "wrong_conf_ge_0_8": {
+              "raw": 80,
+              "candidate": 10,
+              "delta_candidate_minus_raw": -70,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_9": {
+              "raw": 19,
+              "candidate": 2,
+              "delta_candidate_minus_raw": -17,
+              "winner": "candidate"
+            }
+          }
+        },
+        "tcl_v0_calibrated_confidence": {
+          "wins_vs_raw": 7,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 0,
+          "metrics": {
+            "accuracy_at_0_5": {
+              "raw": 0.23,
+              "candidate": 0.735,
+              "delta_candidate_minus_raw": 0.505,
+              "winner": "candidate"
+            },
+            "auc": {
+              "raw": 0.7291078486730661,
+              "candidate": 0.7636928289102203,
+              "delta_candidate_minus_raw": 0.03458498023715417,
+              "winner": "candidate"
+            },
+            "brier": {
+              "raw": 0.4922919812216266,
+              "candidate": 0.1997225038056823,
+              "delta_candidate_minus_raw": -0.2925694774159443,
+              "winner": "candidate"
+            },
+            "ece": {
+              "raw": 0.5764265596376102,
+              "candidate": 0.21638931860110158,
+              "delta_candidate_minus_raw": -0.3600372410365087,
+              "winner": "candidate"
+            },
+            "mce": {
+              "raw": 0.6561506953098817,
+              "candidate": 0.44350779463166656,
+              "delta_candidate_minus_raw": -0.21264290067821512,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_8": {
+              "raw": 80,
+              "candidate": 6,
+              "delta_candidate_minus_raw": -74,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_9": {
+              "raw": 19,
+              "candidate": 0,
+              "delta_candidate_minus_raw": -19,
+              "winner": "candidate"
+            }
+          }
+        }
+      }
+    }
+  },
+  "warnings": [],
+  "errors": [],
+  "claim_boundary": "This verifies a TCL-v0 run artifact only. It does not validate the full TCL theory."
+}

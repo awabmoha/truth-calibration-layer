@@ -124,6 +124,7 @@ def compare_signal(metrics: dict, signal: str):
 def load_run(run_dir: Path, method: str, analysis_dir_name: str | None):
     analysis_dir = choose_analysis_dir(run_dir, analysis_dir_name)
     metrics_path = analysis_dir / method / "metrics.json"
+    reviewed_metrics_path = run_dir / "reviewed_test_metrics.json"
     summary_path = analysis_dir / "summary.json"
     config_path = run_dir / f"records_{method}.config.json"
     method_summary_path = analysis_dir / "method_summary.csv"
@@ -133,6 +134,8 @@ def load_run(run_dir: Path, method: str, analysis_dir_name: str | None):
         raise FileNotFoundError(f"Missing metrics file: {metrics_path}")
 
     metrics = load_json(metrics_path)
+    reviewed_metrics = load_json(reviewed_metrics_path) if reviewed_metrics_path.exists() else None
+    metrics_for_comparison = reviewed_metrics.get("signals", metrics) if reviewed_metrics else metrics
     config = load_json(config_path) if config_path.exists() else {}
     method_summary = load_csv_first(method_summary_path) if method_summary_path.exists() else {}
     summary = load_json(summary_path) if summary_path.exists() else {}
@@ -154,8 +157,8 @@ def load_run(run_dir: Path, method: str, analysis_dir_name: str | None):
 
     signal_reports = {}
     for signal in SIGNALS:
-        if signal in metrics:
-            signal_reports[signal] = compare_signal(metrics, signal)
+        if signal in metrics_for_comparison:
+            signal_reports[signal] = compare_signal(metrics_for_comparison, signal)
 
     return {
         "run_dir": str(run_dir),
@@ -168,9 +171,10 @@ def load_run(run_dir: Path, method: str, analysis_dir_name: str | None):
         "benchmark": benchmark,
         "hidden_state_method": metrics.get("hidden_state_method"),
         "n_records": metrics.get("n_records"),
-        "n_test": metrics.get("n_test"),
+        "n_test": reviewed_metrics.get("n_test") if reviewed_metrics else metrics.get("n_test"),
         "split_mode": metrics.get("split_mode"),
         "calibration_status": metrics.get("calibration_status"),
+        "reviewed_metrics_applied": reviewed_metrics is not None,
         "targeted_manual_review": review_status,
         "analysis_errors": summary.get("errors", []),
         "signals": signal_reports,
@@ -192,6 +196,11 @@ def decide(run_reports: list[dict]):
     aggregate_review_changes = sum(
         int(run.get("targeted_manual_review", {}).get("n_aggregate_interpretation_changes") or 0)
         for run in conservative_runs
+    )
+    unapplied_review_changes = sum(
+        int(run.get("targeted_manual_review", {}).get("n_aggregate_interpretation_changes") or 0)
+        for run in conservative_runs
+        if not run.get("reviewed_metrics_applied")
     )
     primary_supported = 0
     primary_mixed = 0
@@ -221,7 +230,7 @@ def decide(run_reports: list[dict]):
     elif len(reviewed_runs) < completed_runs:
         decision = "manual_review_pending"
         rationale = "The metric matrix is complete, but targeted manual review is not complete for every run."
-    elif aggregate_review_changes > 0:
+    elif unapplied_review_changes > 0:
         decision = "manual_review_changes_require_reanalysis"
         rationale = "Manual review marked at least one case as changing the aggregate interpretation; metrics must be recomputed or reviewed before a final decision."
     elif primary_supported >= 3 and high_conf_regressions == 0:
@@ -241,6 +250,7 @@ def decide(run_reports: list[dict]):
         "completed_runs": completed_runs,
         "manual_review_completed_runs": len(reviewed_runs),
         "aggregate_review_changes": aggregate_review_changes,
+        "unapplied_review_changes": unapplied_review_changes,
         "benchmark_types": sorted(benchmarks),
         "models": sorted(models),
         "model_families": sorted(model_families),
@@ -281,6 +291,7 @@ def build_markdown(report: dict):
             f"- Records/test: {run['n_records']} / {run['n_test']}",
             f"- Analysis dir: `{run['analysis_dir']}`",
             f"- Targeted manual review: `{run.get('targeted_manual_review', {}).get('status', 'missing')}`",
+            f"- Reviewed metrics applied: `{run.get('reviewed_metrics_applied', False)}`",
         ])
         conservative = run["signals"].get("tcl_v0_conservative_confidence")
         if conservative:

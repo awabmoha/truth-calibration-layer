@@ -1,0 +1,59 @@
+{
+  "records_path": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/records_answer_mean.jsonl",
+  "out_dir": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis",
+  "test_size": 0.35,
+  "split_mode": "record",
+  "calibrate": true,
+  "bins": 10,
+  "metrics": [
+    {
+      "hidden_state_method": "answer_mean",
+      "analysis_timestamp": "2026-06-07T18:52:52.553566+00:00",
+      "n_records": 1000,
+      "n_train": 650,
+      "n_validation": 150,
+      "n_test": 200,
+      "split_mode": "record",
+      "calibration_status": "fitted_on_validation_scores",
+      "positive_rate_all": 0.224,
+      "raw_generation_confidence": {
+        "accuracy_at_0_5": 0.23,
+        "ece": 0.5764265596376102,
+        "mce": 0.6561506953098817,
+        "brier": 0.4922919812216266,
+        "wrong_conf_ge_0_8": 80,
+        "wrong_conf_ge_0_9": 19,
+        "auc": 0.7291078486730661
+      },
+      "tcl_v0_probe_confidence": {
+        "accuracy_at_0_5": 0.755,
+        "ece": 0.19113579596452218,
+        "mce": 0.6961791705279854,
+        "brier": 0.20626916981432453,
+        "wrong_conf_ge_0_8": 17,
+        "wrong_conf_ge_0_9": 11,
+        "auc": 0.7636928289102203
+      },
+      "tcl_v0_conservative_confidence": {
+        "accuracy_at_0_5": 0.755,
+        "ece": 0.17501330168157467,
+        "mce": 0.6961791705279854,
+        "brier": 0.18839819782165576,
+        "wrong_conf_ge_0_8": 10,
+        "wrong_conf_ge_0_9": 2,
+        "auc": 0.7708921513269339
+      },
+      "tcl_v0_calibrated_confidence": {
+        "accuracy_at_0_5": 0.735,
+        "ece": 0.21638931860110158,
+        "mce": 0.44350779463166656,
+        "brier": 0.1997225038056823,
+        "wrong_conf_ge_0_8": 6,
+        "wrong_conf_ge_0_9": 0,
+        "auc": 0.7636928289102203
+      }
+    }
+  ],
+  "errors": [],
+  "claim_boundary": "These metrics are TCL-v0 probe diagnostics only. They do not validate the full TCL framework."
+}

@@ -1,0 +1,85 @@
+{
+  "created_at": "2026-06-07T18:52:54.703345+00:00",
+  "run_dir": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean",
+  "zip_path": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean_artifact.zip",
+  "n_files": 19,
+  "files": [
+    {
+      "source": "data/benchmarks/triviaqa/triviaqa_rc_nocontext_validation_1000.csv",
+      "archive_name": "benchmark_data/triviaqa_rc_nocontext_validation_1000.csv"
+    },
+    {
+      "source": "data/benchmarks/triviaqa/triviaqa_rc_nocontext_validation_1000_manual_review.csv",
+      "archive_name": "benchmark_data/triviaqa_rc_nocontext_validation_1000_manual_review.csv"
+    },
+    {
+      "source": "data/benchmarks/triviaqa/triviaqa_rc_nocontext_validation_1000_metadata.json",
+      "archive_name": "benchmark_data/triviaqa_rc_nocontext_validation_1000_metadata.json"
+    },
+    {
+      "source": "data/benchmarks/triviaqa/triviaqa_rc_nocontext_validation_1000_splits.csv",
+      "archive_name": "benchmark_data/triviaqa_rc_nocontext_validation_1000_splits.csv"
+    },
+    {
+      "source": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/ARTIFACT_VERIFICATION.md",
+      "archive_name": "freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/ARTIFACT_VERIFICATION.md"
+    },
+    {
+      "source": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/metrics.json",
+      "archive_name": "freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/metrics.json"
+    },
+    {
+      "source": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/raw_reliability_bins.csv",
+      "archive_name": "freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/raw_reliability_bins.csv"
+    },
+    {
+      "source": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/splits.csv",
+      "archive_name": "freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/splits.csv"
+    },
+    {
+      "source": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/tcl_v0_calibrated_reliability_bins.csv",
+      "archive_name": "freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/tcl_v0_calibrated_reliability_bins.csv"
+    },
+    {
+      "source": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/tcl_v0_conservative_reliability_bins.csv",
+      "archive_name": "freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/tcl_v0_conservative_reliability_bins.csv"
+    },
+    {
+      "source": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/tcl_v0_reliability_bins.csv",
+      "archive_name": "freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/tcl_v0_reliability_bins.csv"
+    },
+    {
+      "source": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/test_predictions.csv",
+      "archive_name": "freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/answer_mean/test_predictions.csv"
+    },
+    {
+      "source": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/method_summary.csv",
+      "archive_name": "freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/method_summary.csv"
+    },
+    {
+      "source": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/summary.json",
+      "archive_name": "freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/analysis/summary.json"
+    },
+    {
+      "source": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/artifact_verification.json",
+      "archive_name": "freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/artifact_verification.json"
+    },
+    {
+      "source": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/manual_review_all.csv",
+      "archive_name": "freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/manual_review_all.csv"
+    },
+    {
+      "source": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/records_answer_mean.config.json",
+      "archive_name": "freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/records_answer_mean.config.json"
+    },
+    {
+      "source": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/records_answer_mean.jsonl",
+      "archive_name": "freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/records_answer_mean.jsonl"
+    },
+    {
+      "source": "runs/freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/targeted_manual_review_candidates.csv",
+      "archive_name": "freegpu-triviaqa1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/targeted_manual_review_candidates.csv"
+    }
+  ],
+  "claim_boundary": "This package preserves TCL-v0 run artifacts only. It does not validate the full TCL theory."
+}

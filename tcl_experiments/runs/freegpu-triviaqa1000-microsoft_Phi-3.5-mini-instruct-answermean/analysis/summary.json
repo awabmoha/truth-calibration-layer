@@ -1,0 +1,59 @@
+{
+  "records_path": "runs/freegpu-triviaqa1000-microsoft_Phi-3.5-mini-instruct-answermean/records_answer_mean.jsonl",
+  "out_dir": "runs/freegpu-triviaqa1000-microsoft_Phi-3.5-mini-instruct-answermean/analysis",
+  "test_size": 0.35,
+  "split_mode": "record",
+  "calibrate": true,
+  "bins": 10,
+  "metrics": [
+    {
+      "hidden_state_method": "answer_mean",
+      "analysis_timestamp": "2026-06-07T16:41:40.110928+00:00",
+      "n_records": 1000,
+      "n_train": 650,
+      "n_validation": 150,
+      "n_test": 200,
+      "split_mode": "record",
+      "calibration_status": "fitted_on_validation_scores",
+      "positive_rate_all": 0.493,
+      "raw_generation_confidence": {
+        "accuracy_at_0_5": 0.565,
+        "ece": 0.3168565231878469,
+        "mce": 0.5677124346719619,
+        "brier": 0.2891792605167781,
+        "wrong_conf_ge_0_8": 44,
+        "wrong_conf_ge_0_9": 17,
+        "auc": 0.8514492753623188
+      },
+      "tcl_v0_probe_confidence": {
+        "accuracy_at_0_5": 0.73,
+        "ece": 0.2073197726957346,
+        "mce": 0.6954724037751225,
+        "brier": 0.22063765774236807,
+        "wrong_conf_ge_0_8": 17,
+        "wrong_conf_ge_0_9": 13,
+        "auc": 0.8065619967793881
+      },
+      "tcl_v0_conservative_confidence": {
+        "accuracy_at_0_5": 0.73,
+        "ece": 0.15765352055025275,
+        "mce": 0.6954724037751225,
+        "brier": 0.20116561737108754,
+        "wrong_conf_ge_0_8": 11,
+        "wrong_conf_ge_0_9": 3,
+        "auc": 0.8306159420289855
+      },
+      "tcl_v0_calibrated_confidence": {
+        "accuracy_at_0_5": 0.74,
+        "ece": 0.04466933187255227,
+        "mce": 0.1100154320417416,
+        "brier": 0.17910571633745523,
+        "wrong_conf_ge_0_8": 4,
+        "wrong_conf_ge_0_9": 1,
+        "auc": 0.8065619967793881
+      }
+    }
+  ],
+  "errors": [],
+  "claim_boundary": "These metrics are TCL-v0 probe diagnostics only. They do not validate the full TCL framework."
+}

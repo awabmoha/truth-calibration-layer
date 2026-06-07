@@ -1,11 +1,11 @@
 {
   "status": "pass",
   "tracker": "TCL-v0-Extended-Validation-Run-Tracker.csv",
-  "row_count": 5,
+  "row_count": 12,
   "counts": {
-    "artifact_downloaded": 1,
-    "verified": 2,
-    "failed": 1,
+    "artifact_downloaded": 2,
+    "reviewed": 6,
+    "failed": 3,
     "planned": 1
   },
   "errors": [],

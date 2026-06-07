@@ -1,0 +1,46 @@
+{
+  "n_test": 200,
+  "auto_positive_count": 108,
+  "reviewed_positive_count": 112,
+  "manually_reviewed_count": 116,
+  "label_changes": 6,
+  "signals": {
+    "raw_generation_confidence": {
+      "accuracy_at_0_5": 0.585,
+      "ece": 0.29685652318784694,
+      "mce": 0.5677124346719619,
+      "brier": 0.27821288223641305,
+      "wrong_conf_ge_0_8": 42,
+      "wrong_conf_ge_0_9": 17,
+      "auc": 0.8375608766233766
+    },
+    "tcl_v0_probe_confidence": {
+      "accuracy_at_0_5": 0.74,
+      "ece": 0.1973197726957347,
+      "mce": 0.6954724037751225,
+      "brier": 0.21166430635481792,
+      "wrong_conf_ge_0_8": 14,
+      "wrong_conf_ge_0_9": 10,
+      "auc": 0.8139204545454546
+    },
+    "tcl_v0_conservative_confidence": {
+      "accuracy_at_0_5": 0.74,
+      "ece": 0.152007635696681,
+      "mce": 0.6954724037751225,
+      "brier": 0.19842573260897103,
+      "wrong_conf_ge_0_8": 9,
+      "wrong_conf_ge_0_9": 3,
+      "auc": 0.828226461038961
+    },
+    "tcl_v0_calibrated_confidence": {
+      "accuracy_at_0_5": 0.75,
+      "ece": 0.06466933187255225,
+      "mce": 0.21527858993647844,
+      "brier": 0.17640853226376588,
+      "wrong_conf_ge_0_8": 3,
+      "wrong_conf_ge_0_9": 1,
+      "auc": 0.8139204545454546
+    }
+  },
+  "claim_boundary": "These are reviewed-label test metrics for TCL-v0 diagnostics only; they do not validate full TCL."
+}

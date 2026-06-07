@@ -1,31 +1,34 @@
 {
   "decision_gate": {
-    "decision": "incomplete",
-    "rationale": "The tested matrix does not yet include at least two distinct models and two benchmark types.",
-    "matrix_complete": false,
-    "completed_runs": 2,
-    "manual_review_completed_runs": 0,
-    "aggregate_review_changes": 0,
+    "decision": "mixed_continue_cautiously",
+    "rationale": "Conservative TCL-v0 shows useful signal, but the win pattern is not strong enough for TCL-v1.",
+    "matrix_complete": true,
+    "completed_runs": 4,
+    "manual_review_completed_runs": 4,
+    "aggregate_review_changes": 24,
+    "unapplied_review_changes": 0,
     "benchmark_types": [
       "squad",
       "triviaqa"
     ],
     "models": [
-      "Qwen/Qwen2.5-0.5B-Instruct"
+      "Qwen/Qwen2.5-0.5B-Instruct",
+      "microsoft/Phi-3.5-mini-instruct"
     ],
     "model_families": [
+      "microsoft/Phi-3.5-mini-instruct",
       "qwen"
     ],
     "primary_supported_runs": 2,
-    "primary_mixed_runs": 0,
+    "primary_mixed_runs": 2,
     "primary_failed_runs": 0,
     "high_confidence_regressions": 0,
     "claim_boundary": "This is a TCL-v0 decision gate only. It does not validate full TCL."
   },
   "runs": [
     {
-      "run_dir": "runs\\freegpu-squad1000-Qwen_Qwen2.5-0.5B-Instruct-answermean",
-      "analysis_dir": "runs\\freegpu-squad1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\analysis",
+      "run_dir": "tcl_experiments\\runs\\freegpu-squad1000-Qwen_Qwen2.5-0.5B-Instruct-answermean",
+      "analysis_dir": "tcl_experiments\\runs\\freegpu-squad1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\analysis",
       "run_id": "freegpu-squad1000-Qwen_Qwen2.5-0.5B-Instruct-answermean",
       "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
       "model_key": "Qwen/Qwen2.5-0.5B-Instruct",
@@ -37,15 +40,22 @@
       "n_test": 200,
       "split_mode": "record",
       "calibration_status": "fitted_on_validation_scores",
+      "reviewed_metrics_applied": true,
       "targeted_manual_review": {
-        "status": "missing",
-        "n_candidates": null,
-        "n_reviewed": 0,
-        "n_label_changes": null,
-        "n_aggregate_interpretation_changes": null,
-        "errors": [
-          "Missing targeted_manual_review_status.json"
-        ]
+        "status": "complete",
+        "review_csv": "runs\\freegpu-squad1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\targeted_manual_review_completed.csv",
+        "n_candidates": 83,
+        "n_reviewed": 83,
+        "n_label_changes": 9,
+        "n_aggregate_interpretation_changes": 9,
+        "reason_counts": {
+          "high_confidence_wrong": 43,
+          "low_confidence_incorrect_sample": 10,
+          "raw_vs_conservative_disagreement": 54,
+          "low_confidence_correct_sample": 10
+        },
+        "errors": [],
+        "claim_boundary": "This validates TCL-v0 targeted manual review only. It does not validate the full TCL theory."
       },
       "analysis_errors": [],
       "signals": {
@@ -53,32 +63,32 @@
           "primary_wins": 1,
           "primary_losses": 3,
           "primary_ties": 0,
-          "secondary_wins": 1,
-          "secondary_losses": 2,
+          "secondary_wins": 2,
+          "secondary_losses": 1,
           "secondary_ties": 0,
           "metrics": {
             "brier": {
-              "raw": 0.20786689246268988,
-              "candidate": 0.22343796923495257,
-              "delta_candidate_minus_raw": 0.015571076772262687,
+              "raw": 0.189955769738165,
+              "candidate": 0.20874968668002183,
+              "delta_candidate_minus_raw": 0.018793916941856836,
               "winner": "raw"
             },
             "ece": {
-              "raw": 0.1544639626061719,
-              "candidate": 0.216636585862726,
-              "delta_candidate_minus_raw": 0.062172623256554094,
+              "raw": 0.1195587124199548,
+              "candidate": 0.20163658586272604,
+              "delta_candidate_minus_raw": 0.08207787344277123,
               "winner": "raw"
             },
             "wrong_conf_ge_0_8": {
-              "raw": 31,
-              "candidate": 23,
-              "delta_candidate_minus_raw": -8,
+              "raw": 30,
+              "candidate": 17,
+              "delta_candidate_minus_raw": -13,
               "winner": "candidate"
             },
             "wrong_conf_ge_0_9": {
               "raw": 11,
-              "candidate": 22,
-              "delta_candidate_minus_raw": 11,
+              "candidate": 16,
+              "delta_candidate_minus_raw": 5,
               "winner": "raw"
             },
             "mce": {
@@ -88,16 +98,16 @@
               "winner": "raw"
             },
             "accuracy_at_0_5": {
-              "raw": 0.7,
-              "candidate": 0.735,
-              "delta_candidate_minus_raw": 0.03500000000000003,
+              "raw": 0.745,
+              "candidate": 0.75,
+              "delta_candidate_minus_raw": 0.0050000000000000044,
               "winner": "candidate"
             },
             "auc": {
-              "raw": 0.7290954121948343,
-              "candidate": 0.7220191060266541,
-              "delta_candidate_minus_raw": -0.007076306168180224,
-              "winner": "raw"
+              "raw": 0.6739864864864865,
+              "candidate": 0.7546777546777547,
+              "delta_candidate_minus_raw": 0.08069126819126815,
+              "winner": "candidate"
             }
           }
         },
@@ -105,26 +115,26 @@
           "primary_wins": 2,
           "primary_losses": 2,
           "primary_ties": 0,
-          "secondary_wins": 1,
-          "secondary_losses": 2,
+          "secondary_wins": 2,
+          "secondary_losses": 1,
           "secondary_ties": 0,
           "metrics": {
             "brier": {
-              "raw": 0.20786689246268988,
-              "candidate": 0.2234081370221461,
-              "delta_candidate_minus_raw": 0.015541244559456213,
+              "raw": 0.189955769738165,
+              "candidate": 0.22154940105354967,
+              "delta_candidate_minus_raw": 0.031593631315384674,
               "winner": "raw"
             },
             "ece": {
-              "raw": 0.1544639626061719,
-              "candidate": 0.19884414490264213,
-              "delta_candidate_minus_raw": 0.04438018229647023,
+              "raw": 0.1195587124199548,
+              "candidate": 0.23728503395253742,
+              "delta_candidate_minus_raw": 0.11772632153258261,
               "winner": "raw"
             },
             "wrong_conf_ge_0_8": {
-              "raw": 31,
+              "raw": 30,
               "candidate": 0,
-              "delta_candidate_minus_raw": -31,
+              "delta_candidate_minus_raw": -30,
               "winner": "candidate"
             },
             "wrong_conf_ge_0_9": {
@@ -135,47 +145,47 @@
             },
             "mce": {
               "raw": 0.5384601989454894,
-              "candidate": 0.3063538968544165,
-              "delta_candidate_minus_raw": -0.23210630209107286,
+              "candidate": 0.33914078210031817,
+              "delta_candidate_minus_raw": -0.19931941684517118,
               "winner": "candidate"
             },
             "accuracy_at_0_5": {
-              "raw": 0.7,
-              "candidate": 0.65,
-              "delta_candidate_minus_raw": -0.04999999999999993,
+              "raw": 0.745,
+              "candidate": 0.665,
+              "delta_candidate_minus_raw": -0.07999999999999996,
               "winner": "raw"
             },
             "auc": {
-              "raw": 0.7290954121948343,
-              "candidate": 0.7220191060266541,
-              "delta_candidate_minus_raw": -0.007076306168180224,
-              "winner": "raw"
+              "raw": 0.6739864864864865,
+              "candidate": 0.7546777546777547,
+              "delta_candidate_minus_raw": 0.08069126819126815,
+              "winner": "candidate"
             }
           }
         },
         "tcl_v0_conservative_confidence": {
-          "primary_wins": 4,
-          "primary_losses": 0,
+          "primary_wins": 2,
+          "primary_losses": 2,
           "primary_ties": 0,
           "secondary_wins": 2,
           "secondary_losses": 1,
           "secondary_ties": 0,
           "metrics": {
             "brier": {
-              "raw": 0.20786689246268988,
-              "candidate": 0.19388808528779997,
-              "delta_candidate_minus_raw": -0.013978807174889918,
-              "winner": "candidate"
+              "raw": 0.189955769738165,
+              "candidate": 0.1956441095363076,
+              "delta_candidate_minus_raw": 0.005688339798142594,
+              "winner": "raw"
             },
             "ece": {
-              "raw": 0.1544639626061719,
-              "candidate": 0.14756984085991534,
-              "delta_candidate_minus_raw": -0.00689412174625656,
-              "winner": "candidate"
+              "raw": 0.1195587124199548,
+              "candidate": 0.1525698408599153,
+              "delta_candidate_minus_raw": 0.033011128439960485,
+              "winner": "raw"
             },
             "wrong_conf_ge_0_8": {
-              "raw": 31,
-              "candidate": 11,
+              "raw": 30,
+              "candidate": 10,
               "delta_candidate_minus_raw": -20,
               "winner": "candidate"
             },
@@ -192,15 +202,15 @@
               "winner": "raw"
             },
             "accuracy_at_0_5": {
-              "raw": 0.7,
-              "candidate": 0.735,
-              "delta_candidate_minus_raw": 0.03500000000000003,
+              "raw": 0.745,
+              "candidate": 0.75,
+              "delta_candidate_minus_raw": 0.0050000000000000044,
               "winner": "candidate"
             },
             "auc": {
-              "raw": 0.7290954121948343,
-              "candidate": 0.7951409364311829,
-              "delta_candidate_minus_raw": 0.06604552423634857,
+              "raw": 0.6739864864864865,
+              "candidate": 0.7833939708939709,
+              "delta_candidate_minus_raw": 0.10940748440748438,
               "winner": "candidate"
             }
           }
@@ -208,8 +218,8 @@
       }
     },
     {
-      "run_dir": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean",
-      "analysis_dir": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\analysis",
+      "run_dir": "tcl_experiments\\runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean",
+      "analysis_dir": "tcl_experiments\\runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\analysis",
       "run_id": "freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean",
       "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
       "model_key": "Qwen/Qwen2.5-0.5B-Instruct",
@@ -221,15 +231,22 @@
       "n_test": 200,
       "split_mode": "record",
       "calibration_status": "fitted_on_validation_scores",
+      "reviewed_metrics_applied": true,
       "targeted_manual_review": {
-        "status": "missing",
-        "n_candidates": null,
-        "n_reviewed": 0,
-        "n_label_changes": null,
-        "n_aggregate_interpretation_changes": null,
-        "errors": [
-          "Missing targeted_manual_review_status.json"
-        ]
+        "status": "complete",
+        "review_csv": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\targeted_manual_review_completed.csv",
+        "n_candidates": 130,
+        "n_reviewed": 130,
+        "n_label_changes": 2,
+        "n_aggregate_interpretation_changes": 2,
+        "reason_counts": {
+          "high_confidence_wrong": 20,
+          "low_confidence_incorrect_sample": 10,
+          "raw_vs_conservative_disagreement": 112,
+          "low_confidence_correct_sample": 10
+        },
+        "errors": [],
+        "claim_boundary": "This validates TCL-v0 targeted manual review only. It does not validate the full TCL theory."
       },
       "analysis_errors": [],
       "signals": {
@@ -237,50 +254,50 @@
           "primary_wins": 2,
           "primary_losses": 2,
           "primary_ties": 0,
-          "secondary_wins": 2,
-          "secondary_losses": 1,
+          "secondary_wins": 3,
+          "secondary_losses": 0,
           "secondary_ties": 0,
           "metrics": {
             "brier": {
-              "raw": 0.25457611227420285,
-              "candidate": 0.16341830020977743,
-              "delta_candidate_minus_raw": -0.09115781206442541,
+              "raw": 0.25536560673369874,
+              "candidate": 0.15544199775804748,
+              "delta_candidate_minus_raw": -0.09992360897565125,
               "winner": "candidate"
             },
             "ece": {
-              "raw": 0.35402788554176917,
-              "candidate": 0.1536514982526594,
-              "delta_candidate_minus_raw": -0.20037638728910978,
+              "raw": 0.34402788554176916,
+              "candidate": 0.1436514982526594,
+              "delta_candidate_minus_raw": -0.20037638728910975,
               "winner": "candidate"
             },
             "wrong_conf_ge_0_8": {
               "raw": 9,
-              "candidate": 12,
-              "delta_candidate_minus_raw": 3,
+              "candidate": 10,
+              "delta_candidate_minus_raw": 1,
               "winner": "raw"
             },
             "wrong_conf_ge_0_9": {
               "raw": 3,
-              "candidate": 9,
-              "delta_candidate_minus_raw": 6,
+              "candidate": 8,
+              "delta_candidate_minus_raw": 5,
               "winner": "raw"
             },
             "mce": {
               "raw": 0.5201313618499708,
-              "candidate": 0.570993645613251,
-              "delta_candidate_minus_raw": 0.05086228376328028,
-              "winner": "raw"
+              "candidate": 0.5043269789465844,
+              "delta_candidate_minus_raw": -0.01580438290338637,
+              "winner": "candidate"
             },
             "accuracy_at_0_5": {
-              "raw": 0.565,
-              "candidate": 0.815,
-              "delta_candidate_minus_raw": 0.25,
+              "raw": 0.555,
+              "candidate": 0.825,
+              "delta_candidate_minus_raw": 0.2699999999999999,
               "winner": "candidate"
             },
             "auc": {
-              "raw": 0.7655446857900845,
-              "candidate": 0.7766539545680651,
-              "delta_candidate_minus_raw": 0.011109268777980574,
+              "raw": 0.747093486223921,
+              "candidate": 0.7935977066411849,
+              "delta_candidate_minus_raw": 0.046504220417263875,
               "winner": "candidate"
             }
           }
@@ -294,21 +311,21 @@
           "secondary_ties": 0,
           "metrics": {
             "brier": {
-              "raw": 0.25457611227420285,
-              "candidate": 0.20444687482083954,
-              "delta_candidate_minus_raw": -0.05012923745336331,
+              "raw": 0.25536560673369874,
+              "candidate": 0.19918614540656743,
+              "delta_candidate_minus_raw": -0.05617946132713131,
               "winner": "candidate"
             },
             "ece": {
-              "raw": 0.35402788554176917,
-              "candidate": 0.2714525132555989,
-              "delta_candidate_minus_raw": -0.08257537228617029,
+              "raw": 0.34402788554176916,
+              "candidate": 0.26145251325559893,
+              "delta_candidate_minus_raw": -0.08257537228617023,
               "winner": "candidate"
             },
             "wrong_conf_ge_0_8": {
               "raw": 9,
-              "candidate": 3,
-              "delta_candidate_minus_raw": -6,
+              "candidate": 2,
+              "delta_candidate_minus_raw": -7,
               "winner": "candidate"
             },
             "wrong_conf_ge_0_9": {
@@ -324,15 +341,15 @@
               "winner": "candidate"
             },
             "accuracy_at_0_5": {
-              "raw": 0.565,
-              "candidate": 0.71,
-              "delta_candidate_minus_raw": 0.14500000000000002,
+              "raw": 0.555,
+              "candidate": 0.72,
+              "delta_candidate_minus_raw": 0.16499999999999992,
               "winner": "candidate"
             },
             "auc": {
-              "raw": 0.7655446857900845,
-              "candidate": 0.7766539545680651,
-              "delta_candidate_minus_raw": 0.011109268777980574,
+              "raw": 0.747093486223921,
+              "candidate": 0.7935977066411849,
+              "delta_candidate_minus_raw": 0.046504220417263875,
               "winner": "candidate"
             }
           }
@@ -346,14 +363,14 @@
           "secondary_ties": 0,
           "metrics": {
             "brier": {
-              "raw": 0.25457611227420285,
-              "candidate": 0.1311997938506461,
-              "delta_candidate_minus_raw": -0.12337631842355676,
+              "raw": 0.25536560673369874,
+              "candidate": 0.13198928831014192,
+              "delta_candidate_minus_raw": -0.12337631842355681,
               "winner": "candidate"
             },
             "ece": {
-              "raw": 0.35402788554176917,
-              "candidate": 0.10973978470490615,
+              "raw": 0.34402788554176916,
+              "candidate": 0.09973978470490615,
               "delta_candidate_minus_raw": -0.24428810083686303,
               "winner": "candidate"
             },
@@ -371,21 +388,403 @@
             },
             "mce": {
               "raw": 0.5201313618499708,
-              "candidate": 0.34002112150275154,
-              "delta_candidate_minus_raw": -0.18011024034721923,
+              "candidate": 0.29875088724566246,
+              "delta_candidate_minus_raw": -0.22138047460430832,
               "winner": "candidate"
             },
             "accuracy_at_0_5": {
-              "raw": 0.565,
-              "candidate": 0.85,
-              "delta_candidate_minus_raw": 0.28500000000000003,
+              "raw": 0.555,
+              "candidate": 0.84,
+              "delta_candidate_minus_raw": 0.2849999999999999,
               "winner": "candidate"
             },
             "auc": {
-              "raw": 0.7655446857900845,
-              "candidate": 0.7917426629083071,
-              "delta_candidate_minus_raw": 0.026197977118222582,
+              "raw": 0.747093486223921,
+              "candidate": 0.8049052396878483,
+              "delta_candidate_minus_raw": 0.05781175346392731,
               "winner": "candidate"
+            }
+          }
+        }
+      }
+    },
+    {
+      "run_dir": "tcl_experiments\\runs\\freegpu-squad1000-microsoft_Phi-3.5-mini-instruct-answermean",
+      "analysis_dir": "tcl_experiments\\runs\\freegpu-squad1000-microsoft_Phi-3.5-mini-instruct-answermean\\analysis",
+      "run_id": "freegpu-squad1000-microsoft_Phi-3.5-mini-instruct-answermean",
+      "model_name": "microsoft/Phi-3.5-mini-instruct",
+      "model_key": "microsoft/Phi-3.5-mini-instruct",
+      "model_family": "microsoft/Phi-3.5-mini-instruct",
+      "dataset": "squad_validation_1000",
+      "benchmark": "squad",
+      "hidden_state_method": "answer_mean",
+      "n_records": 1000,
+      "n_test": 200,
+      "split_mode": "record",
+      "calibration_status": "fitted_on_validation_scores",
+      "reviewed_metrics_applied": true,
+      "targeted_manual_review": {
+        "status": "complete",
+        "review_csv": "tcl_experiments\\runs\\freegpu-squad1000-microsoft_Phi-3.5-mini-instruct-answermean\\targeted_manual_review_completed.csv",
+        "n_candidates": 17,
+        "n_reviewed": 17,
+        "n_label_changes": 7,
+        "n_aggregate_interpretation_changes": 7,
+        "reason_counts": {
+          "high_confidence_wrong": 14,
+          "low_confidence_incorrect_sample": 4,
+          "raw_vs_conservative_disagreement": 7,
+          "low_confidence_correct_sample": 3
+        },
+        "errors": [],
+        "claim_boundary": "This validates TCL-v0 targeted manual review only. It does not validate the full TCL theory."
+      },
+      "analysis_errors": [],
+      "signals": {
+        "tcl_v0_probe_confidence": {
+          "primary_wins": 0,
+          "primary_losses": 4,
+          "primary_ties": 0,
+          "secondary_wins": 1,
+          "secondary_losses": 2,
+          "secondary_ties": 0,
+          "metrics": {
+            "brier": {
+              "raw": 0.029360529394794034,
+              "candidate": 0.051370239620043036,
+              "delta_candidate_minus_raw": 0.022009710225249002,
+              "winner": "raw"
+            },
+            "ece": {
+              "raw": 0.009210628035142825,
+              "candidate": 0.050047865954214454,
+              "delta_candidate_minus_raw": 0.04083723791907163,
+              "winner": "raw"
+            },
+            "wrong_conf_ge_0_8": {
+              "raw": 5,
+              "candidate": 6,
+              "delta_candidate_minus_raw": 1,
+              "winner": "raw"
+            },
+            "wrong_conf_ge_0_9": {
+              "raw": 3,
+              "candidate": 5,
+              "delta_candidate_minus_raw": 2,
+              "winner": "raw"
+            },
+            "mce": {
+              "raw": 0.3212765877289339,
+              "candidate": 0.9480647042288749,
+              "delta_candidate_minus_raw": 0.6267881164999409,
+              "winner": "raw"
+            },
+            "accuracy_at_0_5": {
+              "raw": 0.965,
+              "candidate": 0.94,
+              "delta_candidate_minus_raw": -0.025000000000000022,
+              "winner": "raw"
+            },
+            "auc": {
+              "raw": 0.7054034048852702,
+              "candidate": 0.7490747594374537,
+              "delta_candidate_minus_raw": 0.04367135455218352,
+              "winner": "candidate"
+            }
+          }
+        },
+        "tcl_v0_calibrated_confidence": {
+          "primary_wins": 2,
+          "primary_losses": 2,
+          "primary_ties": 0,
+          "secondary_wins": 1,
+          "secondary_losses": 2,
+          "secondary_ties": 0,
+          "metrics": {
+            "brier": {
+              "raw": 0.029360529394794034,
+              "candidate": 0.21633003085275426,
+              "delta_candidate_minus_raw": 0.18696950145796024,
+              "winner": "raw"
+            },
+            "ece": {
+              "raw": 0.009210628035142825,
+              "candidate": 0.39779852194673904,
+              "delta_candidate_minus_raw": 0.3885878939115962,
+              "winner": "raw"
+            },
+            "wrong_conf_ge_0_8": {
+              "raw": 5,
+              "candidate": 0,
+              "delta_candidate_minus_raw": -5,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_9": {
+              "raw": 3,
+              "candidate": 0,
+              "delta_candidate_minus_raw": -3,
+              "winner": "candidate"
+            },
+            "mce": {
+              "raw": 0.3212765877289339,
+              "candidate": 0.9152151529816814,
+              "delta_candidate_minus_raw": 0.5939385652527476,
+              "winner": "raw"
+            },
+            "accuracy_at_0_5": {
+              "raw": 0.965,
+              "candidate": 0.65,
+              "delta_candidate_minus_raw": -0.31499999999999995,
+              "winner": "raw"
+            },
+            "auc": {
+              "raw": 0.7054034048852702,
+              "candidate": 0.7490747594374537,
+              "delta_candidate_minus_raw": 0.04367135455218352,
+              "winner": "candidate"
+            }
+          }
+        },
+        "tcl_v0_conservative_confidence": {
+          "primary_wins": 2,
+          "primary_losses": 2,
+          "primary_ties": 0,
+          "secondary_wins": 1,
+          "secondary_losses": 2,
+          "secondary_ties": 0,
+          "metrics": {
+            "brier": {
+              "raw": 0.029360529394794034,
+              "candidate": 0.04643921703906897,
+              "delta_candidate_minus_raw": 0.017078687644274934,
+              "winner": "raw"
+            },
+            "ece": {
+              "raw": 0.009210628035142825,
+              "candidate": 0.040488235736664976,
+              "delta_candidate_minus_raw": 0.03127760770152215,
+              "winner": "raw"
+            },
+            "wrong_conf_ge_0_8": {
+              "raw": 5,
+              "candidate": 4,
+              "delta_candidate_minus_raw": -1,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_9": {
+              "raw": 3,
+              "candidate": 2,
+              "delta_candidate_minus_raw": -1,
+              "winner": "candidate"
+            },
+            "mce": {
+              "raw": 0.3212765877289339,
+              "candidate": 0.9480647042288749,
+              "delta_candidate_minus_raw": 0.6267881164999409,
+              "winner": "raw"
+            },
+            "accuracy_at_0_5": {
+              "raw": 0.965,
+              "candidate": 0.94,
+              "delta_candidate_minus_raw": -0.025000000000000022,
+              "winner": "raw"
+            },
+            "auc": {
+              "raw": 0.7054034048852702,
+              "candidate": 0.8068097705403405,
+              "delta_candidate_minus_raw": 0.10140636565507033,
+              "winner": "candidate"
+            }
+          }
+        }
+      }
+    },
+    {
+      "run_dir": "tcl_experiments\\runs\\freegpu-triviaqa1000-microsoft_Phi-3.5-mini-instruct-answermean",
+      "analysis_dir": "tcl_experiments\\runs\\freegpu-triviaqa1000-microsoft_Phi-3.5-mini-instruct-answermean\\analysis",
+      "run_id": "freegpu-triviaqa1000-microsoft_Phi-3.5-mini-instruct-answermean",
+      "model_name": "microsoft/Phi-3.5-mini-instruct",
+      "model_key": "microsoft/Phi-3.5-mini-instruct",
+      "model_family": "microsoft/Phi-3.5-mini-instruct",
+      "dataset": "triviaqa_rc_nocontext_validation_1000",
+      "benchmark": "triviaqa",
+      "hidden_state_method": "answer_mean",
+      "n_records": 1000,
+      "n_test": 200,
+      "split_mode": "record",
+      "calibration_status": "fitted_on_validation_scores",
+      "reviewed_metrics_applied": true,
+      "targeted_manual_review": {
+        "status": "complete",
+        "review_csv": "tcl_experiments\\runs\\freegpu-triviaqa1000-microsoft_Phi-3.5-mini-instruct-answermean\\targeted_manual_review_completed.csv",
+        "n_candidates": 116,
+        "n_reviewed": 116,
+        "n_label_changes": 6,
+        "n_aggregate_interpretation_changes": 6,
+        "reason_counts": {
+          "high_confidence_wrong": 50,
+          "low_confidence_incorrect_sample": 10,
+          "raw_vs_conservative_disagreement": 95,
+          "low_confidence_correct_sample": 10
+        },
+        "errors": [],
+        "claim_boundary": "This validates TCL-v0 targeted manual review only. It does not validate the full TCL theory."
+      },
+      "analysis_errors": [],
+      "signals": {
+        "tcl_v0_probe_confidence": {
+          "primary_wins": 4,
+          "primary_losses": 0,
+          "primary_ties": 0,
+          "secondary_wins": 1,
+          "secondary_losses": 2,
+          "secondary_ties": 0,
+          "metrics": {
+            "brier": {
+              "raw": 0.27821288223641305,
+              "candidate": 0.21166430635481792,
+              "delta_candidate_minus_raw": -0.06654857588159513,
+              "winner": "candidate"
+            },
+            "ece": {
+              "raw": 0.29685652318784694,
+              "candidate": 0.1973197726957347,
+              "delta_candidate_minus_raw": -0.09953675049211225,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_8": {
+              "raw": 42,
+              "candidate": 14,
+              "delta_candidate_minus_raw": -28,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_9": {
+              "raw": 17,
+              "candidate": 10,
+              "delta_candidate_minus_raw": -7,
+              "winner": "candidate"
+            },
+            "mce": {
+              "raw": 0.5677124346719619,
+              "candidate": 0.6954724037751225,
+              "delta_candidate_minus_raw": 0.12775996910316068,
+              "winner": "raw"
+            },
+            "accuracy_at_0_5": {
+              "raw": 0.585,
+              "candidate": 0.74,
+              "delta_candidate_minus_raw": 0.15500000000000003,
+              "winner": "candidate"
+            },
+            "auc": {
+              "raw": 0.8375608766233766,
+              "candidate": 0.8139204545454546,
+              "delta_candidate_minus_raw": -0.023640422077922052,
+              "winner": "raw"
+            }
+          }
+        },
+        "tcl_v0_calibrated_confidence": {
+          "primary_wins": 4,
+          "primary_losses": 0,
+          "primary_ties": 0,
+          "secondary_wins": 2,
+          "secondary_losses": 1,
+          "secondary_ties": 0,
+          "metrics": {
+            "brier": {
+              "raw": 0.27821288223641305,
+              "candidate": 0.17640853226376588,
+              "delta_candidate_minus_raw": -0.10180434997264717,
+              "winner": "candidate"
+            },
+            "ece": {
+              "raw": 0.29685652318784694,
+              "candidate": 0.06466933187255225,
+              "delta_candidate_minus_raw": -0.2321871913152947,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_8": {
+              "raw": 42,
+              "candidate": 3,
+              "delta_candidate_minus_raw": -39,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_9": {
+              "raw": 17,
+              "candidate": 1,
+              "delta_candidate_minus_raw": -16,
+              "winner": "candidate"
+            },
+            "mce": {
+              "raw": 0.5677124346719619,
+              "candidate": 0.21527858993647844,
+              "delta_candidate_minus_raw": -0.35243384473548345,
+              "winner": "candidate"
+            },
+            "accuracy_at_0_5": {
+              "raw": 0.585,
+              "candidate": 0.75,
+              "delta_candidate_minus_raw": 0.16500000000000004,
+              "winner": "candidate"
+            },
+            "auc": {
+              "raw": 0.8375608766233766,
+              "candidate": 0.8139204545454546,
+              "delta_candidate_minus_raw": -0.023640422077922052,
+              "winner": "raw"
+            }
+          }
+        },
+        "tcl_v0_conservative_confidence": {
+          "primary_wins": 4,
+          "primary_losses": 0,
+          "primary_ties": 0,
+          "secondary_wins": 1,
+          "secondary_losses": 2,
+          "secondary_ties": 0,
+          "metrics": {
+            "brier": {
+              "raw": 0.27821288223641305,
+              "candidate": 0.19842573260897103,
+              "delta_candidate_minus_raw": -0.07978714962744202,
+              "winner": "candidate"
+            },
+            "ece": {
+              "raw": 0.29685652318784694,
+              "candidate": 0.152007635696681,
+              "delta_candidate_minus_raw": -0.14484888749116595,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_8": {
+              "raw": 42,
+              "candidate": 9,
+              "delta_candidate_minus_raw": -33,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_9": {
+              "raw": 17,
+              "candidate": 3,
+              "delta_candidate_minus_raw": -14,
+              "winner": "candidate"
+            },
+            "mce": {
+              "raw": 0.5677124346719619,
+              "candidate": 0.6954724037751225,
+              "delta_candidate_minus_raw": 0.12775996910316068,
+              "winner": "raw"
+            },
+            "accuracy_at_0_5": {
+              "raw": 0.585,
+              "candidate": 0.74,
+              "delta_candidate_minus_raw": 0.15500000000000003,
+              "winner": "candidate"
+            },
+            "auc": {
+              "raw": 0.8375608766233766,
+              "candidate": 0.828226461038961,
+              "delta_candidate_minus_raw": -0.009334415584415612,
+              "winner": "raw"
             }
           }
         }

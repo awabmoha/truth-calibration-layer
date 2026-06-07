@@ -1,16 +1,16 @@
 # TCL-v0 Extended Validation Decision Note
 
-Decision: `incomplete`
+Decision: `mixed_continue_cautiously`
 
-The tested matrix does not yet include at least two distinct models and two benchmark types.
+Conservative TCL-v0 shows useful signal, but the win pattern is not strong enough for TCL-v1.
 
 ## Matrix Coverage
 
-- Completed runs: 2
+- Completed runs: 4
 - Benchmark types: squad, triviaqa
-- Models: Qwen/Qwen2.5-0.5B-Instruct
-- Model families: qwen
-- Matrix complete: False
+- Models: Qwen/Qwen2.5-0.5B-Instruct, microsoft/Phi-3.5-mini-instruct
+- Model families: microsoft/Phi-3.5-mini-instruct, qwen
+- Matrix complete: True
 
 ## Run-Level Results
 
@@ -19,12 +19,13 @@ The tested matrix does not yet include at least two distinct models and two benc
 - Model: `Qwen/Qwen2.5-0.5B-Instruct`
 - Benchmark: `squad`
 - Records/test: 1000 / 200
-- Analysis dir: `runs\freegpu-squad1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\analysis`
-- Targeted manual review: `missing`
-- Conservative TCL-v0 primary metrics: 4 wins, 0 losses, 0 ties vs raw
-  - brier: raw=0.207867, conservative=0.193888, winner=candidate
-  - ece: raw=0.154464, conservative=0.14757, winner=candidate
-  - wrong_conf_ge_0_8: raw=31, conservative=11, winner=candidate
+- Analysis dir: `tcl_experiments\runs\freegpu-squad1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\analysis`
+- Targeted manual review: `complete`
+- Reviewed metrics applied: `True`
+- Conservative TCL-v0 primary metrics: 2 wins, 2 losses, 0 ties vs raw
+  - brier: raw=0.189956, conservative=0.195644, winner=raw
+  - ece: raw=0.119559, conservative=0.15257, winner=raw
+  - wrong_conf_ge_0_8: raw=30, conservative=10, winner=candidate
   - wrong_conf_ge_0_9: raw=11, conservative=2, winner=candidate
 
 ### freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean
@@ -32,13 +33,42 @@ The tested matrix does not yet include at least two distinct models and two benc
 - Model: `Qwen/Qwen2.5-0.5B-Instruct`
 - Benchmark: `triviaqa`
 - Records/test: 1000 / 200
-- Analysis dir: `runs\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\analysis`
-- Targeted manual review: `missing`
+- Analysis dir: `tcl_experiments\runs\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\analysis`
+- Targeted manual review: `complete`
+- Reviewed metrics applied: `True`
 - Conservative TCL-v0 primary metrics: 4 wins, 0 losses, 0 ties vs raw
-  - brier: raw=0.254576, conservative=0.1312, winner=candidate
-  - ece: raw=0.354028, conservative=0.10974, winner=candidate
+  - brier: raw=0.255366, conservative=0.131989, winner=candidate
+  - ece: raw=0.344028, conservative=0.0997398, winner=candidate
   - wrong_conf_ge_0_8: raw=9, conservative=1, winner=candidate
   - wrong_conf_ge_0_9: raw=3, conservative=0, winner=candidate
+
+### freegpu-squad1000-microsoft_Phi-3.5-mini-instruct-answermean
+
+- Model: `microsoft/Phi-3.5-mini-instruct`
+- Benchmark: `squad`
+- Records/test: 1000 / 200
+- Analysis dir: `tcl_experiments\runs\freegpu-squad1000-microsoft_Phi-3.5-mini-instruct-answermean\analysis`
+- Targeted manual review: `complete`
+- Reviewed metrics applied: `True`
+- Conservative TCL-v0 primary metrics: 2 wins, 2 losses, 0 ties vs raw
+  - brier: raw=0.0293605, conservative=0.0464392, winner=raw
+  - ece: raw=0.00921063, conservative=0.0404882, winner=raw
+  - wrong_conf_ge_0_8: raw=5, conservative=4, winner=candidate
+  - wrong_conf_ge_0_9: raw=3, conservative=2, winner=candidate
+
+### freegpu-triviaqa1000-microsoft_Phi-3.5-mini-instruct-answermean
+
+- Model: `microsoft/Phi-3.5-mini-instruct`
+- Benchmark: `triviaqa`
+- Records/test: 1000 / 200
+- Analysis dir: `tcl_experiments\runs\freegpu-triviaqa1000-microsoft_Phi-3.5-mini-instruct-answermean\analysis`
+- Targeted manual review: `complete`
+- Reviewed metrics applied: `True`
+- Conservative TCL-v0 primary metrics: 4 wins, 0 losses, 0 ties vs raw
+  - brier: raw=0.278213, conservative=0.198426, winner=candidate
+  - ece: raw=0.296857, conservative=0.152008, winner=candidate
+  - wrong_conf_ge_0_8: raw=42, conservative=9, winner=candidate
+  - wrong_conf_ge_0_9: raw=17, conservative=3, winner=candidate
 
 ## Claim Boundary
 

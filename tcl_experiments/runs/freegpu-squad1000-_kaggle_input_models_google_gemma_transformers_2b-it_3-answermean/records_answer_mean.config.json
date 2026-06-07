@@ -1,0 +1,28 @@
+{
+  "run_id": "freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean",
+  "started_at": "2026-06-07T18:33:24.736955+00:00",
+  "model_name": "/kaggle/input/models/google/gemma/transformers/2b-it/3",
+  "dataset": "squad_validation_1000",
+  "questions": "data/benchmarks/squad/squad_validation_1000.csv",
+  "out": "/kaggle/working/truth-calibration-layer/tcl_experiments/runs/freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean/records_answer_mean.jsonl",
+  "limit": null,
+  "max_new_tokens": 12,
+  "prompt_template_name": "chat_short_factual_answer_v1",
+  "prompt_template": "Answer with only the short factual answer. Do not explain.\nQuestion: {question}\nAnswer:",
+  "context_prompt_template": "Answer with only the short answer phrase from the context. Do not explain.\nContext: {context}\nQuestion: {question}\nAnswer:",
+  "raw_confidence_method": "geometric_mean_generated_token_probability",
+  "correctness_method": "strict_answer_segment_match_v2",
+  "hidden_state_layer": -1,
+  "hidden_state_method": "answer_mean",
+  "requested_device": "cuda",
+  "requested_torch_dtype": "float16",
+  "runtime": {
+    "torch_version": "2.10.0+cu128",
+    "device": "cuda",
+    "torch_dtype": "float16",
+    "cuda_available": true,
+    "cuda_device_count": 2,
+    "cuda_device_name": "Tesla T4"
+  },
+  "note": "Smoke-test outputs are pipeline checks only unless the run is explicitly designated as an evidence run."
+}

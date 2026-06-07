@@ -30,9 +30,12 @@ Can frozen LLM hidden states predict answer correctness better than raw softmax/
 - `notebooks/` - Kaggle/Colab notebook helpers for free-GPU dry runs.
 - `TCL-v0-results-summary.md` - current diagnostic results and claim boundaries.
 - `TCL-v0-evidence-report-v1.md` - consolidated preliminary evidence report.
+- `TCL-v0-evidence-report-v2.md` - current reviewed extended-validation evidence report.
 - `TCL-v0-research-writeup.md` - short TCL-v0 method/results writeup.
 - `TCL-v0-research-writeup.docx` - generated DOCX version of the TCL-v0 writeup.
 - `TCL-v0-research-writeup.pdf` - standalone PDF version of the TCL-v0 writeup.
+- `TCL-v0-Kaggle-Phi-Run-Log.md` - Kaggle Phi-3.5 Mini run log and reviewed results.
+- `TCL-v0-Kaggle-Gemma-Run-Log.md` - Kaggle Gemma 2B-it run log and reviewed results.
 - `RELEASE_NOTES.md` - current-state note for private sharing or public-readiness review.
 - `tcl_experiments/` - scripts, datasets, benchmark prep, and diagnostic run records.
 
@@ -103,14 +106,45 @@ Current cautious interpretation:
 Frozen hidden states appear to contain useful calibration signal, but that signal must be constrained and tested more broadly.
 ```
 
+## Current Extended-Validation Checkpoint
+
+As of June 7, 2026, TCL-v0 has a reviewed free-GPU validation checkpoint across:
+
+- models: `Qwen/Qwen2.5-0.5B-Instruct`, `microsoft/Phi-3.5-mini-instruct`, and Kaggle-hosted Gemma 2B-it
+- benchmarks: SQuAD validation with context and TriviaQA `rc.nocontext`
+- scale: 1,000 examples per run, with 200 held-out test examples
+- manual review: targeted review completed for all six 1,000-example runs
+
+The original predeclared two-model stopping gate used Qwen and Phi:
+
+```text
+decision: mixed_continue_cautiously
+stopping-rule choice: continue TCL-v0 research
+```
+
+The later Gemma exploratory extension strengthened the pattern:
+
+```text
+decision: supports_continuing_tcl_v0
+```
+
+The strongest repeated finding is not that TCL-v0 wins every calibration metric in every setting. The clearest result is that conservative TCL-v0 repeatedly reduces high-confidence wrong answers, especially on open-domain TriviaQA and the Gemma runs.
+
+Current best-position statement:
+
+```text
+TCL remains a theory-stage framework, but TCL-v0 now has reviewed preliminary evidence across multiple models and benchmarks that frozen hidden-state probes can reduce dangerous overconfidence in answer correctness estimates.
+```
+
 ## Claim Boundaries
 
 What this project can currently claim:
 
 - TCL is a theoretical framework and research hypothesis.
 - TCL-v0 is an early confidence-only diagnostic prototype.
-- Initial diagnostics suggest hidden states may contain useful calibration signal.
+- Reviewed TCL-v0 diagnostics suggest hidden states contain useful calibration signal under tested QA settings.
 - Conservative TCL-v0 is the strongest current diagnostic variant in this package.
+- The most consistent practical gain is reduction of high-confidence wrong-answer counts.
 
 What this project does **not** claim:
 
@@ -119,6 +153,7 @@ What this project does **not** claim:
 - TCL solves hallucination.
 - TCL-v0 generalizes beyond the tested model and dataset.
 - The full four-dimensional TCL trust vector has been implemented.
+- TCL-v0 is ready for deployment or user-facing reliability decisions.
 
 ## Local Experiment Notes
 
@@ -150,7 +185,7 @@ Important: do not treat a successful run as full TCL validation. Each run should
 
 ## Next Step
 
-The next recommended step is a public-readiness decision. The repository is organized enough for private sharing/review now. Before making it broadly public, the safer path is to add a short release note and run, or at least pre-register, the next stronger benchmark/model experiment.
+Freeze this checkpoint, update the empirical writeup from `TCL-v0-evidence-report-v2.md`, and avoid running new experiments until the current evidence is summarized cleanly. The next experimental step should be predeclared and should likely scale the strongest setting, such as Gemma 2B-it on TriviaQA-3000, while preserving the same manual-review rules.
 
 ## Author
 

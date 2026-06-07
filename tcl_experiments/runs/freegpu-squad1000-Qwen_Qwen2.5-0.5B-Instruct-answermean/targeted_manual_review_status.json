@@ -1,0 +1,16 @@
+{
+  "status": "complete",
+  "review_csv": "runs\\freegpu-squad1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\targeted_manual_review_completed.csv",
+  "n_candidates": 83,
+  "n_reviewed": 83,
+  "n_label_changes": 9,
+  "n_aggregate_interpretation_changes": 9,
+  "reason_counts": {
+    "high_confidence_wrong": 43,
+    "low_confidence_incorrect_sample": 10,
+    "raw_vs_conservative_disagreement": 54,
+    "low_confidence_correct_sample": 10
+  },
+  "errors": [],
+  "claim_boundary": "This validates TCL-v0 targeted manual review only. It does not validate the full TCL theory."
+}
