@@ -254,6 +254,23 @@ data/benchmarks/triviaqa/*_1000*
 
 The one-command helper creates `runs/<run_id>_artifact.zip` automatically. Prefer downloading that zip, then keep the raw `runs/<run_id>/` folder too if the notebook platform makes it easy.
 
+Also update the local run tracker after each attempt:
+
+```text
+TCL-v0-Extended-Validation-Run-Tracker.csv
+```
+
+Use `status=failed` for memory/runtime failures, `status=skipped_compute_limit` for quota-limited runs, and `status=artifact_downloaded` once a zip is back on the local machine. This matters because failed and skipped runs are still evidence about whether free GPU is enough for the extended-validation plan.
+
+Validate the tracker after editing:
+
+```bash
+python scripts/validate_run_tracker.py \
+  --tracker ../TCL-v0-Extended-Validation-Run-Tracker.csv \
+  --out-json runs/run_tracker_status.json \
+  --out-md runs/RUN_TRACKER_STATUS.md
+```
+
 If you need to rebuild the zip manually, run:
 
 ```bash
@@ -284,6 +301,17 @@ python scripts/run_post_cloud_pipeline.py \
   --zip runs/<run_id_1>_artifact.zip \
   --zip runs/<run_id_2>_artifact.zip \
   --extract-dir imported_artifacts \
+  --out-dir runs/post_cloud_decision \
+  --min-records 200 \
+  --strict
+```
+
+If the artifacts were already imported or manually reviewed locally, reuse the run folders instead of extracting the zip again:
+
+```bash
+python scripts/run_post_cloud_pipeline.py \
+  --run-dir imported_artifacts/<run_id_1> \
+  --run-dir imported_artifacts/<run_id_2> \
   --out-dir runs/post_cloud_decision \
   --min-records 200 \
   --strict

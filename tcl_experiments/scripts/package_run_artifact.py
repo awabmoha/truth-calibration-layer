@@ -11,7 +11,7 @@ from pathlib import Path
 DEFAULT_INCLUDE_PATTERNS = [
     "records_*.jsonl",
     "records_*.config.json",
-    "analysis/**",
+    "analysis/**/*",
     "manual_review_all.csv",
     "targeted_manual_review_candidates.csv",
     "artifact_verification.json",

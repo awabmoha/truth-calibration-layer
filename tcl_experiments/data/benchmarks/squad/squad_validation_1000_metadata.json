@@ -1,0 +1,20 @@
+{
+  "created_at": "2026-06-07T11:32:01.945576+00:00",
+  "dataset": "rajpurkar/squad",
+  "config": "plain_text",
+  "source_split": "validation",
+  "limit_requested": 1000,
+  "examples_written": 1000,
+  "seed": 42,
+  "train_frac": 0.65,
+  "val_frac": 0.15,
+  "split_counts": {
+    "validation": 150,
+    "train": 650,
+    "test": 200
+  },
+  "questions_csv": "/kaggle/working/truth-calibration-layer/tcl_experiments/data/benchmarks/squad/squad_validation_1000.csv",
+  "splits_csv": "/kaggle/working/truth-calibration-layer/tcl_experiments/data/benchmarks/squad/squad_validation_1000_splits.csv",
+  "manual_review_csv": "/kaggle/working/truth-calibration-layer/tcl_experiments/data/benchmarks/squad/squad_validation_1000_manual_review.csv",
+  "claim_boundary": "This prepares context-grounded benchmark input data only; it does not run TCL-v0 or produce model results."
+}

@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "tracker": "TCL-v0-Extended-Validation-Run-Tracker.csv",
+  "row_count": 5,
+  "counts": {
+    "artifact_downloaded": 1,
+    "verified": 2,
+    "failed": 1,
+    "planned": 1
+  },
+  "errors": [],
+  "warnings": [],
+  "claim_boundary": "This validates the TCL-v0 execution tracker only. It does not validate the full TCL theory."
+}

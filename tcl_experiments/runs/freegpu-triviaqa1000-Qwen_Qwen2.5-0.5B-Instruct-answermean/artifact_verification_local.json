@@ -1,0 +1,230 @@
+{
+  "status": "pass",
+  "run_dir": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean",
+  "record_count": 1000,
+  "test_prediction_count": 200,
+  "files": [
+    {
+      "path": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\records_answer_mean.jsonl",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\records_answer_mean.config.json",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\analysis\\summary.json",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\analysis\\method_summary.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\analysis\\answer_mean\\metrics.json",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\analysis\\answer_mean\\test_predictions.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\analysis\\answer_mean\\raw_reliability_bins.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\analysis\\answer_mean\\tcl_v0_reliability_bins.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\analysis\\answer_mean\\tcl_v0_conservative_reliability_bins.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\analysis\\answer_mean\\tcl_v0_calibrated_reliability_bins.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\manual_review_all.csv",
+      "status": "present",
+      "required": true
+    },
+    {
+      "path": "runs\\freegpu-triviaqa1000-Qwen_Qwen2.5-0.5B-Instruct-answermean\\targeted_manual_review_candidates.csv",
+      "status": "present",
+      "required": true
+    }
+  ],
+  "methods": {
+    "answer_mean": {
+      "n_records": 1000,
+      "n_train": 650,
+      "n_validation": 150,
+      "n_test": 200,
+      "split_mode": "record",
+      "calibration_status": "fitted_on_validation_scores",
+      "comparisons": {
+        "tcl_v0_probe_confidence": {
+          "wins_vs_raw": 4,
+          "losses_vs_raw": 3,
+          "ties_vs_raw": 0,
+          "metrics": {
+            "accuracy_at_0_5": {
+              "raw": 0.565,
+              "candidate": 0.815,
+              "delta_candidate_minus_raw": 0.25,
+              "winner": "candidate"
+            },
+            "auc": {
+              "raw": 0.7655446857900845,
+              "candidate": 0.7766539545680651,
+              "delta_candidate_minus_raw": 0.011109268777980574,
+              "winner": "candidate"
+            },
+            "brier": {
+              "raw": 0.25457611227420285,
+              "candidate": 0.16341830020977743,
+              "delta_candidate_minus_raw": -0.09115781206442541,
+              "winner": "candidate"
+            },
+            "ece": {
+              "raw": 0.35402788554176917,
+              "candidate": 0.1536514982526594,
+              "delta_candidate_minus_raw": -0.20037638728910978,
+              "winner": "candidate"
+            },
+            "mce": {
+              "raw": 0.5201313618499708,
+              "candidate": 0.570993645613251,
+              "delta_candidate_minus_raw": 0.05086228376328028,
+              "winner": "raw"
+            },
+            "wrong_conf_ge_0_8": {
+              "raw": 9,
+              "candidate": 12,
+              "delta_candidate_minus_raw": 3,
+              "winner": "raw"
+            },
+            "wrong_conf_ge_0_9": {
+              "raw": 3,
+              "candidate": 9,
+              "delta_candidate_minus_raw": 6,
+              "winner": "raw"
+            }
+          }
+        },
+        "tcl_v0_conservative_confidence": {
+          "wins_vs_raw": 7,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 0,
+          "metrics": {
+            "accuracy_at_0_5": {
+              "raw": 0.565,
+              "candidate": 0.85,
+              "delta_candidate_minus_raw": 0.28500000000000003,
+              "winner": "candidate"
+            },
+            "auc": {
+              "raw": 0.7655446857900845,
+              "candidate": 0.7917426629083071,
+              "delta_candidate_minus_raw": 0.026197977118222582,
+              "winner": "candidate"
+            },
+            "brier": {
+              "raw": 0.25457611227420285,
+              "candidate": 0.1311997938506461,
+              "delta_candidate_minus_raw": -0.12337631842355676,
+              "winner": "candidate"
+            },
+            "ece": {
+              "raw": 0.35402788554176917,
+              "candidate": 0.10973978470490615,
+              "delta_candidate_minus_raw": -0.24428810083686303,
+              "winner": "candidate"
+            },
+            "mce": {
+              "raw": 0.5201313618499708,
+              "candidate": 0.34002112150275154,
+              "delta_candidate_minus_raw": -0.18011024034721923,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_8": {
+              "raw": 9,
+              "candidate": 1,
+              "delta_candidate_minus_raw": -8,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_9": {
+              "raw": 3,
+              "candidate": 0,
+              "delta_candidate_minus_raw": -3,
+              "winner": "candidate"
+            }
+          }
+        },
+        "tcl_v0_calibrated_confidence": {
+          "wins_vs_raw": 7,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 0,
+          "metrics": {
+            "accuracy_at_0_5": {
+              "raw": 0.565,
+              "candidate": 0.71,
+              "delta_candidate_minus_raw": 0.14500000000000002,
+              "winner": "candidate"
+            },
+            "auc": {
+              "raw": 0.7655446857900845,
+              "candidate": 0.7766539545680651,
+              "delta_candidate_minus_raw": 0.011109268777980574,
+              "winner": "candidate"
+            },
+            "brier": {
+              "raw": 0.25457611227420285,
+              "candidate": 0.20444687482083954,
+              "delta_candidate_minus_raw": -0.05012923745336331,
+              "winner": "candidate"
+            },
+            "ece": {
+              "raw": 0.35402788554176917,
+              "candidate": 0.2714525132555989,
+              "delta_candidate_minus_raw": -0.08257537228617029,
+              "winner": "candidate"
+            },
+            "mce": {
+              "raw": 0.5201313618499708,
+              "candidate": 0.3656600218040337,
+              "delta_candidate_minus_raw": -0.1544713400459371,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_8": {
+              "raw": 9,
+              "candidate": 3,
+              "delta_candidate_minus_raw": -6,
+              "winner": "candidate"
+            },
+            "wrong_conf_ge_0_9": {
+              "raw": 3,
+              "candidate": 0,
+              "delta_candidate_minus_raw": -3,
+              "winner": "candidate"
+            }
+          }
+        }
+      }
+    }
+  },
+  "warnings": [],
+  "errors": [],
+  "claim_boundary": "This verifies a TCL-v0 run artifact only. It does not validate the full TCL theory."
+}

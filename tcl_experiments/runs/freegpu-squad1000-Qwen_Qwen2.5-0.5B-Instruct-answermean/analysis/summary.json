@@ -1,0 +1,59 @@
+{
+  "records_path": "runs/freegpu-squad1000-Qwen_Qwen2.5-0.5B-Instruct-answermean/records_answer_mean.jsonl",
+  "out_dir": "runs/freegpu-squad1000-Qwen_Qwen2.5-0.5B-Instruct-answermean/analysis",
+  "test_size": 0.35,
+  "split_mode": "record",
+  "calibrate": true,
+  "bins": 10,
+  "metrics": [
+    {
+      "hidden_state_method": "answer_mean",
+      "analysis_timestamp": "2026-06-07T11:35:34.327963+00:00",
+      "n_records": 1000,
+      "n_train": 650,
+      "n_validation": 150,
+      "n_test": 200,
+      "split_mode": "record",
+      "calibration_status": "fitted_on_validation_scores",
+      "positive_rate_all": 0.729,
+      "raw_generation_confidence": {
+        "accuracy_at_0_5": 0.7,
+        "ece": 0.1544639626061719,
+        "mce": 0.5384601989454894,
+        "brier": 0.20786689246268988,
+        "wrong_conf_ge_0_8": 31,
+        "wrong_conf_ge_0_9": 11,
+        "auc": 0.7290954121948343
+      },
+      "tcl_v0_probe_confidence": {
+        "accuracy_at_0_5": 0.735,
+        "ece": 0.216636585862726,
+        "mce": 0.6498929182838862,
+        "brier": 0.22343796923495257,
+        "wrong_conf_ge_0_8": 23,
+        "wrong_conf_ge_0_9": 22,
+        "auc": 0.7220191060266541
+      },
+      "tcl_v0_conservative_confidence": {
+        "accuracy_at_0_5": 0.735,
+        "ece": 0.14756984085991534,
+        "mce": 0.6498929182838862,
+        "brier": 0.19388808528779997,
+        "wrong_conf_ge_0_8": 11,
+        "wrong_conf_ge_0_9": 2,
+        "auc": 0.7951409364311829
+      },
+      "tcl_v0_calibrated_confidence": {
+        "accuracy_at_0_5": 0.65,
+        "ece": 0.19884414490264213,
+        "mce": 0.3063538968544165,
+        "brier": 0.2234081370221461,
+        "wrong_conf_ge_0_8": 0,
+        "wrong_conf_ge_0_9": 0,
+        "auc": 0.7220191060266541
+      }
+    }
+  ],
+  "errors": [],
+  "claim_boundary": "These metrics are TCL-v0 probe diagnostics only. They do not validate the full TCL framework."
+}

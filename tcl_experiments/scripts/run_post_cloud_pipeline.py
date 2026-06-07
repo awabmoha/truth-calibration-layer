@@ -36,7 +36,8 @@ def import_zip(zip_path: Path, extract_dir: Path):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--zip", action="append", required=True, help="Downloaded run artifact zip. Repeatable.")
+    parser.add_argument("--zip", action="append", default=[], help="Downloaded run artifact zip. Repeatable.")
+    parser.add_argument("--run-dir", action="append", default=[], help="Already imported/reviewed run directory. Repeatable.")
     parser.add_argument("--extract-dir", default="imported_artifacts")
     parser.add_argument("--out-dir", default="runs/post_cloud_decision")
     parser.add_argument("--method", default="answer_mean")
@@ -50,12 +51,30 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
 
     run_dirs = []
+    seen_run_dirs = set()
     for zip_text in args.zip:
         zip_path = Path(zip_text)
         if not zip_path.exists():
             raise SystemExit(f"Artifact zip does not exist: {zip_path}")
         run_dir = import_zip(zip_path, extract_dir)
-        run_dirs.append(run_dir)
+        resolved = run_dir.resolve()
+        if resolved not in seen_run_dirs:
+            run_dirs.append(run_dir)
+            seen_run_dirs.add(resolved)
+
+    for run_dir_text in args.run_dir:
+        run_dir = Path(run_dir_text)
+        if not run_dir.exists():
+            raise SystemExit(f"Run directory does not exist: {run_dir}")
+        resolved = run_dir.resolve()
+        if resolved not in seen_run_dirs:
+            run_dirs.append(run_dir)
+            seen_run_dirs.add(resolved)
+
+    if not run_dirs:
+        raise SystemExit("Provide at least one --zip or --run-dir.")
+
+    for run_dir in run_dirs:
         verify_command = [
             sys.executable,
             str(SCRIPT_DIR / "verify_run_artifact.py"),
