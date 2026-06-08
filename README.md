@@ -34,6 +34,7 @@ Can frozen LLM hidden states predict answer correctness better than raw softmax/
 - `TCL-v0-evidence-report-v1.md` - consolidated preliminary evidence report.
 - `TCL-v0-evidence-report-v2.md` - current reviewed extended-validation evidence report.
 - `TCL-v0-Baseline-Checkpoint.md` - raw-only calibration baseline checkpoint for the reviewed six-run evidence.
+- `TCL-v0-to-Full-TCL-Gap.md` - explicit mapping from TCL-v0 evidence to the unvalidated full TCL architecture.
 - `TCL-v0-Roadmap.md` - next-step roadmap covering baselines, ablations, broader tasks, API cleanup, and risk controls.
 - `TCL-v0-research-writeup.md` - short TCL-v0 method/results writeup.
 - `TCL-v0-research-writeup.docx` - generated DOCX version of the TCL-v0 writeup.
@@ -148,8 +149,9 @@ TCL remains a theory-stage framework, but TCL-v0 now has reviewed preliminary ev
 What this project can currently claim:
 
 - TCL is a theoretical framework and research hypothesis.
-- TCL-v0 is an early confidence-only diagnostic prototype.
+- TCL-v0 is an early confidence-only diagnostic prototype around frozen models.
 - Reviewed TCL-v0 diagnostics suggest hidden states contain useful calibration signal under tested QA settings.
+- TCL-v0 provides empirical motivation for a future joint token-and-trust training objective.
 - Conservative TCL-v0 is the strongest current diagnostic variant in this package.
 - The most consistent practical gain is reduction of high-confidence wrong-answer counts.
 
@@ -162,6 +164,29 @@ What this project does **not** claim:
 - TCL-v0 generalizes beyond the tested model and dataset.
 - The full four-dimensional TCL trust vector has been implemented.
 - TCL-v0 is ready for deployment or user-facing reliability decisions.
+
+## Distance From Full TCL
+
+TCL-v0 is not on its own a direct validation of the full TCL architecture. It tests one supporting assumption:
+
+```text
+frozen hidden states contain answer-correctness calibration signal
+```
+
+That assumption is necessary for the broader theory to be plausible, but it is not sufficient to validate full TCL.
+
+Full TCL would require at least:
+
+- a model trained with a joint objective for next-token prediction and trust-score prediction
+- an integrated trust head or architectural module, not only an external post-hoc probe
+- multiple trust dimensions beyond answer correctness, such as reasoning validity, grounding/provenance, and epistemic uncertainty
+- comparisons against raw confidence, raw-only post-hoc calibration, and frozen-probe baselines
+
+So the current best interpretation is:
+
+```text
+TCL-v0 provides empirical motivation for TCL, not architectural validation of TCL.
+```
 
 ## Main Current Criticisms
 

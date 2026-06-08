@@ -40,6 +40,30 @@ The phrase "truth calibration" should therefore be read narrowly here:
 calibrating confidence that a generated answer is correct under a benchmark label
 ```
 
+## Gap To Full TCL
+
+TCL-v0 validates only a supporting assumption for the broader theory:
+
+```text
+frozen hidden states can contain answer-correctness calibration signal
+```
+
+It does not validate the full TCL architectural proposal.
+
+The gap is structural:
+
+- TCL-v0 uses frozen models; full TCL requires training the model with a trust objective.
+- TCL-v0 uses an external logistic probe; full TCL would require an integrated trust head or architectural module.
+- TCL-v0 tests one dimension, answer correctness; full TCL proposes a multi-dimensional trust vector.
+- TCL-v0 evaluates short-answer QA; full TCL would need broader factuality, reasoning, grounding, and uncertainty tests.
+- TCL-v0 compares post-hoc scores; full TCL must compare a jointly trained model against post-hoc calibration baselines.
+
+Therefore, this evidence should be read as empirical motivation:
+
+```text
+TCL-v0 motivates future joint token-and-trust training. It does not prove that such training works.
+```
+
 ## Method Summary
 
 Each run records:

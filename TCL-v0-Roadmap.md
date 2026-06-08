@@ -20,6 +20,32 @@ Frozen hidden states appear to contain useful answer-correctness calibration sig
 
 The current evidence supports continuing TCL-v0 research. It does not support claiming that full TCL is validated, that LLMs become truthful, or that hallucination is solved.
 
+## Bridge To Full TCL
+
+TCL-v0 is a diagnostic bridge, not the final architecture. It currently supports only one background assumption:
+
+```text
+hidden states can carry answer-correctness calibration signal
+```
+
+The future TCL architecture requires a different level of evidence:
+
+- joint training for token prediction and trust-score prediction
+- an integrated trust head or architectural module
+- more than one trust dimension
+- evaluation beyond short-answer QA
+- direct comparison against post-hoc probes and raw-only calibration baselines
+
+The bridge from TCL-v0 to full TCL should therefore be staged:
+
+1. Prove hidden-state signal survives strong raw-only baselines.
+2. Test whether the signal generalizes across datasets, prompts, and tasks.
+3. Add at least one second trust dimension, such as grounding/provenance.
+4. Implement a small jointly trained trust head on a model where GPU fine-tuning is feasible.
+5. Compare the jointly trained model against frozen-probe TCL-v0 and raw-only calibration.
+
+Only stage 4 or 5 begins to test the full TCL proposal directly.
+
 ## Milestone 1: Strengthen Baselines
 
 Goal: show whether hidden-state probing adds value beyond standard calibration.
