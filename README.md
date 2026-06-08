@@ -35,6 +35,7 @@ Can frozen LLM hidden states predict answer correctness better than raw softmax/
 - `TCL-v0-evidence-report-v2.md` - current reviewed extended-validation evidence report.
 - `TCL-v0-Baseline-Checkpoint.md` - raw-only calibration baseline checkpoint for the reviewed six-run evidence.
 - `TCL-v0-to-Full-TCL-Gap.md` - explicit mapping from TCL-v0 evidence to the unvalidated full TCL architecture.
+- `TCL-v0-Ablation-Plan.md` - predeclared next experiment for baselines, hidden-layer/pooling ablations, and raw-vs-hidden comparisons.
 - `TCL-v0-Roadmap.md` - next-step roadmap covering baselines, ablations, broader tasks, API cleanup, and risk controls.
 - `TCL-v0-research-writeup.md` - short TCL-v0 method/results writeup.
 - `TCL-v0-research-writeup.docx` - generated DOCX version of the TCL-v0 writeup.
@@ -237,7 +238,7 @@ Important: do not treat a successful run as full TCL validation. Each run should
 
 ## Next Step
 
-Freeze this checkpoint, update the empirical writeup from `TCL-v0-evidence-report-v2.md`, and follow `TCL-v0-Roadmap.md` before running more scale experiments. The next experimental step should be predeclared and should prioritize stronger baselines and ablations before simply increasing dataset size.
+Follow `TCL-v0-Ablation-Plan.md` before running any new scale experiment. The next technical checkpoint should test whether hidden-state TCL-v0 still adds value beyond raw-only calibration under layer, pooling, and feature ablations.
 
 ## Author
 

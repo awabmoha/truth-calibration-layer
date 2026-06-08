@@ -79,6 +79,12 @@ TCL-v0 is stronger only if hidden-state methods improve high-confidence error be
 
 Goal: understand what part of TCL-v0 is doing the work.
 
+The predeclared ablation checkpoint is now specified in:
+
+```text
+TCL-v0-Ablation-Plan.md
+```
+
 Planned ablations:
 
 - hidden layer choice: final layer vs earlier layers vs several layers
