@@ -93,16 +93,20 @@ def read_questions(path: Path, limit: int | None):
     return rows
 
 
-def build_prompt(tokenizer, question: str, context: str = "") -> str:
+def user_message(question: str, context: str = "") -> str:
     context = context.strip()
     if context:
-        user_content = (
+        return (
             f"Context: {context}\n"
             f"Question: {question}\n"
             "Answer with only the answer phrase from the context."
         )
-    else:
-        user_content = f"Question: {question}\nAnswer with only the answer phrase."
+    return f"Question: {question}\nAnswer with only the answer phrase."
+
+
+def build_prompt(tokenizer, question: str, context: str = "", chat_template_mode: str = "auto") -> str:
+    context = context.strip()
+    user_content = user_message(question, context)
     messages = [
         {
             "role": "system",
@@ -114,10 +118,41 @@ def build_prompt(tokenizer, question: str, context: str = "") -> str:
         },
     ]
     if getattr(tokenizer, "chat_template", None):
-        return tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        if chat_template_mode == "user_only":
+            return tokenizer.apply_chat_template(
+                [{"role": "user", "content": user_content}],
+                tokenize=False,
+                add_generation_prompt=True,
+            )
+        if chat_template_mode == "system_user":
+            return tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        try:
+            return tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        except Exception as exc:
+            if "System role not supported" not in str(exc):
+                raise
+            return tokenizer.apply_chat_template(
+                [{"role": "user", "content": user_content}],
+                tokenize=False,
+                add_generation_prompt=True,
+            )
     if context:
         return CONTEXT_PROMPT_TEMPLATE.format(context=context, question=question)
     return PROMPT_TEMPLATE.format(question=question)
+
+
+def resolve_hidden_state_layer(hidden_states, requested_layer: int, position: str) -> int:
+    if position == "index":
+        return requested_layer
+    # hidden_states usually includes embeddings at index 0 plus one entry per layer.
+    layer_count = len(hidden_states)
+    if position == "final":
+        return -1
+    if position == "middle":
+        return max(1, round((layer_count - 1) * 0.5))
+    if position == "early_middle":
+        return max(1, round((layer_count - 1) * 0.25))
+    raise ValueError(f"Unknown hidden-state layer position: {position}")
 
 
 def generation_confidence(scores, sequences, prompt_len: int) -> float:
@@ -171,7 +206,9 @@ def write_run_config(out_path: Path, args, run_id: str, started_at: str, runtime
         "raw_confidence_method": RAW_CONFIDENCE_METHOD,
         "correctness_method": CORRECTNESS_METHOD,
         "hidden_state_layer": args.hidden_state_layer,
+        "hidden_state_layer_position": args.hidden_state_layer_position,
         "hidden_state_method": args.hidden_state_method,
+        "chat_template_mode": args.chat_template_mode,
         "requested_device": args.device,
         "requested_torch_dtype": args.torch_dtype,
         "runtime": runtime,
@@ -214,6 +251,18 @@ def main():
         default=-1,
         help="Transformer layer index to extract. Default -1 means the final layer.",
     )
+    parser.add_argument(
+        "--hidden-state-layer-position",
+        choices=["index", "early_middle", "middle", "final"],
+        default="index",
+        help="Convenience layer selector. Use 'index' to honor --hidden-state-layer.",
+    )
+    parser.add_argument(
+        "--chat-template-mode",
+        choices=["auto", "system_user", "user_only"],
+        default="auto",
+        help="Chat template mode. Auto falls back to user-only for models that reject system role.",
+    )
     parser.add_argument("--run-id", default=None)
     args = parser.parse_args()
 
@@ -243,7 +292,12 @@ def main():
     with out_path.open("w", encoding="utf-8") as f:
         for row in tqdm(questions, desc="questions"):
             context = row.get("context", "").strip()
-            prompt = build_prompt(tokenizer, row["question"], context=context)
+            prompt = build_prompt(
+                tokenizer,
+                row["question"],
+                context=context,
+                chat_template_mode=args.chat_template_mode,
+            )
             inputs = tokenizer(prompt, return_tensors="pt")
             inputs = {key: value.to(device) for key, value in inputs.items()}
             prompt_len = inputs["input_ids"].shape[1]
@@ -269,11 +323,16 @@ def main():
                     output_hidden_states=True,
                     use_cache=False,
                 )
+                resolved_hidden_state_layer = resolve_hidden_state_layer(
+                    hidden_out.hidden_states,
+                    requested_layer=args.hidden_state_layer,
+                    position=args.hidden_state_layer_position,
+                )
                 hidden_vector = extract_hidden_state(
                     hidden_out.hidden_states,
                     prompt_len=prompt_len,
                     method=args.hidden_state_method,
-                    layer=args.hidden_state_layer,
+                    layer=resolved_hidden_state_layer,
                 )
 
             answer_text = row.get("answers") or row.get("accepted_answers") or ""
@@ -294,7 +353,9 @@ def main():
                 "correctness_method": CORRECTNESS_METHOD,
                 "raw_generation_confidence": conf,
                 "raw_confidence_method": RAW_CONFIDENCE_METHOD,
-                "hidden_state_layer": args.hidden_state_layer,
+                "hidden_state_layer": resolved_hidden_state_layer,
+                "hidden_state_layer_requested": args.hidden_state_layer,
+                "hidden_state_layer_position": args.hidden_state_layer_position,
                 "hidden_state_method": args.hidden_state_method,
                 "hidden_state_vector": hidden_vector.tolist(),
                 "tcl_v0_confidence": None,

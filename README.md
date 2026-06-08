@@ -36,6 +36,7 @@ Can frozen LLM hidden states predict answer correctness better than raw softmax/
 - `TCL-v0-Baseline-Checkpoint.md` - raw-only calibration baseline checkpoint for the reviewed six-run evidence.
 - `TCL-v0-to-Full-TCL-Gap.md` - explicit mapping from TCL-v0 evidence to the unvalidated full TCL architecture.
 - `TCL-v0-Ablation-Plan.md` - predeclared next experiment for baselines, hidden-layer/pooling ablations, and raw-vs-hidden comparisons.
+- `TCL-v0-Kaggle-Ablation-Runbook.md` - manual Kaggle steps for the ablation smoke test and follow-up run.
 - `TCL-v0-Roadmap.md` - next-step roadmap covering baselines, ablations, broader tasks, API cleanup, and risk controls.
 - `TCL-v0-research-writeup.md` - short TCL-v0 method/results writeup.
 - `TCL-v0-research-writeup.docx` - generated DOCX version of the TCL-v0 writeup.
