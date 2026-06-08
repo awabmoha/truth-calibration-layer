@@ -30,6 +30,16 @@ Frozen hidden states appear to contain useful answer-correctness calibration sig
 
 The evidence supports continuing TCL-v0 research. It does not justify claiming full TCL validation, model truthfulness, hallucination solving, or deployment readiness.
 
+## Scope Warning
+
+Despite the project name, this report is about confidence calibration for answer correctness in bounded QA benchmark settings. It is not evidence that TCL-v0 can detect truth in the broad sense of factuality, hallucination, reasoning validity, safety, subjective judgment, or value alignment.
+
+The phrase "truth calibration" should therefore be read narrowly here:
+
+```text
+calibrating confidence that a generated answer is correct under a benchmark label
+```
+
 ## Method Summary
 
 Each run records:
@@ -239,6 +249,43 @@ The results support the idea that hidden states carry correctness-relevant signa
 
 This supports continuing TCL-v0 research, not jumping to TCL-v1.
 
+## Critical Limitations And Risks
+
+The current evidence has important limits:
+
+- the practical work is still mostly short-answer QA correctness calibration
+- SQuAD and TriviaQA are useful starting points, but they are narrower than open-ended factuality or multi-sentence generation
+- stronger standard calibration baselines are not yet implemented, including temperature scaling, Platt scaling, isotonic regression, and learned raw-plus-probe fusion
+- the conservative rule can reduce overconfidence, but it cannot fix base-model underconfidence because it never raises confidence above the raw score
+- TCL-v0 does not change the underlying model answer or reasoning process
+- correctness labels can still be noisy, even after targeted manual review
+- the current repository is organized as a research record and experiment scaffold, not as a clean reusable library
+
+The main misuse risk is over-trust. A user could see lower high-confidence error counts and treat TCL-v0 as a hallucination fix. That would be incorrect. TCL-v0 currently reshapes confidence estimates; it does not verify truth independently.
+
+## Baseline And Ablation Gaps
+
+The strongest next critique to answer is whether hidden states add value beyond simpler calibration methods.
+
+Required next baselines:
+
+- raw generation confidence
+- temperature scaling
+- Platt/logistic calibration on raw confidence
+- isotonic regression
+- learned fusion of raw confidence and probe confidence
+- conservative fusion
+
+Required ablations:
+
+- hidden layer choice
+- hidden-state pooling method
+- probe family
+- raw-only vs hidden-only vs raw-plus-hidden features
+- conservative min vs learned fusion
+
+Until these are run, TCL-v0 should be described as promising but incomplete.
+
 ## Claim Boundaries
 
 Allowed:
@@ -265,23 +312,22 @@ Stop running new experiments until this checkpoint is frozen and summarized.
 Immediate work:
 
 - update README and result summaries
+- follow `TCL-v0-Roadmap.md`
 - keep this report as the current empirical checkpoint
 - package the project state
 - optionally commit the checkpoint
 
-Next experiment, only after documentation is clean:
+Next experiment, only after documentation and baselines are clean:
 
 ```text
-Gemma 2B-it on TriviaQA-3000
-same split rule
-same answer_mean hidden-state method
-same conservative TCL-v0 comparison
+Gemma 2B-it on TriviaQA-1000 baseline-and-ablation checkpoint
+compare raw, temperature scaling, Platt/logistic raw calibration, isotonic, hidden-state probe, and conservative fusion
 same targeted manual-review rules
 ```
 
 Reason:
 
-TriviaQA is where TCL-v0 repeatedly shows the clearest practical value, and Gemma produced the strongest reviewed exploratory signal.
+TriviaQA is where TCL-v0 repeatedly shows the clearest practical value, and Gemma produced the strongest reviewed exploratory signal. But the next useful result is not merely a bigger dataset; it is proving whether hidden-state TCL-v0 still matters after stronger baselines are included.
 
 ## Bottom Line
 

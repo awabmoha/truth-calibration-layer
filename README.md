@@ -4,6 +4,8 @@ Truth Calibration Layer is an independent research project exploring whether lan
 
 Current status: **theory-stage framework plus early TCL-v0 diagnostics**.
 
+> **Scope warning:** despite the name, TCL-v0 is not a general truth detector. In this repository, "truth calibration" currently means estimating whether a generated answer is likely correct in bounded QA benchmark settings. TCL-v0 does not verify factuality in open-ended generation, solve hallucination, or make deployment-ready reliability decisions.
+
 This repository should not be read as a completed implementation of full TCL. The main paper proposes TCL as a theoretical framework and research hypothesis. The practical work here is an early prototype direction called TCL-v0:
 
 ```text
@@ -31,6 +33,7 @@ Can frozen LLM hidden states predict answer correctness better than raw softmax/
 - `TCL-v0-results-summary.md` - current diagnostic results and claim boundaries.
 - `TCL-v0-evidence-report-v1.md` - consolidated preliminary evidence report.
 - `TCL-v0-evidence-report-v2.md` - current reviewed extended-validation evidence report.
+- `TCL-v0-Roadmap.md` - next-step roadmap covering baselines, ablations, broader tasks, API cleanup, and risk controls.
 - `TCL-v0-research-writeup.md` - short TCL-v0 method/results writeup.
 - `TCL-v0-research-writeup.docx` - generated DOCX version of the TCL-v0 writeup.
 - `TCL-v0-research-writeup.pdf` - standalone PDF version of the TCL-v0 writeup.
@@ -151,9 +154,21 @@ What this project does **not** claim:
 - TCL is validated.
 - TCL makes LLMs truthful.
 - TCL solves hallucination.
+- TCL-v0 is a general factuality, hallucination, reasoning, safety, or value-judgment verifier.
 - TCL-v0 generalizes beyond the tested model and dataset.
 - The full four-dimensional TCL trust vector has been implemented.
 - TCL-v0 is ready for deployment or user-facing reliability decisions.
+
+## Main Current Criticisms
+
+The strongest critique of the current checkpoint is not that the idea failed. It is that the evidence is still narrow:
+
+- the current practical evidence is mostly short-answer QA correctness calibration
+- stronger calibration baselines are still missing, including temperature scaling, Platt scaling, isotonic regression, and simple learned raw-plus-probe combinations
+- task diversity is limited; TCL-v0 has not yet been tested on code, multi-step reasoning, long-form factuality, adversarial prompts, or subjective/safety responses
+- the conservative rule reduces overconfidence but cannot raise confidence when the base model is underconfident
+- the repository is still closer to a research log than a reusable Python package
+- the project name can over-promise unless the scope warning is kept visible
 
 ## Local Experiment Notes
 
@@ -185,7 +200,7 @@ Important: do not treat a successful run as full TCL validation. Each run should
 
 ## Next Step
 
-Freeze this checkpoint, update the empirical writeup from `TCL-v0-evidence-report-v2.md`, and avoid running new experiments until the current evidence is summarized cleanly. The next experimental step should be predeclared and should likely scale the strongest setting, such as Gemma 2B-it on TriviaQA-3000, while preserving the same manual-review rules.
+Freeze this checkpoint, update the empirical writeup from `TCL-v0-evidence-report-v2.md`, and follow `TCL-v0-Roadmap.md` before running more scale experiments. The next experimental step should be predeclared and should prioritize stronger baselines and ablations before simply increasing dataset size.
 
 ## Author
 
