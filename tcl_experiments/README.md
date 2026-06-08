@@ -16,6 +16,18 @@ conservative TCL-v0 confidence = min(raw_generation_confidence, tcl_v0_probe_con
 
 This conservative score is used because the plain probe can become overconfident on fluent wrong answers.
 
+## Current Entry Point
+
+For the current reviewed checkpoint, start with these files before running new experiments:
+
+- `../TCL-v0-evidence-report-v2.md` - reviewed six-run evidence report.
+- `../TCL-v0-Roadmap.md` - next-step roadmap for baselines, ablations, broader tasks, and API cleanup.
+- `runs/post_cloud_decision_freegpu_qwen05/TCL-v0-EXTENDED-VALIDATION-FINAL-DECISION.md` - formal four-run Qwen/Phi gate decision.
+- `runs/post_cloud_decision_freegpu_qwen_phi_gemma/TCL-v0-EXTENDED-VALIDATION-EXPLORATORY-GEMMA-DECISION.md` - exploratory six-run Qwen/Phi/Gemma decision.
+- `scripts/run_post_cloud_pipeline.py` - current end-to-end artifact import, verification, aggregation, and decision-note pipeline.
+
+Do not treat this folder as a polished Python package yet. It is still an experiment pipeline and research record.
+
 ## What It Records
 
 For each factual question, the pipeline records:

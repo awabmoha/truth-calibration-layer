@@ -40,6 +40,7 @@ Can frozen LLM hidden states predict answer correctness better than raw softmax/
 - `TCL-v0-Kaggle-Phi-Run-Log.md` - Kaggle Phi-3.5 Mini run log and reviewed results.
 - `TCL-v0-Kaggle-Gemma-Run-Log.md` - Kaggle Gemma 2B-it run log and reviewed results.
 - `RELEASE_NOTES.md` - current-state note for private sharing or public-readiness review.
+- `requirements.txt` - root convenience file that installs `tcl_experiments/requirements.txt`.
 - `tcl_experiments/` - scripts, datasets, benchmark prep, and diagnostic run records.
 
 Older draft papers and the original one-off document builder were removed from the cleaned repository. The tracked package now keeps one canonical theory paper and one TCL-v0 empirical companion writeup.
@@ -193,6 +194,14 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
+
+From the repository root, the equivalent dependency entry point is:
+
+```powershell
+pip install -r requirements.txt
+```
+
+The root `requirements.txt` delegates to `tcl_experiments/requirements.txt`, where the experiment dependencies are maintained.
 
 The current scripts are in `tcl_experiments/scripts/`, including reproducible builders for the TCL-v0 writeup DOCX/PDF artifacts.
 

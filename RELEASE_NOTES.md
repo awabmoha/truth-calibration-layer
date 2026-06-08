@@ -1,6 +1,6 @@
 # Current State: TCL and TCL-v0
 
-Status: private/shareable research snapshot, not full TCL validation
+Status: shareable research checkpoint, not full TCL validation
 
 This repository contains two connected pieces of work:
 
@@ -19,7 +19,8 @@ The repository has been cleaned into one canonical package:
 
 - `TCL-Theory-Paper-Theoretical-Framework.docx` is the current theory paper.
 - `TCL-v0-research-writeup.md`, `.docx`, and `.pdf` are the empirical companion note.
-- `TCL-v0-evidence-report-v1.md` summarizes the current evidence.
+- `TCL-v0-evidence-report-v2.md` summarizes the reviewed extended-validation checkpoint.
+- `TCL-v0-Roadmap.md` records the next-step roadmap for baselines, ablations, generalization, API cleanup, and scope control.
 - `TCL-v0-results-summary.md` keeps the longer diagnostic history.
 - `tcl_experiments/` contains scripts, benchmark subsets, run records, and reproducible report builders.
 
@@ -27,12 +28,17 @@ Old duplicate theory drafts, the one-off JS document builder, local virtual envi
 
 ## Current Empirical Signal
 
-TCL-v0 has preliminary evidence that frozen hidden states can improve answer-confidence calibration under tested conditions.
+TCL-v0 has reviewed preliminary evidence that frozen hidden states can improve answer-confidence calibration under tested QA conditions.
 
-The current strongest local result is SQuAD-500 using two small CPU-runnable instruction models:
+As of the June 7, 2026 checkpoint, the reviewed extended-validation set includes:
 
 - `Qwen/Qwen2.5-0.5B-Instruct`
-- `HuggingFaceTB/SmolLM2-360M-Instruct`
+- `microsoft/Phi-3.5-mini-instruct`
+- Kaggle-hosted Gemma 2B-it
+- SQuAD validation with context
+- TriviaQA `rc.nocontext`
+- six 1,000-example runs, with 200 held-out test examples per run
+- targeted manual review completed for all six runs
 
 The strongest practical variant is conservative TCL-v0:
 
@@ -42,12 +48,9 @@ conservative_confidence = min(raw_generation_confidence, tcl_v0_probe_confidence
 
 This rule uses the hidden-state probe as a confidence-lowering signal, while preventing it from raising confidence above raw generation confidence.
 
-On SQuAD-500:
+The most consistent practical signal is not that TCL-v0 wins every calibration metric. The clearest repeated finding is that conservative TCL-v0 reduces high-confidence wrong-answer counts, especially on TriviaQA and the Gemma exploratory runs.
 
-- Qwen improved Brier score, threshold accuracy, AUC, and high-confidence error counts under conservative TCL-v0, while raw generation confidence still had better ECE.
-- SmolLM2 improved ECE, Brier score, threshold accuracy, AUC, and high-confidence error counts under conservative TCL-v0.
-
-TriviaQA-500 supports the same general direction across the same two models. NQ-Open was useful as a stress test but too sparse on the local CPU setup for strong conclusions.
+The formal Qwen/Phi gate decision was `mixed_continue_cautiously`. The exploratory Qwen/Phi/Gemma decision was `supports_continuing_tcl_v0`.
 
 ## What This Does Not Claim
 
@@ -56,9 +59,10 @@ This snapshot does not claim that:
 - TCL is validated.
 - TCL makes LLMs truthful.
 - TCL solves hallucination.
+- TCL-v0 is a general truth detector or factuality verifier.
 - TCL-v0 generalizes across all models, datasets, or tasks.
 - The full four-dimensional TCL trust vector has been implemented.
-- The current results are publication-grade without broader manual review and stronger compute.
+- The current results are publication-grade without stronger baselines, ablations, and broader tasks.
 
 ## Why This Is Still Useful
 
@@ -70,16 +74,15 @@ The current evidence supports continuing the research direction, especially the 
 
 The next serious experiment should be planned before running:
 
-- use larger instruction models if compute allows
-- run larger benchmark subsets
-- include one context-grounded QA benchmark and one open-domain QA benchmark
-- predeclare train/validation/test splits
-- predeclare manual-review rules
-- compare raw, probe, calibrated, and conservative confidence scores
+- add standard calibration baselines such as temperature scaling, Platt/logistic calibration, and isotonic regression
+- run ablations for hidden layer, hidden-state pooling, probe type, and fusion rule
+- compare raw-only, hidden-only, raw-plus-hidden, learned fusion, and conservative fusion
+- test at least one cross-dataset or prompt-shift setting
+- keep manual-review rules predeclared
 - report ECE, MCE, Brier score, reliability bins, accuracy, AUC, and high-confidence wrong-answer counts
 
 Until that follow-up is complete, the safest public framing is:
 
 ```text
-TCL is a theory-stage framework. TCL-v0 provides preliminary evidence that frozen hidden states can support confidence calibration under tested conditions, but it does not validate full TCL.
+TCL is a theory-stage framework. TCL-v0 provides reviewed preliminary evidence that frozen hidden states can support confidence calibration under tested QA conditions, but it does not validate full TCL.
 ```
