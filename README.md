@@ -33,6 +33,7 @@ Can frozen LLM hidden states predict answer correctness better than raw softmax/
 - `TCL-v0-results-summary.md` - current diagnostic results and claim boundaries.
 - `TCL-v0-evidence-report-v1.md` - consolidated preliminary evidence report.
 - `TCL-v0-evidence-report-v2.md` - current reviewed extended-validation evidence report.
+- `TCL-v0-Baseline-Checkpoint.md` - raw-only calibration baseline checkpoint for the reviewed six-run evidence.
 - `TCL-v0-Roadmap.md` - next-step roadmap covering baselines, ablations, broader tasks, API cleanup, and risk controls.
 - `TCL-v0-research-writeup.md` - short TCL-v0 method/results writeup.
 - `TCL-v0-research-writeup.docx` - generated DOCX version of the TCL-v0 writeup.
@@ -133,6 +134,8 @@ decision: supports_continuing_tcl_v0
 ```
 
 The strongest repeated finding is not that TCL-v0 wins every calibration metric in every setting. The clearest result is that conservative TCL-v0 repeatedly reduces high-confidence wrong answers, especially on open-domain TriviaQA and the Gemma runs.
+
+After adding raw-only calibration baselines, the interpretation is stricter: raw-only post-hoc calibration explains part of the high-confidence-error reduction. Hidden-state conservative TCL-v0 remains competitive and often improves AUC/ranking, but future claims must compare against temperature scaling, Platt/logistic raw calibration, isotonic regression, and raw-only conservative fusion.
 
 Current best-position statement:
 

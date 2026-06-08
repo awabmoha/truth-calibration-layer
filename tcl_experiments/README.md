@@ -66,6 +66,7 @@ using accuracy, expected calibration error, maximum calibration error, Brier sco
 - `scripts/make_targeted_review_csv.py` - creates the predeclared targeted manual-review candidate set.
 - `scripts/validate_targeted_review.py` - checks whether targeted manual review is complete before final decisions.
 - `scripts/recompute_reviewed_metrics.py` - recomputes test metrics after manual label review.
+- `scripts/run_raw_calibration_baselines.py` - fits raw-only calibration baselines and compares them with hidden-state TCL-v0 outputs.
 - `scripts/verify_run_artifact.py` - checks returned run artifacts before interpreting TCL-v0 metrics.
 - `scripts/package_run_artifact.py` - zips a verified run folder plus benchmark metadata for download.
 - `scripts/import_run_artifact.py` - safely unpacks a downloaded run artifact and reruns verification locally.

@@ -33,6 +33,16 @@ Add baselines:
 - learned fusion of raw confidence and probe confidence
 - conservative fusion: `min(raw_generation_confidence, tcl_v0_probe_confidence)`
 
+Critical first comparison:
+
+```text
+min(raw_generation_confidence, hidden_state_probe_confidence)
+vs
+min(raw_generation_confidence, raw_only_calibrated_confidence)
+```
+
+If the raw-only conservative baseline matches hidden-state conservative TCL-v0, the hidden state is not yet carrying the claimed extra load. In that case the result should be framed as ordinary post-hoc calibration, not hidden-state truth calibration.
+
 Decision rule:
 
 ```text

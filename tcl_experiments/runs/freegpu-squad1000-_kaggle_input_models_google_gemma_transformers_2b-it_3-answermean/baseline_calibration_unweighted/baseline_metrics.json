@@ -1,0 +1,476 @@
+{
+  "created_at": "2026-06-08T17:07:18.325684+00:00",
+  "run_dir": "tcl_experiments\\runs\\freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean",
+  "records_path": "tcl_experiments\\runs\\freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\records_answer_mean.jsonl",
+  "predictions_path": "tcl_experiments\\runs\\freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\reviewed_test_predictions.csv",
+  "out_dir": "tcl_experiments\\runs\\freegpu-squad1000-_kaggle_input_models_google_gemma_transformers_2b-it_3-answermean\\baseline_calibration_unweighted",
+  "method": "answer_mean",
+  "bins": 10,
+  "calibration_split": "validation",
+  "calibration_size": 150,
+  "calibration_positive_count": 95,
+  "calibration_positive_rate": 0.6333333333333333,
+  "weighted_calibrators": false,
+  "temperature_scaling": {
+    "status": "fitted",
+    "temperature": 4.073802778041126,
+    "weighted": false,
+    "objective": "nll",
+    "fit_nll": 0.6506530185358431
+  },
+  "platt": {
+    "status": "fitted",
+    "input": "raw_generation_confidence",
+    "class_weight": null,
+    "implementation": "local_numpy_1d_logistic_regression",
+    "coef": 0.7925794214688878,
+    "intercept": -0.15877520870735812,
+    "l2": 0.0001,
+    "max_iter": 5000
+  },
+  "isotonic": {
+    "status": "fitted",
+    "input": "raw_generation_confidence",
+    "sample_weight": null,
+    "implementation": "local_numpy_pava",
+    "n_blocks": 14
+  },
+  "signals": {
+    "raw_generation_confidence": {
+      "accuracy_at_0_5": 0.66,
+      "ece": 0.23897863108403392,
+      "mce": 0.31789896156341446,
+      "brier": 0.2810621643240196,
+      "wrong_conf_ge_0_8": 62,
+      "wrong_conf_ge_0_9": 33,
+      "auc": 0.5344251336898396
+    },
+    "raw_temperature_scaled_confidence": {
+      "accuracy_at_0_5": 0.66,
+      "ece": 0.02166070277790361,
+      "mce": 0.18357349771943343,
+      "brier": 0.22229097571398296,
+      "wrong_conf_ge_0_8": 0,
+      "wrong_conf_ge_0_9": 0,
+      "auc": 0.5344251336898396
+    },
+    "raw_platt_confidence": {
+      "accuracy_at_0_5": 0.66,
+      "ece": 0.025662462293860523,
+      "mce": 0.40568221469327115,
+      "brier": 0.22463751198481335,
+      "wrong_conf_ge_0_8": 0,
+      "wrong_conf_ge_0_9": 0,
+      "auc": 0.5344251336898396
+    },
+    "raw_isotonic_confidence": {
+      "accuracy_at_0_5": 0.65,
+      "ece": 0.050653846153846195,
+      "mce": 1.0,
+      "brier": 0.23108909551986476,
+      "wrong_conf_ge_0_8": 5,
+      "wrong_conf_ge_0_9": 3,
+      "auc": 0.5516377005347594
+    },
+    "raw_platt_conservative_confidence": {
+      "accuracy_at_0_5": 0.66,
+      "ece": 0.025662462293860523,
+      "mce": 0.40568221469327115,
+      "brier": 0.22463751198481335,
+      "wrong_conf_ge_0_8": 0,
+      "wrong_conf_ge_0_9": 0,
+      "auc": 0.5344251336898396
+    },
+    "raw_isotonic_conservative_confidence": {
+      "accuracy_at_0_5": 0.65,
+      "ece": 0.049463909881083866,
+      "mce": 1.0,
+      "brier": 0.23065389941099682,
+      "wrong_conf_ge_0_8": 5,
+      "wrong_conf_ge_0_9": 3,
+      "auc": 0.5526403743315508
+    },
+    "tcl_v0_probe_confidence": {
+      "accuracy_at_0_5": 0.835,
+      "ece": 0.14201906166767625,
+      "mce": 0.5901339396162274,
+      "brier": 0.13673953373771142,
+      "wrong_conf_ge_0_8": 12,
+      "wrong_conf_ge_0_9": 11,
+      "auc": 0.9004010695187166
+    },
+    "tcl_v0_conservative_confidence": {
+      "accuracy_at_0_5": 0.835,
+      "ece": 0.12112506752930503,
+      "mce": 0.5901339396162274,
+      "brier": 0.13415980894089724,
+      "wrong_conf_ge_0_8": 10,
+      "wrong_conf_ge_0_9": 5,
+      "auc": 0.8830213903743316
+    },
+    "tcl_v0_calibrated_confidence": {
+      "accuracy_at_0_5": 0.8,
+      "ece": 0.11713384851549681,
+      "mce": 0.4607477671767623,
+      "brier": 0.12587061111437783,
+      "wrong_conf_ge_0_8": 5,
+      "wrong_conf_ge_0_9": 1,
+      "auc": 0.9004010695187166
+    }
+  },
+  "comparisons_vs_raw": {
+    "raw_temperature_scaled_confidence": {
+      "accuracy_at_0_5": {
+        "raw": 0.66,
+        "candidate": 0.66,
+        "delta_positive_favors_candidate": 0.0,
+        "winner": "tie"
+      },
+      "ece": {
+        "raw": 0.23897863108403392,
+        "candidate": 0.02166070277790361,
+        "delta_positive_favors_candidate": 0.2173179283061303,
+        "winner": "candidate"
+      },
+      "mce": {
+        "raw": 0.31789896156341446,
+        "candidate": 0.18357349771943343,
+        "delta_positive_favors_candidate": 0.13432546384398103,
+        "winner": "candidate"
+      },
+      "brier": {
+        "raw": 0.2810621643240196,
+        "candidate": 0.22229097571398296,
+        "delta_positive_favors_candidate": 0.058771188610036634,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_8": {
+        "raw": 62,
+        "candidate": 0,
+        "delta_positive_favors_candidate": 62,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_9": {
+        "raw": 33,
+        "candidate": 0,
+        "delta_positive_favors_candidate": 33,
+        "winner": "candidate"
+      },
+      "auc": {
+        "raw": 0.5344251336898396,
+        "candidate": 0.5344251336898396,
+        "delta_positive_favors_candidate": 0.0,
+        "winner": "tie"
+      }
+    },
+    "raw_platt_confidence": {
+      "accuracy_at_0_5": {
+        "raw": 0.66,
+        "candidate": 0.66,
+        "delta_positive_favors_candidate": 0.0,
+        "winner": "tie"
+      },
+      "ece": {
+        "raw": 0.23897863108403392,
+        "candidate": 0.025662462293860523,
+        "delta_positive_favors_candidate": 0.2133161687901734,
+        "winner": "candidate"
+      },
+      "mce": {
+        "raw": 0.31789896156341446,
+        "candidate": 0.40568221469327115,
+        "delta_positive_favors_candidate": -0.08778325312985669,
+        "winner": "raw"
+      },
+      "brier": {
+        "raw": 0.2810621643240196,
+        "candidate": 0.22463751198481335,
+        "delta_positive_favors_candidate": 0.05642465233920624,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_8": {
+        "raw": 62,
+        "candidate": 0,
+        "delta_positive_favors_candidate": 62,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_9": {
+        "raw": 33,
+        "candidate": 0,
+        "delta_positive_favors_candidate": 33,
+        "winner": "candidate"
+      },
+      "auc": {
+        "raw": 0.5344251336898396,
+        "candidate": 0.5344251336898396,
+        "delta_positive_favors_candidate": 0.0,
+        "winner": "tie"
+      }
+    },
+    "raw_isotonic_confidence": {
+      "accuracy_at_0_5": {
+        "raw": 0.66,
+        "candidate": 0.65,
+        "delta_positive_favors_candidate": -0.010000000000000009,
+        "winner": "raw"
+      },
+      "ece": {
+        "raw": 0.23897863108403392,
+        "candidate": 0.050653846153846195,
+        "delta_positive_favors_candidate": 0.18832478493018773,
+        "winner": "candidate"
+      },
+      "mce": {
+        "raw": 0.31789896156341446,
+        "candidate": 1.0,
+        "delta_positive_favors_candidate": -0.6821010384365855,
+        "winner": "raw"
+      },
+      "brier": {
+        "raw": 0.2810621643240196,
+        "candidate": 0.23108909551986476,
+        "delta_positive_favors_candidate": 0.049973068804154835,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_8": {
+        "raw": 62,
+        "candidate": 5,
+        "delta_positive_favors_candidate": 57,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_9": {
+        "raw": 33,
+        "candidate": 3,
+        "delta_positive_favors_candidate": 30,
+        "winner": "candidate"
+      },
+      "auc": {
+        "raw": 0.5344251336898396,
+        "candidate": 0.5516377005347594,
+        "delta_positive_favors_candidate": 0.017212566844919786,
+        "winner": "candidate"
+      }
+    },
+    "raw_platt_conservative_confidence": {
+      "accuracy_at_0_5": {
+        "raw": 0.66,
+        "candidate": 0.66,
+        "delta_positive_favors_candidate": 0.0,
+        "winner": "tie"
+      },
+      "ece": {
+        "raw": 0.23897863108403392,
+        "candidate": 0.025662462293860523,
+        "delta_positive_favors_candidate": 0.2133161687901734,
+        "winner": "candidate"
+      },
+      "mce": {
+        "raw": 0.31789896156341446,
+        "candidate": 0.40568221469327115,
+        "delta_positive_favors_candidate": -0.08778325312985669,
+        "winner": "raw"
+      },
+      "brier": {
+        "raw": 0.2810621643240196,
+        "candidate": 0.22463751198481335,
+        "delta_positive_favors_candidate": 0.05642465233920624,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_8": {
+        "raw": 62,
+        "candidate": 0,
+        "delta_positive_favors_candidate": 62,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_9": {
+        "raw": 33,
+        "candidate": 0,
+        "delta_positive_favors_candidate": 33,
+        "winner": "candidate"
+      },
+      "auc": {
+        "raw": 0.5344251336898396,
+        "candidate": 0.5344251336898396,
+        "delta_positive_favors_candidate": 0.0,
+        "winner": "tie"
+      }
+    },
+    "raw_isotonic_conservative_confidence": {
+      "accuracy_at_0_5": {
+        "raw": 0.66,
+        "candidate": 0.65,
+        "delta_positive_favors_candidate": -0.010000000000000009,
+        "winner": "raw"
+      },
+      "ece": {
+        "raw": 0.23897863108403392,
+        "candidate": 0.049463909881083866,
+        "delta_positive_favors_candidate": 0.18951472120295004,
+        "winner": "candidate"
+      },
+      "mce": {
+        "raw": 0.31789896156341446,
+        "candidate": 1.0,
+        "delta_positive_favors_candidate": -0.6821010384365855,
+        "winner": "raw"
+      },
+      "brier": {
+        "raw": 0.2810621643240196,
+        "candidate": 0.23065389941099682,
+        "delta_positive_favors_candidate": 0.05040826491302278,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_8": {
+        "raw": 62,
+        "candidate": 5,
+        "delta_positive_favors_candidate": 57,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_9": {
+        "raw": 33,
+        "candidate": 3,
+        "delta_positive_favors_candidate": 30,
+        "winner": "candidate"
+      },
+      "auc": {
+        "raw": 0.5344251336898396,
+        "candidate": 0.5526403743315508,
+        "delta_positive_favors_candidate": 0.018215240641711206,
+        "winner": "candidate"
+      }
+    },
+    "tcl_v0_probe_confidence": {
+      "accuracy_at_0_5": {
+        "raw": 0.66,
+        "candidate": 0.835,
+        "delta_positive_favors_candidate": 0.17499999999999993,
+        "winner": "candidate"
+      },
+      "ece": {
+        "raw": 0.23897863108403392,
+        "candidate": 0.14201906166767625,
+        "delta_positive_favors_candidate": 0.09695956941635767,
+        "winner": "candidate"
+      },
+      "mce": {
+        "raw": 0.31789896156341446,
+        "candidate": 0.5901339396162274,
+        "delta_positive_favors_candidate": -0.27223497805281294,
+        "winner": "raw"
+      },
+      "brier": {
+        "raw": 0.2810621643240196,
+        "candidate": 0.13673953373771142,
+        "delta_positive_favors_candidate": 0.14432263058630818,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_8": {
+        "raw": 62,
+        "candidate": 12,
+        "delta_positive_favors_candidate": 50,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_9": {
+        "raw": 33,
+        "candidate": 11,
+        "delta_positive_favors_candidate": 22,
+        "winner": "candidate"
+      },
+      "auc": {
+        "raw": 0.5344251336898396,
+        "candidate": 0.9004010695187166,
+        "delta_positive_favors_candidate": 0.365975935828877,
+        "winner": "candidate"
+      }
+    },
+    "tcl_v0_conservative_confidence": {
+      "accuracy_at_0_5": {
+        "raw": 0.66,
+        "candidate": 0.835,
+        "delta_positive_favors_candidate": 0.17499999999999993,
+        "winner": "candidate"
+      },
+      "ece": {
+        "raw": 0.23897863108403392,
+        "candidate": 0.12112506752930503,
+        "delta_positive_favors_candidate": 0.11785356355472888,
+        "winner": "candidate"
+      },
+      "mce": {
+        "raw": 0.31789896156341446,
+        "candidate": 0.5901339396162274,
+        "delta_positive_favors_candidate": -0.27223497805281294,
+        "winner": "raw"
+      },
+      "brier": {
+        "raw": 0.2810621643240196,
+        "candidate": 0.13415980894089724,
+        "delta_positive_favors_candidate": 0.14690235538312235,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_8": {
+        "raw": 62,
+        "candidate": 10,
+        "delta_positive_favors_candidate": 52,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_9": {
+        "raw": 33,
+        "candidate": 5,
+        "delta_positive_favors_candidate": 28,
+        "winner": "candidate"
+      },
+      "auc": {
+        "raw": 0.5344251336898396,
+        "candidate": 0.8830213903743316,
+        "delta_positive_favors_candidate": 0.348596256684492,
+        "winner": "candidate"
+      }
+    },
+    "tcl_v0_calibrated_confidence": {
+      "accuracy_at_0_5": {
+        "raw": 0.66,
+        "candidate": 0.8,
+        "delta_positive_favors_candidate": 0.14,
+        "winner": "candidate"
+      },
+      "ece": {
+        "raw": 0.23897863108403392,
+        "candidate": 0.11713384851549681,
+        "delta_positive_favors_candidate": 0.1218447825685371,
+        "winner": "candidate"
+      },
+      "mce": {
+        "raw": 0.31789896156341446,
+        "candidate": 0.4607477671767623,
+        "delta_positive_favors_candidate": -0.14284880561334784,
+        "winner": "raw"
+      },
+      "brier": {
+        "raw": 0.2810621643240196,
+        "candidate": 0.12587061111437783,
+        "delta_positive_favors_candidate": 0.15519155320964176,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_8": {
+        "raw": 62,
+        "candidate": 5,
+        "delta_positive_favors_candidate": 57,
+        "winner": "candidate"
+      },
+      "wrong_conf_ge_0_9": {
+        "raw": 33,
+        "candidate": 1,
+        "delta_positive_favors_candidate": 32,
+        "winner": "candidate"
+      },
+      "auc": {
+        "raw": 0.5344251336898396,
+        "candidate": 0.9004010695187166,
+        "delta_positive_favors_candidate": 0.365975935828877,
+        "winner": "candidate"
+      }
+    }
+  },
+  "claim_boundary": "Raw-only baseline metrics for TCL-v0 diagnostics. These do not validate full TCL."
+}

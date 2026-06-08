@@ -265,7 +265,7 @@ The main misuse risk is over-trust. A user could see lower high-confidence error
 
 ## Baseline And Ablation Gaps
 
-The strongest next critique to answer is whether hidden states add value beyond simpler calibration methods.
+The strongest next critique to answer is whether hidden states add value beyond simpler calibration methods. A first CPU-only baseline checkpoint has now been added in `TCL-v0-Baseline-Checkpoint.md`.
 
 Required next baselines:
 
@@ -284,7 +284,9 @@ Required ablations:
 - raw-only vs hidden-only vs raw-plus-hidden features
 - conservative min vs learned fusion
 
-Until these are run, TCL-v0 should be described as promising but incomplete.
+Initial baseline result: raw-only calibration explains a meaningful part of the earlier high-confidence-error reductions. Hidden-state TCL-v0 remains competitive, especially on AUC/ranking and several Brier comparisons, but high-confidence-error reduction alone is no longer enough evidence for hidden-state-specific calibration gains.
+
+Until broader ablations are run, TCL-v0 should be described as promising but incomplete.
 
 ## Claim Boundaries
 
