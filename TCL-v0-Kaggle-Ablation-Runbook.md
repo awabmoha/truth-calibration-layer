@@ -25,7 +25,7 @@ Recommended first target:
 ```text
 model: /kaggle/input/models/google/gemma/transformers/2b-it/3
 benchmark: TriviaQA rc.nocontext
-size: 50 examples smoke test
+size: 100 examples smoke test
 ```
 
 Do not start with 1,000 examples. First prove the ablation code runs end to end.
@@ -88,7 +88,7 @@ data/benchmarks/triviaqa/triviaqa_rc_nocontext_validation_1000.csv
 data/benchmarks/triviaqa/triviaqa_rc_nocontext_validation_1000_splits.csv
 ```
 
-## Step 5: Run 50-Example Ablation Smoke Test
+## Step 5: Run 100-Example Ablation Smoke Test
 
 For Kaggle-hosted Gemma 2B-it:
 
@@ -97,8 +97,8 @@ export MODEL="/kaggle/input/models/google/gemma/transformers/2b-it/3"
 export DATASET="triviaqa_rc_nocontext_validation_1000"
 export QUESTIONS="data/benchmarks/triviaqa/triviaqa_rc_nocontext_validation_1000.csv"
 export SPLITS="data/benchmarks/triviaqa/triviaqa_rc_nocontext_validation_1000_splits.csv"
-export RUN_PREFIX="ablation-smoke-gemma-triviaqa50"
-export LIMIT=50
+export RUN_PREFIX="ablation-smoke-gemma-triviaqa100"
+export LIMIT=100
 export DEVICE="auto"
 export DTYPE="auto"
 
@@ -108,7 +108,7 @@ bash scripts/run_free_gpu_ablation_smoke.sh
 Expected output folder:
 
 ```text
-runs/ablation-smoke-gemma-triviaqa50-ablation_summary/
+runs/ablation-smoke-gemma-triviaqa100-ablation_summary/
 ```
 
 Key files:
@@ -124,21 +124,32 @@ test_predictions/
 Before closing Kaggle, save:
 
 ```text
-runs/ablation-smoke-gemma-triviaqa50-ablation_summary/
-runs/ablation-smoke-gemma-triviaqa50-*/
+runs/ablation-smoke-gemma-triviaqa100-ablation_summary/
+runs/ablation-smoke-gemma-triviaqa100-*/
 ```
 
 If possible, zip them:
 
 ```bash
-zip -r runs/ablation-smoke-gemma-triviaqa50_artifact.zip \
-  runs/ablation-smoke-gemma-triviaqa50-ablation_summary \
-  runs/ablation-smoke-gemma-triviaqa50-*
+zip -r runs/ablation-smoke-gemma-triviaqa100_artifact.zip \
+  runs/ablation-smoke-gemma-triviaqa100-ablation_summary \
+  runs/ablation-smoke-gemma-triviaqa100-*
 ```
 
 Download the zip and give it back to Codex.
 
-## Step 7: Only If Smoke Test Works
+## Step 7: Interpret Smoke Test
+
+The smoke test is successful if:
+
+- all 9 run folders are created
+- `ablation_metrics.json` exists
+- `ablation_summary.csv` has rows
+- the JSON `errors` list is empty
+
+If the test split has only one class, the smoke test can still prove the pipeline runs, but it is not evidence. In that case, run a larger smoke test with `LIMIT=200` before the 1,000-example run.
+
+## Step 8: Only If Smoke Test Works
 
 Run the same ablation with:
 
@@ -175,14 +186,20 @@ Send Codex:
 - the artifact zip if available
 - any traceback if a cell fails
 
+For the updated default smoke test, the artifact path is:
+
+```text
+runs/ablation-smoke-gemma-triviaqa100_artifact.zip
+```
+
 ## Stop Conditions
 
 Stop and send the error if:
 
 - the model cannot load
-- train/validation/test has only one class
+- train or validation has only one class
 - any ablation run produces empty generations
 - CUDA runs out of memory
-- the 50-example smoke test takes too long
+- the smoke test takes too long
 
-Do not run the 1,000-example ablation until the 50-example smoke test completes successfully.
+Do not run the 1,000-example ablation until the smoke test completes successfully.

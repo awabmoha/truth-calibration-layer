@@ -11,7 +11,7 @@ set -euo pipefail
 #
 # Optional:
 #   RUN_PREFIX  Output prefix under runs/.
-#   LIMIT       Number of examples for smoke test, default 50.
+#   LIMIT       Number of examples for smoke test, default 100.
 #   DEVICE      auto/cuda/cpu, default auto.
 #   DTYPE       auto/float16/bfloat16/float32, default auto.
 
@@ -20,7 +20,7 @@ QUESTIONS="${QUESTIONS:?Set QUESTIONS to the benchmark CSV path.}"
 SPLITS="${SPLITS:?Set SPLITS to the split CSV path.}"
 DATASET="${DATASET:?Set DATASET to the dataset label.}"
 RUN_PREFIX="${RUN_PREFIX:-ablation-smoke}"
-LIMIT="${LIMIT:-50}"
+LIMIT="${LIMIT:-100}"
 DEVICE="${DEVICE:-auto}"
 DTYPE="${DTYPE:-auto}"
 

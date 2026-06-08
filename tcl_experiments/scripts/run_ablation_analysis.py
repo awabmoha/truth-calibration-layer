@@ -72,8 +72,8 @@ def evaluate_group(records: list[dict], method: str, layer: str, bins: int, spli
         raise ValueError(f"Need at least 2 classes for {method}/layer={layer}.")
 
     train_idx, val_idx, test_idx = split_indices(records, y, test_size=0.35, split_mode=split_mode)
-    if len(set(y[train_idx].tolist())) < 2 or len(set(y[test_idx].tolist())) < 2:
-        raise ValueError(f"Train/test split lacks two classes for {method}/layer={layer}.")
+    if len(set(y[train_idx].tolist())) < 2:
+        raise ValueError(f"Train split lacks two classes for {method}/layer={layer}.")
 
     class_weight = "balanced" if weighted else None
     y_test = y[test_idx]
@@ -160,6 +160,7 @@ def evaluate_group(records: list[dict], method: str, layer: str, bins: int, spli
         "n_test": int(len(test_idx)),
         "positive_rate_all": float(y.mean()),
         "positive_rate_test": float(y_test.mean()),
+        "test_has_two_classes": bool(len(set(y_test.tolist())) >= 2),
         "split_mode": split_mode,
         "weighted": weighted,
         "calibration_split": calibration_split,
@@ -205,6 +206,7 @@ def flatten_summary(report: dict) -> list[dict]:
                 "n_validation": result["n_validation"],
                 "n_test": result["n_test"],
                 "positive_rate_test": result["positive_rate_test"],
+                "test_has_two_classes": result["test_has_two_classes"],
                 "weighted": result["weighted"],
                 "feature_count": result["feature_count"],
                 "p_greater_than_n_train": result["p_greater_than_n_train"],
