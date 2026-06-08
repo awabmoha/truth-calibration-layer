@@ -2,8 +2,8 @@
 
 **Author:** Awab Mohamed  
 **Project:** Truth Calibration Layer (TCL)  
-**Status:** Reviewed TCL-v0 empirical note; not full TCL validation  
-**Checkpoint:** v0.1.1 raw-baseline checkpoint  
+**Status:** Reviewed TCL-v0 empirical note; not full TCL validation
+**Checkpoint:** v0.1.1 raw-baseline checkpoint
 
 ## Abstract
 
