@@ -51,13 +51,12 @@ conservative_confidence = min(raw_generation_confidence, hidden_state_probe_conf
 | Gemma SQuAD-1000 | 62 | 10 |
 | Gemma TriviaQA-1000 | 76 | 10 |
 
-```mermaid
-xychart-beta
-    title "High-Confidence Wrong Answers (confidence >= 0.8)"
-    x-axis ["Qwen SQuAD", "Qwen TriviaQA", "Phi SQuAD", "Phi TriviaQA", "Gemma SQuAD", "Gemma TriviaQA"]
-    y-axis "Wrong answers" 0 --> 80
-    bar "Raw confidence" [30, 9, 5, 42, 62, 76]
-    bar "Conservative TCL-v0" [10, 1, 4, 9, 10, 10]
+Summary across these six reviewed runs:
+
+```text
+Raw high-confidence wrong answers:                 224
+Conservative TCL-v0 high-confidence wrong answers: 44
+Reduction:                                         180 fewer cases
 ```
 
 After adding stronger raw-only calibration baselines, the interpretation becomes stricter:
