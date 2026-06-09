@@ -231,7 +231,7 @@ After this checkpoint, write one decision note with one of:
 
 ## Kaggle Execution Checklist
 
-Before running:
+Pre-run requirements:
 
 - confirm GPU is enabled
 - confirm the model path or Hugging Face access works
@@ -240,15 +240,15 @@ Before running:
 - run one 50-example smoke test
 - confirm both correct and incorrect labels exist in train, validation, and test
 
-During running:
+Execution requirements:
 
 - save records JSONL
 - save test predictions
 - save baseline calibration outputs
 - save ablation summaries
-- package artifacts before closing the session
+- package artifacts before the notebook session is terminated
 
-After running:
+Post-run artifact handling:
 
 - import artifacts locally
 - verify artifact manifests

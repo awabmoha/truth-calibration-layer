@@ -1,24 +1,24 @@
 # TCL-v0 Free GPU Runbook
 
-Status: execution guide for Colab/Kaggle dry runs
+Status: reproducible execution protocol for Colab/Kaggle dry runs.
 
-This runbook explains how to try TCL-v0 Extended Validation on free GPU platforms before paying for cloud compute. Free GPU should be treated as an execution test and possibly a modest validation run, not guaranteed full extended validation.
+This runbook defines a free-GPU protocol for TCL-v0 extended-validation dry runs before paid cloud compute is considered. Free GPU should be treated as an execution test and, where stable, a modest validation environment. It should not be assumed sufficient for the full extended-validation matrix.
 
 ## 1. Free GPU Options
 
 Current recommendation:
 
 ```text
-Use Kaggle Notebooks first. Use Google Colab Free as fallback.
+Kaggle Notebooks first. Google Colab Free as fallback.
 ```
 
 Reason:
 
-Kaggle is better for a reproducible run with saved notebook artifacts. Colab Free is useful for quick checks, but its free GPU access is more variable and less guaranteed.
+Kaggle is better suited to reproducible notebook runs with saved artifacts. Colab Free is useful for quick checks, but free GPU access is more variable and less guaranteed.
 
 ### Google Colab Free
 
-Use for:
+Appropriate uses:
 
 - quick GPU pipeline checks
 - SQuAD-200 or SQuAD-1000 dry runs
@@ -33,7 +33,7 @@ Limitations:
 
 ### Kaggle Notebooks
 
-Use for:
+Appropriate uses:
 
 - more structured free notebook runs
 - saving outputs as notebook artifacts
@@ -64,19 +64,19 @@ Recommended dry-run matrix:
 - device: CUDA
 - dtype: float16
 
-Do not start with the full two-benchmark, two-model matrix on free GPU. First prove that the cloud notebook can finish one clean SQuAD run and preserve outputs, then add TriviaQA as the open-domain stress test.
+The full two-benchmark, two-model matrix should not be started immediately on free GPU. The first requirement is one clean SQuAD run with preserved outputs; TriviaQA can then be added as the open-domain stress test.
 
 ## 3. Colab/Kaggle Setup Commands
 
 Recommended path:
 
 ```text
-Open notebooks/tcl_v0_kaggle_free_gpu_dry_run.ipynb in Kaggle first.
+Open `notebooks/tcl_v0_kaggle_free_gpu_dry_run.ipynb` in Kaggle first.
 ```
 
-That notebook already contains the setup, runtime check, SQuAD-200 dry run, SQuAD-1000 escalation, optional TriviaQA runs, and output-saving checklist. The commands below are the same workflow written out manually for debugging or Colab fallback.
+That notebook contains setup, runtime check, SQuAD-200 dry run, SQuAD-1000 escalation, optional TriviaQA runs, and the output-saving checklist. The commands below express the same workflow manually for debugging or Colab fallback.
 
-Run these commands in a notebook cell.
+Run these commands in a notebook cell:
 
 ```bash
 git clone https://github.com/awabmoha/truth-calibration-layer.git
@@ -91,7 +91,7 @@ The runtime check should show:
 "cuda_available": true
 ```
 
-If CUDA is false, stop. The notebook is not using GPU.
+If CUDA is false, the run should stop because the notebook is not using GPU.
 
 ## 3.1 Recommended One-Command Dry Run
 
@@ -101,7 +101,7 @@ After setup, run:
 bash scripts/run_free_gpu_squad_dry_run.sh 200 Qwen/Qwen2.5-0.5B-Instruct
 ```
 
-If that completes and the outputs are saved correctly, try:
+If that completes and the outputs are saved correctly, run:
 
 ```bash
 bash scripts/run_free_gpu_squad_dry_run.sh 1000 Qwen/Qwen2.5-1.5B-Instruct
@@ -119,7 +119,7 @@ After SQuAD-1000 is stable and artifact packaging works, run the open-domain che
 bash scripts/run_free_gpu_triviaqa_dry_run.sh 1000 Qwen/Qwen2.5-0.5B-Instruct
 ```
 
-If there is enough quota and memory, also try:
+If quota and memory remain available, also run:
 
 ```bash
 bash scripts/run_free_gpu_triviaqa_dry_run.sh 1000 Qwen/Qwen2.5-1.5B-Instruct
@@ -218,7 +218,7 @@ For the final extended-validation decision, manual review should focus on high-c
 
 ## 7.1 Artifact Verification
 
-The one-command dry-run script automatically verifies the returned artifact. If you need to rerun verification manually, use:
+The one-command dry-run script automatically verifies the returned artifact. For manual verification, use:
 
 ```bash
 python scripts/verify_run_artifact.py \
@@ -234,7 +234,7 @@ python scripts/verify_run_artifact.py \
 
 This check confirms that records, probe metrics, reliability bins, test predictions, and review files exist before any result is interpreted.
 
-## 8. Save Outputs Before The Session Ends
+## 8. Artifact Preservation
 
 Free notebooks can disconnect. Before closing the session, save:
 
@@ -252,15 +252,15 @@ data/benchmarks/squad/*_1000*
 data/benchmarks/triviaqa/*_1000*
 ```
 
-The one-command helper creates `runs/<run_id>_artifact.zip` automatically. Prefer downloading that zip, then keep the raw `runs/<run_id>/` folder too if the notebook platform makes it easy.
+The one-command helper creates `runs/<run_id>_artifact.zip` automatically. The zip is the primary portable artifact; the raw `runs/<run_id>/` folder should also be retained when the notebook platform supports it.
 
-Also update the local run tracker after each attempt:
+The local run tracker should be updated after each attempt:
 
 ```text
 TCL-v0-Extended-Validation-Run-Tracker.csv
 ```
 
-Use `status=failed` for memory/runtime failures, `status=skipped_compute_limit` for quota-limited runs, and `status=artifact_downloaded` once a zip is back on the local machine. This matters because failed and skipped runs are still evidence about whether free GPU is enough for the extended-validation plan.
+Use `status=failed` for memory/runtime failures, `status=skipped_compute_limit` for quota-limited runs, and `status=artifact_downloaded` once a zip is back on the local machine. Failed and skipped runs are still evidence about whether free GPU is sufficient for the extended-validation plan.
 
 Validate the tracker after editing:
 
@@ -271,7 +271,7 @@ python scripts/validate_run_tracker.py \
   --out-md runs/RUN_TRACKER_STATUS.md
 ```
 
-If you need to rebuild the zip manually, run:
+To rebuild the zip manually, run:
 
 ```bash
 python scripts/package_run_artifact.py \
@@ -306,7 +306,7 @@ python scripts/run_post_cloud_pipeline.py \
   --strict
 ```
 
-If the artifacts were already imported or manually reviewed locally, reuse the run folders instead of extracting the zip again:
+For artifacts that were already imported or manually reviewed locally, reuse the run folders instead of extracting the zip again:
 
 ```bash
 python scripts/run_post_cloud_pipeline.py \
@@ -317,7 +317,7 @@ python scripts/run_post_cloud_pipeline.py \
   --strict
 ```
 
-After manually filling `targeted_manual_review_candidates.csv`, validate review completion:
+After targeted manual review is completed in `targeted_manual_review_candidates.csv`, validate review completion:
 
 ```bash
 python scripts/validate_targeted_review.py \
@@ -360,7 +360,7 @@ python scripts/summarize_extended_validation.py \
   --out-md runs/EXTENDED_VALIDATION_DECISION.md
 ```
 
-Use this only after artifact verification passes. The generated decision note is a metric gate; the final research decision still also needs the predeclared manual-review checks from the extended-validation plan.
+This step should be used only after artifact verification passes. The generated decision note is a metric gate; the final research decision still also requires the predeclared manual-review checks from the extended-validation plan.
 
 Then write the stopping-rule decision note:
 
@@ -372,7 +372,7 @@ python scripts/write_extended_validation_decision_note.py \
 
 ## 10. Decision After Free-GPU Dry Run
 
-After the dry run, choose one:
+After the dry run, record one of the following outcomes:
 
 - Free GPU is enough for the full SQuAD-1000 plus TriviaQA-1000 matrix.
 - Free GPU is enough only for script validation, and paid GPU is needed for the real run.

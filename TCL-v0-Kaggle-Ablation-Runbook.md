@@ -1,12 +1,12 @@
 # TCL-v0 Kaggle Ablation Runbook
 
-Status: manual execution guide for the next Kaggle checkpoint.
+Status: reproducible Kaggle execution protocol for the next ablation checkpoint.
 
-Use this only after reading `TCL-v0-Ablation-Plan.md`.
+This protocol assumes `TCL-v0-Ablation-Plan.md` has been reviewed and accepted as the governing experiment plan.
 
 ## Goal
 
-Run a small ablation smoke test before any expensive 1,000-example ablation.
+Run a small ablation smoke test before any higher-cost 1,000-example ablation.
 
 The smoke test checks:
 
@@ -18,7 +18,7 @@ The smoke test checks:
 
 ## Kaggle Setup
 
-Use one notebook session.
+The protocol should be executed in a single Kaggle notebook session.
 
 Recommended first target:
 
@@ -28,18 +28,18 @@ benchmark: TriviaQA rc.nocontext
 size: 100 examples smoke test
 ```
 
-Do not start with 1,000 examples. First prove the ablation code runs end to end.
+The 1,000-example ablation is intentionally deferred until the smoke test completes end to end.
 
-## Step 1: Clone Or Upload Repo
+## Step 1: Clone Or Upload Repository
 
-In Kaggle:
+For a fresh Kaggle notebook:
 
 ```bash
 git clone https://github.com/awabmoha/truth-calibration-layer.git
 cd truth-calibration-layer/tcl_experiments
 ```
 
-If you are using an uploaded copy instead of git clone, `cd` into:
+For an uploaded repository copy, use:
 
 ```bash
 /kaggle/working/truth-calibration-layer/tcl_experiments
@@ -71,11 +71,11 @@ These are listed in `tcl_experiments/requirements.txt`.
 python scripts/check_runtime.py
 ```
 
-Save the output in the notebook.
+Record the output in the notebook log.
 
 ## Step 4: Prepare TriviaQA-1000
 
-If the prepared files are not already present:
+If the prepared files are not already present, create them with:
 
 ```bash
 python scripts/prepare_triviaqa_subset.py --limit 1000 --seed 42
@@ -121,14 +121,14 @@ test_predictions/
 
 ## Step 6: Save Artifacts
 
-Before closing Kaggle, save:
+Before closing the Kaggle session, preserve:
 
 ```text
 runs/ablation-smoke-gemma-triviaqa100-ablation_summary/
 runs/ablation-smoke-gemma-triviaqa100-*/
 ```
 
-If possible, zip them:
+The preferred artifact bundle can be created with:
 
 ```bash
 zip -r runs/ablation-smoke-gemma-triviaqa100_artifact.zip \
@@ -136,7 +136,7 @@ zip -r runs/ablation-smoke-gemma-triviaqa100_artifact.zip \
   runs/ablation-smoke-gemma-triviaqa100-*
 ```
 
-Download the zip and give it back to Codex.
+The resulting zip should be downloaded and retained for local import, verification, and review.
 
 ## Step 7: Interpret Smoke Test
 
@@ -147,9 +147,11 @@ The smoke test is successful if:
 - `ablation_summary.csv` has rows
 - the JSON `errors` list is empty
 
-If the test split has only one class, the smoke test can still prove the pipeline runs, but it is not evidence. In that case, run a larger smoke test with `LIMIT=200` before the 1,000-example run.
+If the test split has only one class, the smoke test can still demonstrate that the pipeline runs, but it is not evidence for the research claim. In that case, a larger smoke test with `LIMIT=200` should be completed before the 1,000-example run.
 
-## Step 8: Only If Smoke Test Works
+## Step 8: Full Ablation Escalation
+
+This step should be run only after the smoke test completes successfully.
 
 Run the same ablation with:
 
@@ -165,7 +167,7 @@ This will be much slower because it runs 9 inference passes:
 3 pooling methods x 3 layer positions
 ```
 
-If time is limited, use a smaller locked subset:
+If notebook time is limited, use a smaller locked subset:
 
 ```text
 answer_mean x early_middle/middle/final
@@ -177,14 +179,14 @@ or:
 final layer x answer_mean/answer_last/prompt_answer_mean
 ```
 
-## What To Send Back
+## Artifacts For Local Review
 
-Send Codex:
+The following artifacts are required for local review:
 
 - the final `ablation_summary.csv`
 - `ablation_metrics.json`
 - the artifact zip if available
-- any traceback if a cell fails
+- any traceback produced by a failed notebook cell
 
 For the updated default smoke test, the artifact path is:
 
@@ -194,7 +196,7 @@ runs/ablation-smoke-gemma-triviaqa100_artifact.zip
 
 ## Stop Conditions
 
-Stop and send the error if:
+Execution should stop if:
 
 - the model cannot load
 - train or validation has only one class
@@ -202,4 +204,4 @@ Stop and send the error if:
 - CUDA runs out of memory
 - the smoke test takes too long
 
-Do not run the 1,000-example ablation until the smoke test completes successfully.
+The 1,000-example ablation should not be run until the smoke test completes successfully.
