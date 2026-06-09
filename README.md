@@ -1,5 +1,9 @@
 # Truth Calibration Layer (TCL)
 
+![Status](https://img.shields.io/badge/status-research%20prototype-334155)
+![Scope](https://img.shields.io/badge/scope-QA%20confidence%20calibration-0f766e)
+![Release](https://img.shields.io/github/v/release/awabmoha/truth-calibration-layer?label=release)
+
 Truth Calibration Layer is an independent research project on confidence-aware language models. The current repository combines a theory-stage TCL proposal with TCL-v0, an empirical diagnostic that probes whether frozen LLM hidden states contain signal about answer correctness.
 
 Current status: **theory-stage framework plus reviewed TCL-v0 diagnostics**.
@@ -50,6 +54,8 @@ conservative_confidence = min(raw_generation_confidence, hidden_state_probe_conf
 | Phi TriviaQA-1000 | 42 | 9 |
 | Gemma SQuAD-1000 | 62 | 10 |
 | Gemma TriviaQA-1000 | 76 | 10 |
+
+![High-confidence wrong-answer reduction chart](assets/readme-high-confidence-errors.svg)
 
 Summary across these six reviewed runs:
 
