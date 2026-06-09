@@ -1,0 +1,154 @@
+{
+  "created_at": "2026-06-09T10:50:09.719860+00:00",
+  "records": [
+    "runs/freegpu-squad1000-microsoft_Phi-3.5-mini-instruct-answermean/records_answer_mean.jsonl"
+  ],
+  "out_dir": "runs/freegpu-squad1000-microsoft_Phi-3.5-mini-instruct-answermean/ablation_analysis_weighted",
+  "split_mode": "record",
+  "bins": 10,
+  "weighted": true,
+  "results": [
+    {
+      "hidden_state_method": "answer_mean",
+      "hidden_state_layer": "-1",
+      "n_records": 1000,
+      "n_train": 650,
+      "n_validation": 150,
+      "n_test": 200,
+      "positive_rate_all": 0.952,
+      "positive_rate_test": 0.93,
+      "test_has_two_classes": true,
+      "split_mode": "record",
+      "weighted": true,
+      "calibration_split": "validation",
+      "feature_count": 3072,
+      "p_greater_than_n_train": true,
+      "signals": {
+        "raw_generation_confidence": {
+          "accuracy_at_0_5": 0.93,
+          "ece": 0.03832356947089273,
+          "mce": 0.6546099210622672,
+          "brier": 0.05399405611010903,
+          "wrong_conf_ge_0_8": 11,
+          "wrong_conf_ge_0_9": 4,
+          "auc": 0.8300691244239631
+        },
+        "raw_temperature_scaled_confidence": {
+          "accuracy_at_0_5": 0.93,
+          "ece": 0.3228973879156024,
+          "mce": 0.33890955328151084,
+          "brier": 0.16564772717990667,
+          "wrong_conf_ge_0_8": 0,
+          "wrong_conf_ge_0_9": 0,
+          "auc": 0.8300691244239631
+        },
+        "raw_platt_confidence": {
+          "accuracy_at_0_5": 0.765,
+          "ece": 0.43000652920030946,
+          "mce": 0.476713208454266,
+          "brier": 0.24849630430697756,
+          "wrong_conf_ge_0_8": 0,
+          "wrong_conf_ge_0_9": 0,
+          "auc": 0.8300691244239631
+        },
+        "raw_isotonic_confidence": {
+          "accuracy_at_0_5": 0.54,
+          "ece": 0.30798076923076934,
+          "mce": 0.5842760180995477,
+          "brier": 0.23704419378698238,
+          "wrong_conf_ge_0_8": 2,
+          "wrong_conf_ge_0_9": 2,
+          "auc": 0.6866359447004609
+        },
+        "raw_platt_conservative_confidence": {
+          "accuracy_at_0_5": 0.765,
+          "ece": 0.43000652920030946,
+          "mce": 0.476713208454266,
+          "brier": 0.24849630430697756,
+          "wrong_conf_ge_0_8": 0,
+          "wrong_conf_ge_0_9": 0,
+          "auc": 0.8300691244239631
+        },
+        "raw_isotonic_conservative_confidence": {
+          "accuracy_at_0_5": 0.54,
+          "ece": 0.3073671558386239,
+          "mce": 0.5842760180995477,
+          "brier": 0.23703821559207502,
+          "wrong_conf_ge_0_8": 2,
+          "wrong_conf_ge_0_9": 2,
+          "auc": 0.6730030721966206
+        },
+        "hidden_only_probe_confidence": {
+          "accuracy_at_0_5": 0.935,
+          "ece": 0.05616244548599819,
+          "mce": 0.6147313669531319,
+          "brier": 0.06077653654837671,
+          "wrong_conf_ge_0_8": 10,
+          "wrong_conf_ge_0_9": 9,
+          "auc": 0.8229646697388633
+        },
+        "hidden_conservative_confidence": {
+          "accuracy_at_0_5": 0.935,
+          "ece": 0.03409268854086081,
+          "mce": 0.6147313669531319,
+          "brier": 0.051530217033617785,
+          "wrong_conf_ge_0_8": 7,
+          "wrong_conf_ge_0_9": 3,
+          "auc": 0.8767281105990783
+        },
+        "raw_plus_hidden_confidence": {
+          "accuracy_at_0_5": 0.935,
+          "ece": 0.054711850444004534,
+          "mce": 0.44712632119840734,
+          "brier": 0.05940881593385146,
+          "wrong_conf_ge_0_8": 10,
+          "wrong_conf_ge_0_9": 8,
+          "auc": 0.8333333333333334
+        },
+        "raw_plus_hidden_conservative_confidence": {
+          "accuracy_at_0_5": 0.935,
+          "ece": 0.0329711185600593,
+          "mce": 0.44712632119840734,
+          "brier": 0.05077944566447132,
+          "wrong_conf_ge_0_8": 7,
+          "wrong_conf_ge_0_9": 3,
+          "auc": 0.8774961597542242
+        },
+        "probe_score_plus_raw_confidence": {
+          "accuracy_at_0_5": 0.935,
+          "ece": 0.05241120988135872,
+          "mce": 0.9490462326420246,
+          "brier": 0.057295018024036866,
+          "wrong_conf_ge_0_8": 8,
+          "wrong_conf_ge_0_9": 7,
+          "auc": 0.8429339477726574
+        }
+      },
+      "probe_models": {
+        "hidden_only": {
+          "type": "sklearn.linear_model.LogisticRegression",
+          "C": 1.0,
+          "class_weight": "balanced",
+          "solver": "lbfgs",
+          "max_iter": 1000
+        },
+        "raw_plus_hidden": {
+          "type": "sklearn.linear_model.LogisticRegression",
+          "C": 1.0,
+          "class_weight": "balanced",
+          "solver": "lbfgs",
+          "max_iter": 1000
+        },
+        "probe_score_plus_raw": {
+          "type": "sklearn.linear_model.LogisticRegression",
+          "C": 1.0,
+          "class_weight": "balanced",
+          "solver": "lbfgs",
+          "max_iter": 1000
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "claim_boundary": "Ablation diagnostics for TCL-v0 only. These do not validate full TCL."
+}

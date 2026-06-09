@@ -21,6 +21,7 @@ The repository has been cleaned into one canonical package:
 - `TCL-v0-research-writeup.md`, `.docx`, and `.pdf` are the empirical companion note.
 - `TCL-v0-evidence-report-v2.md` summarizes the reviewed extended-validation checkpoint.
 - `TCL-v0-Roadmap.md` records the next-step roadmap for baselines, ablations, generalization, API cleanup, and scope control.
+- `TCL-v0-Reviewed-AnswerMean-Ablation-Checkpoint.md` records the local answer-mean ablation against raw-only calibration and feature-fusion baselines.
 - `TCL-v0-results-summary.md` keeps the longer diagnostic history.
 - `tcl_experiments/` contains scripts, benchmark subsets, run records, and reproducible report builders.
 
@@ -52,6 +53,8 @@ The most consistent practical signal is not that TCL-v0 wins every calibration m
 
 The formal Qwen/Phi gate decision was `mixed_continue_cautiously`. The exploratory Qwen/Phi/Gemma decision was `supports_continuing_tcl_v0`.
 
+The answer-mean ablation checkpoint has now been run locally on the existing reviewed records. In the weighted comparison, hidden conservative TCL-v0 beat the best raw-only baseline on Brier score in 5 of 6 runs, ECE in 4 of 6 runs, and AUC in 5 of 6 runs. It did not beat raw-only calibration on high-confidence wrong-answer count, because raw-only calibrators can suppress confidence directly.
+
 ## What This Does Not Claim
 
 This snapshot does not claim that:
@@ -72,11 +75,10 @@ The current evidence supports continuing the research direction, especially the 
 
 ## Recommended Next Step
 
-The next serious experiment should be planned before running:
+The next serious experiment is the remaining GPU ablation:
 
-- add standard calibration baselines such as temperature scaling, Platt/logistic calibration, and isotonic regression
-- run ablations for hidden layer, hidden-state pooling, probe type, and fusion rule
-- compare raw-only, hidden-only, raw-plus-hidden, learned fusion, and conservative fusion
+- run ablations for hidden layer and hidden-state pooling on Kaggle GPU
+- compare raw-only, hidden-only, raw-plus-hidden, learned fusion, and conservative fusion on the newly extracted records
 - test at least one cross-dataset or prompt-shift setting
 - keep manual-review rules predeclared
 - report ECE, MCE, Brier score, reliability bins, accuracy, AUC, and high-confidence wrong-answer counts

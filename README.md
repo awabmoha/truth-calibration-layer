@@ -26,6 +26,7 @@ Can frozen LLM hidden states support better answer-correctness confidence than r
 - Empirical writeup: `TCL-v0-research-writeup.md`
 - Reviewed evidence report: `TCL-v0-evidence-report-v2.md`
 - Raw-only baseline checkpoint: `TCL-v0-Baseline-Checkpoint.md`
+- Reviewed answer-mean ablation checkpoint: `TCL-v0-Reviewed-AnswerMean-Ablation-Checkpoint.md`
 - Full TCL gap analysis: `TCL-v0-to-Full-TCL-Gap.md`
 - Next experiment plan: `TCL-v0-Ablation-Plan.md`
 - Kaggle ablation protocol: `TCL-v0-Kaggle-Ablation-Runbook.md`
@@ -146,6 +147,7 @@ Full TCL would require at least:
 | `TCL-v0-research-writeup.md` | Main empirical method/results writeup |
 | `TCL-v0-evidence-report-v2.md` | Reviewed extended-validation evidence report |
 | `TCL-v0-Baseline-Checkpoint.md` | Raw-only calibration baseline checkpoint |
+| `TCL-v0-Reviewed-AnswerMean-Ablation-Checkpoint.md` | Local answer-mean feature ablation checkpoint |
 | `TCL-v0-to-Full-TCL-Gap.md` | Explicit boundary between TCL-v0 and full TCL |
 | `TCL-v0-Ablation-Plan.md` | Predeclared next ablation experiment |
 | `TCL-v0-Kaggle-Ablation-Runbook.md` | Kaggle protocol for the next ablation checkpoint |
@@ -176,12 +178,15 @@ Current scripts are in `tcl_experiments/scripts/`, including benchmark preparati
 
 ## Next Technical Step
 
-The next checkpoint is not a scale-up. It is the ablation plan in `TCL-v0-Ablation-Plan.md`:
+The local answer-mean ablation checkpoint is complete. It compared hidden-state TCL-v0 against raw-only calibration and feature-fusion baselines on the existing reviewed 1,000-example records.
 
-- compare hidden-state TCL-v0 against temperature scaling, Platt/logistic raw calibration, isotonic regression, and raw-only conservative fusion
-- test hidden layer choice and pooling method
-- compare raw-only, hidden-only, raw-plus-hidden, and probe-score-plus-raw features
-- report negative results, not only wins
+The remaining ablation work requires Kaggle GPU execution because it needs new hidden-state extraction:
+
+- test hidden layer choice: `early_middle`, `middle`, `final`
+- test pooling method: `answer_mean`, `answer_last`, `prompt_answer_mean`
+- rerun the same raw-only, hidden-only, raw-plus-hidden, and probe-score-plus-raw comparisons on those new records
+
+Use `notebooks/tcl_v0_kaggle_ablation_smoke.ipynb` and `TCL-v0-Kaggle-Ablation-Runbook.md` for that next GPU step.
 
 ## Author
 
