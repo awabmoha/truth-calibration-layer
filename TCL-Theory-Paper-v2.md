@@ -49,9 +49,9 @@ TCL asks the next question. **If reliability information is present but only par
 
 **Self-evaluation and verbalized confidence.** Kadavath et al. (2022) showed that models can evaluate their own answers (P(True)) and can be trained to predict whether they know an answer (P(IK)). Lin et al. (2022) taught models to express uncertainty in words. Mielke et al. (2022) and Band et al. (2024) trained models to make their linguistic confidence match their accuracy. Tian et al. (2023) found that verbalized confidence can be better calibrated than token probabilities in RLHF-tuned models.
 
-**Hidden-state probing.** Azaria and Mitchell (2023) trained classifiers on hidden states to detect false statements. Burns et al. (2023) found truth-like directions without supervision. Marks and Tegmark (2024) found linear structure separating true and false statements. Li et al. (2023) intervened along such directions at inference time. Orgad et al. (2025) showed that correctness signal is concentrated in specific answer tokens and that probes generalize poorly across tasks. Kossen et al. (2024) trained probes to predict semantic entropy. This literature establishes the premise that TCL-v0 replicates.
+**Hidden-state probing.** Azaria and Mitchell (2023) trained classifiers on hidden states to detect false statements. Burns et al. (2023) found truth-like directions without supervision. Marks and Tegmark (2024) found linear structure separating true and false statements. Li et al. (2023) intervened along such directions at inference time. Orgad et al. (2025) showed that correctness signal is concentrated in specific answer tokens and that error detectors built on hidden states fail to generalize across datasets. Kossen et al. (2024) trained probes to predict semantic entropy. This literature establishes the premise that TCL-v0 replicates.
 
-**Fine-tuning for uncertainty.** Kapoor et al. (2024) report that fine-tuning on a modest set of graded examples, including with LoRA, gives better uncertainty estimates than prompting or frozen probes. This is the closest prior work to TCL's central hypothesis.
+**Fine-tuning for uncertainty.** Kapoor et al. (2024) argue that prompting alone is insufficient for good calibration and that training through a model's features is necessary. They report that fine-tuning on about a thousand graded examples, made tractable with LoRA, gives uncertainty estimates that generalize well. This is the closest prior work to TCL's central hypothesis.
 
 **How TCL differs.** TCL builds on the fine-tuning result rather than claiming it as new. It differs in three ways:
 
@@ -185,7 +185,7 @@ Contradiction risk is `1 - y_k`.
 
 ### 5.4 Evidence Density (Proxy)
 
-**Label.** For PopQA (Mallen et al., 2023), each question's subject entity has a Wikipedia page-view count. The label is the rank-normalized log page-view count, in `[0,1]`.
+**Label.** For PopQA (Mallen et al., 2023), each question's subject entity has a popularity value measured by monthly Wikipedia page views. The label is the rank-normalized log page-view count, in `[0,1]`.
 
 **Interpretation.** This replaces version 1's "estimated strength of training-data support," which cannot be observed without access to training data. Popularity is a documented proxy: accuracy on factual questions rises with how often the relevant entity appears in pretraining-scale data (Mallen et al., 2023; Kandpal et al., 2023). The label is a property of the question's subject, not of the answer. Learning it tests whether the model internally represents how familiar a subject is. That signal is useful for deciding when to retrieve instead of answering from memory.
 
@@ -309,7 +309,7 @@ Each stage begins only after the previous stage's gate has been evaluated. If H3
 
 ## 9. Limitations and Threats to Validity
 
-**Benchmark overfitting.** The trust head may learn correlations between dataset artifacts and labels rather than general reliability. Cross-dataset transfer (H2) and non-QA evaluation (H5) are designed to detect this. Orgad et al. (2025) already report poor cross-task transfer for frozen probes, so this threat is real.
+**Benchmark overfitting.** The trust head may learn correlations between dataset artifacts and labels rather than general reliability. Cross-dataset transfer (H2) and non-QA evaluation (H5) are designed to detect this. Orgad et al. (2025) already report that hidden-state error detectors fail to generalize across datasets, so this threat is real.
 
 **Label validity.** Each dimension is only as good as its labeling procedure. Answer matching misses paraphrases, NLI models make errors, and popularity is an indirect proxy for training-data exposure. I mitigate this with manual review and NLI audits, and by describing dimensions as operational definitions, not measurements of truth.
 
@@ -317,7 +317,7 @@ Each stage begins only after the previous stage's gate has been evaluated. If H3
 
 **Label staleness under adaptation.** Under TCL-J the model's answers change, so base-model labels may not describe them. Evaluation on regenerated answers detects this but does not remove it from training.
 
-**Scale.** Initial experiments use models of 0.5B-4B parameters. Results may not hold at larger scales, where calibration properties are known to differ (Kadavath et al., 2022).
+**Scale.** Initial experiments use models of 0.5B-4B parameters. Results may not hold at larger scales: Kadavath et al. (2022) find that larger models are well calibrated on some question formats, so calibration behavior depends on both scale and format.
 
 **Overinterpretation.** Better AUROC or ECE on evaluated benchmarks would show better reliability estimation on those distributions. It would not show that a model is truthful, that hallucination is solved, or that trust scores are safe to use without human oversight.
 
@@ -327,13 +327,13 @@ TCL proposes that language models should emit structured trust estimates alongsi
 
 ## References
 
-[1] Azaria, A., & Mitchell, T. (2023). The internal state of an LLM knows when it's lying. In *Findings of EMNLP*.
+[1] Azaria, A., & Mitchell, T. (2023). The internal state of an LLM knows when it's lying. In *Findings of the Association for Computational Linguistics: EMNLP 2023*, 967-976.
 
 [2] Bai, Y., et al. (2022). Training a helpful and harmless assistant with reinforcement learning from human feedback. arXiv:2204.05862.
 
 [3] Band, N., Li, X., Ma, T., & Hashimoto, T. (2024). Linguistic calibration of long-form generations. In *ICML*.
 
-[4] Bang, Y., et al. (2023). A multitask, multilingual, multimodal evaluation of ChatGPT on reasoning, hallucination, and interactivity. arXiv:2302.04023.
+[4] Bang, Y., et al. (2023). A multitask, multilingual, multimodal evaluation of ChatGPT on reasoning, hallucination, and interactivity. In *Proceedings of IJCNLP-AACL 2023*, 675-718.
 
 [5] Burns, C., Ye, H., Klein, D., & Steinhardt, J. (2023). Discovering latent knowledge in language models without supervision. In *ICLR*.
 
@@ -403,4 +403,4 @@ TCL proposes that language models should emit structured trust estimates alongsi
 
 [38] Zadrozny, B., & Elkan, C. (2002). Transforming classifier scores into accurate multiclass probability estimates. In *KDD*.
 
-[39] Zhao, T. Z., Wallace, E., Feng, S., Klein, D., & Singh, S. (2021). Calibrate before use: Improving few-shot performance of language models. In *ICML*.
+[39] Zhao, Z., Wallace, E., Feng, S., Klein, D., & Singh, S. (2021). Calibrate before use: Improving few-shot performance of language models. In *ICML*, PMLR 139, 12697-12706.
