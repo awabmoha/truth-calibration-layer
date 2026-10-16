@@ -42,3 +42,6 @@ TCL-Theory-Paper-Independent-Revised.docx
 
 # Local document build helper kept off GitHub
 build_tcl_doc.js
+
+# Raw Kaggle downloads (zips and logs); unpacked records are kept under runs/phase1_kaggle/
+tcl_experiments/runs/phase1_kaggle_download/
