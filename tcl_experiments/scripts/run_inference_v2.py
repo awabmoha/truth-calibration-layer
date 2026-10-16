@@ -238,7 +238,8 @@ def main() -> None:
     judge = None
     if se_splits and args.se_samples > 0:
         nli_device = torch.device("cuda:1") if device.type == "cuda" and torch.cuda.device_count() > 1 else device
-        judge = NLIJudge(args.nli_model, nli_device, dtype)
+        # DeBERTa NLI models fail under float16 on GPU, so the judge always runs in float32.
+        judge = NLIJudge(args.nli_model, nli_device, torch.float32)
 
     n_layers = model.config.num_hidden_layers
     layer_index = {tag: (n_layers if frac == 1.0 else max(1, round(n_layers * frac))) for tag, frac in LAYER_FRACTIONS.items()}
