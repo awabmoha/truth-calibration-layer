@@ -168,9 +168,11 @@ def cluster_answers(judge: NLIJudge, question: str, answers: list[str]) -> list[
 # ---------------------------------------------------------------- main loop
 
 
-def read_questions(path: Path, limit: int | None) -> list[dict]:
+def read_questions(path: Path, limit: int | None, splits: set[str] | None = None) -> list[dict]:
     with path.open(encoding="utf-8", newline="") as f:
         rows = list(csv.DictReader(f))
+    if splits:
+        rows = [r for r in rows if r["split"] in splits]
     return rows[:limit] if limit else rows
 
 
@@ -199,6 +201,7 @@ def main() -> None:
     ap.add_argument("--questions", required=True, type=Path)
     ap.add_argument("--out-dir", required=True, type=Path)
     ap.add_argument("--limit", type=int, default=None)
+    ap.add_argument("--only-splits", default="", help="Comma-separated splits to run (default: all); for quick checks")
     ap.add_argument("--max-new-tokens", type=int, default=32)
     ap.add_argument("--se-samples", type=int, default=10)
     ap.add_argument("--se-splits", default="test", help="Comma-separated splits that get semantic entropy; empty for none")
@@ -267,7 +270,8 @@ def main() -> None:
     }
     (out_dir / "config.json").write_text(json.dumps(config, indent=2), encoding="utf-8")
 
-    rows = [r for r in read_questions(args.questions, args.limit) if r["id"] not in finished]
+    only = {x for x in args.only_splits.split(",") if x} or None
+    rows = [r for r in read_questions(args.questions, args.limit, only) if r["id"] not in finished]
     buffer: list[dict] = []
     hidden: dict[str, list[np.ndarray]] = {f"{t}_{p}": [] for t in layer_index for p in POOLINGS}
 
