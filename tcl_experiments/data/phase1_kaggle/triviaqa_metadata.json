@@ -1,0 +1,12 @@
+{
+  "source": "mandarjoshi/trivia_qa rc.nocontext validation",
+  "split_unit": "question",
+  "n": 4500,
+  "split_counts": {
+    "train": 2500,
+    "validation": 500,
+    "test": 1500
+  },
+  "seed": 42,
+  "created_at": "2026-10-16T14:28:22.816352+00:00"
+}

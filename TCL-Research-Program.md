@@ -102,6 +102,11 @@ These rules apply to every phase. I change them only through the change-control 
 - I evaluate test splits once per phase, at the gate
 - I do all model and hyperparameter selection on validation only
 
+**Test-set size (added at the Phase 1 local gate)**
+- Every test set has at least 1,000 rows and at least 150 rows of each class (correct and incorrect)
+- A model-dataset pairing that cannot reach 150 rows of the smaller class at a reasonable size (about 5,000 questions) is dropped from that phase and recorded as dropped
+- Sampling-based baselines (semantic entropy) run on the test split only, to keep GPU cost bounded
+
 ## 7. Phases
 
 ### Phase 0: Theory Consolidation
@@ -201,6 +206,7 @@ Phases 0-2 run on free compute. The Phase 2 result decides whether paid compute 
 
 | Date | Change | Reason |
 |---|---|---|
+| 2026-10-16 | Added the test-set size rule to Section 6: at least 1,000 test rows and at least 150 of each class; pairings that cannot reach this are dropped. Applies to the Kaggle part of Phase 1 and to all later phases. It does not change the recorded H1/H2 results. | Phase 1 local tests had 200 test rows (AUROC CIs about ±0.10), too wide to detect the small effects seen for Qwen and Phi. Phi SQuAD had only 7 incorrect test rows. |
 | 2026-10-16 | Phase 1 local gate evaluated (`TCL-Phase1-Local-Checkpoint.md`): **H1 fails** (2 of 6 runs) and **H2 fails** (2 of 6 directions); both hold under all three seeds. Per Section 7, I proceed to Phase 2 and record that the case for TCL now rests on H3 and H4. Added the H2 count rule (>= 4 of 6 directions) in `TCL-Phase1-Protocol.md` before evaluation. | Frozen-probe gains were significant only for Gemma 2B-it, where raw confidence is near chance. With 200 test rows the comparisons are underpowered (CIs about ±0.1 AUROC). |
 | 2026-10-16 | Verified all 39 references in theory paper v2 against OpenAlex, publisher proceedings (PMLR, NeurIPS, ACL Anthology), arXiv, and conference pages. Corrected the Zhao et al. (2021) author initial, added the published venue for Bang et al. (2023), and added pages for Azaria & Mitchell (2023). Tightened claims attributed to Orgad et al. (detectors fail to generalize across *datasets*), Kapoor et al. (wording now follows their abstract), Kadavath et al. (scale and format), and PopQA (monthly page views). | Phase 0 requires that the related work, which positions TCL's novelty, rest on verified sources. |
 | 2026-10-16 | Phase 0: wrote theory paper v2 (`TCL-Theory-Paper-v2.md` / `.docx`). Split TCL into TCL-J (joint, the proposal) and TCL-F (frozen, the baseline); adopted the Section 5 trust vector; added related work. Rewrote Section 2, claim 1, to build on prior fine-tuning work. | While writing related work I confirmed that fine-tuned self-knowledge (Kadavath et al. 2022) and LoRA fine-tuning beating frozen probes (Kapoor et al. 2024) are already published, so "joint training helps" alone is not new. My claim is now the controlled isolation of the joint objective. |

@@ -1,0 +1,12 @@
+{
+  "source": "google-research-datasets/nq_open validation",
+  "split_unit": "question",
+  "n": 3610,
+  "split_counts": {
+    "train": 1610,
+    "validation": 500,
+    "test": 1500
+  },
+  "seed": 42,
+  "created_at": "2026-10-16T14:35:58.908440+00:00"
+}
