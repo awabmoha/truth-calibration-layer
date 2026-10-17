@@ -1,0 +1,54 @@
+{
+  "run_started_at": "2026-10-16T20:31:49.229212+00:00",
+  "protocol": "TCL-Phase1-Kaggle-Protocol.md",
+  "model": "/kaggle/input/models/google/gemma/transformers/2b-it/3",
+  "model_tag": "gemma",
+  "dataset": "triviaqa",
+  "questions": "data/phase1_kaggle/triviaqa.csv",
+  "max_new_tokens": 32,
+  "stop_token_ids": [
+    1,
+    107
+  ],
+  "p_true_true_ids": [
+    1382,
+    3271,
+    5036,
+    5569
+  ],
+  "p_true_false_ids": [
+    1566,
+    3813,
+    7662,
+    8393
+  ],
+  "se_samples": 10,
+  "se_splits": [
+    "test"
+  ],
+  "se_temperature": 1.0,
+  "nli_model": "microsoft/deberta-large-mnli",
+  "hidden_state_layers": {
+    "q25": 4,
+    "q50": 9,
+    "final": 18
+  },
+  "num_hidden_layers": 18,
+  "poolings": [
+    "answer_mean",
+    "answer_last"
+  ],
+  "correctness_method": "strict_answer_segment_match_v2_answer_span",
+  "raw_span_method": "geometric_mean_answer_span_token_probability",
+  "raw_full_method": "geometric_mean_generated_token_probability",
+  "chat_template_mode": "auto",
+  "seed": 0,
+  "runtime": {
+    "torch_version": "2.11.0+cu128",
+    "device": "cuda",
+    "torch_dtype": "float16",
+    "cuda_available": true,
+    "cuda_device_count": 2,
+    "cuda_device_name": "Tesla T4"
+  }
+}

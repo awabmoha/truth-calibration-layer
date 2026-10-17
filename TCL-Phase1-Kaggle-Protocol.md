@@ -88,6 +88,14 @@ On Qwen's three datasets: validation AUROC for each layer (25%, 50%, 100%) and p
 - If H1-R passes but H1 failed, the conclusion is that the original failure was at least partly caused by the defects in Section 1, and the corrected result is the one Phase 2 builds on.
 - If H1-R also fails, the case for TCL rests on H3, as already recorded.
 
-## 7. Compute Estimate
+## 7. Amendments
+
+Each amendment below was made after inspecting labels and output text only, before any metric was computed on the Kaggle records.
+
+**2026-10-17: refusal detection on the answer span.** Inference v2 recorded the refusal flag on the full generated output. For Gemma, this also matched disclaimers added after a real answer, e.g. `Acura.\n\nThe context does not specify...` (25 TriviaQA and 85 SQuAD outputs, some of them correct answers). The analysis now detects refusals with the same pattern on the answer span; the full-output flag is kept as `refusal_full_output`. This affects only the secondary "refusals excluded" analysis. With the corrected flag, Gemma refuses 1,339 of 4,500 TriviaQA questions and 774 of 4,500 SQuAD questions. Because refusals are labeled incorrect in the primary analysis, a probe that recognizes refusals gains AUROC without judging answers; the secondary analysis is therefore essential for reading Gemma's results.
+
+**2026-10-17: Qwen NQ-Open dropped.** Its test split has 101 correct answers, below the 150 required by the size rule.
+
+## 8. Compute Estimate
 
 About 10-14 Kaggle T4 hours in total, dominated by Phi-3.5-mini and by semantic-entropy sampling. Runs are split into one notebook session per model so each fits within Kaggle's 12-hour session limit.

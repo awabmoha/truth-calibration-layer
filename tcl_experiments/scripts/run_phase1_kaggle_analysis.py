@@ -21,6 +21,7 @@ import pandas as pd
 from sklearn.metrics import roc_auc_score
 
 import run_phase1_analysis as p1
+from run_inference_v2 import is_refusal
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_IN = ROOT / "runs" / "phase1_kaggle"
@@ -47,6 +48,10 @@ def load_pairing(run_dir: Path) -> dict:
                 features[key] = np.zeros((len(records), z[key].shape[1]), dtype=np.float32)
             features[key][idx] = z[key].astype(np.float32)
     df = pd.DataFrame(records)
+    # Protocol amendment (2026-10-17): refusals are detected on the answer span. The
+    # full-output flag recorded at inference also matched disclaimers added after an answer.
+    df["refusal_full_output"] = df["refusal"]
+    df["refusal"] = df["answer"].map(is_refusal)
     return {"df": df, "features": features}
 
 
