@@ -125,4 +125,8 @@ Before the Kaggle runs, I check the full pipeline end to end on a CPU with a tin
 
 ## 11. Amendments
 
-None yet.
+Each amendment was made before any arm A-D was trained on the Phase 2 data.
+
+**2026-10-18: WikiText-2 sample excludes headings.** The perplexity sample is the first 200 non-empty paragraphs of the WikiText-2 test split *that are not section headings* (lines such as `= Robert Boulter =`). Headings are one short line each and would add little but noise. The sample is committed as `tcl_experiments/data/phase2/wikitext2_test_200.json` (27,533 words).
+
+**2026-10-18: Reference baselines seen during a code test (disclosure).** While testing `run_phase2_analysis.py` on synthetic arm outputs, its reference-baseline block ran on the real Phase 1 records and printed transfer AUROCs on the fixed base-model answers with rule v3 labels: raw confidence 0.762 (SQuAD test) and 0.712 (TriviaQA test), P(True) 0.622 and 0.643, semantic entropy 0.775 and 0.773, and a frozen logistic probe on 50%-depth features of 0.575 (trained on TriviaQA, tested on SQuAD) and 0.682 (trained on SQuAD, tested on TriviaQA). These are ungated reference rows. No arm A-D result existed at the time, and no protocol choice was changed after seeing them; the decision rules in Section 8 were already committed.
