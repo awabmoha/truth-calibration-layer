@@ -96,6 +96,8 @@ Each amendment below was made after inspecting labels and output text only, befo
 
 **2026-10-17: Qwen NQ-Open dropped.** Its test split has 101 correct answers, below the 150 required by the size rule.
 
+**2026-10-18: Gemma NQ-Open dropped.** Its test split has 107 correct answers. Gemma refuses 1,782 of 3,610 NQ-Open questions (answer-span detection).
+
 ## 8. Compute Estimate
 
 About 10-14 Kaggle T4 hours in total, dominated by Phi-3.5-mini and by semantic-entropy sampling. Runs are split into one notebook session per model so each fits within Kaggle's 12-hour session limit.
