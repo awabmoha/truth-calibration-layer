@@ -1,6 +1,6 @@
 # TCL Phase 1 Kaggle Checkpoint: H1-R, H2-R, and Baselines
 
-Status: analysis complete; label audit pending. October 18, 2026.
+Status: Phase 1 closed. October 18, 2026.
 
 Protocol: `TCL-Phase1-Kaggle-Protocol.md` (locked in commit 0778598, amendments in Section 7).
 Inference: `tcl_experiments/scripts/run_inference_v2.py` at commit 0d1c332, on Kaggle T4 x2.
@@ -134,6 +134,10 @@ Best by mean validation AUROC: **50% depth, answer mean**. Per the protocol, thi
 - **Refusals must be handled explicitly in Phase 2**, either as a separate abstention outcome or by reporting results with and without them, so a trust head cannot score well by recognizing refusals alone.
 - Phase 2 uses **50% depth, answer-mean** features for the trust head.
 
-## Remaining Phase 1 Work
+## Label Audit
 
-- **Label audit review.** The assisted audit is done (`TCL-Phase1-Label-Audit.md`): 38 of 600 labels changed (6.3%), mostly correct answers that the automatic rule marked wrong, concentrated in SQuAD and NQ-Open (7-14%). I still need to review the 31 flagged rows before Phase 1 closes.
+Complete (`TCL-Phase1-Label-Audit.md`). The automatic label is wrong on 40 of 600 audited test rows (6.7%): 0-4% for TriviaQA, 7-14% for SQuAD and NQ-Open, almost all correct answers marked wrong. All audit labels were decided by the assistant and are not human-reviewed. The H1-R and H2-R decisions are not re-run; the audit is a stated limitation and defines the labeling fixes for Phase 2.
+
+## Phase 1 Status
+
+**Closed.** Original H1 and H2 failed on the TCL-v0 records. On corrected, larger data, H1-R passes at the threshold and H2-R fails.
