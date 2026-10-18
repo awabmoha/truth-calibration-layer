@@ -5,4 +5,4 @@ numpy
 pandas
 tqdm
 scipy
-peft
+peft==0.21.2
