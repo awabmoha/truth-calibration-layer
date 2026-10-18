@@ -136,4 +136,4 @@ Best by mean validation AUROC: **50% depth, answer mean**. Per the protocol, thi
 
 ## Remaining Phase 1 Work
 
-- **Label audit** (protocol Section 3): 100 random test rows per retained pairing, already drawn in `label_audit_sample.csv` (600 rows). I will report the label error rate per pairing before closing Phase 1.
+- **Label audit review.** The assisted audit is done (`TCL-Phase1-Label-Audit.md`): 38 of 600 labels changed (6.3%), mostly correct answers that the automatic rule marked wrong, concentrated in SQuAD and NQ-Open (7-14%). I still need to review the 31 flagged rows before Phase 1 closes.
