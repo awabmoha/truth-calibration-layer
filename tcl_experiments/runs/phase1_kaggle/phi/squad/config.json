@@ -1,0 +1,52 @@
+{
+  "run_started_at": "2026-10-18T05:29:23.568959+00:00",
+  "protocol": "TCL-Phase1-Kaggle-Protocol.md",
+  "model": "microsoft/Phi-3.5-mini-instruct",
+  "model_tag": "phi",
+  "dataset": "squad",
+  "questions": "data/phase1_kaggle/squad.csv",
+  "max_new_tokens": 32,
+  "stop_token_ids": [
+    32000,
+    32007
+  ],
+  "p_true_true_ids": [
+    1565,
+    5852,
+    29871
+  ],
+  "p_true_false_ids": [
+    2089,
+    7700,
+    29871
+  ],
+  "se_samples": 10,
+  "se_splits": [
+    "test"
+  ],
+  "se_temperature": 1.0,
+  "nli_model": "microsoft/deberta-large-mnli",
+  "hidden_state_layers": {
+    "q25": 8,
+    "q50": 16,
+    "final": 32
+  },
+  "num_hidden_layers": 32,
+  "poolings": [
+    "answer_mean",
+    "answer_last"
+  ],
+  "correctness_method": "strict_answer_segment_match_v2_answer_span",
+  "raw_span_method": "geometric_mean_answer_span_token_probability",
+  "raw_full_method": "geometric_mean_generated_token_probability",
+  "chat_template_mode": "auto",
+  "seed": 0,
+  "runtime": {
+    "torch_version": "2.11.0+cu128",
+    "device": "cuda",
+    "torch_dtype": "float16",
+    "cuda_available": true,
+    "cuda_device_count": 2,
+    "cuda_device_name": "Tesla T4"
+  }
+}
