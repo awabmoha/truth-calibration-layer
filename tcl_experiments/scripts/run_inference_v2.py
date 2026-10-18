@@ -27,7 +27,7 @@ import torch
 from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoModelForSequenceClassification, AutoTokenizer
 
-from labeling import is_correct, normalize
+from labeling import REFUSAL_PATTERN, is_correct, is_refusal, normalize  # noqa: F401 (re-exported)
 from run_inference import runtime_info, select_device, select_dtype, user_message
 
 CORRECTNESS_METHOD = "strict_answer_segment_match_v2_answer_span"
@@ -37,18 +37,6 @@ SYSTEM_PROMPT = "You answer factual questions with only the shortest correct ans
 STOP_TOKEN_STRINGS = ["<end_of_turn>", "<|im_end|>", "<|end|>", "<|eot_id|>", "<|endoftext|>"]
 LAYER_FRACTIONS = {"q25": 0.25, "q50": 0.5, "final": 1.0}
 POOLINGS = ["answer_mean", "answer_last"]
-
-REFUSAL_PATTERN = re.compile(
-    r"\b(does not (?:provide|mention|specify|contain|say|state)|do(?:es)? not (?:know|have)|don't know|"
-    r"cannot (?:provide|answer|determine|find)|can't (?:provide|answer|determine)|unable to|i'm sorry|i am sorry|"
-    r"not (?:mentioned|specified|provided|stated|given) in|no (?:information|answer) (?:is |was )?(?:provided|given|available))\b",
-    re.IGNORECASE,
-)
-
-
-def is_refusal(text: str) -> bool:
-    return bool(REFUSAL_PATTERN.search(text))
-
 
 # ---------------------------------------------------------------- prompts
 

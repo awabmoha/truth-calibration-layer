@@ -1,0 +1,8 @@
+pairing,rows,v2_errors,v3_errors,v2_rate,v3_rate
+gemma-squad,100,7,2,0.07,0.02
+gemma-triviaqa,100,1,1,0.01,0.01
+phi-nq_open,100,14,13,0.14,0.13
+phi-triviaqa,100,4,4,0.04,0.04
+qwen-squad,100,14,7,0.14,0.07
+qwen-triviaqa,100,0,0,0.0,0.0
+total,600,40,27,0.067,0.045

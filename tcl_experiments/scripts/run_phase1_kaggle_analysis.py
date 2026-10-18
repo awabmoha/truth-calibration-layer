@@ -21,7 +21,7 @@ import pandas as pd
 from sklearn.metrics import roc_auc_score
 
 import run_phase1_analysis as p1
-from run_inference_v2 import is_refusal
+from labeling import is_refusal
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_IN = ROOT / "runs" / "phase1_kaggle"
