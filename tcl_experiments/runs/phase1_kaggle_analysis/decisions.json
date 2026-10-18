@@ -1,0 +1,191 @@
+{
+  "created_at": "2026-10-18T07:40:43.703561+00:00",
+  "protocol": "TCL-Phase1-Kaggle-Protocol.md",
+  "class_counts_test": {
+    "qwen-triviaqa": {
+      "correct": 223,
+      "incorrect": 1277
+    },
+    "qwen-squad": {
+      "correct": 1008,
+      "incorrect": 492
+    },
+    "qwen-nq_open": {
+      "correct": 101,
+      "incorrect": 1399
+    },
+    "phi-triviaqa": {
+      "correct": 776,
+      "incorrect": 724
+    },
+    "phi-squad": {
+      "correct": 1386,
+      "incorrect": 114
+    },
+    "phi-nq_open": {
+      "correct": 312,
+      "incorrect": 1188
+    },
+    "gemma-triviaqa": {
+      "correct": 347,
+      "incorrect": 1153
+    },
+    "gemma-squad": {
+      "correct": 1039,
+      "incorrect": 461
+    },
+    "gemma-nq_open": {
+      "correct": 107,
+      "incorrect": 1393
+    }
+  },
+  "dropped": [
+    {
+      "pairing": "qwen-nq_open",
+      "reason": "size rule: {'correct': 101, 'incorrect': 1399}"
+    },
+    {
+      "pairing": "phi-squad",
+      "reason": "size rule: {'correct': 1386, 'incorrect': 114}"
+    },
+    {
+      "pairing": "gemma-nq_open",
+      "reason": "size rule: {'correct': 107, 'incorrect': 1393}"
+    }
+  ],
+  "H1-R": {
+    "rule": "probe - calibrated_raw AUROC CI lower bound > 0 in >= 2/3 of retained pairings",
+    "primary": {
+      "wins": [
+        "qwen-triviaqa",
+        "phi-nq_open",
+        "gemma-triviaqa",
+        "gemma-squad"
+      ],
+      "n_wins": 4,
+      "n_needed": 4,
+      "passes": true
+    },
+    "by_seed": {
+      "0": {
+        "wins": [
+          "qwen-triviaqa",
+          "phi-nq_open",
+          "gemma-triviaqa",
+          "gemma-squad"
+        ],
+        "n_wins": 4,
+        "n_needed": 4,
+        "passes": true
+      },
+      "1": {
+        "wins": [
+          "qwen-triviaqa",
+          "phi-nq_open",
+          "gemma-triviaqa",
+          "gemma-squad"
+        ],
+        "n_wins": 4,
+        "n_needed": 4,
+        "passes": true
+      },
+      "2": {
+        "wins": [
+          "qwen-triviaqa",
+          "phi-nq_open",
+          "gemma-triviaqa",
+          "gemma-squad"
+        ],
+        "n_wins": 4,
+        "n_needed": 4,
+        "passes": true
+      }
+    }
+  },
+  "H2-R": {
+    "rule": "retention >= 0.70 in >= 2/3 of transfer directions",
+    "primary": {
+      "passing": [
+        "gemma:triviaqa->squad",
+        "gemma:squad->triviaqa"
+      ],
+      "n_passing": 2,
+      "n_needed": 4,
+      "passes": false
+    },
+    "by_seed": {
+      "0": {
+        "passing": [
+          "gemma:triviaqa->squad",
+          "gemma:squad->triviaqa"
+        ],
+        "n_passing": 2,
+        "n_needed": 4,
+        "passes": false
+      },
+      "1": {
+        "passing": [
+          "gemma:triviaqa->squad",
+          "gemma:squad->triviaqa"
+        ],
+        "n_passing": 2,
+        "n_needed": 4,
+        "passes": false
+      },
+      "2": {
+        "passing": [
+          "gemma:triviaqa->squad",
+          "gemma:squad->triviaqa"
+        ],
+        "n_passing": 2,
+        "n_needed": 4,
+        "passes": false
+      }
+    }
+  },
+  "secondary_refusals_excluded_auroc_diff": {
+    "qwen-triviaqa": {
+      "value": 0.06427620790038313,
+      "ci": [
+        0.020652576994291762,
+        0.11243634814579063
+      ]
+    },
+    "qwen-squad": {
+      "value": -0.053571428571428714,
+      "ci": [
+        -0.08364438868058348,
+        -0.02396138007643042
+      ]
+    },
+    "phi-triviaqa": {
+      "value": -0.003134312928662175,
+      "ci": [
+        -0.025612760970073128,
+        0.02039146747006569
+      ]
+    },
+    "phi-nq_open": {
+      "value": 0.03427032072865399,
+      "ci": [
+        0.0079115727071988,
+        0.06201313345888771
+      ]
+    },
+    "gemma-triviaqa": {
+      "value": 0.12210407097464293,
+      "ci": [
+        0.08301655673267247,
+        0.16452196104821987
+      ]
+    },
+    "gemma-squad": {
+      "value": 0.04736328125,
+      "ci": [
+        0.0002945893684256074,
+        0.09990890390959038
+      ]
+    }
+  },
+  "layer_sweep_best_feature_by_mean_validation_auroc": "q50_answer_mean"
+}
