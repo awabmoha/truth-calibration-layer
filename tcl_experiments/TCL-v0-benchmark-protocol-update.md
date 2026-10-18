@@ -1,5 +1,8 @@
 # TCL-v0 Benchmark Protocol Update
 
+> **Archived (October 2026).** TCL-v0 benchmark note from June 2026, kept for history. Current results are in `docs/phase1/`.
+
+
 Status: protocol cleanup, not full benchmark rerun
 
 ## Purpose

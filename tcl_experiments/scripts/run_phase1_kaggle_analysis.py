@@ -1,10 +1,10 @@
-"""Analysis of the Phase 1 Kaggle runs (TCL-Phase1-Kaggle-Protocol.md, Section 5).
+"""Analysis of the Phase 1 Kaggle runs (docs/phase1/TCL-Phase1-Kaggle-Protocol.md, Section 5).
 
 Expects the unzipped Kaggle outputs under runs/phase1_kaggle/<model>/<dataset>/,
 each with records.jsonl and hidden_chunk_*.npz from run_inference_v2.py.
 
 Reuses the fitting, metric, and bootstrap code of run_phase1_analysis.py so the
-replication follows TCL-Phase1-Protocol.md exactly.
+replication follows docs/phase1/TCL-Phase1-Protocol.md exactly.
 """
 
 from __future__ import annotations
@@ -236,7 +236,7 @@ def main() -> None:
 
     decisions = {
         "created_at": datetime.now(timezone.utc).isoformat(),
-        "protocol": "TCL-Phase1-Kaggle-Protocol.md",
+        "protocol": "docs/phase1/TCL-Phase1-Kaggle-Protocol.md",
         "class_counts_test": counts,
         "dropped": dropped,
         "H1-R": {"rule": "probe - calibrated_raw AUROC CI lower bound > 0 in >= 2/3 of retained pairings", "primary": h1_by_seed[p1.PRIMARY_SEED], "by_seed": h1_by_seed},

@@ -2,7 +2,7 @@
 
 Status: locked before any Kaggle Phase 1 data is generated. Written October 16, 2026.
 
-This addendum covers the GPU part of Phase 1. It also responds to three defects I found in the TCL-v0 records after the local Phase 1 gate. The local H1/H2 results in `TCL-Phase1-Local-Checkpoint.md` stand as recorded. The runs below are a **separately reported replication on corrected data**, not a replacement for those results.
+This addendum covers the GPU part of Phase 1. It also responds to three defects I found in the TCL-v0 records after the local Phase 1 gate. The local H1/H2 results in `docs/phase1/TCL-Phase1-Local-Checkpoint.md` stand as recorded. The runs below are a **separately reported replication on corrected data**, not a replacement for those results.
 
 ## 1. Defects Found in the TCL-v0 Records
 
@@ -56,7 +56,7 @@ All single-pass signals are recorded for every question. Semantic entropy is rec
 
 ## 5. Analyses and Decision Rules
 
-Fitting, model selection, metrics, and bootstrap are exactly as in `TCL-Phase1-Protocol.md` (unweighted fits, C chosen by 5-fold CV on train, Platt map on validation, 1,000 paired bootstrap resamples, seeds 0-2 with seed 0 primary). The probe uses final-layer `answer_mean` features, matching TCL-v0.
+Fitting, model selection, metrics, and bootstrap are exactly as in `docs/phase1/TCL-Phase1-Protocol.md` (unweighted fits, C chosen by 5-fold CV on train, Platt map on validation, 1,000 paired bootstrap resamples, seeds 0-2 with seed 0 primary). The probe uses final-layer `answer_mean` features, matching TCL-v0.
 
 ### H1-R (replication of H1 on corrected data)
 
@@ -66,7 +66,7 @@ For each retained pairing: `AUROC(probe) - AUROC(calibrated raw, answer span)` w
 
 ### H2-R (replication of H2 on corrected data)
 
-For each model, probes are transferred between every ordered pair of retained datasets for that model. Retention is defined as in `TCL-Phase1-Protocol.md`.
+For each model, probes are transferred between every ordered pair of retained datasets for that model. Retention is defined as in `docs/phase1/TCL-Phase1-Protocol.md`.
 
 **H2-R passes** if retention is at least 0.70 in **at least two thirds of transfer directions** (rounded up).
 

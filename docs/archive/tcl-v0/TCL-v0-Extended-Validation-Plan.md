@@ -1,5 +1,8 @@
 # TCL-v0 Extended Validation Plan
 
+> **Archived (October 2026).** This is a TCL-v0 record from June 2026, kept for history. The current plan is `TCL-Research-Program.md` and the current results are in `docs/phase1/`.
+
+
 Status: planned validation gate, not an experiment run
 
 This document defines the next research step after the first TCL-v0 local checkpoint. Its purpose is to prevent open-ended experimentation by setting a clear question, scope, success criteria, failure criteria, and stopping point before any new benchmark runs.

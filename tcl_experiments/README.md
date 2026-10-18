@@ -1,150 +1,74 @@
-# TCL-v0 Experiment Pipeline
+# TCL Experiments
 
-This folder is the first practical step for the Truth Calibration Layer idea.
-The goal is intentionally small:
+Code, question sets, run records, and analysis outputs for the TCL research program. The governing plan is [../TCL-Research-Program.md](../TCL-Research-Program.md); every experiment here maps to a hypothesis and a protocol in [../docs/](../docs/).
 
-> Test whether frozen LLM hidden states contain useful signal for predicting answer correctness.
+This is a research pipeline, not a packaged library.
 
-TCL-v0 does not implement the full four-dimensional trust vector. It implements only the first dimension:
-`hidden_state -> correctness/confidence score`.
+## Current Pipeline (Phase 1, used again in Phase 2)
 
-Current best diagnostic variant:
+| Step | Script | Runs on |
+|---|---|---|
+| Build question sets with fixed splits (TriviaQA; SQuAD split by Wikipedia article; NQ-Open) | `scripts/prepare_phase1_kaggle_data.py` | CPU |
+| Inference: answer-span labels and confidence, hidden states at 25/50/100% depth, P(True), semantic entropy; resumable | `scripts/run_inference_v2.py` | GPU (Kaggle) |
+| Re-analysis of the TCL-v0 records (local Phase 1: H1, H2) | `scripts/run_phase1_analysis.py` | CPU |
+| Analysis of the Kaggle runs (H1-R, H2-R, baselines, layer sweep, label-audit sample) | `scripts/run_phase1_kaggle_analysis.py` | CPU |
+| Correctness labeling rules (shared) | `scripts/labeling.py` | - |
+| Runtime check (Python, PyTorch, CUDA) | `scripts/check_runtime.py` | any |
 
-```text
-conservative TCL-v0 confidence = min(raw_generation_confidence, tcl_v0_probe_confidence)
+The GPU step is driven by [../notebooks/tcl_phase1_kaggle_runs.ipynb](../notebooks/tcl_phase1_kaggle_runs.ipynb), which pins the exact code commit for each run.
+
+## Data
+
+| Path | Contents |
+|---|---|
+| `data/phase1_kaggle/` | Phase 1 question sets: `triviaqa.csv` (4,500), `squad.csv` (4,500, article-disjoint splits), `nq_open.csv` (3,610), each with a `split` column and a metadata file |
+| `data/benchmarks/` | TCL-v0 subsets (100-1,000 questions) with split and manual-review files |
+| `data/seed_questions.csv`, `data/diagnostic_questions_100.csv` | Small smoke-test sets |
+
+## Run Records
+
+| Path | Contents |
+|---|---|
+| `runs/phase1_kaggle/<model>/<dataset>/` | Phase 1 inference outputs: `records.jsonl` and `config.json` (committed), `hidden_chunk_*.npz` (local only, excluded by `.gitignore`) |
+| `runs/phase1_kaggle_analysis/` | Phase 1 decisions, metrics, test predictions, layer sweep, and label audit |
+| `runs/phase1_local/` | Local Phase 1 re-analysis of the TCL-v0 records |
+| `runs/freegpu-*`, `runs/benchmark-*`, `runs/post_cloud_decision_*`, `runs/ablation_*` | TCL-v0 runs and checkpoints (June 2026) |
+| `runs/phase1_kaggle_download/` | Raw Kaggle zips and logs (local only, excluded by `.gitignore`) |
+
+## Reproduce Phase 1
+
+From the repository root:
+
+```bash
+pip install -r requirements.txt
+python tcl_experiments/scripts/prepare_phase1_kaggle_data.py
 ```
 
-This conservative score is used because the plain probe can become overconfident on fluent wrong answers.
+Run the Kaggle notebook once per model, unzip each output into `tcl_experiments/runs/phase1_kaggle/<model>/`, then:
 
-## Current Entry Point
-
-For the current reviewed checkpoint, start with these files before running new experiments:
-
-- `../TCL-v0-evidence-report-v2.md` - reviewed six-run evidence report.
-- `../TCL-v0-Roadmap.md` - next-step roadmap for baselines, ablations, broader tasks, and API cleanup.
-- `runs/post_cloud_decision_freegpu_qwen05/TCL-v0-EXTENDED-VALIDATION-FINAL-DECISION.md` - formal four-run Qwen/Phi gate decision.
-- `runs/post_cloud_decision_freegpu_qwen_phi_gemma/TCL-v0-EXTENDED-VALIDATION-EXPLORATORY-GEMMA-DECISION.md` - exploratory six-run Qwen/Phi/Gemma decision.
-- `scripts/run_post_cloud_pipeline.py` - current end-to-end artifact import, verification, aggregation, and decision-note pipeline.
-
-Do not treat this folder as a polished Python package yet. It is still an experiment pipeline and research record.
-
-## What It Records
-
-For each factual question, the pipeline records:
-
-- dataset name
-- question
-- accepted answers
-- model name
-- prompt template
-- model answer
-- exact/substring correctness label
-- raw generation confidence and its method
-- hidden-state layer and extraction method
-- hidden-state vector
-- run metadata
-
-Then it trains a simple probe on the hidden states and compares:
-
-- raw generation confidence
-- TCL-v0 probe confidence
-- conservative TCL-v0 confidence
-- calibrated TCL-v0 confidence, when requested
-
-using accuracy, expected calibration error, maximum calibration error, Brier score, reliability bins, and high-confidence wrong-answer counts.
-
-## Files
-
-- `requirements.txt` - Python dependencies.
-- `data/seed_questions.csv` - small starter factual QA set.
-- `scripts/run_inference.py` - runs an LLM, extracts hidden states, and writes records.
-- `scripts/train_probe.py` - trains TCL-v0 and writes calibration metrics, including conservative confidence.
-- `scripts/prepare_triviaqa_subset.py` - prepares a reproducible TriviaQA subset and split files.
-- `scripts/prepare_nq_open_subset.py` - prepares a reproducible NQ-Open subset and split files.
-- `scripts/prepare_squad_subset.py` - prepares a reproducible context-grounded SQuAD subset and split files.
-- `scripts/make_review_csv.py` - creates a manual-review CSV from recorded model outputs.
-- `scripts/make_targeted_review_csv.py` - creates the predeclared targeted manual-review candidate set.
-- `scripts/validate_targeted_review.py` - checks whether targeted manual review is complete before final decisions.
-- `scripts/recompute_reviewed_metrics.py` - recomputes test metrics after manual label review.
-- `scripts/run_raw_calibration_baselines.py` - fits raw-only calibration baselines and compares them with hidden-state TCL-v0 outputs.
-- `scripts/run_ablation_analysis.py` - compares raw-only, hidden-only, raw-plus-hidden, and conservative fusion signals for ablation records.
-- `scripts/verify_run_artifact.py` - checks returned run artifacts before interpreting TCL-v0 metrics.
-- `scripts/package_run_artifact.py` - zips a verified run folder plus benchmark metadata for download.
-- `scripts/import_run_artifact.py` - safely unpacks a downloaded run artifact and reruns verification locally.
-- `scripts/summarize_extended_validation.py` - aggregates verified runs into a TCL-v0 decision note.
-- `scripts/write_extended_validation_decision_note.py` - writes the final stopping-rule decision note from aggregator output.
-- `scripts/run_post_cloud_pipeline.py` - imports artifact zips, verifies runs, aggregates metrics, and writes the final decision note.
-- `scripts/metrics.py` - shared calibration utilities.
-- `scripts/check_runtime.py` - reports Python, PyTorch, Transformers, and CUDA/GPU availability.
-- `scripts/run_free_gpu_squad_dry_run.sh` - one-command SQuAD dry run for Kaggle/Colab GPU notebooks.
-- `scripts/run_free_gpu_triviaqa_dry_run.sh` - one-command TriviaQA dry run for Kaggle/Colab GPU notebooks.
-- `scripts/build_tcl_v0_writeup_docx.py` - rebuilds the TCL-v0 research writeup DOCX from the Markdown source.
-- `scripts/build_tcl_v0_writeup_pdf.py` - rebuilds the standalone TCL-v0 research writeup PDF from the Markdown source.
-
-## Quick Start
-
-Use this only after agreeing to run a smoke test. The tiny model and seed questions are for checking that the pipeline works; they are not evidence for TCL.
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe scripts\run_inference.py --model sshleifer/tiny-gpt2 --limit 20 --hidden-state-method answer_mean
-.\.venv\Scripts\python.exe scripts\train_probe.py --records runs\<run_id>\records_answer_mean.jsonl --out-dir runs\<run_id>\analysis
+```bash
+python tcl_experiments/scripts/run_phase1_kaggle_analysis.py
 ```
 
-`sshleifer/tiny-gpt2` is only for a fast smoke test. For meaningful evidence, use a stronger instruction model later.
+To check the inference script without a GPU, use tiny models on a few questions:
 
-## Hidden-State Methods
-
-`scripts/run_inference.py` supports:
-
-- `answer_mean` - mean-pooled generated-answer hidden states.
-- `answer_last` - final generated-token hidden state.
-- `prompt_answer_mean` - mean-pooled prompt plus generated-answer hidden states.
-
-The preferred starting method is `answer_mean`, because TCL-v0 is trying to predict correctness of the produced answer.
-
-## Benchmark Diagnostic
-
-The first benchmark diagnostic used:
-
-- Dataset: TriviaQA `rc.nocontext`, validation subset.
-- Model: `Qwen/Qwen2.5-0.5B-Instruct`.
-- Hidden-state method: `answer_mean`.
-- Best current diagnostic score: conservative TCL-v0 confidence.
-
-Main benchmark reports live in:
-
-```text
-runs/benchmark-triviaqa200-qwen-answermean-20260603T1700Z/
-runs/benchmark-triviaqa500-qwen-answermean-20260604T0932Z/
-runs/benchmark-triviaqa500-smollm2-360m-answermean-20260604T1018Z/
-runs/benchmark-squad500-qwen-answermean-20260604T1652Z/
-runs/benchmark-squad500-smollm2-360m-answermean-20260604T1820Z/
+```bash
+python tcl_experiments/scripts/run_inference_v2.py --model HuggingFaceTB/SmolLM2-135M-Instruct --model-tag smol --dataset triviaqa --questions tcl_experiments/data/phase1_kaggle/triviaqa.csv --out-dir tcl_experiments/runs/smoke --limit 5 --only-splits test --nli-model cross-encoder/nli-deberta-v3-xsmall --se-samples 4 --device cpu
 ```
 
-Key reports:
+## TCL-v0 Pipeline (Archived)
 
-- `RUN_REPORT.md`
-- `FAILURE_ANALYSIS.md`
-- `CALIBRATION_REPORT.md`
-- `CONSERVATIVE_CONFIDENCE_REPORT.md`
-- `MANUAL_REVIEW_TEST_REPORT.md`
-- `HIGH_RISK_REVIEW_REPORT.md`
-- `EXTENDED_MANUAL_REVIEW_REPORT.md`
-- `TCL-v0-cross-model-comparison.md`
-- `TCL-v0-labeling-rule-update.md`
-- `TCL-v0-nq-open-benchmark-summary.md`
-- `TCL-v0-benchmark-protocol-update.md`
-- `TCL-v0-clean-nq-open-100-summary.md`
-- `TCL-v0-squad-context-100-summary.md`
-- `TCL-v0-squad-context-500-summary.md`
-- `TCL-v0-squad500-manual-review-report.md`
+The June 2026 TCL-v0 pipeline is kept so its runs remain reproducible. Its conclusions are superseded by Phase 1.
 
-## Claim Boundary
+| Group | Scripts |
+|---|---|
+| Inference and probe | `run_inference.py`, `train_probe.py`, `metrics.py` |
+| Question sets | `prepare_triviaqa_subset.py`, `prepare_squad_subset.py`, `prepare_nq_open_subset.py` |
+| Manual review | `make_review_csv.py`, `make_targeted_review_csv.py`, `assist_targeted_review.py`, `validate_targeted_review.py`, `recompute_reviewed_metrics.py`, `relabel_records.py` |
+| Baselines and ablations | `run_raw_calibration_baselines.py`, `run_ablation_analysis.py` |
+| Cloud artifacts | `package_run_artifact.py`, `import_run_artifact.py`, `verify_run_artifact.py`, `run_post_cloud_pipeline.py`, `validate_run_tracker.py` |
+| Decision notes | `summarize_extended_validation.py`, `write_extended_validation_decision_note.py` |
+| GPU shell runners | `run_free_gpu_squad_dry_run.sh`, `run_free_gpu_triviaqa_dry_run.sh`, `run_free_gpu_ablation_smoke.sh` |
+| Paper builds | `build_tcl_v0_writeup_docx.py`, `build_tcl_v0_writeup_pdf.py` |
 
-TCL-v0 is a confidence-only probe experiment. A successful run may support the narrow claim that frozen hidden states improve calibration under tested conditions. It does not show that TCL makes a model truthful, solves hallucination, or validates the full four-dimensional TCL framework.
-
-Current cautious claim:
-
-Conservative TCL-v0 produced the best metrics on the 200-example and 500-example TriviaQA diagnostics. The pattern appears across two small CPU-runnable models on TriviaQA. NQ-Open has also been tested with the stricter label rule; it is useful but sparse under the current short-answer setup. SQuAD with context is now the cleaner local benchmark: on SQuAD-500, Qwen showed mixed but useful Brier/accuracy/AUC gains, while SmolLM2 showed stronger calibration gains under conservative TCL-v0. This is still not broad validation.
+The `TCL-v0-*.md` summaries in this folder are TCL-v0 benchmark notes from June 2026, also archived.

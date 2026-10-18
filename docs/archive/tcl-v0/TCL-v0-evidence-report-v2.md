@@ -1,5 +1,8 @@
 # TCL-v0 Evidence Report v2
 
+> **Archived (October 2026).** This is a TCL-v0 record from June 2026, kept for history. The current plan is `TCL-Research-Program.md` and the current results are in `docs/phase1/`. Its headline metric (high-confidence wrong answers under `min(raw, probe)`) was later shown to be achievable by raw-only recalibration, and its SQuAD subset shared passages between train and test.
+
+
 Status: reviewed extended-validation evidence report, not full TCL validation
 
 Generated from the June 7, 2026 checkpoint.
@@ -289,7 +292,7 @@ The main misuse risk is over-trust. A user could see lower high-confidence error
 
 ## Baseline And Ablation Gaps
 
-The strongest next critique to answer is whether hidden states add value beyond simpler calibration methods. A first CPU-only baseline checkpoint has now been added in `TCL-v0-Baseline-Checkpoint.md`.
+The strongest next critique to answer is whether hidden states add value beyond simpler calibration methods. A first CPU-only baseline checkpoint has now been added in `docs/archive/tcl-v0/TCL-v0-Baseline-Checkpoint.md`.
 
 Required next baselines:
 
@@ -338,7 +341,7 @@ Stop running new experiments until this checkpoint is frozen and summarized.
 Immediate work:
 
 - update README and result summaries
-- follow `TCL-v0-Roadmap.md`
+- follow `docs/archive/tcl-v0/TCL-v0-Roadmap.md`
 - keep this report as the current empirical checkpoint
 - package the project state
 - optionally commit the checkpoint

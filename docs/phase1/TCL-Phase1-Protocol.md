@@ -103,4 +103,4 @@ Follow the program plan: proceed to Phase 2 regardless, and record that the case
 
 - Script: `tcl_experiments/scripts/run_phase1_analysis.py`
 - Results: `tcl_experiments/runs/phase1_local/` (per-run metrics, bootstrap CIs, transfer table, seed-robustness table, test predictions)
-- Checkpoint write-up: `TCL-Phase1-Local-Checkpoint.md`, written after the run, reporting every result including failures.
+- Checkpoint write-up: `docs/phase1/TCL-Phase1-Local-Checkpoint.md`, written after the run, reporting every result including failures.

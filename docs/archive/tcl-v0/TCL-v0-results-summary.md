@@ -1,5 +1,8 @@
 # TCL-v0 Results Summary
 
+> **Archived (October 2026).** This is a TCL-v0 record from June 2026, kept for history. The current plan is `TCL-Research-Program.md` and the current results are in `docs/phase1/`.
+
+
 Status: early diagnostics, not full TCL validation
 
 This summary collects the practical TCL-v0 work completed so far. The full Truth Calibration Layer remains a theoretical framework. TCL-v0 is a narrow confidence-only experiment:

@@ -1,5 +1,8 @@
 # TCL-v0 Kaggle Phi Run Log
 
+> **Archived (October 2026).** This is a TCL-v0 record from June 2026, kept for history. The current plan is `TCL-Research-Program.md` and the current results are in `docs/phase1/`.
+
+
 Status: active second-family model validation path
 
 This note documents the manual Kaggle work started on 2026-06-07 for the next TCL-v0 extended-validation step. It records what happened before any stronger claim is made.

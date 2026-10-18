@@ -1,10 +1,13 @@
 # TCL-v0 Reviewed Answer-Mean Ablation Checkpoint
 
+> **Archived (October 2026).** This is a TCL-v0 record from June 2026, kept for history. The current plan is `TCL-Research-Program.md` and the current results are in `docs/phase1/`. Caution: this checkpoint scored its test predictions against the automatic labels, not the reviewed ones (2-9 rows differ per run), so its numbers should not be cited without that caveat.
+
+
 Status: local CPU analysis completed on existing reviewed 1,000-example records.
 
 Date: June 9, 2026.
 
-This checkpoint executes the non-GPU parts of `TCL-v0-Ablation-Plan.md` on the six reviewed Qwen, Phi, and Gemma SQuAD/TriviaQA runs. It uses the already collected `answer_mean` final-layer records, so it tests raw-only calibration baselines and feature ablations. It does not yet test new hidden-layer or pooling choices because those require new hidden-state extraction on Kaggle GPU.
+This checkpoint executes the non-GPU parts of `docs/archive/tcl-v0/TCL-v0-Ablation-Plan.md` on the six reviewed Qwen, Phi, and Gemma SQuAD/TriviaQA runs. It uses the already collected `answer_mean` final-layer records, so it tests raw-only calibration baselines and feature ablations. It does not yet test new hidden-layer or pooling choices because those require new hidden-state extraction on Kaggle GPU.
 
 ## Completed Locally
 
@@ -77,7 +80,7 @@ Phi TriviaQA remains the clearest negative case for hidden conservative TCL-v0 u
 
 ## Remaining Kaggle Work
 
-The following part of `TCL-v0-Ablation-Plan.md` still requires GPU execution:
+The following part of `docs/archive/tcl-v0/TCL-v0-Ablation-Plan.md` still requires GPU execution:
 
 - hidden layer choice: `early_middle`, `middle`, `final`
 - pooling method: `answer_mean`, `answer_last`, `prompt_answer_mean`
@@ -92,7 +95,7 @@ notebooks/tcl_v0_kaggle_ablation_smoke.ipynb
 The runbook is:
 
 ```text
-TCL-v0-Kaggle-Ablation-Runbook.md
+docs/archive/tcl-v0/TCL-v0-Kaggle-Ablation-Runbook.md
 ```
 
 ## Generated Artifacts

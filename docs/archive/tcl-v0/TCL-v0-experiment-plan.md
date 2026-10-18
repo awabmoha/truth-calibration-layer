@@ -1,5 +1,8 @@
 # TCL-v0 Experiment Plan
 
+> **Archived (October 2026).** This is a TCL-v0 record from June 2026, kept for history. The current plan is `TCL-Research-Program.md` and the current results are in `docs/phase1/`.
+
+
 Status: living protocol, updated after first diagnostics
 
 This document defines the first practical experiment for the Truth Calibration Layer (TCL) idea. TCL remains theory-stage as a full framework. TCL-v0 is an early confidence-only diagnostic implementation used to test whether frozen hidden states can support correctness calibration. Results should be reported only within the exact tested conditions.

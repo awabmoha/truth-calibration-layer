@@ -1,5 +1,8 @@
 # TCL-v0 To Full TCL Gap
 
+> **Archived (October 2026).** This is a TCL-v0 record from June 2026, kept for history. The current plan is `TCL-Research-Program.md` and the current results are in `docs/phase1/`.
+
+
 Status: scope-mapping note.
 
 This note explains why TCL-v0 is useful but does not validate the full Truth Calibration Layer proposal.

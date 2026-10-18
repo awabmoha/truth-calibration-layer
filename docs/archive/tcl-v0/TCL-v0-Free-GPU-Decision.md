@@ -1,5 +1,8 @@
 # TCL-v0 Free GPU Decision
 
+> **Archived (October 2026).** This is a TCL-v0 record from June 2026, kept for history. The current plan is `TCL-Research-Program.md` and the current results are in `docs/phase1/`.
+
+
 Status: current recommendation for no-cost extended-validation dry runs
 
 ## Decision

@@ -1,5 +1,8 @@
 # TCL-v0 SQuAD-500 Manual Review Report
 
+> **Archived (October 2026).** TCL-v0 benchmark note from June 2026, kept for history. Current results are in `docs/phase1/`.
+
+
 Status: targeted held-out review, not full benchmark relabeling
 
 This review audited SQuAD-500 held-out test cases that were labeled incorrect but received high confidence from at least one score:

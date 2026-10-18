@@ -1,5 +1,8 @@
 # TCL-v0 Method Comparison: Qwen 100-Question Diagnostic
 
+> **Archived (October 2026).** TCL-v0 benchmark note from June 2026, kept for history. Current results are in `docs/phase1/`.
+
+
 Status: diagnostic method comparison, not benchmark validation
 
 This document compares two hidden-state extraction methods for TCL-v0 on the same local 100-question factual QA diagnostic set.

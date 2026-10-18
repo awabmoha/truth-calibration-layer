@@ -19,8 +19,8 @@ from docx.shared import Inches, Pt, RGBColor
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE_MD = ROOT / "TCL-v0-research-writeup.md"
-OUTPUT_DOCX = ROOT / "TCL-v0-research-writeup.docx"
+SOURCE_MD = ROOT / "paper/TCL-v0-research-writeup.md"
+OUTPUT_DOCX = ROOT / "paper/TCL-v0-research-writeup.docx"
 
 BLUE = "2E74B5"
 DARK_BLUE = "1F4D78"

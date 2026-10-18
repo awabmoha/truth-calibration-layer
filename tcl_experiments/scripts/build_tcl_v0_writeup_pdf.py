@@ -23,8 +23,8 @@ from reportlab.platypus import (
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE_MD = ROOT / "TCL-v0-research-writeup.md"
-OUTPUT_PDF = ROOT / "TCL-v0-research-writeup.pdf"
+SOURCE_MD = ROOT / "paper/TCL-v0-research-writeup.md"
+OUTPUT_PDF = ROOT / "paper/TCL-v0-research-writeup.pdf"
 
 BLUE = colors.HexColor("#2E74B5")
 DARK_BLUE = colors.HexColor("#1F4D78")

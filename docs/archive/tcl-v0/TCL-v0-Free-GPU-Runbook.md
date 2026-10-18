@@ -1,5 +1,8 @@
 # TCL-v0 Free GPU Runbook
 
+> **Archived (October 2026).** This is a TCL-v0 record from June 2026, kept for history. The current plan is `TCL-Research-Program.md` and the current results are in `docs/phase1/`.
+
+
 Status: reproducible execution protocol for Colab/Kaggle dry runs.
 
 This runbook defines a free-GPU protocol for TCL-v0 extended-validation dry runs before paid cloud compute is considered. Free GPU should be treated as an execution test and, where stable, a modest validation environment. It should not be assumed sufficient for the full extended-validation matrix.
@@ -257,7 +260,7 @@ The one-command helper creates `runs/<run_id>_artifact.zip` automatically. The z
 The local run tracker should be updated after each attempt:
 
 ```text
-TCL-v0-Extended-Validation-Run-Tracker.csv
+docs/archive/tcl-v0/TCL-v0-Extended-Validation-Run-Tracker.csv
 ```
 
 Use `status=failed` for memory/runtime failures, `status=skipped_compute_limit` for quota-limited runs, and `status=artifact_downloaded` once a zip is back on the local machine. Failed and skipped runs are still evidence about whether free GPU is sufficient for the extended-validation plan.
@@ -266,7 +269,7 @@ Validate the tracker after editing:
 
 ```bash
 python scripts/validate_run_tracker.py \
-  --tracker ../TCL-v0-Extended-Validation-Run-Tracker.csv \
+  --tracker docs/archive/tcl-v0/TCL-v0-Extended-Validation-Run-Tracker.csv \
   --out-json runs/run_tracker_status.json \
   --out-md runs/RUN_TRACKER_STATUS.md
 ```

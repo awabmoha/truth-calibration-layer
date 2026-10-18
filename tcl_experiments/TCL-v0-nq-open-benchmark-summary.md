@@ -1,5 +1,8 @@
 # TCL-v0 NQ-Open Benchmark Summary
 
+> **Archived (October 2026).** TCL-v0 benchmark note from June 2026, kept for history. Current results are in `docs/phase1/`.
+
+
 Status: second benchmark diagnostic, not full TCL validation
 
 This benchmark uses `google-research-datasets/nq_open`, config `nq_open`, validation split.

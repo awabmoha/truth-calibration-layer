@@ -2,7 +2,7 @@
 
 Status: complete. October 18, 2026. All 600 labels, including the 31 judgment calls, were decided by the assistant under the rubric below; I have not reviewed them by hand.
 
-Protocol: `TCL-Phase1-Kaggle-Protocol.md`, Section 3: "I will audit a random sample of 100 test rows per retained pairing and report the label error rate."
+Protocol: `docs/phase1/TCL-Phase1-Kaggle-Protocol.md`, Section 3: "I will audit a random sample of 100 test rows per retained pairing and report the label error rate."
 Sample: `tcl_experiments/runs/phase1_kaggle_analysis/label_audit_sample.csv`, drawn with seed 2026 from labels only, before any metric was computed.
 Audit file: `tcl_experiments/runs/phase1_kaggle_analysis/label_audit_assisted.csv`.
 

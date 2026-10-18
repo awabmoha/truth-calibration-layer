@@ -1,6 +1,6 @@
 """Inference v2 for the Phase 1 Kaggle runs.
 
-Implements Sections 3-4 of TCL-Phase1-Kaggle-Protocol.md:
+Implements Sections 3-4 of docs/phase1/TCL-Phase1-Kaggle-Protocol.md:
 - generation stops at EOS or end-of-turn; the answer span is the generated text
   before the first newline, and labels and raw confidence use that span only
 - hidden states at 25%, 50%, and 100% depth, pooled over the answer span
@@ -246,7 +246,7 @@ def main() -> None:
 
     config = {
         "run_started_at": datetime.now(timezone.utc).isoformat(),
-        "protocol": "TCL-Phase1-Kaggle-Protocol.md",
+        "protocol": "docs/phase1/TCL-Phase1-Kaggle-Protocol.md",
         "model": args.model,
         "model_tag": args.model_tag,
         "dataset": args.dataset,

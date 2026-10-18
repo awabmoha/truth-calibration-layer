@@ -1,5 +1,8 @@
 # TCL-v0 Evidence Report v1
 
+> **Archived (October 2026).** This is a TCL-v0 record from June 2026, kept for history. The current plan is `TCL-Research-Program.md` and the current results are in `docs/phase1/`. Superseded by evidence report v2 and then by Phase 1.
+
+
 Status: preliminary evidence report, not full TCL validation
 
 ## Research Question
@@ -129,9 +132,9 @@ TCL-v0: Frozen Hidden States as Confidence Signals for Answer Correctness
 
 Writeup file:
 
-- `TCL-v0-research-writeup.md`
-- `TCL-v0-research-writeup.docx`
-- `TCL-v0-research-writeup.pdf`
+- `paper/TCL-v0-research-writeup.md`
+- `paper/TCL-v0-research-writeup.docx`
+- `paper/TCL-v0-research-writeup.pdf`
 
 The writeup is currently a standalone empirical companion note to the theory paper. It should remain separate unless future evidence becomes strong enough to justify a formal empirical appendix.
 

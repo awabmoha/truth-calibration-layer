@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 410" width="760" height="410" role="img" aria-labelledby="t d">
+<title id="t">Phase 1: frozen hidden-state probe vs calibrated raw confidence</title>
+<desc id="d">AUROC difference with 95% bootstrap confidence intervals for six model and dataset pairings. With all answers, the probe is significantly better in 4 of 6 pairings and significantly worse on Qwen SQuAD. Excluding refusals, the large Gemma gains shrink to +0.122 and +0.047.</desc>
+<style>
+  .bg { fill: #fcfcfb; }
+  .h1 { font: 600 17px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #0b0b0b; }
+  .sub, .tick, .leg, .note { font: 12px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #52514e; }
+  .row { font: 13px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #0b0b0b; }
+  .val { font: 12px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #0b0b0b; }
+  .sig { font-weight: 700; }
+  .grid { stroke: #e4e3df; stroke-width: 1; }
+  .zero { stroke: #8a8984; stroke-width: 1.5; }
+  .ci { stroke-width: 2; stroke-linecap: round; }
+  .s1 { stroke: #2a78d6; } .m1 { fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2; }
+  .s2 { stroke: #eb6834; } .m2 { fill: #eb6834; stroke: #fcfcfb; stroke-width: 2; }
+  @media (prefers-color-scheme: dark) {
+    .bg { fill: #1a1a19; }
+    .h1, .row, .val { fill: #f0efec; }
+    .sub, .tick, .leg, .note { fill: #c3c2b7; }
+    .grid { stroke: #33332f; } .zero { stroke: #8a8984; }
+    .s1 { stroke: #3987e5; } .m1 { fill: #3987e5; stroke: #1a1a19; }
+    .s2 { stroke: #d95926; } .m2 { fill: #d95926; stroke: #1a1a19; }
+  }
+</style>
+<rect class="bg" width="760" height="410" rx="8"/>
+<text class="h1" x="24" y="34">Does the frozen probe rank answers better than calibrated raw confidence?</text>
+<text class="sub" x="24" y="54">AUROC difference (probe minus calibrated raw) with 95% bootstrap CI, 1,500 test questions</text>
+<text class="sub" x="24" y="70">per pairing. Right of 0 means the probe ranks correct vs incorrect answers better.</text>
+<circle class="m1" cx="30" cy="94" r="5"/><text class="leg" x="42" y="98">All answers (primary test)</text>
+<rect class="m2" x="225.5" y="89.5" width="9" height="9" rx="1.5"/><text class="leg" x="242" y="98">Refusals excluded (secondary)</text>
+<line class="grid" x1="220.4" x2="220.4" y1="110" y2="364"/>
+<text class="tick" x="220.4" y="382" text-anchor="middle">-0.1</text>
+<line class="zero" x1="322.3" x2="322.3" y1="110" y2="364"/>
+<text class="tick" x="322.3" y="382" text-anchor="middle">0</text>
+<line class="grid" x1="424.2" x2="424.2" y1="110" y2="364"/>
+<text class="tick" x="424.2" y="382" text-anchor="middle">+0.1</text>
+<line class="grid" x1="526.2" x2="526.2" y1="110" y2="364"/>
+<text class="tick" x="526.2" y="382" text-anchor="middle">+0.2</text>
+<line class="grid" x1="628.1" x2="628.1" y1="110" y2="364"/>
+<text class="tick" x="628.1" y="382" text-anchor="middle">+0.3</text>
+<text class="row" x="186" y="133" text-anchor="end">Qwen 0.5B, TriviaQA</text>
+<line class="ci s1" x1="343.4" x2="436.9" y1="122" y2="122"/>
+<circle class="m1" cx="387.8" cy="122" r="5"><title>Qwen 0.5B, TriviaQA, all answers: +0.064 [+0.021, +0.112]</title></circle>
+<text class="val sig" x="444.9" y="126">+0.064</text>
+<line class="ci s2" x1="343.4" x2="436.9" y1="135" y2="135"/>
+<rect class="m2" x="383.3" y="130.5" width="9" height="9" rx="1.5"><title>Qwen 0.5B, TriviaQA, refusals excluded: +0.064 [+0.021, +0.112]</title></rect>
+<text class="row" x="186" y="175" text-anchor="end">Qwen 0.5B, SQuAD</text>
+<line class="ci s1" x1="237.1" x2="297.9" y1="164" y2="164"/>
+<circle class="m1" cx="267.7" cy="164" r="5"><title>Qwen 0.5B, SQuAD, all answers: -0.054 [-0.084, -0.024]</title></circle>
+<text class="val" x="229.1" y="168" text-anchor="end">-0.054</text>
+<line class="ci s2" x1="237.1" x2="297.9" y1="177" y2="177"/>
+<rect class="m2" x="263.2" y="172.5" width="9" height="9" rx="1.5"><title>Qwen 0.5B, SQuAD, refusals excluded: -0.054 [-0.084, -0.024]</title></rect>
+<text class="row" x="186" y="217" text-anchor="end">Phi-3.5 mini, TriviaQA</text>
+<line class="ci s1" x1="296.9" x2="342.8" y1="206" y2="206"/>
+<circle class="m1" cx="319.3" cy="206" r="5"><title>Phi-3.5 mini, TriviaQA, all answers: -0.003 [-0.025, +0.020]</title></circle>
+<text class="val" x="288.9" y="210" text-anchor="end">-0.003</text>
+<line class="ci s2" x1="296.2" x2="343.1" y1="219" y2="219"/>
+<rect class="m2" x="314.6" y="214.5" width="9" height="9" rx="1.5"><title>Phi-3.5 mini, TriviaQA, refusals excluded: -0.003 [-0.026, +0.020]</title></rect>
+<text class="row" x="186" y="259" text-anchor="end">Phi-3.5 mini, NQ-Open</text>
+<line class="ci s1" x1="330.6" x2="385.5" y1="248" y2="248"/>
+<circle class="m1" cx="357.3" cy="248" r="5"><title>Phi-3.5 mini, NQ-Open, all answers: +0.034 [+0.008, +0.062]</title></circle>
+<text class="val sig" x="393.5" y="252">+0.034</text>
+<line class="ci s2" x1="330.4" x2="385.5" y1="261" y2="261"/>
+<rect class="m2" x="352.7" y="256.5" width="9" height="9" rx="1.5"><title>Phi-3.5 mini, NQ-Open, refusals excluded: +0.034 [+0.008, +0.062]</title></rect>
+<text class="row" x="186" y="301" text-anchor="end">Gemma 2B, TriviaQA</text>
+<line class="ci s1" x1="604.5" x2="665.7" y1="290" y2="290"/>
+<circle class="m1" cx="634.2" cy="290" r="5"><title>Gemma 2B, TriviaQA, all answers: +0.306 [+0.277, +0.337]</title></circle>
+<text class="val sig" x="673.7" y="294">+0.306</text>
+<line class="ci s2" x1="406.9" x2="490.0" y1="303" y2="303"/>
+<rect class="m2" x="442.3" y="298.5" width="9" height="9" rx="1.5"><title>Gemma 2B, TriviaQA, refusals excluded: +0.122 [+0.083, +0.165]</title></rect>
+<text class="row" x="186" y="343" text-anchor="end">Gemma 2B, SQuAD</text>
+<line class="ci s1" x1="545.1" x2="610.9" y1="332" y2="332"/>
+<circle class="m1" cx="576.6" cy="332" r="5"><title>Gemma 2B, SQuAD, all answers: +0.250 [+0.219, +0.283]</title></circle>
+<text class="val sig" x="618.9" y="336">+0.250</text>
+<line class="ci s2" x1="322.6" x2="424.1" y1="345" y2="345"/>
+<rect class="m2" x="366.1" y="340.5" width="9" height="9" rx="1.5"><title>Gemma 2B, SQuAD, refusals excluded: +0.047 [+0.000, +0.100]</title></rect>
+<text class="note" x="24" y="394">Bold value = CI excludes 0 in favor of the probe. Source: tcl_experiments/runs/phase1_kaggle_analysis/ (seed 0).</text>
+</svg>

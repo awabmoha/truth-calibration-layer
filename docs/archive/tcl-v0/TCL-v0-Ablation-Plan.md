@@ -1,5 +1,8 @@
 # TCL-v0 Ablation Plan
 
+> **Archived (October 2026).** This is a TCL-v0 record from June 2026, kept for history. The current plan is `TCL-Research-Program.md` and the current results are in `docs/phase1/`. Superseded: the layer and pooling questions were answered in Phase 1 (`docs/phase1/TCL-Phase1-Kaggle-Checkpoint.md`).
+
+
 Status: predeclared next-experiment plan.
 
 This plan should be treated as the next technical checkpoint after the v0.1.1 raw-baseline correction and the v0.1.2 updated empirical writeup.

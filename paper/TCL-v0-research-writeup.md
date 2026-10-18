@@ -1,5 +1,8 @@
 # TCL-v0: Frozen Hidden States as Confidence Signals for Answer Correctness
 
+> **Archived empirical note (June 2026).** Kept for history. Its conclusions are superseded by Phase 1 (`docs/phase1/`), which re-tested them with larger, corrected data.
+
+
 **Author:** Awab Mohamed  
 **Project:** Truth Calibration Layer (TCL)  
 **Status:** Reviewed TCL-v0 empirical note; not full TCL validation

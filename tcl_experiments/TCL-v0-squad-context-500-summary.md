@@ -1,5 +1,8 @@
 # TCL-v0 SQuAD Context 500 Diagnostic
 
+> **Archived (October 2026).** TCL-v0 benchmark note from June 2026, kept for history. Current results are in `docs/phase1/`.
+
+
 Status: context-grounded benchmark diagnostic, not broad validation
 
 This run scaled the SQuAD context benchmark from 100 to 500 examples after the smaller diagnostic showed that SQuAD gives the local CPU-runnable models a healthier mix of correct and incorrect answers than NQ-Open.

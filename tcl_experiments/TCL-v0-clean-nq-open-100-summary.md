@@ -1,5 +1,8 @@
 # TCL-v0 Clean NQ-Open 100 Protocol Check
 
+> **Archived (October 2026).** TCL-v0 benchmark note from June 2026, kept for history. Current results are in `docs/phase1/`.
+
+
 Status: protocol check, not broad validation
 
 This run tested the improved benchmark protocol on a small NQ-Open subset before scaling to another 500-example benchmark.

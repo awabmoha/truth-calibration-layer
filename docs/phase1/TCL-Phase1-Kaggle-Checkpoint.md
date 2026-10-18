@@ -2,7 +2,7 @@
 
 Status: Phase 1 closed. October 18, 2026.
 
-Protocol: `TCL-Phase1-Kaggle-Protocol.md` (locked in commit 0778598, amendments in Section 7).
+Protocol: `docs/phase1/TCL-Phase1-Kaggle-Protocol.md` (locked in commit 0778598, amendments in Section 7).
 Inference: `tcl_experiments/scripts/run_inference_v2.py` at commit 0d1c332, on Kaggle T4 x2.
 Analysis: `tcl_experiments/scripts/run_phase1_kaggle_analysis.py`, run once on all retained pairings.
 Outputs: `tcl_experiments/runs/phase1_kaggle_analysis/`.
@@ -136,7 +136,7 @@ Best by mean validation AUROC: **50% depth, answer mean**. Per the protocol, thi
 
 ## Label Audit
 
-Complete (`TCL-Phase1-Label-Audit.md`). The automatic label is wrong on 40 of 600 audited test rows (6.7%): 0-4% for TriviaQA, 7-14% for SQuAD and NQ-Open, almost all correct answers marked wrong. All audit labels were decided by the assistant and are not human-reviewed. The H1-R and H2-R decisions are not re-run; the audit is a stated limitation and defines the labeling fixes for Phase 2.
+Complete (`docs/phase1/TCL-Phase1-Label-Audit.md`). The automatic label is wrong on 40 of 600 audited test rows (6.7%): 0-4% for TriviaQA, 7-14% for SQuAD and NQ-Open, almost all correct answers marked wrong. All audit labels were decided by the assistant and are not human-reviewed. The H1-R and H2-R decisions are not re-run; the audit is a stated limitation and defines the labeling fixes for Phase 2.
 
 ## Phase 1 Status
 

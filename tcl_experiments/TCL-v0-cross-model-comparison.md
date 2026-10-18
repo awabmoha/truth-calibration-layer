@@ -1,5 +1,8 @@
 # TCL-v0 Cross-Model Comparison
 
+> **Archived (October 2026).** TCL-v0 benchmark note from June 2026, kept for history. Current results are in `docs/phase1/`.
+
+
 Status: early diagnostics, not full TCL validation
 
 This comparison uses the same 500-example TriviaQA `rc.nocontext` validation subset and the same split file for two small CPU-runnable models:

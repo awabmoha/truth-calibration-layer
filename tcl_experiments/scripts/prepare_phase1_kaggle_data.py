@@ -1,6 +1,6 @@
 """Build the Phase 1 Kaggle question sets with fixed splits.
 
-Implements Section 2 of TCL-Phase1-Kaggle-Protocol.md:
+Implements Section 2 of docs/phase1/TCL-Phase1-Kaggle-Protocol.md:
 - TriviaQA rc.nocontext: first 4,500 validation rows, random split 2,500 / 500 / 1,500.
 - SQuAD v1.1: 4,500 validation questions, split by Wikipedia article so that no
   article appears in two splits, 2,500 / 500 / 1,500.

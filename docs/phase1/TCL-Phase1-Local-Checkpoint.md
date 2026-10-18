@@ -2,7 +2,7 @@
 
 Status: local part of Phase 1 complete. October 16, 2026.
 
-Protocol: `TCL-Phase1-Protocol.md`, committed (ad47163) before this analysis ran.
+Protocol: `docs/phase1/TCL-Phase1-Protocol.md`, committed (ad47163) before this analysis ran.
 Script: `tcl_experiments/scripts/run_phase1_analysis.py`.
 Outputs: `tcl_experiments/runs/phase1_local/`.
 
@@ -77,7 +77,7 @@ These were not part of the decision rules. They are hypotheses for later phases,
 
 ## Data Issue Found
 
-The June 9 "reviewed answer-mean ablation checkpoint" (`TCL-v0-Reviewed-AnswerMean-Ablation-Checkpoint.md`) evaluated test predictions against **automatic** labels, not reviewed labels. Its test labels differ from the reviewed ones in 2-9 rows per run. The June 7 baseline checkpoint did use reviewed labels. Phase 1 uses reviewed labels throughout. The June 9 checkpoint's numbers should not be cited without this caveat.
+The June 9 "reviewed answer-mean ablation checkpoint" (`docs/archive/tcl-v0/TCL-v0-Reviewed-AnswerMean-Ablation-Checkpoint.md`) evaluated test predictions against **automatic** labels, not reviewed labels. Its test labels differ from the reviewed ones in 2-9 rows per run. The June 7 baseline checkpoint did use reviewed labels. Phase 1 uses reviewed labels throughout. The June 9 checkpoint's numbers should not be cited without this caveat.
 
 ## Limitations
 

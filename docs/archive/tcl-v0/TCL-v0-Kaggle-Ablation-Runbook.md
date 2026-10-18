@@ -1,8 +1,11 @@
 # TCL-v0 Kaggle Ablation Runbook
 
+> **Archived (October 2026).** This is a TCL-v0 record from June 2026, kept for history. The current plan is `TCL-Research-Program.md` and the current results are in `docs/phase1/`. Superseded by `notebooks/tcl_phase1_kaggle_runs.ipynb`.
+
+
 Status: reproducible Kaggle execution protocol for the next ablation checkpoint.
 
-This protocol assumes `TCL-v0-Ablation-Plan.md` has been reviewed and accepted as the governing experiment plan.
+This protocol assumes `docs/archive/tcl-v0/TCL-v0-Ablation-Plan.md` has been reviewed and accepted as the governing experiment plan.
 
 ## Goal
 

@@ -1,5 +1,8 @@
 # Current State: TCL and TCL-v0
 
+> **Archived (October 2026).** This is a TCL-v0 record from June 2026, kept for history. The current plan is `TCL-Research-Program.md` and the current results are in `docs/phase1/`. These notes describe the June 2026 v0.1.x state of the repository.
+
+
 Status: shareable research checkpoint, not full TCL validation
 
 This repository contains two connected pieces of work:
@@ -17,12 +20,12 @@ frozen LLM hidden states -> small probe -> correctness/confidence score
 
 The repository has been cleaned into one canonical package:
 
-- `TCL-Theory-Paper-Theoretical-Framework.docx` is the current theory paper.
-- `TCL-v0-research-writeup.md`, `.docx`, and `.pdf` are the empirical companion note.
-- `TCL-v0-evidence-report-v2.md` summarizes the reviewed extended-validation checkpoint.
-- `TCL-v0-Roadmap.md` records the next-step roadmap for baselines, ablations, generalization, API cleanup, and scope control.
-- `TCL-v0-Reviewed-AnswerMean-Ablation-Checkpoint.md` records the local answer-mean ablation against raw-only calibration and feature-fusion baselines.
-- `TCL-v0-results-summary.md` keeps the longer diagnostic history.
+- `paper/TCL-Theory-Paper-v1.docx` is the current theory paper.
+- `paper/TCL-v0-research-writeup.md`, `.docx`, and `.pdf` are the empirical companion note.
+- `docs/archive/tcl-v0/TCL-v0-evidence-report-v2.md` summarizes the reviewed extended-validation checkpoint.
+- `docs/archive/tcl-v0/TCL-v0-Roadmap.md` records the next-step roadmap for baselines, ablations, generalization, API cleanup, and scope control.
+- `docs/archive/tcl-v0/TCL-v0-Reviewed-AnswerMean-Ablation-Checkpoint.md` records the local answer-mean ablation against raw-only calibration and feature-fusion baselines.
+- `docs/archive/tcl-v0/TCL-v0-results-summary.md` keeps the longer diagnostic history.
 - `tcl_experiments/` contains scripts, benchmark subsets, run records, and reproducible report builders.
 
 Old duplicate theory drafts, the one-off JS document builder, local virtual environments, logs, and temporary files were removed from the cleaned repository.

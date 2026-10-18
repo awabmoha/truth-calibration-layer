@@ -1,5 +1,8 @@
 # TCL-v0 Kaggle Gemma Run Log
 
+> **Archived (October 2026).** This is a TCL-v0 record from June 2026, kept for history. The current plan is `TCL-Research-Program.md` and the current results are in `docs/phase1/`.
+
+
 Status: active third-model exploratory validation path
 
 This note documents the Kaggle-hosted Gemma path started on 2026-06-07. Gemma is not part of the original two-model stopping gate, which is already complete, but it is useful as an additional model-family stress test.

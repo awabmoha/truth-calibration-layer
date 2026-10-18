@@ -1,6 +1,6 @@
 """Phase 1 local analysis: tests H1 and H2 on the six reviewed TCL-v0 runs.
 
-The protocol is fixed in TCL-Phase1-Protocol.md at the repository root. This
+The protocol is fixed in docs/phase1/TCL-Phase1-Protocol.md at the repository root. This
 script implements it exactly: unweighted fits, validation-only model selection,
 reviewed test labels, paired bootstrap CIs, and predeclared decision rules.
 """
@@ -391,7 +391,7 @@ def main() -> None:
 
     decisions = {
         "created_at": datetime.now(timezone.utc).isoformat(),
-        "protocol": "TCL-Phase1-Protocol.md",
+        "protocol": "docs/phase1/TCL-Phase1-Protocol.md",
         "primary_seed": PRIMARY_SEED,
         "H1": {
             "rule": f"probe - calibrated_raw AUROC CI lower bound > 0 in >= {H1_MIN_RUNS} of 6 runs",

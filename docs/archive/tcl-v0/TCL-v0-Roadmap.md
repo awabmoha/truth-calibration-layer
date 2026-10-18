@@ -1,5 +1,8 @@
 # TCL-v0 Roadmap
 
+> **Archived (October 2026).** This is a TCL-v0 record from June 2026, kept for history. The current plan is `TCL-Research-Program.md` and the current results are in `docs/phase1/`. Superseded by `TCL-Research-Program.md`.
+
+
 Status: next-step roadmap after the June 2026 reviewed extended-validation checkpoint.
 
 This roadmap is intentionally conservative. TCL-v0 has promising QA calibration signals, especially for reducing high-confidence wrong answers, but it is not a general truth detector and is not deployment-ready.
@@ -82,7 +85,7 @@ Goal: understand what part of TCL-v0 is doing the work.
 The predeclared ablation checkpoint is now specified in:
 
 ```text
-TCL-v0-Ablation-Plan.md
+docs/archive/tcl-v0/TCL-v0-Ablation-Plan.md
 ```
 
 Planned ablations:
