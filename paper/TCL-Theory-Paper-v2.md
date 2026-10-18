@@ -253,14 +253,15 @@ Class-balanced fitting shifts a model's effective base rate and distorts calibra
 |---|---|---|
 | H1 | Frozen hidden states improve correctness ranking beyond calibrated raw confidence. | Probe AUROC exceeds the best calibrated raw baseline with a 95% bootstrap CI on the difference excluding zero, in at least 4 of 6 runs. |
 | H2 | Frozen-probe signal transfers across QA datasets with bounded degradation. | A probe trained on one dataset retains at least 70% of its in-distribution AUROC gain over raw confidence on another. |
-| H3 | Joint training beats a frozen head trained on identical data, at equal generation quality. | TCL-J beats arms A and B (below) on AUROC with CI excluding zero on at least 2 of 3 evaluation sets, with answer-accuracy drop of at most 1 point and held-out perplexity increase of at most 3%. |
+| H3-T (primary) | A jointly trained trust head transfers across datasets better than a frozen head trained on identical data. | Trained on TriviaQA and tested on SQuAD, and the reverse: TCL-J's AUROC exceeds arm A's with CI excluding zero in both directions, and TCL-J meets the generation-quality bar (answer-accuracy drop of at most 1 point, held-out perplexity increase of at most 3%). |
+| H3-J (secondary) | The joint objective beats trust-only fine-tuning, at equal or better generation quality. | Same transfer test: TCL-J's AUROC exceeds arm B's with CI excluding zero in both directions, and TCL-J meets the generation-quality bar. |
 | H4 | At least one additional trust dimension is learnable and non-redundant. | The dimension reaches AUROC of at least 0.70, has correlation below 0.7 with `tau_c`, and adding it improves AURC for selective prediction with CI excluding zero. |
 | H5 | Joint-trained trust estimates generalize to a non-QA task and a larger model. | H3 and H4 conclusions hold on GSM8K (Cobbe et al., 2021) and on a 7B-8B model, within CIs. |
 | H6 | Trust can be estimated at the level of individual claims in long-form text. | Per-claim trust predicts FActScore-style claim labels (Min et al., 2023) with AUROC of at least 0.70. |
 
-H3 is the core test of TCL. H1 and H2 concern the frozen foundation; H4-H6 extend the framework.
+H3 is the core test of TCL. Transfer (H3-T) is primary because frozen probes fail to transfer (Orgad et al., 2025; Phase 1 of this program), so that is where a trained head can show an advantage. H1 and H2 concern the frozen foundation; H4-H6 extend the framework.
 
-### 8.2 Experimental Arms for H3
+### 8.2 Experimental Arms for H3-T and H3-J
 
 All arms use the same training questions, the same labels, and the same trust-head architecture.
 
@@ -272,6 +273,8 @@ All arms use the same training questions, the same labels, and the same trust-he
 | D | LoRA, then frozen | `L_LM` only, then a head on the adapted backbone | Whether LM fine-tuning alone changes trust signal or accuracy |
 
 If C beats A but not B, the benefit comes from adapting the backbone, not from the joint objective. If C beats A and B but D matches C, the benefit comes from LM fine-tuning. Only if C beats all three does the evidence support the joint objective specifically.
+
+**Reading a tie between C and B (fixed in advance).** If C and B are indistinguishable on trust but B fails the generation-quality bar while C meets it, the joint objective's role is to preserve generation while training for trust, and I claim no more than that. If both meet the bar and tie, the joint objective adds nothing measurable beyond trust-only fine-tuning at this scale.
 
 ### 8.3 Metrics
 
@@ -300,12 +303,12 @@ If C beats A but not B, the benefit comes from adapting the backbone, not from t
 ### 8.6 Staging
 
 1. Settle H1-H2 on existing TCL-v0 records, plus sampling baselines.
-2. Test H3 on Qwen2.5-0.5B-Instruct with LoRA, correctness dimension only.
+2. Test H3-T and H3-J on Qwen2.5-0.5B-Instruct with LoRA, correctness dimension only, training on TriviaQA and on SQuAD and testing transfer between them.
 3. Test H4, adding self-consistency first, then grounding, then evidence density.
 4. Test H5 on GSM8K and a 7B-8B model.
 5. Test H6 on long-form generation.
 
-Each stage begins only after the previous stage's gate has been evaluated. If H3 fails, TCL continues as a frozen multi-dimensional trust head (TCL-F), and its value must come from H4 and H5.
+Each stage begins only after the previous stage's gate has been evaluated. If H3-T fails, TCL continues as a frozen multi-dimensional trust head (TCL-F), and its value must come from H4 and H5.
 
 ## 9. Limitations and Threats to Validity
 
