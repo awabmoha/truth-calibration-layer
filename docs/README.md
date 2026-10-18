@@ -24,6 +24,7 @@ Documents in the order they were written. Each protocol was committed before the
 | Document | Role |
 |---|---|
 | [TCL-Labeling-Rule-v3.md](phase2/TCL-Labeling-Rule-v3.md) | Correctness labeling rule for Phase 2, with validation on the Phase 1 audit |
+| [TCL-Phase2-Protocol.md](phase2/TCL-Phase2-Protocol.md) | Locked protocol for H3-T (transfer) and H3-J (joint objective): data, arms, training, evaluation, decision rules |
 
 ## Archive
 
