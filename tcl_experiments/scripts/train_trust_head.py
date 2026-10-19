@@ -200,17 +200,31 @@ def train_joint(model, head, tokenizer, train_rows, val_rows, args, rng, device,
         params.append({"params": head.parameters(), "lr": args.lr_head})
     opt = torch.optim.AdamW(params, weight_decay=0.01)
     accum = max(1, args.batch_size // args.micro_batch)
-    steps = args.epochs * math.ceil(len(train_rows) / args.batch_size)
+    micro_per_epoch = math.ceil(len(train_rows) / args.micro_batch)
+    steps = args.epochs * math.ceil(micro_per_epoch / accum)
     sched = get_linear_schedule_with_warmup(opt, int(0.05 * steps), steps)
     scaler = torch.amp.GradScaler("cuda", enabled=device.type == "cuda")
     bce = nn.BCEWithLogitsLoss()
     trainable = [p for g in params for p in g["params"]]
     history, best = [], (float("inf"), None, -1)
 
+    def optimizer_step(counts):
+        # fp16 loss scaling skips a step when gradients overflow; count those so a run that never updated is visible.
+        scale_before = scaler.get_scale() if scaler.is_enabled() else None
+        scaler.unscale_(opt)
+        torch.nn.utils.clip_grad_norm_(trainable, 1.0)
+        scaler.step(opt)
+        scaler.update()
+        opt.zero_grad()
+        sched.step()
+        skipped = scale_before is not None and scaler.get_scale() < scale_before
+        counts["skipped" if skipped else "taken"] += 1
+
     for epoch in range(args.epochs):
         model.train()
         head.train()
         opt.zero_grad()
+        counts = {"taken": 0, "skipped": 0}
         for step, b in enumerate(batches(train_rows, args.micro_batch, rng, shuffle=True)):
             with autocast(device):
                 loss = torch.zeros((), device=device)
@@ -220,13 +234,8 @@ def train_joint(model, head, tokenizer, train_rows, val_rows, args, rng, device,
                     tb = trust_batch(tokenizer, b, device)
                     loss = loss + lam * bce(head(pooled_features(model, tb, args.layer)), tb["labels"])
             scaler.scale(loss / accum).backward()
-            if (step + 1) % accum == 0:
-                scaler.unscale_(opt)
-                torch.nn.utils.clip_grad_norm_(trainable, 1.0)
-                scaler.step(opt)
-                scaler.update()
-                opt.zero_grad()
-                sched.step()
+            if (step + 1) % accum == 0 or step + 1 == micro_per_epoch:
+                optimizer_step(counts)
         # Checkpoint selection: lowest validation trust loss (LM loss for D's LM-only stage).
         model.eval()
         head.eval()
@@ -241,7 +250,8 @@ def train_joint(model, head, tokenizer, train_rows, val_rows, args, rng, device,
                     with autocast(device):
                         losses.append(float(lm_loss(model, lm_batch(tokenizer, b, device))))
                 val_loss = float(np.mean(losses))
-        history.append({"epoch": epoch + 1, ("val_trust_loss" if use_trust else "val_lm_loss"): val_loss})
+        history.append({"epoch": epoch + 1, ("val_trust_loss" if use_trust else "val_lm_loss"): val_loss,
+                        "optimizer_steps": counts["taken"], "skipped_steps": counts["skipped"]})
         if val_loss < best[0]:
             state = {n: p.detach().clone() for n, p in model.named_parameters() if p.requires_grad}
             best = (val_loss, (state, copy.deepcopy(head.state_dict())), epoch + 1)
