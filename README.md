@@ -1,6 +1,6 @@
 # Truth Calibration Layer (TCL)
 
-![Status](https://img.shields.io/badge/status-Phase%201%20closed%20%C2%B7%20Phase%202%20next-334155)
+![Status](https://img.shields.io/badge/status-Phase%201%20closed%20%C2%B7%20Phase%202%20running-334155)
 ![Scope](https://img.shields.io/badge/scope-trust%20estimation%20for%20LLMs-0f766e)
 ![Release](https://img.shields.io/github/v/release/awabmoha/truth-calibration-layer?label=release)
 
@@ -14,12 +14,22 @@ The core claim I am testing is that training a small trust head *jointly* with t
 |---|---|---|
 | 0. Theory | A consistent, testable formulation of TCL | **Done**: [theory paper v2](paper/TCL-Theory-Paper-v2.md) |
 | 1. Foundation | Do frozen hidden states carry correctness signal beyond calibrated confidence, and does it transfer? | **Closed**: signal is real but small and model-dependent; it does not transfer |
-| 2. Core test (H3) | Does joint training beat a frozen head trained on the same data? | **Next** |
+| 2. Core test (H3) | Does joint training beat a frozen head trained on the same data? | **Running**: [protocol](docs/phase2/TCL-Phase2-Protocol.md) locked, trainings on Kaggle |
 | 3. Trust vector (H4) | Are further trust dimensions (self-consistency, grounding, evidence density) learnable and non-redundant? | Planned |
 | 4. Generalization (H5) | Do the results hold on math (GSM8K) and a 7-8B model? | Planned |
 | 5. Claim level (H6) | Can trust be estimated per claim in long-form text? | Planned |
 
 The full plan, hypotheses, decision gates, and change log are in [TCL-Research-Program.md](TCL-Research-Program.md).
+
+## How the Project Got Here
+
+**June 2026: theory paper v1 and TCL-v0.** I started with the [theory paper v1](paper/TCL-Theory-Paper-v1.docx) and a first empirical test of one narrow part of it, TCL-v0: a logistic probe on a frozen model's final-layer hidden states, predicting whether the model's answer is correct. I ran it on Qwen2.5-0.5B, Phi-3.5-mini, and Gemma 2B on SQuAD and TriviaQA (six runs of 1,000 questions, 200 held out for testing, with manual review of the labels). The most consistent finding was that a conservative rule, `min(raw confidence, probe confidence)`, cut the number of confidently wrong answers, especially on TriviaQA and Gemma. I published it as releases v0.1.0 to v0.1.5, framed as preliminary evidence rather than validation of TCL.
+
+**October 2026: a stricter program.** Looking back at TCL-v0, I decided that working checkpoint by checkpoint was not strong enough to prove the full idea. I wrote [TCL-Research-Program.md](TCL-Research-Program.md): one long-term plan with numbered hypotheses, locked protocols, and pass/fail rules fixed before any result. Phase 0 rewrote the theory into [paper v2](paper/TCL-Theory-Paper-v2.md), which separates the jointly trained version I am trying to prove (TCL-J) from the frozen-probe version TCL-v0 tested (TCL-F), and has every reference checked against its source.
+
+**Phase 1 re-tested TCL-v0 at scale** (1,500 test questions per run instead of 200, a third dataset, a layer sweep, and stronger baselines such as semantic entropy). It confirmed a real hidden-state signal, but also showed what TCL-v0 could not see: its 200-question test sets were too small, its SQuAD questions shared passages between train and test, its headline metric could be matched by recalibrating raw confidence alone, and one checkpoint used automatic rather than reviewed labels. The results above replace the TCL-v0 numbers; the original records are kept unchanged in [docs/archive/tcl-v0/](docs/archive/tcl-v0/).
+
+**Phase 2, now running,** tests the core claim that TCL-v0 never could: whether training the trust head jointly with the model beats a frozen probe, especially on a dataset it was not trained on.
 
 ## Phase 1 Results
 
@@ -68,7 +78,7 @@ Phase 1 also caught problems in the earlier TCL-v0 records: test sets too small 
 | [TCL-Research-Program.md](TCL-Research-Program.md) | Master plan: hypotheses, locked evaluation protocol, phases, gates, change log |
 | [paper/](paper/) | [Theory paper v2](paper/TCL-Theory-Paper-v2.md) (current), theory paper v1, and the archived TCL-v0 empirical note |
 | [docs/phase1/](docs/phase1/) | Phase 1 protocols (locked before evaluation), checkpoints with all results, and the label audit |
-| [docs/phase2/](docs/phase2/) | Phase 2 documents (in progress), starting with labeling rule v3 |
+| [docs/phase2/](docs/phase2/) | Phase 2 labeling rule v3 and the locked protocol with its amendments |
 | [docs/archive/tcl-v0/](docs/archive/tcl-v0/) | June 2026 TCL-v0 notes, runbooks, and run logs, kept for history |
 | [tcl_experiments/](tcl_experiments/) | Code, question sets with fixed splits, run records, and analysis outputs |
 | [notebooks/](notebooks/) | Kaggle notebooks for GPU runs |
