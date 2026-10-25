@@ -25,9 +25,11 @@ The full plan, hypotheses, decision gates, and change log are in [TCL-Research-P
 
 **June 2026: theory paper v1 and TCL-v0.** I started with the [theory paper v1](paper/TCL-Theory-Paper-v1.docx) and a first empirical test of one narrow part of it, TCL-v0: a logistic probe on a frozen model's final-layer hidden states, predicting whether the model's answer is correct. I ran it on Qwen2.5-0.5B, Phi-3.5-mini, and Gemma 2B on SQuAD and TriviaQA (six runs of 1,000 questions, 200 held out for testing, with manual review of the labels). The most consistent finding was that a conservative rule, `min(raw confidence, probe confidence)`, cut the number of confidently wrong answers, especially on TriviaQA and Gemma. I published it as releases v0.1.0 to v0.1.5, framed as preliminary evidence rather than validation of TCL.
 
+![TCL-v0: confidently wrong answers, raw confidence vs conservative TCL-v0](assets/tcl-v0-high-confidence-errors.svg)
+
 **October 2026: a stricter program.** Looking back at TCL-v0, I decided that working checkpoint by checkpoint was not strong enough to prove the full idea. I wrote [TCL-Research-Program.md](TCL-Research-Program.md): one long-term plan with numbered hypotheses, locked protocols, and pass/fail rules fixed before any result. Phase 0 rewrote the theory into [paper v2](paper/TCL-Theory-Paper-v2.md), which separates the jointly trained version I am trying to prove (TCL-J) from the frozen-probe version TCL-v0 tested (TCL-F), and has every reference checked against its source.
 
-**Phase 1 re-tested TCL-v0 at scale** (1,500 test questions per run instead of 200, a third dataset, a layer sweep, and stronger baselines such as semantic entropy). It confirmed a real hidden-state signal, but also showed what TCL-v0 could not see: its 200-question test sets were too small, its SQuAD questions shared passages between train and test, its headline metric could be matched by recalibrating raw confidence alone, and one checkpoint used automatic rather than reviewed labels. The results above replace the TCL-v0 numbers; the original records are kept unchanged in [docs/archive/tcl-v0/](docs/archive/tcl-v0/).
+**Phase 1 re-tested TCL-v0 at scale** (1,500 test questions per run instead of 200, a third dataset, a layer sweep, and stronger baselines such as semantic entropy). It confirmed a real hidden-state signal, but also showed what TCL-v0 could not see: its 200-question test sets were too small, its SQuAD questions shared passages between train and test, its headline metric could be matched by recalibrating raw confidence alone, and one checkpoint used automatic rather than reviewed labels. The Phase 1 results below replace the TCL-v0 numbers; the original records are kept unchanged in [docs/archive/tcl-v0/](docs/archive/tcl-v0/).
 
 **Phase 2, now running,** tests the core claim that TCL-v0 never could: whether training the trust head jointly with the model beats a frozen probe, especially on a dataset it was not trained on.
 
@@ -55,6 +57,10 @@ AUROC for ranking correct above incorrect answers; higher is better.
 3. **Frozen probes do not transfer across datasets.** Trained on one dataset, Qwen's probes rank answers *worse than raw confidence* on another; Phi's add nothing. This is where a jointly trained trust head has to prove itself in Phase 2.
 4. **A single-pass probe roughly matches semantic entropy**, which needs 10 extra generations per question, for Qwen and Phi.
 5. **Middle layers carry more signal than the final layer**, so Phase 2's trust head reads from 50% depth.
+
+![Phase 1: frozen probes in-distribution vs transferred](assets/phase1-transfer.svg)
+
+![Phase 1: probe AUROC by layer depth](assets/phase1-layer-sweep.svg)
 
 Phase 1 also caught problems in the earlier TCL-v0 records: test sets too small to detect these effects, a SQuAD subset whose train and test questions shared passages, and an automatic labeling rule that is wrong on 6.7% of answers (mostly correct answers marked wrong). All of this is documented in [docs/phase1/](docs/phase1/).
 
@@ -110,10 +116,11 @@ python tcl_experiments/scripts/run_phase1_kaggle_analysis.py
 
 The committed records include everything except the hidden-state arrays (`*.npz`, excluded by `.gitignore` for size). The local TCL-v0 re-analysis is `tcl_experiments/scripts/run_phase1_analysis.py`.
 
-**4. Figure.**
+**4. Figures.**
 
 ```bash
 python assets/make_phase1_figure.py
+python assets/make_history_figures.py
 ```
 
 ## How I Work

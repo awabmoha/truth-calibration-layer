@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 418" width="760" height="418" role="img" aria-labelledby="t d">
+<title id="t">Phase 1: frozen probe AUROC in-distribution vs transferred</title>
+<desc id="d">For six transfer directions, test AUROC of raw confidence, a frozen probe trained on the target dataset, and a frozen probe trained on the other dataset. Qwen and Phi probes lose most of their advantage when transferred.</desc>
+<style>
+  .bg { fill: #fcfcfb; }
+  .h1 { font: 600 17px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #0b0b0b; }
+  .sub, .tick, .leg, .note { font: 12px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #52514e; }
+  .row, .val { font: 13px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #0b0b0b; }
+  .val { font-size: 12px; }
+  .grid { stroke: #e4e3df; stroke-width: 1; }
+  .axis { stroke: #8a8984; stroke-width: 1.5; }
+  .link { stroke: #c9c8c2; stroke-width: 2; stroke-linecap: round; }
+  .c1 { fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2; } .l1 { stroke: #2a78d6; stroke-width: 2; fill: none; }
+  .c2 { fill: #eb6834; stroke: #fcfcfb; stroke-width: 2; } .l2 { stroke: #eb6834; stroke-width: 2; fill: none; }
+  .c0 { fill: #8a8984; stroke: #fcfcfb; stroke-width: 2; }
+  .dash { stroke-dasharray: 6 4; }
+  @media (prefers-color-scheme: dark) {
+    .bg { fill: #1a1a19; }
+    .h1, .row, .val { fill: #f0efec; }
+    .sub, .tick, .leg, .note { fill: #c3c2b7; }
+    .grid { stroke: #33332f; } .link { stroke: #4a4a45; }
+    .c1 { fill: #3987e5; stroke: #1a1a19; } .l1 { stroke: #3987e5; }
+    .c2 { fill: #d95926; stroke: #1a1a19; } .l2 { stroke: #d95926; }
+    .c0 { fill: #a3a29b; stroke: #1a1a19; }
+  }
+</style>
+<rect class="bg" width="760" height="418" rx="8"/>
+<text class="h1" x="24" y="34">Phase 1: frozen probes do not transfer across datasets</text>
+<text class="sub" x="24" y="54">Test AUROC on the target dataset, 1,500 test questions. A probe trained on the target dataset</text>
+<text class="sub" x="24" y="70">(blue) vs the same probe trained on the other dataset and transferred (orange).</text>
+<circle class="c0" cx="30" cy="94" r="5"/><text class="leg" x="42" y="98">Raw confidence</text>
+<circle class="c1" cx="160" cy="94" r="5"/><text class="leg" x="172" y="98">Probe, trained on target</text>
+<circle class="c2" cx="340" cy="94" r="5"/><text class="leg" x="352" y="98">Probe, transferred</text>
+<line class="grid" x1="250.0" x2="250.0" y1="108" y2="346"/>
+<text class="tick" x="250.0" y="362" text-anchor="middle">0.5</text>
+<line class="grid" x1="367.5" x2="367.5" y1="108" y2="346"/>
+<text class="tick" x="367.5" y="362" text-anchor="middle">0.6</text>
+<line class="grid" x1="485.0" x2="485.0" y1="108" y2="346"/>
+<text class="tick" x="485.0" y="362" text-anchor="middle">0.7</text>
+<line class="grid" x1="602.5" x2="602.5" y1="108" y2="346"/>
+<text class="tick" x="602.5" y="362" text-anchor="middle">0.8</text>
+<line class="grid" x1="720.0" x2="720.0" y1="108" y2="346"/>
+<text class="tick" x="720.0" y="362" text-anchor="middle">0.9</text>
+<text class="row" x="236" y="127" text-anchor="end">Qwen 0.5B: TriviaQA → SQuAD</text>
+<line class="link" x1="369.6" x2="506.1" y1="122" y2="122"/>
+<circle class="c0" cx="569.0" cy="122" r="5"><title>Qwen 0.5B: TriviaQA → SQuAD, raw confidence: 0.772</title></circle>
+<circle class="c1" cx="506.1" cy="122" r="6"><title>Qwen 0.5B: TriviaQA → SQuAD, probe trained on target: 0.718</title></circle>
+<circle class="c2" cx="369.6" cy="122" r="6"><title>Qwen 0.5B: TriviaQA → SQuAD, probe transferred: 0.602</title></circle>
+<text class="row" x="236" y="167" text-anchor="end">Qwen 0.5B: SQuAD → TriviaQA</text>
+<line class="link" x1="397.9" x2="574.1" y1="162" y2="162"/>
+<circle class="c0" cx="498.6" cy="162" r="5"><title>Qwen 0.5B: SQuAD → TriviaQA, raw confidence: 0.712</title></circle>
+<circle class="c1" cx="574.1" cy="162" r="6"><title>Qwen 0.5B: SQuAD → TriviaQA, probe trained on target: 0.776</title></circle>
+<circle class="c2" cx="397.9" cy="162" r="6"><title>Qwen 0.5B: SQuAD → TriviaQA, probe transferred: 0.626</title></circle>
+<text class="row" x="236" y="207" text-anchor="end">Phi-3.5 mini: TriviaQA → NQ-Open</text>
+<line class="link" x1="567.4" x2="597.1" y1="202" y2="202"/>
+<circle class="c0" cx="566.9" cy="202" r="5"><title>Phi-3.5 mini: TriviaQA → NQ-Open, raw confidence: 0.770</title></circle>
+<circle class="c1" cx="597.1" cy="202" r="6"><title>Phi-3.5 mini: TriviaQA → NQ-Open, probe trained on target: 0.795</title></circle>
+<circle class="c2" cx="567.4" cy="202" r="6"><title>Phi-3.5 mini: TriviaQA → NQ-Open, probe transferred: 0.770</title></circle>
+<text class="row" x="236" y="247" text-anchor="end">Phi-3.5 mini: NQ-Open → TriviaQA</text>
+<line class="link" x1="570.2" x2="632.8" y1="242" y2="242"/>
+<circle class="c0" cx="641.1" cy="242" r="5"><title>Phi-3.5 mini: NQ-Open → TriviaQA, raw confidence: 0.833</title></circle>
+<circle class="c1" cx="632.8" cy="242" r="6"><title>Phi-3.5 mini: NQ-Open → TriviaQA, probe trained on target: 0.826</title></circle>
+<circle class="c2" cx="570.2" cy="242" r="6"><title>Phi-3.5 mini: NQ-Open → TriviaQA, probe transferred: 0.773</title></circle>
+<text class="row" x="236" y="287" text-anchor="end">Gemma 2B: TriviaQA → SQuAD</text>
+<line class="link" x1="633.7" x2="684.3" y1="282" y2="282"/>
+<circle class="c0" cx="391.1" cy="282" r="5"><title>Gemma 2B: TriviaQA → SQuAD, raw confidence: 0.620</title></circle>
+<circle class="c1" cx="684.3" cy="282" r="6"><title>Gemma 2B: TriviaQA → SQuAD, probe trained on target: 0.870</title></circle>
+<circle class="c2" cx="633.7" cy="282" r="6"><title>Gemma 2B: TriviaQA → SQuAD, probe transferred: 0.827</title></circle>
+<text class="row" x="236" y="327" text-anchor="end">Gemma 2B: SQuAD → TriviaQA</text>
+<line class="link" x1="571.7" x2="651.0" y1="322" y2="322"/>
+<circle class="c0" cx="282.3" cy="322" r="5"><title>Gemma 2B: SQuAD → TriviaQA, raw confidence: 0.527</title></circle>
+<circle class="c1" cx="651.0" cy="322" r="6"><title>Gemma 2B: SQuAD → TriviaQA, probe trained on target: 0.841</title></circle>
+<circle class="c2" cx="571.7" cy="322" r="6"><title>Gemma 2B: SQuAD → TriviaQA, probe transferred: 0.774</title></circle>
+<text class="note" x="24" y="388">Qwen and Phi probes transfer to the level of raw confidence or below. Gemma's transfer holds partly because</text>
+<text class="note" x="24" y="404">its probe detects refusals. Source: tcl_experiments/runs/phase1_kaggle_analysis/h2r_transfer.csv.</text>
+</svg>

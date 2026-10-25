@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="760" height="380" role="img" aria-labelledby="t d">
+<title id="t">TCL-v0: confidently wrong answers, raw confidence vs conservative TCL-v0</title>
+<desc id="d">For six model and dataset runs of TCL-v0, the number of wrong answers with confidence of at least 0.8 fell from 30 to 10, 9 to 1, 5 to 4, 42 to 9, 62 to 10, 76 to 10 under the conservative rule.</desc>
+<style>
+  .bg { fill: #fcfcfb; }
+  .h1 { font: 600 17px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #0b0b0b; }
+  .sub, .tick, .leg, .note { font: 12px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #52514e; }
+  .row, .val { font: 13px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #0b0b0b; }
+  .val { font-size: 12px; }
+  .grid { stroke: #e4e3df; stroke-width: 1; }
+  .axis { stroke: #8a8984; stroke-width: 1.5; }
+  .link { stroke: #c9c8c2; stroke-width: 2; stroke-linecap: round; }
+  .c1 { fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2; } .l1 { stroke: #2a78d6; stroke-width: 2; fill: none; }
+  .c2 { fill: #eb6834; stroke: #fcfcfb; stroke-width: 2; } .l2 { stroke: #eb6834; stroke-width: 2; fill: none; }
+  .c0 { fill: #8a8984; stroke: #fcfcfb; stroke-width: 2; }
+  .dash { stroke-dasharray: 6 4; }
+  @media (prefers-color-scheme: dark) {
+    .bg { fill: #1a1a19; }
+    .h1, .row, .val { fill: #f0efec; }
+    .sub, .tick, .leg, .note { fill: #c3c2b7; }
+    .grid { stroke: #33332f; } .link { stroke: #4a4a45; }
+    .c1 { fill: #3987e5; stroke: #1a1a19; } .l1 { stroke: #3987e5; }
+    .c2 { fill: #d95926; stroke: #1a1a19; } .l2 { stroke: #d95926; }
+    .c0 { fill: #a3a29b; stroke: #1a1a19; }
+  }
+</style>
+<rect class="bg" width="760" height="380" rx="8"/>
+<text class="h1" x="24" y="34">TCL-v0 (June 2026): confidently wrong answers</text>
+<text class="sub" x="24" y="54">Wrong answers given with confidence of at least 0.8, out of 200 test questions per run.</text>
+<text class="sub" x="24" y="70">Conservative TCL-v0 = min(raw confidence, frozen final-layer probe).</text>
+<circle class="c0" cx="30" cy="92" r="5"/><text class="leg" x="42" y="96">Raw confidence</text>
+<circle class="c1" cx="160" cy="92" r="5"/><text class="leg" x="172" y="96">Conservative TCL-v0</text>
+<line class="grid" x1="200.0" x2="200.0" y1="104" y2="332"/>
+<text class="tick" x="200.0" y="348" text-anchor="middle">0</text>
+<line class="grid" x1="330.0" x2="330.0" y1="104" y2="332"/>
+<text class="tick" x="330.0" y="348" text-anchor="middle">20</text>
+<line class="grid" x1="460.0" x2="460.0" y1="104" y2="332"/>
+<text class="tick" x="460.0" y="348" text-anchor="middle">40</text>
+<line class="grid" x1="590.0" x2="590.0" y1="104" y2="332"/>
+<text class="tick" x="590.0" y="348" text-anchor="middle">60</text>
+<line class="grid" x1="720.0" x2="720.0" y1="104" y2="332"/>
+<text class="tick" x="720.0" y="348" text-anchor="middle">80</text>
+<text class="row" x="186" y="123" text-anchor="end">Qwen 0.5B, SQuAD</text>
+<line class="link" x1="265.0" x2="395.0" y1="118" y2="118"/>
+<circle class="c0" cx="395.0" cy="118" r="6"><title>Qwen 0.5B, SQuAD, raw: 30</title></circle>
+<circle class="c1" cx="265.0" cy="118" r="6"><title>Qwen 0.5B, SQuAD, conservative TCL-v0: 10</title></circle>
+<text class="val" x="406.0" y="122">30</text>
+<text class="val" x="254.0" y="122" text-anchor="end">10</text>
+<text class="row" x="186" y="161" text-anchor="end">Qwen 0.5B, TriviaQA</text>
+<line class="link" x1="206.5" x2="258.5" y1="156" y2="156"/>
+<circle class="c0" cx="258.5" cy="156" r="6"><title>Qwen 0.5B, TriviaQA, raw: 9</title></circle>
+<circle class="c1" cx="206.5" cy="156" r="6"><title>Qwen 0.5B, TriviaQA, conservative TCL-v0: 1</title></circle>
+<text class="val" x="269.5" y="160">9</text>
+<text class="val" x="206.5" y="146" text-anchor="middle">1</text>
+<text class="row" x="186" y="199" text-anchor="end">Phi-3.5 mini, SQuAD</text>
+<line class="link" x1="226.0" x2="232.5" y1="194" y2="194"/>
+<circle class="c0" cx="232.5" cy="194" r="6"><title>Phi-3.5 mini, SQuAD, raw: 5</title></circle>
+<circle class="c1" cx="226.0" cy="194" r="6"><title>Phi-3.5 mini, SQuAD, conservative TCL-v0: 4</title></circle>
+<text class="val" x="243.5" y="198">5</text>
+<text class="val" x="215.0" y="198" text-anchor="end">4</text>
+<text class="row" x="186" y="237" text-anchor="end">Phi-3.5 mini, TriviaQA</text>
+<line class="link" x1="258.5" x2="473.0" y1="232" y2="232"/>
+<circle class="c0" cx="473.0" cy="232" r="6"><title>Phi-3.5 mini, TriviaQA, raw: 42</title></circle>
+<circle class="c1" cx="258.5" cy="232" r="6"><title>Phi-3.5 mini, TriviaQA, conservative TCL-v0: 9</title></circle>
+<text class="val" x="484.0" y="236">42</text>
+<text class="val" x="247.5" y="236" text-anchor="end">9</text>
+<text class="row" x="186" y="275" text-anchor="end">Gemma 2B, SQuAD</text>
+<line class="link" x1="265.0" x2="603.0" y1="270" y2="270"/>
+<circle class="c0" cx="603.0" cy="270" r="6"><title>Gemma 2B, SQuAD, raw: 62</title></circle>
+<circle class="c1" cx="265.0" cy="270" r="6"><title>Gemma 2B, SQuAD, conservative TCL-v0: 10</title></circle>
+<text class="val" x="614.0" y="274">62</text>
+<text class="val" x="254.0" y="274" text-anchor="end">10</text>
+<text class="row" x="186" y="313" text-anchor="end">Gemma 2B, TriviaQA</text>
+<line class="link" x1="265.0" x2="694.0" y1="308" y2="308"/>
+<circle class="c0" cx="694.0" cy="308" r="6"><title>Gemma 2B, TriviaQA, raw: 76</title></circle>
+<circle class="c1" cx="265.0" cy="308" r="6"><title>Gemma 2B, TriviaQA, conservative TCL-v0: 10</title></circle>
+<text class="val" x="705.0" y="312">76</text>
+<text class="val" x="254.0" y="312" text-anchor="end">10</text>
+<text class="note" x="24" y="350">Phase 1 later found that recalibrating raw confidence alone also lowers this count, and that these</text>
+<text class="note" x="24" y="366">test sets were too small and the SQuAD split shared passages. Source: docs/archive/tcl-v0/TCL-v0-evidence-report-v2.md.</text>
+</svg>

@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 440" width="760" height="440" role="img" aria-labelledby="t d">
+<title id="t">Phase 1: Qwen probe AUROC by layer depth and pooling</title>
+<desc id="d">Frozen-probe test AUROC is highest at 50% depth for both pooling methods on both datasets; with mean pooling it is 0.826 on TriviaQA and 0.777 on SQuAD.</desc>
+<style>
+  .bg { fill: #fcfcfb; }
+  .h1 { font: 600 17px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #0b0b0b; }
+  .sub, .tick, .leg, .note { font: 12px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #52514e; }
+  .row, .val { font: 13px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #0b0b0b; }
+  .val { font-size: 12px; }
+  .grid { stroke: #e4e3df; stroke-width: 1; }
+  .axis { stroke: #8a8984; stroke-width: 1.5; }
+  .link { stroke: #c9c8c2; stroke-width: 2; stroke-linecap: round; }
+  .c1 { fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2; } .l1 { stroke: #2a78d6; stroke-width: 2; fill: none; }
+  .c2 { fill: #eb6834; stroke: #fcfcfb; stroke-width: 2; } .l2 { stroke: #eb6834; stroke-width: 2; fill: none; }
+  .c0 { fill: #8a8984; stroke: #fcfcfb; stroke-width: 2; }
+  .dash { stroke-dasharray: 6 4; }
+  @media (prefers-color-scheme: dark) {
+    .bg { fill: #1a1a19; }
+    .h1, .row, .val { fill: #f0efec; }
+    .sub, .tick, .leg, .note { fill: #c3c2b7; }
+    .grid { stroke: #33332f; } .link { stroke: #4a4a45; }
+    .c1 { fill: #3987e5; stroke: #1a1a19; } .l1 { stroke: #3987e5; }
+    .c2 { fill: #d95926; stroke: #1a1a19; } .l2 { stroke: #d95926; }
+    .c0 { fill: #a3a29b; stroke: #1a1a19; }
+  }
+</style>
+<rect class="bg" width="760" height="440" rx="8"/>
+<text class="h1" x="24" y="34">Phase 1: middle layers carry the most signal (Qwen 0.5B)</text>
+<text class="sub" x="24" y="54">Test AUROC of a frozen logistic probe by layer depth, pooling the answer tokens by mean (solid)</text>
+<text class="sub" x="24" y="70">or taking the last answer token (dashed). 1,500 test questions per dataset.</text>
+<line class="l1" x1="24" x2="44" y1="92" y2="92"/><text class="leg" x="52" y="96">TriviaQA</text>
+<line class="l2" x1="130" x2="150" y1="92" y2="92"/><text class="leg" x="158" y="96">SQuAD</text>
+<line class="axis" x1="230" x2="250" y1="92" y2="92"/><text class="leg" x="258" y="96">Mean pooling</text>
+<line class="axis dash" x1="360" x2="380" y1="92" y2="92"/><text class="leg" x="388" y="96">Last answer token</text>
+<line class="grid" x1="70" x2="590" y1="364.0" y2="364.0"/>
+<text class="tick" x="60" y="368.0" text-anchor="end">0.60</text>
+<line class="grid" x1="70" x2="590" y1="315.6" y2="315.6"/>
+<text class="tick" x="60" y="319.6" text-anchor="end">0.65</text>
+<line class="grid" x1="70" x2="590" y1="267.2" y2="267.2"/>
+<text class="tick" x="60" y="271.2" text-anchor="end">0.70</text>
+<line class="grid" x1="70" x2="590" y1="218.8" y2="218.8"/>
+<text class="tick" x="60" y="222.8" text-anchor="end">0.75</text>
+<line class="grid" x1="70" x2="590" y1="170.4" y2="170.4"/>
+<text class="tick" x="60" y="174.4" text-anchor="end">0.80</text>
+<line class="grid" x1="70" x2="590" y1="122.0" y2="122.0"/>
+<text class="tick" x="60" y="126.0" text-anchor="end">0.85</text>
+<text class="tick" x="70.0" y="386" text-anchor="middle">25% depth</text>
+<text class="tick" x="330.0" y="386" text-anchor="middle">50% depth</text>
+<text class="tick" x="590.0" y="386" text-anchor="middle">Final layer</text>
+<polyline class="l1" points="70.0,217.8 330.0,144.8 590.0,193.8"/>
+<circle class="c1" cx="70.0" cy="217.8" r="5"><title>TriviaQA, mean pooling, 25% depth: 0.751</title></circle>
+<circle class="c1" cx="330.0" cy="144.8" r="5"><title>TriviaQA, mean pooling, 50% depth: 0.826</title></circle>
+<circle class="c1" cx="590.0" cy="193.8" r="5"><title>TriviaQA, mean pooling, Final layer: 0.776</title></circle>
+<polyline class="l1 dash" points="70.0,247.0 330.0,160.7 590.0,196.3"/>
+<circle class="c1" cx="70.0" cy="247.0" r="5"><title>TriviaQA, last pooling, 25% depth: 0.721</title></circle>
+<circle class="c1" cx="330.0" cy="160.7" r="5"><title>TriviaQA, last pooling, 50% depth: 0.810</title></circle>
+<circle class="c1" cx="590.0" cy="196.3" r="5"><title>TriviaQA, last pooling, Final layer: 0.773</title></circle>
+<polyline class="l2" points="70.0,334.0 330.0,192.2 590.0,249.8"/>
+<circle class="c2" cx="70.0" cy="334.0" r="5"><title>SQuAD, mean pooling, 25% depth: 0.631</title></circle>
+<circle class="c2" cx="330.0" cy="192.2" r="5"><title>SQuAD, mean pooling, 50% depth: 0.777</title></circle>
+<circle class="c2" cx="590.0" cy="249.8" r="5"><title>SQuAD, mean pooling, Final layer: 0.718</title></circle>
+<polyline class="l2 dash" points="70.0,330.9 330.0,187.2 590.0,208.9"/>
+<circle class="c2" cx="70.0" cy="330.9" r="5"><title>SQuAD, last pooling, 25% depth: 0.634</title></circle>
+<circle class="c2" cx="330.0" cy="187.2" r="5"><title>SQuAD, last pooling, 50% depth: 0.783</title></circle>
+<circle class="c2" cx="590.0" cy="208.9" r="5"><title>SQuAD, last pooling, Final layer: 0.760</title></circle>
+<text class="val" x="602" y="197.8">TriviaQA, mean 0.776</text>
+<text class="val" x="602" y="213.8">TriviaQA, last 0.773</text>
+<text class="val" x="602" y="229.8">SQuAD, last 0.760</text>
+<text class="val" x="602" y="253.8">SQuAD, mean 0.718</text>
+<text class="note" x="24" y="410">50% depth is the best layer for both pooling methods on both datasets, so Phase 2's trust head reads from there.</text>
+<text class="note" x="24" y="426">Source: tcl_experiments/runs/phase1_kaggle_analysis/layer_sweep_qwen.csv.</text>
+</svg>
