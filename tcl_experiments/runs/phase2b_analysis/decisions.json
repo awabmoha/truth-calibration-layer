@@ -1,0 +1,19 @@
+{
+  "created_at": "2026-11-20T14:59:51.616172+00:00",
+  "protocol": "docs/phase2/TCL-Phase2-Protocol.md",
+  "H3-T": {
+    "passes": false,
+    "rule": "d(C,A) CI lower bound > 0 in both transfer directions, and C meets the generation bar"
+  },
+  "H3-J": {
+    "passes": false,
+    "rule": "d(C,B) CI lower bound > 0 in both transfer directions, and C meets the generation bar"
+  },
+  "generation_bar": {
+    "C": false,
+    "B": false,
+    "D": false
+  },
+  "tie_reading": "joint arm fails the generation-quality bar",
+  "transfer_gain_attributed_to_lm_fine_tuning": false
+}
