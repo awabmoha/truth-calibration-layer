@@ -1,0 +1,41 @@
+This repository uses two licenses.
+
+1. Code (everything under tcl_experiments/scripts/, notebooks/, assets/*.py,
+   and other source files) is licensed under the MIT License below.
+
+2. Papers, documentation, figures, and my own run records and analysis outputs
+   (paper/, docs/, the Markdown files, assets/*.svg, tcl_experiments/runs/) are
+   licensed under the Creative Commons Attribution 4.0 International License
+   (CC BY 4.0): https://creativecommons.org/licenses/by/4.0/
+   You may share and adapt them for any purpose, provided you give appropriate
+   credit to Awab Mohamed, link to the license, and indicate if changes were made.
+
+Third-party material keeps its own license. The question sets in
+tcl_experiments/data/ are derived from TriviaQA (Apache License 2.0),
+SQuAD (CC BY-SA 4.0), Natural Questions / NQ-Open (CC BY-SA 3.0), and
+WikiText-2 (CC BY-SA 3.0); model outputs come from Qwen2.5, Phi-3.5, and
+Gemma, each under its own model license.
+
+-------------------------------------------------------------------------------
+
+MIT License
+
+Copyright (c) 2026 Awab Mohamed
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

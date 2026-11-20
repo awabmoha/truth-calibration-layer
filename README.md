@@ -3,6 +3,7 @@
 ![Status](https://img.shields.io/badge/status-Phase%202%20%2B%202b%20done%20%C2%B7%20H3%20fails-334155)
 ![Scope](https://img.shields.io/badge/scope-trust%20estimation%20for%20LLMs-0f766e)
 ![Release](https://img.shields.io/github/v/release/awabmoha/truth-calibration-layer?label=release)
+![License](https://img.shields.io/badge/license-MIT%20code%20%C2%B7%20CC%20BY%204.0%20docs-475569)
 
 Language models say wrong things with the same fluency as right things. **TCL is my research program to make a model emit, alongside each answer, a calibrated estimate of how much that answer can be trusted, and to have that ability learned inside the model rather than bolted on afterwards.**
 
@@ -179,9 +180,13 @@ python assets/make_phase2_figure.py
 - **Papers use the ACL format** (official ACL LaTeX style).
 - **Primary metrics are ranking-based** (AUROC, AURC), with calibration (ECE, Brier) measured only after giving every method the same post-hoc calibration, so that a method cannot win just by being recalibrated.
 
+## License
+
+Code is under the MIT License; papers, docs, figures, and my run records are under CC BY 4.0, so you may reuse them with credit. Third-party datasets and models keep their own licenses. Details in [LICENSE](LICENSE).
+
 ## Author
 
-Awab Mohamed, independent researcher, Qatar.
+Awab Mohamed, independent researcher, Qatar. To cite this work, use GitHub's "Cite this repository" button (from [CITATION.cff](CITATION.cff)) or the entries below.
 
 ```bibtex
 @misc{mohamed2026tcl,

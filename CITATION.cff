@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Truth Calibration Layer: A Research Program on Trust Estimation for Language Models"
+authors:
+  - family-names: Mohamed
+    given-names: Awab
+type: software
+license: MIT
+repository-code: "https://github.com/awabmoha/truth-calibration-layer"
+url: "https://github.com/awabmoha/truth-calibration-layer"
+date-released: "2026-11-20"
+keywords:
+  - trust estimation
+  - uncertainty estimation
+  - calibration
+  - hallucination detection
+  - language models
+preferred-citation:
+  type: article
+  title: "Joint Training Does Not Make Trust Heads Transfer: A Preregistered Negative Result"
+  authors:
+    - family-names: Mohamed
+      given-names: Awab
+  year: 2026
+  url: "https://github.com/awabmoha/truth-calibration-layer/tree/main/paper/acl-phase2"
