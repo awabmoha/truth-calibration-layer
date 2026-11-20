@@ -6,7 +6,7 @@ November 2026. This is the readable Markdown copy; the version of record, in ACL
 
 ## Abstract
 
-A trust head is a small model that reads a language model's hidden states and predicts whether its answer is correct. A natural hope is that training this head *jointly* with the language model, under `L_LM + lambda * L_trust`, will shape the backbone's representations so that trust estimates generalize better than a head on a frozen model. I test this with a preregistered comparison of four arms on identical data: a frozen-backbone head (A), LoRA fine-tuning for trust only (B), joint LoRA fine-tuning (C), and LoRA fine-tuning for language modeling only followed by a head (D). The model is Qwen2.5-0.5B-Instruct, trained on TriviaQA or SQuAD and tested on the other dataset, with 3 seeds per arm and paired bootstrap confidence intervals. The pass rule, fixed before training, required C to beat A in both transfer directions while keeping generation quality. **It fails.** Joint training beats the frozen head from TriviaQA to SQuAD (+0.022 AUROC) but is significantly worse from SQuAD to TriviaQA (-0.038), and its gain in the first direction is matched by language-model fine-tuning alone (+0.031). After the analysis I found an implementation flaw: the language-modeling target lacked the end-of-turn token, so fine-tuned models answered in a median of 5-19 words instead of 2. I fixed it and ran the one rerun my protocol allowed. Answers returned to 1-2 words, but the transfer result did not change (+0.034 and -0.038; LM-only fine-tuning +0.041 and +0.002). In-distribution, joint training improves on trust-only fine-tuning by about 0.01 AUROC but never beats LM-only fine-tuning. Across every arm and both runs, a head trained on one dataset's correctness labels transfers far below the model's raw token confidence (0.56-0.65 vs 0.71-0.76) and semantic entropy (0.77), which are trained on neither. At this scale, joint training does not solve the transfer problem of learned trust estimators.
+A trust head is a small model that reads a language model's hidden states and predicts whether its answer is correct. A natural hope is that training this head *jointly* with the language model, under `L_LM + lambda * L_trust`, will shape the backbone's representations so that trust estimates generalize better than a head on a frozen model. I test this with a preregistered comparison of four arms on identical data: a frozen-backbone head (A), LoRA fine-tuning for trust only (B), joint LoRA fine-tuning (C), and LoRA fine-tuning for language modeling only followed by a head (D). The model is Qwen2.5-0.5B-Instruct, trained on TriviaQA or SQuAD and tested on the other dataset, with 3 seeds per arm and paired bootstrap confidence intervals. The pass rule, fixed before training, required C to beat A in both transfer directions while keeping generation quality. **It fails.** Joint training beats the frozen head from TriviaQA to SQuAD (+0.022 AUROC) but is significantly worse from SQuAD to TriviaQA (-0.038), and its gain in the first direction is matched by language-model fine-tuning alone (+0.031). After the analysis I found an implementation flaw: the language-modeling target lacked the end-of-turn token, so fine-tuned models answered in a median of 5-19 words instead of 2. I fixed it and ran the one rerun my protocol allowed. Answers returned to 1-2 words, but the transfer result did not change (+0.034 and -0.038; LM-only fine-tuning +0.041 and +0.002). In-distribution, joint training improves on trust-only fine-tuning by about 0.01 AUROC but never beats LM-only fine-tuning. Across every arm and both runs, a head trained on one dataset's correctness labels transfers far below the model's raw token confidence (0.56-0.65 vs 0.71-0.76) and semantic entropy (0.77), which are trained on neither. An earlier study of frozen probes on three models (Qwen2.5-0.5B, Phi-3.5-mini, Gemma 2B) shows the same failure for the two models whose token confidence is informative. At this scale, joint training does not solve the transfer problem of learned trust estimators.
 
 ## 1. Introduction
 
@@ -20,7 +20,7 @@ This paper makes that comparison. It is Phase 2 of my Truth Calibration Layer (T
 
 1. A controlled four-arm comparison (frozen, trust-only, joint, LM-only) on identical data, with transfer in both directions between a closed-book and a reading-comprehension QA dataset, 3 seeds per arm, paired bootstrap CIs, and an explicit generation-quality bar.
 2. A negative result, replicated after fixing an implementation flaw: joint training does not transfer better than a frozen head, and its gains in one direction are explained by language-model fine-tuning alone.
-3. Evidence that the transfer gap is general: every trained head, frozen or fine-tuned, falls far below untrained signals (raw token confidence, semantic entropy) on a new dataset.
+3. Evidence that the transfer gap is general: every trained head, frozen or fine-tuned, falls far below untrained signals (raw token confidence, semantic entropy) on a new dataset, and an earlier study finds the same for frozen probes on a second model, with one informative exception (Section 4.6).
 4. A full record of the process, including a flaw found after the first analysis and the single preregistered rerun it led to, with label audits.
 
 ## 2. Related Work
@@ -165,11 +165,34 @@ No fine-tuned arm meets the bar in either run. In the first run, long answers li
 - **Effect:** the transfer comparisons score every arm on the same fixed answers and labels, so label noise lowers absolute SQuAD AUROCs but does not favor any arm.
 - **Caveat:** all audit labels are mine, with no second reviewer.
 
+### 4.6 Earlier evidence: frozen probes on three models
+
+Before these experiments, Phase 1 of the program tested frozen probes on three models: Qwen2.5-0.5B-Instruct, Phi-3.5-mini-instruct (Abdin et al., 2024), and Gemma 2B-it (Gemma Team, 2024), on TriviaQA, SQuAD, and NQ-Open (Kwiatkowski et al., 2019), with 1,500 test questions per pairing. The setup differs from the main study in three ways:
+
+- **Probe:** a logistic probe on final-layer features.
+- **Labels:** an earlier rule (v2).
+- **Refusals:** marked by a pattern and labeled incorrect.
+
+Pairings with fewer than 150 correct or incorrect test answers were dropped before any metric was computed. Each model was then transferred between its two remaining datasets.
+
+| Model | Direction | Raw confidence (target) | Transferred probe | Probe - raw [95% CI] |
+|---|---|---:|---:|---|
+| Qwen 0.5B | TriviaQA -> SQuAD | 0.772 | 0.602 | **-0.170** [-0.213, -0.128] |
+| Qwen 0.5B | SQuAD -> TriviaQA | 0.712 | 0.626 | **-0.086** [-0.133, -0.033] |
+| Phi-3.5-mini | TriviaQA -> NQ-Open | 0.770 | 0.770 | +0.000 [-0.028, +0.032] |
+| Phi-3.5-mini | NQ-Open -> TriviaQA | 0.833 | 0.773 | **-0.060** [-0.084, -0.036] |
+| Gemma 2B | TriviaQA -> SQuAD | 0.620 | 0.827 | **+0.207** [+0.168, +0.245] |
+| Gemma 2B | SQuAD -> TriviaQA | 0.527 | 0.774 | **+0.247** [+0.208, +0.285] |
+
+- **Qwen and Phi:** the transferred probes never beat raw confidence and are significantly worse in three of four directions.
+- **Gemma:** the probes transfer well, but this case differs in two ways. Gemma's token confidence is close to chance (0.53-0.62). And it refuses 17-30% of questions; refusals are labeled incorrect and look alike across datasets, so a probe can score well by recognizing them.
+- **So:** where raw confidence is informative, frozen probes trained on one dataset fall below it on another, as every head in the main study does.
+
 ## 5. Discussion
 
 **Joint training is not what limits transfer.** The design separates the joint objective from its confounds, and LM-only fine-tuning accounts for every improvement. In the one direction where C beats A, D beats A by as much or more, which points to adapting the backbone to the training data, not training it for trust, as the source of the gain. In the other direction, C is worse than every alternative.
 
-**The transfer gap is shared by every trained head.** The frozen head, the frozen logistic probe from my earlier work, and all three fine-tuned heads transfer at 0.56-0.68 AUROC, against 0.71-0.76 for raw token confidence and 0.77 for semantic entropy. My interpretation, which these experiments do not test directly, is that a head trained on one dataset's correctness labels learns that dataset's notion of a likely-correct answer. For TriviaQA (closed-book, 14% correct) that means recognizing questions the model knows. For SQuAD (reading comprehension, 69% correct) it means recognizing well-extracted spans. Neither carries over. Fine-tuning the backbone does not prevent this, and joint training, which also adapts the backbone to one dataset's answer style, may make it worse.
+**The transfer gap is shared by every trained head.** The frozen head, the frozen logistic probe from my earlier work, and all three fine-tuned heads transfer at 0.56-0.68 AUROC on Qwen, against 0.71-0.76 for raw token confidence and 0.77 for semantic entropy; frozen probes on Phi-3.5-mini show the same pattern (Section 4.6). My interpretation, which these experiments do not test directly, is that a head trained on one dataset's correctness labels learns that dataset's notion of a likely-correct answer. For TriviaQA (closed-book, 14% correct) that means recognizing questions the model knows. For SQuAD (reading comprehension, 69% correct) it means recognizing well-extracted spans. Neither carries over. Fine-tuning the backbone does not prevent this, and joint training, which also adapts the backbone to one dataset's answer style, may make it worse.
 
 **The asymmetry.** The SQuAD-trained joint head is the worst transfer arm in both runs, although each run trained new weights, so the result is stable rather than a fluke of one training. It is trained on 70% positive labels and long contexts and then applied to closed-book questions with 14% positives. One possible explanation is that its objective rewards whatever distinguishes good extractions from a passage, a cue that closed-book TriviaQA answers do not have.
 
@@ -177,7 +200,7 @@ No fine-tuned arm meets the bar in either run. In the first run, long answers li
 
 ## 6. Limitations
 
-- **Scale:** one small model (0.5B parameters) and LoRA fine-tuning only.
+- **Scale:** the four-arm comparison uses one small model (0.5B parameters) and LoRA fine-tuning only. The three-model evidence in Section 4.6 covers frozen probes only, with an earlier label rule.
 - **Datasets:** two short-answer QA datasets. Their base accuracies differ greatly (14% vs 69%), which makes transfer especially hard; closer pairs might transfer better.
 - **Labels:** an automatic rule audited at 4-5% error, with all audits done by one person. The SQuAD audit errors run in one direction (correct answers marked wrong).
 - **Generation bar:** the bar mixes accuracy, measured with the same rule, and perplexity on encyclopedic text. Neither is a full measure of generation quality.
@@ -185,7 +208,7 @@ No fine-tuned arm meets the bar in either run. In the first run, long answers li
 
 ## 7. Conclusion
 
-Under a preregistered four-arm design, training a trust head jointly with a 0.5B language model does not produce trust estimates that transfer across datasets better than a frozen head, before or after fixing a flaw in the language-modeling target. Where it helps, plain language-model fine-tuning helps as much. The larger obstacle is common to every learned head tested: trained on one dataset's correctness labels, they fall well below untrained confidence signals on another. Progress on learned trust estimation needs evaluation on held-out datasets as the default, and methods that start from, and must beat, those untrained signals.
+Under a preregistered four-arm design, training a trust head jointly with a 0.5B language model does not produce trust estimates that transfer across datasets better than a frozen head, before or after fixing a flaw in the language-modeling target. Where it helps, plain language-model fine-tuning helps as much. The larger obstacle is common to every learned head tested: trained on one dataset's correctness labels, they fall well below untrained confidence signals on another, wherever those signals are informative. Progress on learned trust estimation needs evaluation on held-out datasets as the default, and methods that start from, and must beat, those untrained signals.
 
 ## Reproducibility
 
@@ -202,42 +225,48 @@ Compute: about 24 Kaggle T4 session hours for the runs that count.
 
 ## References
 
-[1] Azaria, A., & Mitchell, T. (2023). The internal state of an LLM knows when it's lying. In *Findings of the Association for Computational Linguistics: EMNLP 2023*, 967-976.
+[1] Abdin, M., et al. (2024). Phi-3 technical report: A highly capable language model locally on your phone. arXiv:2404.14219.
 
-[2] Burns, C., Ye, H., Klein, D., & Steinhardt, J. (2023). Discovering latent knowledge in language models without supervision. In *ICLR*.
+[2] Azaria, A., & Mitchell, T. (2023). The internal state of an LLM knows when it's lying. In *Findings of the Association for Computational Linguistics: EMNLP 2023*, 967-976.
 
-[3] Farquhar, S., Kossen, J., Kuhn, L., & Gal, Y. (2024). Detecting hallucinations in large language models using semantic entropy. *Nature*, 630, 625-630.
+[3] Burns, C., Ye, H., Klein, D., & Steinhardt, J. (2023). Discovering latent knowledge in language models without supervision. In *ICLR*.
 
-[4] Geifman, Y., & El-Yaniv, R. (2017). Selective classification for deep neural networks. In *NeurIPS*.
+[4] Farquhar, S., Kossen, J., Kuhn, L., & Gal, Y. (2024). Detecting hallucinations in large language models using semantic entropy. *Nature*, 630, 625-630.
 
-[5] Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). On calibration of modern neural networks. In *ICML*.
+[5] Geifman, Y., & El-Yaniv, R. (2017). Selective classification for deep neural networks. In *NeurIPS*.
 
-[6] Hu, E. J., et al. (2022). LoRA: Low-rank adaptation of large language models. In *ICLR*.
+[6] Gemma Team. (2024). Gemma: Open models based on Gemini research and technology. arXiv:2403.08295.
 
-[7] Joshi, M., Choi, E., Weld, D., & Zettlemoyer, L. (2017). TriviaQA: A large scale distantly supervised challenge dataset for reading comprehension. In *ACL*.
+[7] Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). On calibration of modern neural networks. In *ICML*.
 
-[8] Kadavath, S., et al. (2022). Language models (mostly) know what they know. arXiv:2207.05221.
+[8] Hu, E. J., et al. (2022). LoRA: Low-rank adaptation of large language models. In *ICLR*.
 
-[9] Kapoor, S., et al. (2024). Large language models must be taught to know what they don't know. In *NeurIPS*.
+[9] Joshi, M., Choi, E., Weld, D., & Zettlemoyer, L. (2017). TriviaQA: A large scale distantly supervised challenge dataset for reading comprehension. In *ACL*.
 
-[10] Khanmohammadi, R., et al. (2025). Calibrating LLM confidence by probing perturbed representation stability. In *EMNLP*.
+[10] Kadavath, S., et al. (2022). Language models (mostly) know what they know. arXiv:2207.05221.
 
-[11] Kossen, J., et al. (2024). Semantic entropy probes: Robust and cheap hallucination detection in LLMs. arXiv:2406.15927.
+[11] Kapoor, S., et al. (2024). Large language models must be taught to know what they don't know. In *NeurIPS*.
 
-[12] Kuhn, L., Gal, Y., & Farquhar, S. (2023). Semantic uncertainty: Linguistic invariances for uncertainty estimation in natural language generation. In *ICLR*.
+[12] Khanmohammadi, R., et al. (2025). Calibrating LLM confidence by probing perturbed representation stability. In *EMNLP*.
 
-[13] Liu, X., Khalifa, M., & Wang, L. (2024). LitCab: Lightweight language model calibration over short- and long-form responses. In *ICLR*.
+[13] Kossen, J., et al. (2024). Semantic entropy probes: Robust and cheap hallucination detection in LLMs. arXiv:2406.15927.
 
-[14] Marks, S., & Tegmark, M. (2024). The geometry of truth: Emergent linear structure in large language model representations of true/false datasets. In *COLM*.
+[14] Kuhn, L., Gal, Y., & Farquhar, S. (2023). Semantic uncertainty: Linguistic invariances for uncertainty estimation in natural language generation. In *ICLR*.
 
-[15] Merity, S., Xiong, C., Bradbury, J., & Socher, R. (2017). Pointer sentinel mixture models. In *ICLR*.
+[15] Kwiatkowski, T., et al. (2019). Natural Questions: A benchmark for question answering research. *Transactions of the Association for Computational Linguistics*, 7, 453-466.
 
-[16] Orgad, H., et al. (2025). LLMs know more than they show: On the intrinsic representation of LLM hallucinations. In *ICLR*.
+[16] Liu, X., Khalifa, M., & Wang, L. (2024). LitCab: Lightweight language model calibration over short- and long-form responses. In *ICLR*.
 
-[17] Platt, J. (1999). Probabilistic outputs for support vector machines and comparisons to regularized likelihood methods. In *Advances in Large Margin Classifiers*.
+[17] Marks, S., & Tegmark, M. (2024). The geometry of truth: Emergent linear structure in large language model representations of true/false datasets. In *COLM*.
 
-[18] Qwen Team. (2024). Qwen2.5 technical report. arXiv:2412.15115.
+[18] Merity, S., Xiong, C., Bradbury, J., & Socher, R. (2017). Pointer sentinel mixture models. In *ICLR*.
 
-[19] Rajpurkar, P., Zhang, J., Lopyrev, K., & Liang, P. (2016). SQuAD: 100,000+ questions for machine comprehension of text. In *EMNLP*.
+[19] Orgad, H., et al. (2025). LLMs know more than they show: On the intrinsic representation of LLM hallucinations. In *ICLR*.
 
-[20] Ridder, F., Lessel, L., & Schilling, M. (2026). RAGognizer: Hallucination-aware fine-tuning via detection head integration. arXiv:2604.15945.
+[20] Platt, J. (1999). Probabilistic outputs for support vector machines and comparisons to regularized likelihood methods. In *Advances in Large Margin Classifiers*.
+
+[21] Qwen Team. (2024). Qwen2.5 technical report. arXiv:2412.15115.
+
+[22] Rajpurkar, P., Zhang, J., Lopyrev, K., & Liang, P. (2016). SQuAD: 100,000+ questions for machine comprehension of text. In *EMNLP*.
+
+[23] Ridder, F., Lessel, L., & Schilling, M. (2026). RAGognizer: Hallucination-aware fine-tuning via detection head integration. arXiv:2604.15945.

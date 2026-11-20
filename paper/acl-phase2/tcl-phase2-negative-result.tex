@@ -27,7 +27,7 @@
 \maketitle
 
 \begin{abstract}
-A trust head reads a language model's hidden states and predicts whether its answer is correct. A natural hope is that training this head \emph{jointly} with the model, under $\LLM + \lambda \Ltrust$, will shape the backbone so that trust estimates generalize better than a head on a frozen model. I test this with a preregistered comparison of four arms on identical data: a frozen-backbone head, LoRA fine-tuning for trust only, joint LoRA fine-tuning, and LoRA fine-tuning for language modeling only followed by a head. The model is Qwen2.5-0.5B-Instruct, trained on TriviaQA or SQuAD and tested on the other, with three seeds per arm and paired bootstrap confidence intervals. The pass rule, fixed before training, required the joint arm to beat the frozen head in both transfer directions while preserving generation quality. It fails. Joint training beats the frozen head from TriviaQA to SQuAD (+0.022 AUROC) but is significantly worse from SQuAD to TriviaQA ($-$0.038), and language-model fine-tuning alone matches its gain (+0.031). After the analysis I found that the language-modeling target lacked the end-of-turn token; I fixed it and ran the one rerun my protocol allowed. Answers returned to their original length, but the transfer result did not change (+0.034 and $-$0.038). Across every arm and both runs, a head trained on one dataset's correctness labels transfers far below the model's raw token confidence (0.56--0.65 vs.\ 0.71--0.76 AUROC) and semantic entropy (0.77).
+A trust head reads a language model's hidden states and predicts whether its answer is correct. A natural hope is that training this head \emph{jointly} with the model, under $\LLM + \lambda \Ltrust$, will shape the backbone so that trust estimates generalize better than a head on a frozen model. I test this with a preregistered comparison of four arms on identical data: a frozen-backbone head, LoRA fine-tuning for trust only, joint LoRA fine-tuning, and LoRA fine-tuning for language modeling only followed by a head. The model is Qwen2.5-0.5B-Instruct, trained on TriviaQA or SQuAD and tested on the other, with three seeds per arm and paired bootstrap confidence intervals. The pass rule, fixed before training, required the joint arm to beat the frozen head in both transfer directions while preserving generation quality. It fails. Joint training beats the frozen head from TriviaQA to SQuAD (+0.022 AUROC) but is significantly worse from SQuAD to TriviaQA ($-$0.038), and language-model fine-tuning alone matches its gain (+0.031). After the analysis I found that the language-modeling target lacked the end-of-turn token; I fixed it and ran the one rerun my protocol allowed. Answers returned to their original length, but the transfer result did not change (+0.034 and $-$0.038). Across every arm and both runs, a head trained on one dataset's correctness labels transfers far below the model's raw token confidence (0.56--0.65 vs.\ 0.71--0.76 AUROC) and semantic entropy (0.77). An earlier study of frozen probes on three models shows the same failure for the two whose token confidence is informative.
 \end{abstract}
 
 \section{Introduction}
@@ -41,7 +41,7 @@ This paper makes that comparison. It is Phase~2 of my Truth Calibration Layer (T
 \paragraph{Contributions.}
 (1) A controlled four-arm comparison (frozen, trust-only, joint, LM-only) on identical data, with transfer in both directions between a closed-book and a reading-comprehension QA dataset, three seeds per arm, paired bootstrap CIs, and an explicit generation-quality bar.
 (2) A negative result, replicated after fixing an implementation flaw: joint training does not transfer better than a frozen head, and its gains in one direction are explained by language-model fine-tuning alone.
-(3) Evidence that the transfer gap is general: every trained head falls far below untrained signals (raw token confidence, semantic entropy) on a new dataset.
+(3) Evidence that the transfer gap is general: every trained head falls far below untrained signals (raw token confidence, semantic entropy) on a new dataset, and an earlier study finds the same for frozen probes on a second model, with one informative exception.
 (4) A full record of the process, including the flaw, the single preregistered rerun it led to, and label audits.
 
 \section{Related Work}
@@ -145,21 +145,44 @@ SQuAD & D & 17.3 / 14.3 & 87.3 / 80.0 & +8.5 / +7.3 & 19 / 2 \\
 
 \paragraph{Label audits.} Before the first analysis I relabeled 300 fresh labels by hand: the rule was wrong on 13 (4.3\%), including 9 of 100 base-model SQuAD answers, all correct answers marked wrong. For the rerun I relabeled 100 regenerated answers, drawn before any rerun metric was read: 5 errors, all correct short SQuAD answers marked wrong. Because every arm is scored on the same fixed answers and labels, label noise lowers absolute SQuAD AUROCs but does not favor any arm.
 
+\paragraph{Earlier evidence: frozen probes on three models.} Before these experiments, an earlier phase of the program tested frozen probes on Qwen2.5-0.5B-Instruct, Phi-3.5-mini-instruct \citep{abdin2024phi3}, and Gemma 2B-it \citep{gemma2024}, on TriviaQA, SQuAD, and NQ-Open \citep{kwiatkowski-etal-2019-natural}, with 1,500 test questions per pairing. It used a logistic probe on final-layer features and an earlier label rule, and labeled refusals incorrect. Pairings with fewer than 150 correct or incorrect test answers were dropped before any metric was computed, and each model was transferred between its two remaining datasets (Table~\ref{tab:phase1}). For Qwen and Phi, the transferred probes never beat raw confidence and are significantly worse in three of four directions. Gemma's probes transfer well, but Gemma's token confidence is close to chance (0.53--0.62) and it refuses 17--30\% of questions; refusals are labeled incorrect and look alike across datasets, so a probe can score well by recognizing them. Where raw confidence is informative, frozen probes trained on one dataset fall below it on another, as every head in the main study does.
+
+\begin{table}[t]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llrrc}
+\toprule
+Model & Direction & Raw & Probe & Probe $-$ raw [95\% CI] \\
+\midrule
+Qwen 0.5B & TQA $\to$ SQuAD & 0.772 & 0.602 & \textbf{$-$.170} [$-$.213, $-$.128] \\
+Qwen 0.5B & SQuAD $\to$ TQA & 0.712 & 0.626 & \textbf{$-$.086} [$-$.133, $-$.033] \\
+Phi-3.5-mini & TQA $\to$ NQ & 0.770 & 0.770 & +.000 [$-$.028, .032] \\
+Phi-3.5-mini & NQ $\to$ TQA & 0.833 & 0.773 & \textbf{$-$.060} [$-$.084, $-$.036] \\
+Gemma 2B & TQA $\to$ SQuAD & 0.620 & 0.827 & \textbf{+.207} [.168, .245] \\
+Gemma 2B & SQuAD $\to$ TQA & 0.527 & 0.774 & \textbf{+.247} [.208, .285] \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Earlier study: frozen logistic probes (final layer, earlier label rule) transferred to the other dataset, against the target dataset's raw confidence. Bold: CI excludes zero.}
+\label{tab:phase1}
+\end{table}
+
 \section{Discussion}
 
 \paragraph{Joint training is not what limits transfer.} The design separates the joint objective from its confounds, and LM-only fine-tuning accounts for every improvement. Where C beats A, D beats A by as much or more, which points to adapting the backbone to the training data, not training it for trust, as the source of the gain. In the other direction, C is worse than every alternative.
 
-\paragraph{The gap is shared by every trained head.} The frozen head, a frozen logistic probe from my earlier work (0.575 and 0.682), and all fine-tuned heads transfer at 0.56--0.68 AUROC, against 0.71--0.76 for raw token confidence and 0.77 for semantic entropy. My interpretation, which these experiments do not test directly, is that a head trained on one dataset's labels learns that dataset's notion of a likely-correct answer: for TriviaQA (closed-book, 14\% correct), recognizing questions the model knows; for SQuAD (reading comprehension, 69\% correct), recognizing well-extracted spans. Neither carries over, fine-tuning the backbone does not prevent it, and joint training, which also adapts the backbone to one dataset's answer style, may make it worse.
+\paragraph{The gap is shared by every trained head.} The frozen head, a frozen logistic probe from my earlier work (0.575 and 0.682), and all fine-tuned heads transfer at 0.56--0.68 AUROC on Qwen, against 0.71--0.76 for raw token confidence and 0.77 for semantic entropy; frozen probes on Phi-3.5-mini show the same pattern (Table~\ref{tab:phase1}). My interpretation, which these experiments do not test directly, is that a head trained on one dataset's labels learns that dataset's notion of a likely-correct answer: for TriviaQA (closed-book, 14\% correct), recognizing questions the model knows; for SQuAD (reading comprehension, 69\% correct), recognizing well-extracted spans. Neither carries over, fine-tuning the backbone does not prevent it, and joint training, which also adapts the backbone to one dataset's answer style, may make it worse.
 
 \paragraph{What would change the conclusion.} This is one 0.5B model, two datasets, and 2,500 training questions per dataset. A larger model, training on a mixture of datasets, or a head that starts from raw confidence and learns only a correction could behave differently. Each is a new hypothesis, not a rescue of this one.
 
 \section{Conclusion}
 
-Under a preregistered four-arm design, training a trust head jointly with a 0.5B language model does not produce trust estimates that transfer across datasets better than a frozen head, before or after fixing a flaw in the language-modeling target. Where it helps, language-model fine-tuning alone helps as much. The larger obstacle is common to every learned head tested: trained on one dataset's correctness labels, they fall well below untrained confidence signals on another. Learned trust estimators should be evaluated on held-out datasets by default, against those untrained signals.
+Under a preregistered four-arm design, training a trust head jointly with a 0.5B language model does not produce trust estimates that transfer across datasets better than a frozen head, before or after fixing a flaw in the language-modeling target. Where it helps, language-model fine-tuning alone helps as much. The larger obstacle is common to every learned head tested: trained on one dataset's correctness labels, they fall well below untrained confidence signals on another, wherever those signals are informative. Learned trust estimators should be evaluated on held-out datasets by default, against those untrained signals.
 
 \section*{Limitations}
 
-The study uses one small model (0.5B parameters), LoRA fine-tuning only, and two short-answer QA datasets whose base accuracies differ greatly (14\% vs.\ 69\%), which makes transfer especially hard; closer pairs might transfer better. Labels come from an automatic rule audited at 4--5\% error, with all audit labels decided by one person; on SQuAD the errors run in one direction (correct answers marked wrong). The generation bar combines accuracy under the same rule and perplexity on encyclopedic text, neither a full measure of generation quality. The flaw in the LM target was found after the first analysis, so the rerun is a second attempt; it was preregistered with its outcome rules stated in advance, and both runs are reported in full.
+The four-arm comparison uses one small model (0.5B parameters), LoRA fine-tuning only, and two short-answer QA datasets whose base accuracies differ greatly (14\% vs.\ 69\%), which makes transfer especially hard; closer pairs might transfer better. The three-model evidence covers frozen probes only, with an earlier label rule. Labels come from an automatic rule audited at 4--5\% error, with all audit labels decided by one person; on SQuAD the errors run in one direction (correct answers marked wrong). The generation bar combines accuracy under the same rule and perplexity on encyclopedic text, neither a full measure of generation quality. The flaw in the LM target was found after the first analysis, so the rerun is a second attempt; it was preregistered with its outcome rules stated in advance, and both runs are reported in full.
 
 \section*{Reproducibility}
 
