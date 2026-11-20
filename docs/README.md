@@ -19,7 +19,7 @@ Documents in the order they were written. Each protocol was committed before the
 | [TCL-Phase1-Kaggle-Checkpoint.md](phase1/TCL-Phase1-Kaggle-Checkpoint.md) | Results: H1-R passes at the threshold, H2-R fails; baselines; layer sweep |
 | [TCL-Phase1-Label-Audit.md](phase1/TCL-Phase1-Label-Audit.md) | Label error rates on 600 audited test answers |
 
-## Phase 2 (analysis done; next step open)
+## Phase 2 (closed: H3 fails)
 
 | Document | Role |
 |---|---|
@@ -27,6 +27,7 @@ Documents in the order they were written. Each protocol was committed before the
 | [TCL-Phase2-Protocol.md](phase2/TCL-Phase2-Protocol.md) | Locked protocol for H3-T (transfer) and H3-J (joint objective): data, arms, training, evaluation, decision rules |
 | [TCL-Phase2-Checkpoint.md](phase2/TCL-Phase2-Checkpoint.md) | Results: H3-T and H3-J fail; joint training helps in-distribution but does not transfer; label audit; setup problems found |
 | [TCL-Phase2b-Protocol.md](phase2/TCL-Phase2b-Protocol.md) | Locked protocol for the one rerun of arms C and D with the end-of-turn token in the LM target |
+| [TCL-Phase2b-Checkpoint.md](phase2/TCL-Phase2b-Checkpoint.md) | Results: the fix works, H3-T and H3-J fail again; the joint-transfer claim is dropped |
 
 ## Archive
 

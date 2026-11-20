@@ -1,6 +1,6 @@
 # Truth Calibration Layer (TCL)
 
-![Status](https://img.shields.io/badge/status-Phase%202%20done%20%C2%B7%20H3%20fails-334155)
+![Status](https://img.shields.io/badge/status-Phase%202%20%2B%202b%20done%20%C2%B7%20H3%20fails-334155)
 ![Scope](https://img.shields.io/badge/scope-trust%20estimation%20for%20LLMs-0f766e)
 ![Release](https://img.shields.io/github/v/release/awabmoha/truth-calibration-layer?label=release)
 
@@ -14,8 +14,8 @@ The core claim I am testing is that training a small trust head *jointly* with t
 |---|---|---|
 | 0. Theory | A consistent, testable formulation of TCL | **Done**: [theory paper v2](paper/TCL-Theory-Paper-v2.md) |
 | 1. Foundation | Do frozen hidden states carry correctness signal beyond calibrated confidence, and does it transfer? | **Closed**: signal is real but small and model-dependent; it does not transfer |
-| 2. Core test (H3) | Does joint training beat a frozen head trained on the same data? | **Done**: H3 fails. Joint training helps in-distribution but does not transfer ([checkpoint](docs/phase2/TCL-Phase2-Checkpoint.md)) |
-| 3. Trust vector (H4) | Are further trust dimensions (self-consistency, grounding, evidence density) learnable and non-redundant? | Planned |
+| 2. Core test (H3) | Does joint training beat a frozen head trained on the same data? | **Done**: H3 fails, twice. Joint training does not transfer; the claim is dropped ([Phase 2](docs/phase2/TCL-Phase2-Checkpoint.md), [Phase 2b](docs/phase2/TCL-Phase2b-Checkpoint.md)) |
+| 3. Trust vector (H4) | Are further trust dimensions (self-consistency, grounding, evidence density) learnable and non-redundant? | Being redesigned around transfer |
 | 4. Generalization (H5) | Do the results hold on math (GSM8K) and a 7-8B model? | Planned |
 | 5. Claim level (H6) | Can trust be estimated per claim in long-form text? | Planned |
 
@@ -31,9 +31,9 @@ The full plan, hypotheses, decision gates, and change log are in [TCL-Research-P
 
 **Phase 1 re-tested TCL-v0 at scale** (1,500 test questions per run instead of 200, a third dataset, a layer sweep, and stronger baselines such as semantic entropy). It confirmed a real hidden-state signal, but also showed what TCL-v0 could not see: its 200-question test sets were too small, its SQuAD questions shared passages between train and test, its headline metric could be matched by recalibrating raw confidence alone, and one checkpoint used automatic rather than reviewed labels. The Phase 1 results below replace the TCL-v0 numbers; the original records are kept unchanged in [docs/archive/tcl-v0/](docs/archive/tcl-v0/).
 
-**Phase 2 tested the core claim** that TCL-v0 never could: whether training the trust head jointly with the model beats a frozen probe on a dataset it was not trained on. It does not (below). I am now deciding, under the plan's rules, whether to investigate one setup flaw once or to accept the negative result.
+**Phase 2 tested the core claim** that TCL-v0 never could: whether training the trust head jointly with the model beats a frozen probe on a dataset it was not trained on. It does not (below). I then found a flaw in my setup (the model was never taught where to stop answering), fixed it, and ran the one rerun the plan allows (Phase 2b). The fix worked, but the transfer result did not change, so I dropped the joint-transfer claim. Phase 3 is being redesigned around transfer.
 
-## Phase 2 Results
+## Phase 2 and 2b Results
 
 Qwen2.5-0.5B with LoRA, trained on TriviaQA or on SQuAD (2,500 questions), tested on 1,500 fixed answers from each dataset; 3 seeds per arm, 28 trainings. Arm A is a frozen-backbone trust head, B fine-tunes the backbone for trust only, C is TCL-J (`L_LM + lambda * L_trust`), and D fine-tunes for language modeling only, then trains a head.
 
@@ -49,9 +49,19 @@ Qwen2.5-0.5B with LoRA, trained on TriviaQA or on SQuAD (2,500 questions), teste
 1. **H3-T and H3-J fail.** On a new dataset, joint training beats the frozen head in one direction (+0.022) and is significantly worse in the other (-0.038), and it fails my generation-quality bar.
 2. **Joint training does help in-distribution**: it is the best arm on both datasets (+0.02 and +0.04 AUROC over the frozen head). But LM-only fine-tuning (D) gets most of that gain.
 3. **No trained trust head transfers.** On the other dataset, every arm ranks answers far worse than the model's own token confidence or semantic entropy, which are trained on neither.
-4. **I found a flaw in my setup:** the language-modeling target lacked the end-of-turn token, so fine-tuned models learned to answer in 9-20 words instead of 2. The checkpoint records how this limits the generation-quality comparison.
+4. **I found a flaw in my setup:** the language-modeling target lacked the end-of-turn token, so fine-tuned models learned to answer in 9-20 words instead of 2.
 
-The full results, label audit (4.3% of 300 fresh labels wrong), and what I found wrong with the setup are in [docs/phase2/TCL-Phase2-Checkpoint.md](docs/phase2/TCL-Phase2-Checkpoint.md).
+**Phase 2b, the one preregistered rerun with that flaw fixed** (arms C and D retrained, 16 trainings):
+
+| Transfer AUROC | A | B | C (TCL-J) | D |
+|---|---:|---:|---:|---:|
+| SQuAD, trained on TriviaQA | 0.557 | 0.572 | 0.591 | **0.598** |
+| TriviaQA, trained on SQuAD | 0.645 | 0.629 | 0.606 | **0.647** |
+
+5. **The fix worked:** fine-tuned models answer in 1-2 words again.
+6. **The transfer result did not change.** From SQuAD to TriviaQA, joint training is still worse than the frozen head (-0.038), and from TriviaQA to SQuAD its gain (+0.034) is matched by LM-only fine-tuning (+0.041). H3-T fails again, so, as fixed in advance, **I drop the claim that joint training improves transfer.**
+
+Full results and label audits: [Phase 2 checkpoint](docs/phase2/TCL-Phase2-Checkpoint.md) (4.3% of 300 fresh labels wrong) and [Phase 2b checkpoint](docs/phase2/TCL-Phase2b-Checkpoint.md) (5 of 100).
 
 ## Phase 1 Results
 
@@ -90,10 +100,10 @@ Phase 1 also caught problems in the earlier TCL-v0 records: test sets too small 
 - Frozen hidden states contain answer-correctness signal beyond calibrated token confidence, for some models and datasets, under the tested QA settings.
 - That signal does not reliably transfer across datasets.
 - A one-pass probe can approach the ranking quality of sampling-based semantic entropy at a fraction of the cost.
-- Training a trust head jointly with a 0.5B model improves in-distribution trust ranking over a frozen head, on TriviaQA and SQuAD.
+- Training a trust head jointly with a 0.5B model improves in-distribution trust ranking over a trust-only fine-tuned head by about 0.01 AUROC on TriviaQA and SQuAD, but not over LM-only fine-tuning.
 
 **Not claimed:**
-- That joint training produces trust estimates that transfer across datasets. Phase 2 tested this and it failed.
+- That joint training produces trust estimates that transfer across datasets. Phase 2 and its preregistered rerun (2b) tested this and it failed both times; the claim is dropped.
 - That TCL makes models truthful, solves hallucination, or verifies open-ended factuality.
 - That results generalize beyond the tested models (0.5B-3.8B) and short-answer QA.
 - That trust scores are ready for deployment decisions.
@@ -105,7 +115,7 @@ Phase 1 also caught problems in the earlier TCL-v0 records: test sets too small 
 | [TCL-Research-Program.md](TCL-Research-Program.md) | Master plan: hypotheses, locked evaluation protocol, phases, gates, change log |
 | [paper/](paper/) | [Theory paper v2](paper/TCL-Theory-Paper-v2.md) (current), theory paper v1, and the archived TCL-v0 empirical note |
 | [docs/phase1/](docs/phase1/) | Phase 1 protocols (locked before evaluation), checkpoints with all results, and the label audit |
-| [docs/phase2/](docs/phase2/) | Phase 2 labeling rule v3, the locked protocol with its amendments, and the results checkpoint |
+| [docs/phase2/](docs/phase2/) | Phase 2 labeling rule v3, the locked Phase 2 and 2b protocols, and both results checkpoints |
 | [docs/archive/tcl-v0/](docs/archive/tcl-v0/) | June 2026 TCL-v0 notes, runbooks, and run logs, kept for history |
 | [tcl_experiments/](tcl_experiments/) | Code, question sets with fixed splits, run records, and analysis outputs |
 | [notebooks/](notebooks/) | Kaggle notebooks for GPU runs |
