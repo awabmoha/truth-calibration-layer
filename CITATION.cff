@@ -22,4 +22,7 @@ preferred-citation:
     - family-names: Mohamed
       given-names: Awab
   year: 2026
-  url: "https://github.com/awabmoha/truth-calibration-layer/tree/main/paper/acl-phase2"
+  doi: "10.5281/zenodo.24403374"
+  publisher:
+    name: Zenodo
+  url: "https://doi.org/10.5281/zenodo.24403374"

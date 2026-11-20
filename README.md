@@ -64,7 +64,7 @@ Qwen2.5-0.5B with LoRA, trained on TriviaQA or on SQuAD (2,500 questions), teste
 
 ![Phase 2 and 2b: transfer AUROC of every arm against raw confidence and semantic entropy](assets/phase2-transfer.svg)
 
-Full results and label audits: [Phase 2 checkpoint](docs/phase2/TCL-Phase2-Checkpoint.md) (4.3% of 300 fresh labels wrong) and [Phase 2b checkpoint](docs/phase2/TCL-Phase2b-Checkpoint.md) (5 of 100). The write-up, in ACL format, is [paper/acl-phase2/](paper/acl-phase2/) ([readable version](paper/TCL-Phase2-Negative-Result.md)).
+Full results and label audits: [Phase 2 checkpoint](docs/phase2/TCL-Phase2-Checkpoint.md) (4.3% of 300 fresh labels wrong) and [Phase 2b checkpoint](docs/phase2/TCL-Phase2b-Checkpoint.md) (5 of 100). The write-up, in ACL format, is [paper/acl-phase2/](paper/acl-phase2/) (DOI [10.5281/zenodo.24403374](https://doi.org/10.5281/zenodo.24403374)) ([readable version](paper/TCL-Phase2-Negative-Result.md)).
 
 ## Phase 1 Results
 
@@ -200,6 +200,8 @@ Awab Mohamed, independent researcher, Qatar. To cite this work, use GitHub's "Ci
   author = {Mohamed, Awab},
   title  = {Joint Training Does Not Make Trust Heads Transfer: A Preregistered Negative Result},
   year   = {2026},
-  url    = {https://github.com/awabmoha/truth-calibration-layer/tree/main/paper/acl-phase2}
+  publisher = {Zenodo},
+  doi    = {10.5281/zenodo.24403374},
+  url    = {https://doi.org/10.5281/zenodo.24403374}
 }
 ```

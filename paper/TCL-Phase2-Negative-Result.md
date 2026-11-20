@@ -2,6 +2,8 @@
 
 **Awab Mohamed**
 
+DOI: [10.5281/zenodo.24403374](https://doi.org/10.5281/zenodo.24403374)
+
 November 2026. This is the readable Markdown copy; the version of record, in ACL format, is [`acl-phase2/tcl-phase2-negative-result.tex`](acl-phase2/tcl-phase2-negative-result.tex). Code, data, run records, and the locked protocols: https://github.com/awabmoha/truth-calibration-layer
 
 ## Abstract
