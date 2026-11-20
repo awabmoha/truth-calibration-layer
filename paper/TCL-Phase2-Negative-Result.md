@@ -6,7 +6,7 @@ November 2026. This is the readable Markdown copy; the version of record, in ACL
 
 ## Abstract
 
-A trust head is a small model that reads a language model's hidden states and predicts whether its answer is correct. A natural hope is that training this head *jointly* with the language model, under `L_LM + lambda * L_trust`, will shape the backbone's representations so that trust estimates generalize better than a head on a frozen model. I test this with a preregistered comparison of four arms on identical data: a frozen-backbone head (A), LoRA fine-tuning for trust only (B), joint LoRA fine-tuning (C), and LoRA fine-tuning for language modeling only followed by a head (D). The model is Qwen2.5-0.5B-Instruct, trained on TriviaQA or SQuAD and tested on the other dataset, with 3 seeds per arm and paired bootstrap confidence intervals. The pass rule, fixed before training, required C to beat A in both transfer directions while keeping generation quality. **It fails.** Joint training beats the frozen head from TriviaQA to SQuAD (+0.022 AUROC) but is significantly worse from SQuAD to TriviaQA (-0.038), and its gain in the first direction is matched by language-model fine-tuning alone (+0.031). After the analysis I found an implementation flaw: the language-modeling target lacked the end-of-turn token, so fine-tuned models answered in 9-20 words instead of 2. I fixed it and ran the one rerun my protocol allowed. Answers returned to 1-2 words, but the transfer result did not change (+0.034 and -0.038; LM-only fine-tuning +0.041 and +0.002). In-distribution, joint training improves on trust-only fine-tuning by about 0.01 AUROC but never beats LM-only fine-tuning. Across every arm and both runs, a head trained on one dataset's correctness labels transfers far below the model's raw token confidence (0.56-0.65 vs 0.71-0.76) and semantic entropy (0.77), which are trained on neither. At this scale, joint training does not solve the transfer problem of learned trust estimators.
+A trust head is a small model that reads a language model's hidden states and predicts whether its answer is correct. A natural hope is that training this head *jointly* with the language model, under `L_LM + lambda * L_trust`, will shape the backbone's representations so that trust estimates generalize better than a head on a frozen model. I test this with a preregistered comparison of four arms on identical data: a frozen-backbone head (A), LoRA fine-tuning for trust only (B), joint LoRA fine-tuning (C), and LoRA fine-tuning for language modeling only followed by a head (D). The model is Qwen2.5-0.5B-Instruct, trained on TriviaQA or SQuAD and tested on the other dataset, with 3 seeds per arm and paired bootstrap confidence intervals. The pass rule, fixed before training, required C to beat A in both transfer directions while keeping generation quality. **It fails.** Joint training beats the frozen head from TriviaQA to SQuAD (+0.022 AUROC) but is significantly worse from SQuAD to TriviaQA (-0.038), and its gain in the first direction is matched by language-model fine-tuning alone (+0.031). After the analysis I found an implementation flaw: the language-modeling target lacked the end-of-turn token, so fine-tuned models answered in a median of 5-19 words instead of 2. I fixed it and ran the one rerun my protocol allowed. Answers returned to 1-2 words, but the transfer result did not change (+0.034 and -0.038; LM-only fine-tuning +0.041 and +0.002). In-distribution, joint training improves on trust-only fine-tuning by about 0.01 AUROC but never beats LM-only fine-tuning. Across every arm and both runs, a head trained on one dataset's correctness labels transfers far below the model's raw token confidence (0.56-0.65 vs 0.71-0.76) and semantic entropy (0.77), which are trained on neither. At this scale, joint training does not solve the transfer problem of learned trust estimators.
 
 ## 1. Introduction
 
@@ -14,7 +14,7 @@ Language models produce wrong answers as fluently as right ones. A common respon
 
 One proposed remedy is to stop treating the model as fixed: train the trust head and the backbone together, so the model learns representations that support trust estimation while a language-modeling loss keeps its generation intact. Fine-tuning through a model's features has been shown to give better uncertainty estimates than prompting (Kapoor et al., 2024), and joint training of a detection head with LoRA adapters has been reported to make hallucinated and faithful tokens more separable (Ridder et al., 2026). But neither work isolates the joint objective: the comparisons that would separate "joint training helps" from "any fine-tuning helps" or "language-model fine-tuning helps" are missing, and none is made across datasets with seeds and confidence intervals.
 
-This paper makes that comparison. It is part of my Truth Calibration Layer (TCL) research program, in which the joint version (TCL-J) is the central claim, and every test has its hypotheses, arms, and decision rules written and committed before any result exists. The question is narrow: **does a trust head trained jointly with the backbone rank correct above incorrect answers better than a frozen head, on a dataset it was not trained on?**
+This paper makes that comparison. It is Phase 2 of my Truth Calibration Layer (TCL) research program, in which the joint version (TCL-J) was the central claim, and every test has its hypotheses, arms, and decision rules written and committed before any result exists. The rerun described in Section 3.4 is Phase 2b. The question is narrow: **does a trust head trained jointly with the backbone rank correct above incorrect answers better than a frozen head, on a dataset it was not trained on?**
 
 **Contributions.**
 
@@ -40,7 +40,7 @@ This paper makes that comparison. It is part of my Truth Calibration Layer (TCL)
 - **Model:** Qwen2.5-0.5B-Instruct (Qwen Team, 2024), with its chat prompt and greedy decoding.
 - **Data:** TriviaQA, `rc.nocontext` (Joshi et al., 2017), and SQuAD v1.1 (Rajpurkar et al., 2016) with splits that keep each Wikipedia article in one split. Each has 2,500 training, 500 validation, and 1,500 test questions.
 - **Answers:** the base model answers every question once. These fixed answers are used for training and for the primary evaluation, so every arm is judged on identical items.
-- **Labels:** an answer is correct if, after normalization, it matches one of the dataset's accepted answers under a fixed rule (rule v3, validated before Phase 2 on 600 manually audited answers). Base-model accuracy is 14.3% on TriviaQA and 69.2% on SQuAD; both test sets have at least 150 correct and 150 incorrect answers.
+- **Labels:** an answer is correct if, after normalization, it matches one of the dataset's accepted answers under a fixed rule (rule v3, validated before these experiments on 600 manually audited answers). Base-model accuracy is 14.3% on TriviaQA and 69.2% on SQuAD; both test sets have at least 150 correct and 150 incorrect answers.
 
 ### 3.2 Trust head and arms
 
@@ -53,7 +53,7 @@ The trust head reads the mean hidden state over the answer tokens at layer 12 of
 | C (TCL-J) | LoRA | `L_LM + lambda * L_trust` |
 | D | LoRA, then frozen | `L_LM`, then a head on the adapted backbone |
 
-`L_LM` is the negative log-likelihood of the dataset's reference answer given the prompt (never the model's own answer, to avoid reinforcing errors).
+In A and D the head is trained on a backbone that is already frozen; in B and C it is trained at the same time as the LoRA weights. `L_LM` is the negative log-likelihood of the dataset's reference answer given the prompt (never the model's own answer, to avoid reinforcing errors).
 
 - **LoRA** (Hu et al., 2022): rank 16, alpha 32, on all attention and MLP projections.
 - **Optimizer:** AdamW, learning rate 2e-4 for LoRA and 1e-3 for the head, effective batch size 16, 3 epochs, fp16. The checkpoint kept is the epoch with the lowest validation trust loss.
@@ -113,6 +113,7 @@ Test AUROC on the other dataset's fixed answers, mean over 3 seeds. A and B are 
 | *Raw token confidence* | *0.762* | *0.712* |
 | *Semantic entropy (10 samples)* | *0.775* | *0.773* |
 | *P(True)* | *0.622* | *0.643* |
+| *Frozen logistic probe (earlier method)* | *0.575* | *0.682* |
 
 Paired differences with 95% CIs:
 
@@ -129,7 +130,7 @@ Paired differences with 95% CIs:
 
 Bold: CI excludes zero.
 
-**H3-T and H3-J fail in both runs.** From TriviaQA to SQuAD, joint training beats the frozen head, but LM-only fine-tuning does at least as well. From SQuAD to TriviaQA, joint training is significantly worse than the frozen head, the trust-only head, and the LM-only head, and the fix did not move it. Every trained head is at least 0.06 AUROC below raw token confidence and 0.12 below semantic entropy.
+**H3-T and H3-J fail in both runs.** From TriviaQA to SQuAD, joint training beats the frozen head, but LM-only fine-tuning does at least as well. From SQuAD to TriviaQA, joint training is significantly worse than the frozen head, the trust-only head, and the LM-only head, and the fix did not move it. Every trained head is at least 0.06 AUROC below raw token confidence and 0.12 below semantic entropy. Calibration does not transfer either: after a Platt map fitted on the source dataset's validation split, transfer ECE is 0.53-0.57 from TriviaQA to SQuAD and 0.30-0.40 from SQuAD to TriviaQA for every arm, because the two datasets' accuracies differ so much.
 
 ### 4.3 In-distribution
 
@@ -155,7 +156,7 @@ In-distribution, all trained heads beat raw confidence on TriviaQA, and the fine
 | SQuAD | C, first run / rerun | 18.2% / 14.7% | 87.8% / 80.4% | +10.6% / +9.1% |
 | SQuAD | D, first run / rerun | 17.3% / 14.3% | 87.3% / 80.0% | +8.5% / +7.3% |
 
-No fine-tuned arm meets the bar in either run. In the first run, long answers inflated accuracy under a containment-based label rule. After the fix, models trained on TriviaQA answer SQuAD questions in single words and lose 16 points there. They have adopted TriviaQA's short-answer style, and some of that loss may be label error (Section 4.5). Models trained on SQuAD raise perplexity by 7-9%.
+No fine-tuned arm meets the bar in either run. In the first run, long answers likely inflated accuracy: the rule counts an answer as correct when it contains an accepted answer, and the audit (Section 4.5) found long answers marked correct that were wrong. After the fix, models trained on TriviaQA answer SQuAD questions in single words and lose 16 points there. They have adopted TriviaQA's short-answer style, and some of that loss may be label error (Section 4.5). Models trained on SQuAD raise perplexity by 7-9%.
 
 ### 4.5 Label audits
 
@@ -166,11 +167,11 @@ No fine-tuned arm meets the bar in either run. In the first run, long answers in
 
 ## 5. Discussion
 
-**Joint training is not what limits transfer.** The design separates the joint objective from its confounds, and the confounds explain everything that improved. In the one direction where C beats A, D beats A by as much or more, so the gain comes from adapting the backbone to the training data's language, not from training it for trust. In the other direction, C is worse than every alternative.
+**Joint training is not what limits transfer.** The design separates the joint objective from its confounds, and LM-only fine-tuning accounts for every improvement. In the one direction where C beats A, D beats A by as much or more, which points to adapting the backbone to the training data, not training it for trust, as the source of the gain. In the other direction, C is worse than every alternative.
 
-**The transfer gap is shared by every trained head.** The frozen head, the frozen logistic probe from my earlier work, and all three fine-tuned heads transfer at 0.56-0.68 AUROC, against 0.71-0.76 for raw token confidence and 0.77 for semantic entropy. A head trained on one dataset's correctness labels seems to learn that dataset's notion of a likely-correct answer. For TriviaQA (closed-book, 14% correct) that means recognizing questions the model knows. For SQuAD (reading comprehension, 69% correct) it means recognizing well-extracted spans. Neither carries over. Fine-tuning the backbone does not prevent this, and joint training, which also adapts the backbone to one dataset's answer style, may make it worse.
+**The transfer gap is shared by every trained head.** The frozen head, the frozen logistic probe from my earlier work, and all three fine-tuned heads transfer at 0.56-0.68 AUROC, against 0.71-0.76 for raw token confidence and 0.77 for semantic entropy. My interpretation, which these experiments do not test directly, is that a head trained on one dataset's correctness labels learns that dataset's notion of a likely-correct answer. For TriviaQA (closed-book, 14% correct) that means recognizing questions the model knows. For SQuAD (reading comprehension, 69% correct) it means recognizing well-extracted spans. Neither carries over. Fine-tuning the backbone does not prevent this, and joint training, which also adapts the backbone to one dataset's answer style, may make it worse.
 
-**The asymmetry.** The SQuAD-trained joint head is the worst transfer arm in both runs, with different trained weights each time. It is trained on 70% positive labels and long contexts and then applied to closed-book questions with 14% positives. Its training objective rewards whatever distinguishes good extractions, which TriviaQA does not have.
+**The asymmetry.** The SQuAD-trained joint head is the worst transfer arm in both runs, although each run trained new weights, so the result is stable rather than a fluke of one training. It is trained on 70% positive labels and long contexts and then applied to closed-book questions with 14% positives. One possible explanation is that its objective rewards whatever distinguishes good extractions from a passage, a cue that closed-book TriviaQA answers do not have.
 
 **What would change the conclusion.** This is one 0.5B model, two datasets, and 2,500 training questions per dataset. A larger model, training on a mixture of datasets, or a trust head that starts from raw confidence and learns only a correction could behave differently. Each of those is a new hypothesis, not a rescue of this one.
 
