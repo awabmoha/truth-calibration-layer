@@ -1,0 +1,103 @@
+{
+  "created_at": "2026-10-26T11:16:10.549516+00:00",
+  "protocol": "docs/phase2/TCL-Phase2-Protocol.md",
+  "arm": "D",
+  "train_dataset": "triviaqa",
+  "seed": 0,
+  "lambda": null,
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "layer": 12,
+  "num_hidden_layers": 24,
+  "correctness_method": "answer_match_v3",
+  "hyperparameters": {
+    "epochs": 3,
+    "batch_size": 16,
+    "micro_batch": 8,
+    "lr_lora": 0.0002,
+    "lr_head": 0.001,
+    "layer_frac": 0.5,
+    "max_new_tokens": 32
+  },
+  "lora": {
+    "r": 16,
+    "alpha": 32,
+    "dropout": 0.05
+  },
+  "n": {
+    "triviaqa": {
+      "train": 2500,
+      "validation": 500,
+      "test": 1500
+    },
+    "squad": {
+      "train": 2500,
+      "validation": 500,
+      "test": 1500
+    }
+  },
+  "history": {
+    "lm_stage": [
+      {
+        "epoch": 1,
+        "val_lm_loss": 2.9086719401299006,
+        "optimizer_steps": 153,
+        "skipped_steps": 4
+      },
+      {
+        "epoch": 2,
+        "val_lm_loss": 3.0372473938124522,
+        "optimizer_steps": 157,
+        "skipped_steps": 0
+      },
+      {
+        "epoch": 3,
+        "val_lm_loss": 3.3338091259910945,
+        "optimizer_steps": 157,
+        "skipped_steps": 0
+      }
+    ],
+    "head_stage": [
+      {
+        "epoch": 1,
+        "val_trust_loss": 0.34244924783706665
+      },
+      {
+        "epoch": 2,
+        "val_trust_loss": 0.3446533679962158
+      },
+      {
+        "epoch": 3,
+        "val_trust_loss": 0.35275202989578247
+      }
+    ]
+  },
+  "best_epoch": {
+    "lm_stage": 1,
+    "head_stage": 1
+  },
+  "validation_auroc": 0.8256639194139194,
+  "generation": {
+    "accuracy": {
+      "triviaqa": 0.17733333333333334,
+      "squad": 0.556
+    },
+    "refusals": {
+      "triviaqa": 0,
+      "squad": 0
+    },
+    "regenerated_trust_auroc": {
+      "triviaqa": 0.793233082706767,
+      "squad": 0.543459826733208
+    },
+    "wikitext_perplexity": 22.35811922615277,
+    "wikitext_paragraphs": 200
+  },
+  "limit": null,
+  "device": "cuda",
+  "versions": {
+    "torch": "2.11.0+cu128",
+    "transformers": "5.16.1",
+    "peft": "0.21.2"
+  },
+  "seconds": 3879.3
+}

@@ -1,0 +1,84 @@
+{
+  "created_at": "2026-10-26T11:39:18.104759+00:00",
+  "protocol": "docs/phase2/TCL-Phase2-Protocol.md",
+  "arm": "C",
+  "train_dataset": "triviaqa",
+  "seed": 1,
+  "lambda": 0.5,
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "layer": 12,
+  "num_hidden_layers": 24,
+  "correctness_method": "answer_match_v3",
+  "hyperparameters": {
+    "epochs": 3,
+    "batch_size": 16,
+    "micro_batch": 8,
+    "lr_lora": 0.0002,
+    "lr_head": 0.001,
+    "layer_frac": 0.5,
+    "max_new_tokens": 32
+  },
+  "lora": {
+    "r": 16,
+    "alpha": 32,
+    "dropout": 0.05
+  },
+  "n": {
+    "triviaqa": {
+      "train": 2500,
+      "validation": 500,
+      "test": 1500
+    },
+    "squad": {
+      "train": 2500,
+      "validation": 500,
+      "test": 1500
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "val_trust_loss": 0.3493633568286896,
+      "optimizer_steps": 154,
+      "skipped_steps": 3
+    },
+    {
+      "epoch": 2,
+      "val_trust_loss": 0.3450898826122284,
+      "optimizer_steps": 156,
+      "skipped_steps": 1
+    },
+    {
+      "epoch": 3,
+      "val_trust_loss": 0.44218796491622925,
+      "optimizer_steps": 157,
+      "skipped_steps": 0
+    }
+  ],
+  "best_epoch": 2,
+  "validation_auroc": 0.838055173992674,
+  "generation": {
+    "accuracy": {
+      "triviaqa": 0.19066666666666668,
+      "squad": 0.576
+    },
+    "refusals": {
+      "triviaqa": 1,
+      "squad": 4
+    },
+    "regenerated_trust_auroc": {
+      "triviaqa": 0.7782125205930807,
+      "squad": 0.5540396430235267
+    },
+    "wikitext_perplexity": 23.27024429983604,
+    "wikitext_paragraphs": 200
+  },
+  "limit": null,
+  "device": "cuda",
+  "versions": {
+    "torch": "2.11.0+cu128",
+    "transformers": "5.16.1",
+    "peft": "0.21.2"
+  },
+  "seconds": 6876.1
+}
