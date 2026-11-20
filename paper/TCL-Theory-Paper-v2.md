@@ -49,13 +49,13 @@ TCL asks the next question. **If reliability information is present but only par
 
 **Self-evaluation and verbalized confidence.** Kadavath et al. (2022) showed that models can evaluate their own answers (P(True)) and can be trained to predict whether they know an answer (P(IK)). Lin et al. (2022) taught models to express uncertainty in words. Mielke et al. (2022) and Band et al. (2024) trained models to make their linguistic confidence match their accuracy. Tian et al. (2023) found that verbalized confidence can be better calibrated than token probabilities in RLHF-tuned models.
 
-**Hidden-state probing.** Azaria and Mitchell (2023) trained classifiers on hidden states to detect false statements. Burns et al. (2023) found truth-like directions without supervision. Marks and Tegmark (2024) found linear structure separating true and false statements. Li et al. (2023) intervened along such directions at inference time. Orgad et al. (2025) showed that correctness signal is concentrated in specific answer tokens and that error detectors built on hidden states fail to generalize across datasets. Kossen et al. (2024) trained probes to predict semantic entropy. This literature establishes the premise that TCL-v0 replicates.
+**Hidden-state probing.** Azaria and Mitchell (2023) trained classifiers on hidden states to detect false statements. Burns et al. (2023) found truth-like directions without supervision. Marks and Tegmark (2024) found linear structure separating true and false statements. Li et al. (2023) intervened along such directions at inference time. Orgad et al. (2025) showed that correctness signal is concentrated in specific answer tokens and that error detectors built on hidden states fail to generalize across datasets. Kossen et al. (2024) trained probes to predict semantic entropy. Khanmohammadi et al. (2025) perturbed a frozen model's final hidden states and trained a lightweight classifier on how the representations respond, improving calibration on MMLU for 8B-32B models without modifying the base model. Zhang et al. (2025) found that the hidden states of reasoning models encode whether intermediate answers in a long chain of thought are correct, well enough to stop reasoning early, and that the same probes work markedly worse on standard instruction-tuned models. This literature establishes the premise that TCL-v0 replicates.
 
-**Fine-tuning for uncertainty.** Kapoor et al. (2024) argue that prompting alone is insufficient for good calibration and that training through a model's features is necessary. They report that fine-tuning on about a thousand graded examples, made tractable with LoRA, gives uncertainty estimates that generalize well. This is the closest prior work to TCL's central hypothesis.
+**Fine-tuning for uncertainty.** Kapoor et al. (2024) argue that prompting alone is insufficient for good calibration and that training through a model's features is necessary. They report that fine-tuning on about a thousand graded examples, made tractable with LoRA, gives uncertainty estimates that generalize well. LitCab (Liu et al., 2024) is a lighter alternative: a single linear layer on the last hidden states, trained with a contrastive objective while the language model stays frozen. The closest prior work to TCL-J is RAGognizer (Ridder et al., 2026), which trains a token-level hallucination-detection head at the middle layer jointly with LoRA adapters under `L_CE + lambda * L_BCE` (lambda = 1), for retrieval-augmented question answering. It reports that joint training makes hallucinated and faithful tokens more separable in the model's internal states, with detection that carries over to other hallucination benchmarks and little loss in output quality. Its design does not isolate the joint objective, however: there is no frozen-backbone head trained on the same data, the cross-dataset results are not compared against non-joint training, results are single runs without confidence intervals, and its own ablation finds that training for detection alone gives slightly higher separability than the joint objective.
 
 **How TCL differs.** TCL builds on the fine-tuning result rather than claiming it as new. It differs in three ways:
 
-1. **Controlled isolation of the joint objective.** TCL compares a frozen head, trust-only fine-tuning, LM-only fine-tuning, and joint fine-tuning on identical data (Section 8, H3). This separates "training the backbone helps" from "training it *jointly with the LM objective* helps" and from "any fine-tuning changes accuracy."
+1. **Controlled isolation of the joint objective.** TCL compares a frozen head, trust-only fine-tuning, LM-only fine-tuning, and joint fine-tuning on identical data (Section 8, H3). This separates "training the backbone helps" from "training it *jointly with the LM objective* helps" and from "any fine-tuning changes accuracy." Neither Kapoor et al. (2024) nor Ridder et al. (2026) makes this comparison, and TCL makes it across datasets, with seeds and paired confidence intervals.
 2. **An explicit generation-preservation constraint.** The `L_LM` term is there to anchor generation. Generation quality is a pass/fail criterion, not an afterthought.
 3. **A multi-dimensional, operationally defined trust vector** whose dimensions are tested for learnability and non-redundancy (Section 5, H4).
 
@@ -364,46 +364,54 @@ TCL proposes that language models should emit structured trust estimates alongsi
 
 [17] Kapoor, S., et al. (2024). Large language models must be taught to know what they don't know. In *NeurIPS*.
 
-[18] Kossen, J., et al. (2024). Semantic entropy probes: Robust and cheap hallucination detection in LLMs. arXiv:2406.15927.
+[18] Khanmohammadi, R., et al. (2025). Calibrating LLM confidence by probing perturbed representation stability. In *EMNLP*.
 
-[19] Kuhn, L., Gal, Y., & Farquhar, S. (2023). Semantic uncertainty: Linguistic invariances for uncertainty estimation in natural language generation. In *ICLR*.
+[19] Kossen, J., et al. (2024). Semantic entropy probes: Robust and cheap hallucination detection in LLMs. arXiv:2406.15927.
 
-[20] Kwiatkowski, T., et al. (2019). Natural Questions: A benchmark for question answering research. *Transactions of the Association for Computational Linguistics*, 7, 453-466.
+[20] Kuhn, L., Gal, Y., & Farquhar, S. (2023). Semantic uncertainty: Linguistic invariances for uncertainty estimation in natural language generation. In *ICLR*.
 
-[21] Lakshminarayanan, B., Pritzel, A., & Blundell, C. (2017). Simple and scalable predictive uncertainty estimation using deep ensembles. In *NeurIPS*.
+[21] Kwiatkowski, T., et al. (2019). Natural Questions: A benchmark for question answering research. *Transactions of the Association for Computational Linguistics*, 7, 453-466.
 
-[22] Lewis, P., et al. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. In *NeurIPS*.
+[22] Lakshminarayanan, B., Pritzel, A., & Blundell, C. (2017). Simple and scalable predictive uncertainty estimation using deep ensembles. In *NeurIPS*.
 
-[23] Li, K., Patel, O., Viégas, F., Pfister, H., & Wattenberg, M. (2023). Inference-time intervention: Eliciting truthful answers from a language model. In *NeurIPS*.
+[23] Lewis, P., et al. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. In *NeurIPS*.
 
-[24] Lin, S., Hilton, J., & Evans, O. (2022). Teaching models to express their uncertainty in words. *Transactions on Machine Learning Research*.
+[24] Li, K., Patel, O., Viégas, F., Pfister, H., & Wattenberg, M. (2023). Inference-time intervention: Eliciting truthful answers from a language model. In *NeurIPS*.
 
-[25] Mallen, A., Asai, A., Zhong, V., Das, R., Khashabi, D., & Hajishirzi, H. (2023). When not to trust language models: Investigating effectiveness of parametric and non-parametric memories. In *ACL*.
+[25] Lin, S., Hilton, J., & Evans, O. (2022). Teaching models to express their uncertainty in words. *Transactions on Machine Learning Research*.
 
-[26] Manakul, P., Liusie, A., & Gales, M. J. F. (2023). SelfCheckGPT: Zero-resource black-box hallucination detection for generative large language models. In *EMNLP*.
+[26] Liu, X., Khalifa, M., & Wang, L. (2024). LitCab: Lightweight language model calibration over short- and long-form responses. In *ICLR*.
 
-[27] Marks, S., & Tegmark, M. (2024). The geometry of truth: Emergent linear structure in large language model representations of true/false datasets. In *COLM*.
+[27] Mallen, A., Asai, A., Zhong, V., Das, R., Khashabi, D., & Hajishirzi, H. (2023). When not to trust language models: Investigating effectiveness of parametric and non-parametric memories. In *ACL*.
 
-[28] Maynez, J., Narayan, S., Bohnet, B., & McDonald, R. (2020). On faithfulness and factuality in abstractive summarization. In *ACL*.
+[28] Manakul, P., Liusie, A., & Gales, M. J. F. (2023). SelfCheckGPT: Zero-resource black-box hallucination detection for generative large language models. In *EMNLP*.
 
-[29] Mielke, S. J., Szlam, A., Dinan, E., & Boureau, Y.-L. (2022). Reducing conversational agents' overconfidence through linguistic calibration. *Transactions of the Association for Computational Linguistics*, 10, 857-872.
+[29] Marks, S., & Tegmark, M. (2024). The geometry of truth: Emergent linear structure in large language model representations of true/false datasets. In *COLM*.
 
-[30] Min, S., et al. (2023). FActScore: Fine-grained atomic evaluation of factual precision in long form text generation. In *EMNLP*.
+[30] Maynez, J., Narayan, S., Bohnet, B., & McDonald, R. (2020). On faithfulness and factuality in abstractive summarization. In *ACL*.
 
-[31] Orgad, H., et al. (2025). LLMs know more than they show: On the intrinsic representation of LLM hallucinations. In *ICLR*.
+[31] Mielke, S. J., Szlam, A., Dinan, E., & Boureau, Y.-L. (2022). Reducing conversational agents' overconfidence through linguistic calibration. *Transactions of the Association for Computational Linguistics*, 10, 857-872.
 
-[32] Ouyang, L., et al. (2022). Training language models to follow instructions with human feedback. In *NeurIPS*.
+[32] Min, S., et al. (2023). FActScore: Fine-grained atomic evaluation of factual precision in long form text generation. In *EMNLP*.
 
-[33] Platt, J. (1999). Probabilistic outputs for support vector machines and comparisons to regularized likelihood methods. In *Advances in Large Margin Classifiers*.
+[33] Orgad, H., et al. (2025). LLMs know more than they show: On the intrinsic representation of LLM hallucinations. In *ICLR*.
 
-[34] Rajpurkar, P., Jia, R., & Liang, P. (2018). Know what you don't know: Unanswerable questions for SQuAD. In *ACL*.
+[34] Ouyang, L., et al. (2022). Training language models to follow instructions with human feedback. In *NeurIPS*.
 
-[35] Rajpurkar, P., Zhang, J., Lopyrev, K., & Liang, P. (2016). SQuAD: 100,000+ questions for machine comprehension of text. In *EMNLP*.
+[35] Platt, J. (1999). Probabilistic outputs for support vector machines and comparisons to regularized likelihood methods. In *Advances in Large Margin Classifiers*.
 
-[36] Shafer, G., & Vovk, V. (2008). A tutorial on conformal prediction. *Journal of Machine Learning Research*, 9, 371-421.
+[36] Rajpurkar, P., Jia, R., & Liang, P. (2018). Know what you don't know: Unanswerable questions for SQuAD. In *ACL*.
 
-[37] Tian, K., et al. (2023). Just ask for calibration: Strategies for eliciting calibrated confidence scores from language models fine-tuned with human feedback. In *EMNLP*.
+[37] Rajpurkar, P., Zhang, J., Lopyrev, K., & Liang, P. (2016). SQuAD: 100,000+ questions for machine comprehension of text. In *EMNLP*.
 
-[38] Zadrozny, B., & Elkan, C. (2002). Transforming classifier scores into accurate multiclass probability estimates. In *KDD*.
+[38] Ridder, F., Lessel, L., & Schilling, M. (2026). RAGognizer: Hallucination-aware fine-tuning via detection head integration. arXiv:2604.15945.
 
-[39] Zhao, Z., Wallace, E., Feng, S., Klein, D., & Singh, S. (2021). Calibrate before use: Improving few-shot performance of language models. In *ICML*, PMLR 139, 12697-12706.
+[39] Shafer, G., & Vovk, V. (2008). A tutorial on conformal prediction. *Journal of Machine Learning Research*, 9, 371-421.
+
+[40] Tian, K., et al. (2023). Just ask for calibration: Strategies for eliciting calibrated confidence scores from language models fine-tuned with human feedback. In *EMNLP*.
+
+[41] Zadrozny, B., & Elkan, C. (2002). Transforming classifier scores into accurate multiclass probability estimates. In *KDD*.
+
+[42] Zhang, A., et al. (2025). Reasoning models know when they're right: Probing hidden states for self-verification. arXiv:2504.05419.
+
+[43] Zhao, Z., Wallace, E., Feng, S., Klein, D., & Singh, S. (2021). Calibrate before use: Improving few-shot performance of language models. In *ICML*, PMLR 139, 12697-12706.
