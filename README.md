@@ -1,6 +1,6 @@
 # Truth Calibration Layer (TCL)
 
-![Status](https://img.shields.io/badge/status-Phase%201%20closed%20%C2%B7%20Phase%202%20running-334155)
+![Status](https://img.shields.io/badge/status-Phase%202%20done%20%C2%B7%20H3%20fails-334155)
 ![Scope](https://img.shields.io/badge/scope-trust%20estimation%20for%20LLMs-0f766e)
 ![Release](https://img.shields.io/github/v/release/awabmoha/truth-calibration-layer?label=release)
 
@@ -14,7 +14,7 @@ The core claim I am testing is that training a small trust head *jointly* with t
 |---|---|---|
 | 0. Theory | A consistent, testable formulation of TCL | **Done**: [theory paper v2](paper/TCL-Theory-Paper-v2.md) |
 | 1. Foundation | Do frozen hidden states carry correctness signal beyond calibrated confidence, and does it transfer? | **Closed**: signal is real but small and model-dependent; it does not transfer |
-| 2. Core test (H3) | Does joint training beat a frozen head trained on the same data? | **Running**: [protocol](docs/phase2/TCL-Phase2-Protocol.md) locked, trainings on Kaggle |
+| 2. Core test (H3) | Does joint training beat a frozen head trained on the same data? | **Done**: H3 fails. Joint training helps in-distribution but does not transfer ([checkpoint](docs/phase2/TCL-Phase2-Checkpoint.md)) |
 | 3. Trust vector (H4) | Are further trust dimensions (self-consistency, grounding, evidence density) learnable and non-redundant? | Planned |
 | 4. Generalization (H5) | Do the results hold on math (GSM8K) and a 7-8B model? | Planned |
 | 5. Claim level (H6) | Can trust be estimated per claim in long-form text? | Planned |
@@ -31,7 +31,27 @@ The full plan, hypotheses, decision gates, and change log are in [TCL-Research-P
 
 **Phase 1 re-tested TCL-v0 at scale** (1,500 test questions per run instead of 200, a third dataset, a layer sweep, and stronger baselines such as semantic entropy). It confirmed a real hidden-state signal, but also showed what TCL-v0 could not see: its 200-question test sets were too small, its SQuAD questions shared passages between train and test, its headline metric could be matched by recalibrating raw confidence alone, and one checkpoint used automatic rather than reviewed labels. The Phase 1 results below replace the TCL-v0 numbers; the original records are kept unchanged in [docs/archive/tcl-v0/](docs/archive/tcl-v0/).
 
-**Phase 2, now running,** tests the core claim that TCL-v0 never could: whether training the trust head jointly with the model beats a frozen probe, especially on a dataset it was not trained on.
+**Phase 2 tested the core claim** that TCL-v0 never could: whether training the trust head jointly with the model beats a frozen probe on a dataset it was not trained on. It does not (below). I am now deciding, under the plan's rules, whether to investigate one setup flaw once or to accept the negative result.
+
+## Phase 2 Results
+
+Qwen2.5-0.5B with LoRA, trained on TriviaQA or on SQuAD (2,500 questions), tested on 1,500 fixed answers from each dataset; 3 seeds per arm, 28 trainings. Arm A is a frozen-backbone trust head, B fine-tunes the backbone for trust only, C is TCL-J (`L_LM + lambda * L_trust`), and D fine-tunes for language modeling only, then trains a head.
+
+| Test AUROC | A | B | C (TCL-J) | D | Raw confidence |
+|---|---:|---:|---:|---:|---:|
+| TriviaQA, trained on TriviaQA | 0.830 | 0.828 | **0.849** | 0.840 | 0.712 |
+| SQuAD, trained on SQuAD | 0.762 | 0.793 | **0.803** | 0.797 | 0.762 |
+| SQuAD, trained on TriviaQA (transfer) | 0.557 | 0.572 | 0.578 | 0.588 | **0.762** |
+| TriviaQA, trained on SQuAD (transfer) | 0.645 | 0.629 | 0.606 | 0.643 | **0.712** |
+
+**What Phase 2 established:**
+
+1. **H3-T and H3-J fail.** On a new dataset, joint training beats the frozen head in one direction (+0.022) and is significantly worse in the other (-0.038), and it fails my generation-quality bar.
+2. **Joint training does help in-distribution**: it is the best arm on both datasets (+0.02 and +0.04 AUROC over the frozen head). But LM-only fine-tuning (D) gets most of that gain.
+3. **No trained trust head transfers.** On the other dataset, every arm ranks answers far worse than the model's own token confidence or semantic entropy, which are trained on neither.
+4. **I found a flaw in my setup:** the language-modeling target lacked the end-of-turn token, so fine-tuned models learned to answer in 9-20 words instead of 2. The checkpoint records how this limits the generation-quality comparison.
+
+The full results, label audit (4.3% of 300 fresh labels wrong), and what I found wrong with the setup are in [docs/phase2/TCL-Phase2-Checkpoint.md](docs/phase2/TCL-Phase2-Checkpoint.md).
 
 ## Phase 1 Results
 
@@ -70,9 +90,10 @@ Phase 1 also caught problems in the earlier TCL-v0 records: test sets too small 
 - Frozen hidden states contain answer-correctness signal beyond calibrated token confidence, for some models and datasets, under the tested QA settings.
 - That signal does not reliably transfer across datasets.
 - A one-pass probe can approach the ranking quality of sampling-based semantic entropy at a fraction of the cost.
+- Training a trust head jointly with a 0.5B model improves in-distribution trust ranking over a frozen head, on TriviaQA and SQuAD.
 
 **Not claimed:**
-- That TCL's joint-training claim is validated. That is Phase 2.
+- That joint training produces trust estimates that transfer across datasets. Phase 2 tested this and it failed.
 - That TCL makes models truthful, solves hallucination, or verifies open-ended factuality.
 - That results generalize beyond the tested models (0.5B-3.8B) and short-answer QA.
 - That trust scores are ready for deployment decisions.
@@ -84,7 +105,7 @@ Phase 1 also caught problems in the earlier TCL-v0 records: test sets too small 
 | [TCL-Research-Program.md](TCL-Research-Program.md) | Master plan: hypotheses, locked evaluation protocol, phases, gates, change log |
 | [paper/](paper/) | [Theory paper v2](paper/TCL-Theory-Paper-v2.md) (current), theory paper v1, and the archived TCL-v0 empirical note |
 | [docs/phase1/](docs/phase1/) | Phase 1 protocols (locked before evaluation), checkpoints with all results, and the label audit |
-| [docs/phase2/](docs/phase2/) | Phase 2 labeling rule v3 and the locked protocol with its amendments |
+| [docs/phase2/](docs/phase2/) | Phase 2 labeling rule v3, the locked protocol with its amendments, and the results checkpoint |
 | [docs/archive/tcl-v0/](docs/archive/tcl-v0/) | June 2026 TCL-v0 notes, runbooks, and run logs, kept for history |
 | [tcl_experiments/](tcl_experiments/) | Code, question sets with fixed splits, run records, and analysis outputs |
 | [notebooks/](notebooks/) | Kaggle notebooks for GPU runs |
