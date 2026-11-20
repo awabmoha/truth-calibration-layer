@@ -75,9 +75,23 @@ def encode_trust(tokenizer, prompt: str, answer: str) -> tuple[list[int], int, i
     return p + a, len(p), len(p) + len(a)
 
 
-def encode_lm(tokenizer, prompt: str, reference: str) -> tuple[list[int], list[int]]:
+def end_of_turn_ids(tokenizer) -> list[int]:
+    """The special token the chat template puts right after an assistant answer (e.g. <|im_end|>)."""
+    if getattr(tokenizer, "chat_template", None):
+        text = tokenizer.apply_chat_template(
+            [{"role": "user", "content": "Q"}, {"role": "assistant", "content": "XYZ"}], tokenize=False)
+        suffix = text[text.rindex("XYZ") + 3:]
+        special = set(tokenizer.all_special_ids)
+        for i in tokenizer(suffix, add_special_tokens=False)["input_ids"]:
+            if i in special:
+                return [int(i)]
+    return [int(tokenizer.eos_token_id)]
+
+
+def encode_lm(tokenizer, prompt: str, reference: str, eot: list[int] | None = None) -> tuple[list[int], list[int]]:
+    """LM target: the reference answer, plus the end-of-turn token when `eot` is given (Phase 2b)."""
     p = tokenizer(prompt, add_special_tokens=False)["input_ids"]
-    r = tokenizer(reference, add_special_tokens=False)["input_ids"]
+    r = tokenizer(reference, add_special_tokens=False)["input_ids"] + (eot or [])
     return p + r, [-100] * len(p) + r
 
 
@@ -100,8 +114,8 @@ def trust_batch(tokenizer, rows: list[dict], device) -> dict:
             "labels": torch.tensor([float(r["label"]) for r in rows], device=device)}
 
 
-def lm_batch(tokenizer, rows: list[dict], device) -> dict:
-    enc = [encode_lm(tokenizer, r["prompt"], r["reference"]) for r in rows]
+def lm_batch(tokenizer, rows: list[dict], device, eot: list[int] | None = None) -> dict:
+    enc = [encode_lm(tokenizer, r["prompt"], r["reference"], eot) for r in rows]
     return {"input_ids": pad([e[0] for e in enc], tokenizer.pad_token_id).to(device),
             "attention_mask": pad([[1] * len(e[0]) for e in enc], 0).to(device),
             "labels": pad([e[1] for e in enc], -100).to(device)}
@@ -229,7 +243,7 @@ def train_joint(model, head, tokenizer, train_rows, val_rows, args, rng, device,
             with autocast(device):
                 loss = torch.zeros((), device=device)
                 if use_lm:
-                    loss = loss + lm_loss(model, lm_batch(tokenizer, b, device))
+                    loss = loss + lm_loss(model, lm_batch(tokenizer, b, device, args.lm_eot_ids))
                 if use_trust:
                     tb = trust_batch(tokenizer, b, device)
                     loss = loss + lam * bce(head(pooled_features(model, tb, args.layer)), tb["labels"])
@@ -248,7 +262,7 @@ def train_joint(model, head, tokenizer, train_rows, val_rows, args, rng, device,
                 losses = []
                 for b in batches(val_rows, args.micro_batch, rng, shuffle=False):
                     with autocast(device):
-                        losses.append(float(lm_loss(model, lm_batch(tokenizer, b, device))))
+                        losses.append(float(lm_loss(model, lm_batch(tokenizer, b, device, args.lm_eot_ids))))
                 val_loss = float(np.mean(losses))
         history.append({"epoch": epoch + 1, ("val_trust_loss" if use_trust else "val_lm_loss"): val_loss,
                         "optimizer_steps": counts["taken"], "skipped_steps": counts["skipped"]})
@@ -360,6 +374,8 @@ def main() -> None:
     ap.add_argument("--device", choices=["auto", "cpu", "cuda"], default="auto")
     ap.add_argument("--limit", type=int, default=None, help="rows per split, for quick checks only")
     ap.add_argument("--wikitext-limit", type=int, default=None, help="paragraphs, for quick checks only")
+    ap.add_argument("--lm-target", choices=["reference", "reference_eot"], default="reference",
+                    help="LM loss target: the reference answer (Phase 2) or the reference plus the end-of-turn token (Phase 2b)")
     args = ap.parse_args()
 
     started = time.time()
@@ -373,6 +389,7 @@ def main() -> None:
     tokenizer = AutoTokenizer.from_pretrained(args.model)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
+    args.lm_eot_ids = end_of_turn_ids(tokenizer) if args.lm_target == "reference_eot" else None
     model = AutoModelForCausalLM.from_pretrained(args.model, dtype=torch.float32).to(device)
     n_layers = model.config.num_hidden_layers
     args.layer = max(1, round(n_layers * args.layer_frac))
@@ -457,7 +474,8 @@ def main() -> None:
         "lambda": args.lam if args.arm == "C" else None,
         "model": args.model, "layer": args.layer, "num_hidden_layers": n_layers,
         "correctness_method": CORRECTNESS_METHOD_V3,
-        "hyperparameters": {k: getattr(args, k) for k in ("epochs", "batch_size", "micro_batch", "lr_lora", "lr_head", "layer_frac", "max_new_tokens")},
+        "hyperparameters": {k: getattr(args, k) for k in ("epochs", "batch_size", "micro_batch", "lr_lora", "lr_head", "layer_frac", "max_new_tokens", "lm_target")},
+        "lm_eot_ids": args.lm_eot_ids,
         "lora": {"r": 16, "alpha": 32, "dropout": 0.05} if args.arm in ("B", "C", "D") else None,
         "n": {ds: {s: len(v) for s, v in data[ds].items()} for ds in DATASETS},
         "history": history, "best_epoch": best_epoch,

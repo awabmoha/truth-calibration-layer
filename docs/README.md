@@ -26,6 +26,7 @@ Documents in the order they were written. Each protocol was committed before the
 | [TCL-Labeling-Rule-v3.md](phase2/TCL-Labeling-Rule-v3.md) | Correctness labeling rule for Phase 2, with validation on the Phase 1 audit |
 | [TCL-Phase2-Protocol.md](phase2/TCL-Phase2-Protocol.md) | Locked protocol for H3-T (transfer) and H3-J (joint objective): data, arms, training, evaluation, decision rules |
 | [TCL-Phase2-Checkpoint.md](phase2/TCL-Phase2-Checkpoint.md) | Results: H3-T and H3-J fail; joint training helps in-distribution but does not transfer; label audit; setup problems found |
+| [TCL-Phase2b-Protocol.md](phase2/TCL-Phase2b-Protocol.md) | Locked protocol for the one rerun of arms C and D with the end-of-turn token in the LM target |
 
 ## Archive
 

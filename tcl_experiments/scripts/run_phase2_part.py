@@ -7,6 +7,9 @@ into three parts so that each Kaggle session finishes well inside its time limit
   part 2: arm C with the chosen lambda, seeds 1-2; arm B seeds 0-2. Needs --lam from part 1's lambda_selection.json.
   part 3: arm D seeds 0-2.
 
+Phase 2b (docs/phase2/TCL-Phase2b-Protocol.md) reruns only arms C and D with the end-of-turn token in the LM target:
+  --lm-target reference_eot --arms C,D, with --part 1 (lambda selection), then --part 2,3 (C seeds 1-2 and D).
+
 Each job is one call of train_trust_head.py, pinned to one GPU with CUDA_VISIBLE_DEVICES. Jobs whose metrics.json
 already exists are skipped. The exit code is non-zero if any job failed; finished jobs keep their outputs.
 """
@@ -60,6 +63,8 @@ def command(job: dict, args, out: Path) -> list[str]:
         cmd += ["--model", args.model]
     if args.limit:
         cmd += ["--limit", str(args.limit), "--wikitext-limit", "5"]
+    if args.lm_target:
+        cmd += ["--lm-target", args.lm_target]
     return cmd
 
 
@@ -76,14 +81,18 @@ def choose_lambda(root: Path) -> dict:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--train-dataset", choices=["triviaqa", "squad"], required=True)
-    ap.add_argument("--part", type=int, required=True)
+    ap.add_argument("--part", required=True, help="1, 2, 3, or a comma-separated list such as 2,3")
     ap.add_argument("--lam", type=float, default=None)
     ap.add_argument("--out-root", type=Path, required=True, help="jobs write to <out-root>/<train-dataset>/<arm>/seed<k>/")
     ap.add_argument("--slots", default=None, help="comma-separated GPU ids; default: all visible GPUs (or one CPU slot)")
     ap.add_argument("--micro-batch", type=int, default=None)
     ap.add_argument("--model", default=None)
     ap.add_argument("--limit", type=int, default=None, help="rows per split, for quick checks only")
+    ap.add_argument("--lm-target", choices=["reference", "reference_eot"], default=None, help="passed to train_trust_head.py")
+    ap.add_argument("--arms", default="A,B,C,D", help="comma-separated arms to run (Phase 2b: C,D)")
     args = ap.parse_args()
+    parts = [int(x) for x in args.part.split(",")]
+    arms = set(args.arms.split(","))
 
     root = args.out_root / args.train_dataset
     root.mkdir(parents=True, exist_ok=True)
@@ -94,8 +103,10 @@ def main() -> None:
         slots = [str(i) for i in range(torch.cuda.device_count())] or ["cpu"]
 
     todo: queue.Queue = queue.Queue()
-    for job in jobs_for(args.part, args.lam):
-        todo.put(job)
+    for part in parts:
+        for job in jobs_for(part, args.lam):
+            if job["arm"] in arms:
+                todo.put(job)
     results, lock = [], threading.Lock()
 
     def worker(slot: str) -> None:
@@ -133,7 +144,7 @@ def main() -> None:
         t.join()
 
     failed = [j for j, code, _ in results if code != 0]
-    if args.part == 1 and not failed:
+    if 1 in parts and "C" in arms and not failed:
         sel = choose_lambda(root)
         (root / "lambda_selection.json").write_text(json.dumps(sel, indent=2), encoding="utf-8")
         print("validation AUROC by lambda:", sel["validation_auroc"], "-> chosen", sel["chosen"], flush=True)
