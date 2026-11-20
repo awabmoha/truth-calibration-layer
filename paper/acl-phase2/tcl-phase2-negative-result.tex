@@ -12,6 +12,7 @@
 \usepackage{inconsolata}
 \usepackage{booktabs}
 \usepackage{amsmath}
+\usepackage{graphicx}
 
 \newcommand{\Ltrust}{\mathcal{L}_{\text{trust}}}
 \newcommand{\LLM}{\mathcal{L}_{\text{LM}}}
@@ -68,6 +69,7 @@ This paper makes that comparison. It is Phase~2 of my Truth Calibration Layer (T
 \begin{table}[t]
 \centering
 \small
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrr}
 \toprule
 Arm & TQA $\to$ SQuAD & SQuAD $\to$ TQA \\
@@ -84,7 +86,8 @@ D: LM-only, rerun & 0.598 & 0.647 \\
 \textit{P(True)} & \textit{0.622} & \textit{0.643} \\
 \textit{Frozen logistic probe} & \textit{0.575} & \textit{0.682} \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \caption{Transfer AUROC on the other dataset's 1,500 fixed answers, mean over three seeds. A and B are shared by both runs.}
 \label{tab:transfer}
 \end{table}
@@ -93,6 +96,7 @@ D: LM-only, rerun & 0.598 & 0.647 \\
 \centering
 \small
 \setlength{\tabcolsep}{4pt}
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{llcc}
 \toprule
 & Run & TQA $\to$ SQuAD & SQuAD $\to$ TQA \\
@@ -106,7 +110,8 @@ C$-$D & 1 & $-$.009 [$-$.018, .000] & \textbf{$-$.036} [$-$.053, $-$.019] \\
 D$-$A & 1 & \textbf{+.031} [.018, .045] & $-$.002 [$-$.022, .019] \\
       & 2 & \textbf{+.041} [.028, .055] & +.002 [$-$.016, .022] \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \caption{Paired transfer differences with 95\% CIs; run 1 is the first run, run 2 the rerun. Bold: CI excludes zero.}
 \label{tab:diffs}
 \end{table}
@@ -119,6 +124,7 @@ D$-$A & 1 & \textbf{+.031} [.018, .045] & $-$.002 [$-$.022, .019] \\
 \centering
 \small
 \setlength{\tabcolsep}{3.5pt}
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{llrrrc}
 \toprule
 Train & Arm & TQA acc. & SQuAD acc. & PPL & Words \\
@@ -129,7 +135,8 @@ TQA & D & 18.4 / 15.0 & 55.2 / 53.2 & +1.7 / +2.6 & 13 / 2 \\
 SQuAD & C & 18.2 / 14.7 & 87.8 / 80.4 & +10.6 / +9.1 & 17 / 2 \\
 SQuAD & D & 17.3 / 14.3 & 87.3 / 80.0 & +8.5 / +7.3 & 19 / 2 \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \caption{Generation quality, first run / rerun: accuracy of regenerated answers (\%), perplexity rise (\%), and median words per answer on the training dataset's test set.}
 \label{tab:gen}
 \end{table}
