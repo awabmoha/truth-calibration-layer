@@ -26,6 +26,8 @@ My distinguishing claims are:
 
 Every phase below exists to test one of these. Phase 1 showed that frozen probes fail claim 3 (they do not transfer across datasets), so Phase 2 tests claims 1 and 3 together, with transfer as its primary result.
 
+**Status after Phase 2 (November 20, 2026):** claim 1 is not supported. Joint training did not transfer better than a frozen head, in Phase 2 or in its one preregistered rerun (2b), and I have dropped it as a claim. Claims 2 and 3 stand as open questions. Claim 3 is now the central obstacle: every head trained on one dataset's labels transferred below untrained signals (raw token confidence, semantic entropy). From Phase 3 on, every trust result must hold on a held-out dataset.
+
 ## 3. Theory Issues I Must Resolve First
 
 Status: resolved in `paper/TCL-Theory-Paper-v2.md` (draft, October 16, 2026). Phase 0 gate review pending.
@@ -50,8 +52,9 @@ Each hypothesis is falsifiable and has a test I declare in advance.
 | H2 | Frozen-probe signal transfers across QA datasets with bounded degradation. | Phase 1 |
 | H3-T (primary) | A trust head trained jointly with the backbone (`L_LM + lambda * L_trust`) **transfers across datasets** better than a frozen head trained on identical data. | Phase 2 |
 | H3-J (secondary) | The joint objective beats trust-only fine-tuning of the backbone, at equal or better generation quality. | Phase 2 |
-| H4 | At least one additional trust dimension is learnable and carries information not captured by correctness confidence. | Phase 3 |
-| H5 | The joint-trained trust signal generalizes to a non-QA task family and to a larger model. | Phase 4 |
+| H4-T | A correctness head trained on a mixture of datasets, with calibrated raw confidence among its inputs, beats calibrated raw confidence on a dataset held out from training. | Phase 3 |
+| H4 | At least one additional trust dimension is learnable and carries information not captured by correctness confidence, **on a held-out dataset**. | Phase 3 |
+| H5 | The best trust method from Phases 2-3 generalizes to a non-QA task family and to a larger model. The joint-versus-frozen comparison is re-run at the larger scale. | Phase 4 |
 | H6 | Trust estimates can be produced at claim level inside long-form generation. | Phase 5 |
 
 H3 is the core of TCL. Phase 1 showed that frozen probes do not transfer across datasets, so transfer (H3-T) is where a trained trust head has to prove itself, and it is the primary Phase 2 test. Whether the joint objective specifically matters (H3-J) is the secondary test. If either fails, I follow Section 8.
@@ -153,11 +156,15 @@ These rules apply to every phase. I change them only through the change-control 
 - If C ≈ B on trust **and both** meet the generation-quality bar, the joint objective adds nothing measurable beyond trust-only fine-tuning at this scale. I report that, and TCL's contribution in Phase 2 rests on H3-T alone.
 - In neither case do I describe the joint objective as producing better trust estimates.
 
-### Phase 3: Second Trust Dimension
+### Phase 3: Transfer and a Second Trust Dimension
 
-- **Goal:** test H4.
+- **Goal:** test H4-T, then H4. Revised November 20, 2026, after Phase 2 (see changelog).
+- **Transfer requirement (all of Phase 3):** heads are trained on a mixture of datasets and evaluated on a dataset left out of training (leave-one-dataset-out), and on at least one dataset never used in any earlier phase. In-distribution results are reported but not gated.
+- **Method:** frozen-backbone heads (TCL-F), following the Section 8 row for a failed H3-T. Each head receives calibrated raw confidence as an input, so it learns a correction to it rather than starting from nothing.
+- **H4-T passes if:** the head's AUROC exceeds calibrated raw confidence's on the held-out dataset with the 95% CI of the difference excluding zero, for a majority of held-out datasets, with at least one being a dataset no earlier phase used. Semantic entropy is reported as a reference.
+- **H4-T comes first,** because the extra dimensions are read by the same kind of head; if correctness alone cannot beat raw confidence out of distribution, H4 is judged against that.
 - **Order:** consistency first (its labels need no new data), then grounding (SQuAD 2.0), then evidence density (PopQA).
-- **H4 passes if:** the dimension is predicted with AUROC >= 0.70, correlates < 0.7 with correctness confidence, and combining it with correctness improves selective-prediction AURC with the CI excluding zero.
+- **H4 passes if:** on the held-out dataset, the dimension is predicted with AUROC >= 0.70, correlates < 0.7 with correctness confidence, and combining it with correctness improves selective-prediction AURC with the CI excluding zero.
 - **Deliverable:** multi-dimensional trust-head results.
 
 ### Phase 4: Generalization And Scale
@@ -165,7 +172,8 @@ These rules apply to every phase. I change them only through the change-control 
 - **Goal:** test H5.
 - **Work:** one non-QA task family with automatic labels (GSM8K math); one larger model (Llama-3.1-8B or Qwen2.5-7B via QLoRA).
 - **Compute:** likely paid GPU for the 7B/8B runs (estimate in Section 10).
-- **H5 passes if:** my Phase 2 and 3 conclusions hold on both, within CIs.
+- **H5 passes if:** my Phase 3 conclusions hold on both, within CIs.
+- **Joint training at scale:** the Phase 2 four-arm comparison (frozen, trust-only, joint, LM-only) is re-run on the larger model, as a new test with its own protocol. It decides whether the Phase 2 failure is specific to a 0.5B model.
 - **Deliverable:** the full TCL paper (conference submission target).
 
 ### Phase 5: Claim-Level Trust (Long Horizon)
@@ -182,6 +190,7 @@ These rules apply to every phase. I change them only through the change-control 
 | H3-T passes, H3-J ties | Training the backbone for trust is what transfers; the joint objective's role is decided by the tie rule in Phase 2 ("generation-preserving trust training", or no added value). I continue to Phase 3 with the best arm that meets the generation-quality bar. |
 | H3-T fails, A ≈ C | A trained head transfers no better than a frozen one. I continue TCL as a **frozen multi-dimensional trust head** (the TCL-F design in my paper); its value must then come from H4 and H5, and I report the transfer failure as a main result. |
 | H3-T fails, C < A | Joint training hurts transfer. I investigate lambda and label staleness once; if it still fails, I drop the joint claim and publish the negative result. |
+| H4-T fails | No learned correctness head beats calibrated raw confidence out of distribution at this scale. TCL's correctness dimension becomes calibrated raw confidence (and semantic entropy where sampling is affordable); H4 dimensions are then judged on whether they add to it. I report this as a main result. |
 | H4 fails for all dimensions | Trust is effectively one-dimensional at this scale. I re-test at Phase 4 scale before dropping multi-dimensionality. |
 | H5 fails | I publish scope-bounded results and make generalization the next goal of the program. |
 
@@ -212,13 +221,15 @@ Phases 0-2 run on free compute. The Phase 2 result decides whether paid compute 
 ## 11. Publication Track
 
 1. Phase 1: arXiv note / workshop paper (probing beyond calibrated baselines, with transfer).
-2. Phases 2-3: main TCL method paper (joint training + multi-dimensional trust).
-3. Phases 4-5: full TCL paper with generalization and claim-level results.
+2. Phase 2 and 2b: negative-result paper on joint training and transfer (`paper/TCL-Phase2-Negative-Result.md`).
+3. Phase 3: transfer and multi-dimensional trust.
+4. Phases 4-5: full TCL paper with generalization and claim-level results.
 
 ## Changelog
 
 | Date | Change | Reason |
 |---|---|---|
+| 2026-11-20 | **Plan revised after Phase 2** (phase gate). Claim 1 (joint objective) marked not supported. New hypothesis **H4-T**: a correctness head trained on a mixture of datasets, given calibrated raw confidence, beats it on a held-out dataset. H4 is now judged on held-out data. H5 now tests the best method from Phases 2-3, and Phase 4 re-runs the joint-versus-frozen comparison at the larger scale. Phase 3 is renamed "Transfer and a Second Trust Dimension" and uses frozen heads (the Section 8 path for a failed H3-T). New gate row for H4-T failing. Publication track: Phase 2 and 2b become a negative-result paper (draft in `paper/TCL-Phase2-Negative-Result.md`). No Phase 3 threshold was set after seeing Phase 3 data; none exists yet. | Phase 2 and 2b: joint training does not transfer, and every head trained on one dataset's labels transfers below raw token confidence and semantic entropy. Transfer is the obstacle every phase has hit. |
 | 2026-11-20 | **Phase 2b analysis run once** (`docs/phase2/TCL-Phase2b-Checkpoint.md`): the end-of-turn fix works (fine-tuned answers back to 1-2 words), but **H3-T fails again** (C - A: +0.034 from TriviaQA to SQuAD, -0.038 from SQuAD to TriviaQA; C fails the generation-quality bar) and **H3-J fails**. LM-only fine-tuning matches or beats C in every comparison. Lambda 1.0 chosen for both datasets. Audit of 100 regenerated answers, reviewed before any metric was read: 5 wrong (all on SQuAD, correct answers marked wrong). As fixed in the Phase 2b protocol, **the claim that joint training improves transfer is dropped**; the negative result (Phase 2 and 2b) will be published, and Phase 3 will be redesigned around transfer before any new data. | The preregistered rules, applied once to the 16 new trainings plus the reused A and B runs. |
 | 2026-11-20 | **Phase 2b protocol locked** (`docs/phase2/TCL-Phase2b-Protocol.md`) before any Phase 2b training: the one investigation the "C < A" row allows. Single change: the LM target gains the chat template's end-of-turn token. Arms C and D rerun (lambda reselected; 16 trainings); A and B reused. Same decision rules. Fixed in advance: if H3-T passes, I report it as a second, preregistered attempt after a disclosed fix; if it fails, I drop the joint-transfer claim and publish the negative result. No further rerun. | Phase 2's LM target lacked the end-of-turn token, so C and D learned not to stop; the transfer test of TCL-J as designed was not clean. |
 | 2026-11-20 | Theory paper v2 related work extended with four papers, each checked against its source (arXiv, ACL Anthology, ICLR): RAGognizer (Ridder et al., 2026), the closest prior work to TCL-J (joint LoRA + detection head, but no frozen-head control, no seeds, no joint-vs-non-joint transfer comparison); CCPS (Khanmohammadi et al., 2025); LitCab (Liu et al., 2024; LM frozen); and Zhang et al. (2025) on probing reasoning models. References: 39 -> 43. | An outside review named these papers; two of its descriptions were inaccurate (LitCab's LM is frozen; Burns et al. is ICLR 2023), so each was checked before citing. |

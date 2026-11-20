@@ -3,6 +3,7 @@
 | File | Status |
 |---|---|
 | [TCL-Theory-Paper-v2.md](TCL-Theory-Paper-v2.md) / `.docx` | **Current theory paper** (October 2026). Separates the jointly trained proposal (TCL-J) from its frozen baseline (TCL-F), defines an operational trust vector, and states hypotheses H1-H6. References verified against their sources. |
+| [TCL-Phase2-Negative-Result.md](TCL-Phase2-Negative-Result.md) | **Draft** (November 2026). Phase 2 and 2b as a preregistered negative result: joint training does not make trust heads transfer, and every trained head transfers below raw token confidence. |
 | `TCL-Theory-Paper-v1.docx` | First theory draft. Superseded by v2, which fixes its frozen-versus-joint contradiction and its unobservable trust dimensions. |
 | [TCL-v0-research-writeup.md](TCL-v0-research-writeup.md) / `.docx` / `.pdf` | Archived June 2026 empirical note on TCL-v0. Superseded by the Phase 1 results in [../docs/phase1/](../docs/phase1/). |
 
