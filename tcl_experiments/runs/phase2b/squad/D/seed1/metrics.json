@@ -1,0 +1,107 @@
+{
+  "created_at": "2026-11-20T14:10:12.681305+00:00",
+  "protocol": "docs/phase2/TCL-Phase2-Protocol.md",
+  "arm": "D",
+  "train_dataset": "squad",
+  "seed": 1,
+  "lambda": null,
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "layer": 12,
+  "num_hidden_layers": 24,
+  "correctness_method": "answer_match_v3",
+  "hyperparameters": {
+    "epochs": 3,
+    "batch_size": 16,
+    "micro_batch": 2,
+    "lr_lora": 0.0002,
+    "lr_head": 0.001,
+    "layer_frac": 0.5,
+    "max_new_tokens": 32,
+    "lm_target": "reference_eot"
+  },
+  "lm_eot_ids": [
+    151645
+  ],
+  "lora": {
+    "r": 16,
+    "alpha": 32,
+    "dropout": 0.05
+  },
+  "n": {
+    "triviaqa": {
+      "train": 2500,
+      "validation": 500,
+      "test": 1500
+    },
+    "squad": {
+      "train": 2500,
+      "validation": 500,
+      "test": 1500
+    }
+  },
+  "history": {
+    "lm_stage": [
+      {
+        "epoch": 1,
+        "val_lm_loss": 0.41964292439073325,
+        "optimizer_steps": 154,
+        "skipped_steps": 3
+      },
+      {
+        "epoch": 2,
+        "val_lm_loss": 0.4160646400442347,
+        "optimizer_steps": 157,
+        "skipped_steps": 0
+      },
+      {
+        "epoch": 3,
+        "val_lm_loss": 0.5493135006478987,
+        "optimizer_steps": 157,
+        "skipped_steps": 0
+      }
+    ],
+    "head_stage": [
+      {
+        "epoch": 1,
+        "val_trust_loss": 0.5295988321304321
+      },
+      {
+        "epoch": 2,
+        "val_trust_loss": 0.5198290944099426
+      },
+      {
+        "epoch": 3,
+        "val_trust_loss": 0.5270382165908813
+      }
+    ]
+  },
+  "best_epoch": {
+    "lm_stage": 2,
+    "head_stage": 2
+  },
+  "validation_auroc": 0.7463567939787012,
+  "generation": {
+    "accuracy": {
+      "triviaqa": 0.14266666666666666,
+      "squad": 0.8253333333333334
+    },
+    "refusals": {
+      "triviaqa": 0,
+      "squad": 0
+    },
+    "regenerated_trust_auroc": {
+      "triviaqa": 0.689708361797067,
+      "squad": 0.7339790230487488
+    },
+    "wikitext_perplexity": 23.726463833055853,
+    "wikitext_paragraphs": 200
+  },
+  "limit": null,
+  "device": "cuda",
+  "versions": {
+    "torch": "2.11.0+cu130",
+    "transformers": "5.20.2",
+    "peft": "0.21.2"
+  },
+  "seconds": 2496.6
+}

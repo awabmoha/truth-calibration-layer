@@ -1,0 +1,88 @@
+{
+  "created_at": "2026-11-20T11:51:03.862659+00:00",
+  "protocol": "docs/phase2/TCL-Phase2-Protocol.md",
+  "arm": "C",
+  "train_dataset": "squad",
+  "seed": 0,
+  "lambda": 0.1,
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "layer": 12,
+  "num_hidden_layers": 24,
+  "correctness_method": "answer_match_v3",
+  "hyperparameters": {
+    "epochs": 3,
+    "batch_size": 16,
+    "micro_batch": 2,
+    "lr_lora": 0.0002,
+    "lr_head": 0.001,
+    "layer_frac": 0.5,
+    "max_new_tokens": 32,
+    "lm_target": "reference_eot"
+  },
+  "lm_eot_ids": [
+    151645
+  ],
+  "lora": {
+    "r": 16,
+    "alpha": 32,
+    "dropout": 0.05
+  },
+  "n": {
+    "triviaqa": {
+      "train": 2500,
+      "validation": 500,
+      "test": 1500
+    },
+    "squad": {
+      "train": 2500,
+      "validation": 500,
+      "test": 1500
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "val_trust_loss": 0.5105947852134705,
+      "optimizer_steps": 153,
+      "skipped_steps": 4
+    },
+    {
+      "epoch": 2,
+      "val_trust_loss": 0.4954460859298706,
+      "optimizer_steps": 157,
+      "skipped_steps": 0
+    },
+    {
+      "epoch": 3,
+      "val_trust_loss": 0.5263825058937073,
+      "optimizer_steps": 157,
+      "skipped_steps": 0
+    }
+  ],
+  "best_epoch": 2,
+  "validation_auroc": 0.7728000640563696,
+  "generation": {
+    "accuracy": {
+      "triviaqa": 0.158,
+      "squad": 0.8166666666666667
+    },
+    "refusals": {
+      "triviaqa": 0,
+      "squad": 0
+    },
+    "regenerated_trust_auroc": {
+      "triviaqa": 0.6597996866345284,
+      "squad": 0.7391955473098331
+    },
+    "wikitext_perplexity": 23.310054057793888,
+    "wikitext_paragraphs": 200
+  },
+  "limit": null,
+  "device": "cuda",
+  "versions": {
+    "torch": "2.11.0+cu130",
+    "transformers": "5.20.2",
+    "peft": "0.21.2"
+  },
+  "seconds": 2925.0
+}

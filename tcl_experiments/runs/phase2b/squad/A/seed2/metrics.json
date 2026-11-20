@@ -1,0 +1,59 @@
+{
+  "created_at": "2026-10-25T18:49:32.675608+00:00",
+  "protocol": "docs/phase2/TCL-Phase2-Protocol.md",
+  "arm": "A",
+  "train_dataset": "squad",
+  "seed": 2,
+  "lambda": null,
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "layer": 12,
+  "num_hidden_layers": 24,
+  "correctness_method": "answer_match_v3",
+  "hyperparameters": {
+    "epochs": 3,
+    "batch_size": 16,
+    "micro_batch": 2,
+    "lr_lora": 0.0002,
+    "lr_head": 0.001,
+    "layer_frac": 0.5,
+    "max_new_tokens": 32
+  },
+  "lora": null,
+  "n": {
+    "triviaqa": {
+      "train": 2500,
+      "validation": 500,
+      "test": 1500
+    },
+    "squad": {
+      "train": 2500,
+      "validation": 500,
+      "test": 1500
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "val_trust_loss": 0.5231389403343201
+    },
+    {
+      "epoch": 2,
+      "val_trust_loss": 0.5159731507301331
+    },
+    {
+      "epoch": 3,
+      "val_trust_loss": 0.5144817233085632
+    }
+  ],
+  "best_epoch": 3,
+  "validation_auroc": 0.7449155256625831,
+  "generation": null,
+  "limit": null,
+  "device": "cuda",
+  "versions": {
+    "torch": "2.11.0+cu128",
+    "transformers": "5.16.1",
+    "peft": "0.21.2"
+  },
+  "seconds": 189.8
+}
