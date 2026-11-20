@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 340" width="940" height="340" role="img" aria-labelledby="t d">
+<title id="t">Phase 2 and 2b transfer AUROC</title>
+<desc id="d">Transfer AUROC of the four arms in both directions, Phase 2 and the 2b rerun, against raw token confidence and semantic entropy. Every arm stays between 0.56 and 0.65, below raw confidence (0.71-0.76) and semantic entropy (0.77).</desc>
+<style>
+  .bg { fill: #fcfcfb; }
+  .h1 { font: 600 17px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #0b0b0b; }
+  .sub, .tick, .leg, .note { font: 12px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #52514e; }
+  .row, .val { font: 13px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #0b0b0b; }
+  .val { font-size: 12px; }
+  .grid { stroke: #e4e3df; stroke-width: 1; }
+  .axis { stroke: #8a8984; stroke-width: 1.5; }
+  .link { stroke: #c9c8c2; stroke-width: 2; stroke-linecap: round; }
+  .c1 { fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2; } .l1 { stroke: #2a78d6; stroke-width: 2; fill: none; }
+  .c2 { fill: #eb6834; stroke: #fcfcfb; stroke-width: 2; } .l2 { stroke: #eb6834; stroke-width: 2; fill: none; }
+  .c0 { fill: #8a8984; stroke: #fcfcfb; stroke-width: 2; }
+  .dash { stroke-dasharray: 6 4; }
+  @media (prefers-color-scheme: dark) {
+    .bg { fill: #1a1a19; }
+    .h1, .row, .val { fill: #f0efec; }
+    .sub, .tick, .leg, .note { fill: #c3c2b7; }
+    .grid { stroke: #33332f; } .link { stroke: #4a4a45; }
+    .c1 { fill: #3987e5; stroke: #1a1a19; } .l1 { stroke: #3987e5; }
+    .c2 { fill: #d95926; stroke: #1a1a19; } .l2 { stroke: #d95926; }
+    .c0 { fill: #a3a29b; stroke: #1a1a19; }
+  }
+</style>
+<rect class="bg" width="940" height="340" rx="8"/>
+<text class="h1" x="24" y="34">Phase 2 and 2b: no trained trust head transfers</text>
+<text class="sub" x="24" y="54">Test AUROC on the other dataset's 1,500 fixed answers, mean of 3 seeds. Higher is better.</text>
+<text class="sub" x="24" y="70">Untrained signals (dashed) beat every arm, before and after the end-of-turn fix.</text>
+<circle class="c1" cx="30" cy="94" r="5"/><text class="leg" x="42" y="98">Phase 2</text>
+<circle class="c2" cx="120" cy="94" r="5"/><text class="leg" x="132" y="98">Phase 2b rerun (C and D only)</text>
+<line x1="340" x2="362" y1="94" y2="94" style="stroke:#8a8984;stroke-width:2;stroke-dasharray:6 4"/><text class="leg" x="368" y="98">Raw token confidence</text>
+<line class="dash" x1="520" x2="542" y1="94" y2="94" style="stroke:#8a8984;stroke-width:2;stroke-dasharray:2 3"/><text class="leg" x="548" y="98">Semantic entropy</text>
+<text class="row" x="24" y="146">A: frozen head</text>
+<text class="row" x="24" y="180">B: trust-only LoRA</text>
+<text class="row" x="24" y="214">C: joint LoRA (TCL-J)</text>
+<text class="row" x="24" y="248">D: LM-only LoRA</text>
+<text class="sub" x="190" y="122">Trained on TriviaQA, tested on SQuAD</text>
+<line class="grid" x1="190.0" x2="190.0" y1="130" y2="268"/>
+<text class="tick" x="190.0" y="284" text-anchor="middle">0.5</text>
+<line class="grid" x1="296.7" x2="296.7" y1="130" y2="268"/>
+<text class="tick" x="296.7" y="284" text-anchor="middle">0.6</text>
+<line class="grid" x1="403.3" x2="403.3" y1="130" y2="268"/>
+<text class="tick" x="403.3" y="284" text-anchor="middle">0.7</text>
+<line class="grid" x1="510.0" x2="510.0" y1="130" y2="268"/>
+<text class="tick" x="510.0" y="284" text-anchor="middle">0.8</text>
+<line x1="469.8" x2="469.8" y1="130" y2="268" style="stroke:#8a8984;stroke-width:2;stroke-dasharray:6 4"/>
+<line x1="483.6" x2="483.6" y1="130" y2="268" style="stroke:#8a8984;stroke-width:2;stroke-dasharray:2 3"/>
+<circle class="c1" cx="250.6" cy="142" r="6"/>
+<circle class="c1" cx="267.2" cy="176" r="6"/>
+<line class="link" x1="273.7" x2="286.9" y1="210" y2="210"/>
+<circle class="c2" cx="286.9" cy="210" r="6"/>
+<circle class="c1" cx="273.7" cy="210" r="6"/>
+<line class="link" x1="283.4" x2="294.1" y1="244" y2="244"/>
+<circle class="c2" cx="294.1" cy="244" r="6"/>
+<circle class="c1" cx="283.4" cy="244" r="6"/>
+<text class="sub" x="590" y="122">Trained on SQuAD, tested on TriviaQA</text>
+<line class="grid" x1="590.0" x2="590.0" y1="130" y2="268"/>
+<text class="tick" x="590.0" y="284" text-anchor="middle">0.5</text>
+<line class="grid" x1="696.7" x2="696.7" y1="130" y2="268"/>
+<text class="tick" x="696.7" y="284" text-anchor="middle">0.6</text>
+<line class="grid" x1="803.3" x2="803.3" y1="130" y2="268"/>
+<text class="tick" x="803.3" y="284" text-anchor="middle">0.7</text>
+<line class="grid" x1="910.0" x2="910.0" y1="130" y2="268"/>
+<text class="tick" x="910.0" y="284" text-anchor="middle">0.8</text>
+<line x1="815.9" x2="815.9" y1="130" y2="268" style="stroke:#8a8984;stroke-width:2;stroke-dasharray:6 4"/>
+<line x1="880.9" x2="880.9" y1="130" y2="268" style="stroke:#8a8984;stroke-width:2;stroke-dasharray:2 3"/>
+<circle class="c1" cx="744.1" cy="142" r="6"/>
+<circle class="c1" cx="727.3" cy="176" r="6"/>
+<line class="link" x1="703.3" x2="703.6" y1="210" y2="210"/>
+<circle class="c2" cx="703.6" cy="210" r="6"/>
+<circle class="c1" cx="703.3" cy="210" r="6"/>
+<line class="link" x1="742.2" x2="746.3" y1="244" y2="244"/>
+<circle class="c2" cx="746.3" cy="244" r="6"/>
+<circle class="c1" cx="742.2" cy="244" r="6"/>
+</svg>

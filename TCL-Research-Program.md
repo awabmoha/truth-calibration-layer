@@ -2,7 +2,7 @@
 
 Status: my master plan. It replaces `docs/archive/tcl-v0/TCL-v0-Roadmap.md` as the document that governs this project. Every phase-level document I write (ablation plans, runbooks) must trace back to a phase and hypothesis here.
 
-Date: October 16, 2026.
+Date: October 16, 2026. Last revised: November 20, 2026 (after Phase 2; see the changelog).
 
 ## 1. North Star
 
@@ -14,7 +14,7 @@ I am keeping the name. I make claims phase by phase, and at each phase I claim o
 
 ## 2. What Makes TCL Different
 
-Prior work already shows that frozen hidden states carry correctness signal (Kadavath et al. 2022; Azaria & Mitchell 2023; Burns et al. 2022; Marks & Tegmark 2023; Kossen et al. 2024; Orgad et al. 2024). TCL-v0 replicates that. For me it is the foundation, not the contribution.
+Prior work already shows that frozen hidden states carry correctness signal (Kadavath et al. 2022; Azaria & Mitchell 2023; Burns et al. 2023; Marks & Tegmark 2024; Kossen et al. 2024; Orgad et al. 2025). TCL-v0 replicates that. For me it is the foundation, not the contribution.
 
 Fine-tuning a model to predict its own correctness is also not new: Kadavath et al. (2022) trained P(IK), and Kapoor et al. (2024) report that LoRA fine-tuning on graded examples beats frozen probes. My claims build on that result instead of claiming it.
 
@@ -30,7 +30,7 @@ Every phase below exists to test one of these. Phase 1 showed that frozen probes
 
 ## 3. Theory Issues I Must Resolve First
 
-Status: resolved in `paper/TCL-Theory-Paper-v2.md` (draft, October 16, 2026). Phase 0 gate review pending.
+Status: resolved in `paper/TCL-Theory-Paper-v2.md` (October 2026). Phase 0 gate met: Section 8 of the paper gives every hypothesis a metric, a baseline list, and a pass/fail threshold (recorded November 20, 2026).
 
 My version 1 theory paper had three problems I needed to fix before running more experiments, because they decide what the experiments are.
 
@@ -120,6 +120,7 @@ These rules apply to every phase. I change them only through the change-control 
 - **Compute:** none.
 - **Deliverable:** `TCL-Theory-Paper` v2.
 - **Gate:** every hypothesis has a metric, a baseline list, and a pass/fail threshold.
+- **Status:** done (October 2026).
 
 ### Phase 1: Close TCL-v0
 
@@ -129,6 +130,7 @@ These rules apply to every phase. I change them only through the change-control 
 - **H1 passes if:** probe AUROC beats the best calibrated raw baseline with the CI excluding zero in >= 4 of 6 runs.
 - **H2 passes if:** the transferred probe keeps >= 70% of its in-distribution AUROC gain over raw.
 - **Deliverable:** a short arXiv note / workshop paper: "Do hidden-state probes add value beyond calibrated likelihood and sampling baselines in small open models?"
+- **Status:** closed (October 2026). H1-R passed at its threshold, H2-R failed (`docs/phase1/TCL-Phase1-Kaggle-Checkpoint.md`). The workshop note has not been written; the results are reported in the checkpoint and the README.
 - **If H1 fails:** I still proceed to Phase 2 (H3 compares joint vs frozen, not vs raw), but I record that frozen probes add little and that my case for TCL rests entirely on joint training.
 
 ### Phase 2: TCL-v1 Joint Training (Core Test)
@@ -211,7 +213,7 @@ My hardware: my laptop is CPU-only (Ryzen 7 5825U, about 6 GB RAM, integrated AM
 |---|---|---|
 | 0 | Local | 2-3 weeks |
 | 1 | Local + about 15 Kaggle hours | 3-4 weeks |
-| 2 | About 40-60 Kaggle hours | 6-8 weeks |
+| 2 | About 40-60 Kaggle hours (used: about 24 for the runs that count, plus failed sessions) | 5 weeks (done) |
 | 3 | About 30-50 Kaggle hours | 6-8 weeks |
 | 4 | Kaggle + about $100-300 paid GPU | 8-10 weeks |
 | 5 | Paid GPU | open |

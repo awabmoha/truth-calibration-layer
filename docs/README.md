@@ -6,6 +6,8 @@
 2. **[../TCL-Research-Program.md](../TCL-Research-Program.md)**: the master plan, with hypotheses H1-H6, the locked evaluation protocol, phase gates, pivots, and the change log.
 3. **[../paper/TCL-Theory-Paper-v2.md](../paper/TCL-Theory-Paper-v2.md)**: the theory, including the joint objective, the trust vector, and why joint training could help.
 4. **[phase1/TCL-Phase1-Kaggle-Checkpoint.md](phase1/TCL-Phase1-Kaggle-Checkpoint.md)**: the main Phase 1 results.
+5. **[phase2/TCL-Phase2-Checkpoint.md](phase2/TCL-Phase2-Checkpoint.md)** and **[phase2/TCL-Phase2b-Checkpoint.md](phase2/TCL-Phase2b-Checkpoint.md)**: the Phase 2 results and the rerun.
+6. **[../paper/acl-phase2/](../paper/acl-phase2/)**: the Phase 2 negative-result paper.
 
 ## Phase 1 (closed)
 

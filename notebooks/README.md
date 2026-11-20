@@ -1,10 +1,10 @@
 # Notebooks
 
-This folder contains notebook protocols for running TCL-v0 validation checks outside the local CPU-only machine.
+Kaggle notebooks for every GPU step of the program. My laptop has no GPU, so model inference and training run here; analysis runs locally.
 
 ## Current Notebook
 
-`tcl_phase2_kaggle_runs.ipynb` is the current notebook. Set `TRAIN_DATASET` to `triviaqa` or `squad` and `PART` to 1, 2, or 3 (six sessions in all; part 2 needs `LAMBDA` from part 1), run on Kaggle with GPU T4 x2 and Internet on, and download the zip each session writes to `/kaggle/working/`. `tcl_phase1_kaggle_runs.ipynb` produced the Phase 1 records; the other notebooks belong to the archived TCL-v0 work.
+`tcl_phase2_kaggle_runs.ipynb` is the latest notebook (Phases 2 and 2b, both complete). Set `TRAIN_DATASET` to `triviaqa` or `squad` and `PART` to `"1"`, `"2"`, `"3"`, or a list such as `"2,3"` (parts 2 and 3 need `LAMBDA` from part 1). `LM_TARGET = "reference"` reproduces Phase 2; `"reference_eot"` with `ARMS = "C,D"` reproduces Phase 2b. Run on Kaggle with GPU T4 x2 and Internet on, and download the zip each session writes to `/kaggle/working/`. `tcl_phase1_kaggle_runs.ipynb` produced the Phase 1 records; the other notebooks belong to the archived TCL-v0 work.
 
 ## Current Recommendation
 

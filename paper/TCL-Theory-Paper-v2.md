@@ -2,7 +2,13 @@
 
 **Awab Mohamed**\
 Independent Research Preprint, Qatar\
-Version 2 (draft for review), October 2026
+Version 2, October 2026 (status note added November 2026)
+
+> **Status of the hypotheses (November 2026).** This paper states the theory and the tests as they were fixed before any experiment. The tests have since run, and the text below is kept unchanged so that the predictions stay on record.
+>
+> - **H1** passed at its threshold in Phase 1 (4 of 6 pairings), and **H2** failed: frozen probes do not transfer ([Phase 1 checkpoint](../docs/phase1/TCL-Phase1-Kaggle-Checkpoint.md)).
+> - **H3-T and H3-J**, the core test of TCL-J, **failed** in Phase 2 and again in its one preregistered rerun. Joint training did not transfer better than a frozen head, and every trained head transferred below raw token confidence ([negative-result paper](acl-phase2/)).
+> - The joint-objective claim is dropped. H4 is now tested on held-out datasets, together with a new transfer hypothesis (H4-T), and H5 tests the best method from Phases 2-3 ([research program](../TCL-Research-Program.md), Section 4).
 
 ## Abstract
 

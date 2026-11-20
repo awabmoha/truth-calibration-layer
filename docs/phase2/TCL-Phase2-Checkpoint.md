@@ -127,6 +127,8 @@ My program plan's decision table (Section 8) has rows for "H3-T fails, A ≈ C" 
 
 ## 9. Next Step (My Decision, Not Yet Made)
 
+> **Update (November 20, 2026):** I chose the investigation. Phase 2b ([protocol](TCL-Phase2b-Protocol.md), [checkpoint](TCL-Phase2b-Checkpoint.md)) fixed the end-of-turn token and failed H3-T again, so the joint-transfer claim is dropped. The text below is kept as written before that decision.
+
 Following the plan's "C < A" row, I can investigate once before dropping the joint claim. The one change I would test is the flaw in 7.1: add the end-of-turn token to the LM target, so the model learns to stop. That would be a new, separately preregistered experiment (Phase 2b), with the same arms, data, and decision rules, not a re-analysis of these runs. These Phase 2 results stand as reported.
 
 The alternative is to accept the negative result now, report it as a main finding, and move TCL toward what does transfer (raw confidence, semantic entropy, and multi-dimensional signals that do not depend on one dataset's labels), as the plan's Phase 3 allows.

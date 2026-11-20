@@ -6,7 +6,7 @@
 
 Language models say wrong things with the same fluency as right things. **TCL is my research program to make a model emit, alongside each answer, a calibrated estimate of how much that answer can be trusted, and to have that ability learned inside the model rather than bolted on afterwards.**
 
-The core claim I am testing is that training a small trust head *jointly* with the language model (`L_LM + lambda * L_trust`) produces better and more transferable trust estimates than a probe on a frozen model, without hurting generation. The research runs in phases, each with predeclared hypotheses, locked protocols, and pass/fail rules written before any results are seen.
+My first core claim was that training a small trust head *jointly* with the language model (`L_LM + lambda * L_trust`) produces trust estimates that transfer to new data better than a probe on a frozen model. I tested it in Phase 2 under rules fixed in advance, and it failed, twice. The program now targets the obstacle every phase has hit: **learned trust estimates that hold up on data they were not trained on.** The research runs in phases, each with predeclared hypotheses, locked protocols, and pass/fail rules written before any results are seen.
 
 ## Where the Research Stands
 
@@ -15,8 +15,8 @@ The core claim I am testing is that training a small trust head *jointly* with t
 | 0. Theory | A consistent, testable formulation of TCL | **Done**: [theory paper v2](paper/TCL-Theory-Paper-v2.md) |
 | 1. Foundation | Do frozen hidden states carry correctness signal beyond calibrated confidence, and does it transfer? | **Closed**: signal is real but small and model-dependent; it does not transfer |
 | 2. Core test (H3) | Does joint training beat a frozen head trained on the same data? | **Done**: H3 fails, twice. Joint training does not transfer; the claim is dropped ([Phase 2](docs/phase2/TCL-Phase2-Checkpoint.md), [Phase 2b](docs/phase2/TCL-Phase2b-Checkpoint.md)) |
-| 3. Trust vector (H4) | Are further trust dimensions (self-consistency, grounding, evidence density) learnable and non-redundant? | Being redesigned around transfer |
-| 4. Generalization (H5) | Do the results hold on math (GSM8K) and a 7-8B model? | Planned |
+| 3. Transfer + trust vector (H4-T, H4) | Can a head trained on several datasets beat raw confidence on a new one? Are further trust dimensions learnable and non-redundant there? | **Next**: [protocol draft](docs/phase3/TCL-Phase3-Protocol-DRAFT.md), four design decisions open |
+| 4. Generalization (H5) | Do the results hold on math (GSM8K) and a 7-8B model? Does joint training behave differently at that scale? | Planned |
 | 5. Claim level (H6) | Can trust be estimated per claim in long-form text? | Planned |
 
 The full plan, hypotheses, decision gates, and change log are in [TCL-Research-Program.md](TCL-Research-Program.md).
@@ -61,7 +61,9 @@ Qwen2.5-0.5B with LoRA, trained on TriviaQA or on SQuAD (2,500 questions), teste
 5. **The fix worked:** fine-tuned models answer in 1-2 words again.
 6. **The transfer result did not change.** From SQuAD to TriviaQA, joint training is still worse than the frozen head (-0.038), and from TriviaQA to SQuAD its gain (+0.034) is matched by LM-only fine-tuning (+0.041). H3-T fails again, so, as fixed in advance, **I drop the claim that joint training improves transfer.**
 
-Full results and label audits: [Phase 2 checkpoint](docs/phase2/TCL-Phase2-Checkpoint.md) (4.3% of 300 fresh labels wrong) and [Phase 2b checkpoint](docs/phase2/TCL-Phase2b-Checkpoint.md) (5 of 100).
+![Phase 2 and 2b: transfer AUROC of every arm against raw confidence and semantic entropy](assets/phase2-transfer.svg)
+
+Full results and label audits: [Phase 2 checkpoint](docs/phase2/TCL-Phase2-Checkpoint.md) (4.3% of 300 fresh labels wrong) and [Phase 2b checkpoint](docs/phase2/TCL-Phase2b-Checkpoint.md) (5 of 100). The write-up, in ACL format, is [paper/acl-phase2/](paper/acl-phase2/) ([readable version](paper/TCL-Phase2-Negative-Result.md)).
 
 ## Phase 1 Results
 
@@ -113,9 +115,10 @@ Phase 1 also caught problems in the earlier TCL-v0 records: test sets too small 
 | Path | What it holds |
 |---|---|
 | [TCL-Research-Program.md](TCL-Research-Program.md) | Master plan: hypotheses, locked evaluation protocol, phases, gates, change log |
-| [paper/](paper/) | [Theory paper v2](paper/TCL-Theory-Paper-v2.md) (current), theory paper v1, and the archived TCL-v0 empirical note |
+| [paper/](paper/) | The Phase 2 negative-result paper (ACL format), [theory paper v2](paper/TCL-Theory-Paper-v2.md), theory paper v1, and the archived TCL-v0 empirical note |
 | [docs/phase1/](docs/phase1/) | Phase 1 protocols (locked before evaluation), checkpoints with all results, and the label audit |
 | [docs/phase2/](docs/phase2/) | Phase 2 labeling rule v3, the locked Phase 2 and 2b protocols, and both results checkpoints |
+| [docs/phase3/](docs/phase3/) | The Phase 3 protocol draft (not locked) |
 | [docs/archive/tcl-v0/](docs/archive/tcl-v0/) | June 2026 TCL-v0 notes, runbooks, and run logs, kept for history |
 | [tcl_experiments/](tcl_experiments/) | Code, question sets with fixed splits, run records, and analysis outputs |
 | [notebooks/](notebooks/) | Kaggle notebooks for GPU runs |
@@ -147,18 +150,33 @@ python tcl_experiments/scripts/run_phase1_kaggle_analysis.py
 
 The committed records include everything except the hidden-state arrays (`*.npz`, excluded by `.gitignore` for size). The local TCL-v0 re-analysis is `tcl_experiments/scripts/run_phase1_analysis.py`.
 
-**4. Figures.**
+## Reproducing Phase 2 and 2b
+
+**1. Training (GPU).** Run [notebooks/tcl_phase2_kaggle_runs.ipynb](notebooks/tcl_phase2_kaggle_runs.ipynb) on Kaggle (GPU T4 x2), once per training dataset and part. The notebook pins the code commit; `LM_TARGET = "reference"` reproduces Phase 2 and `LM_TARGET = "reference_eot"` with `ARMS = "C,D"` reproduces Phase 2b. Unzip each output into `tcl_experiments/runs/phase2/` (or `phase2b/`, with the Phase 2 A and B runs copied in).
+
+**2. Analysis (CPU).**
+
+```bash
+python tcl_experiments/scripts/run_phase2_analysis.py
+python tcl_experiments/scripts/run_phase2_analysis.py --in-dir tcl_experiments/runs/phase2b --out-dir tcl_experiments/runs/phase2b_analysis
+```
+
+Every run's scores, regenerated answers, and metrics are committed, so the analysis can be rerun without a GPU.
+
+## Figures
 
 ```bash
 python assets/make_phase1_figure.py
 python assets/make_history_figures.py
+python assets/make_phase2_figure.py
 ```
 
 ## How I Work
 
 - **Every experiment maps to a hypothesis** in the research program, with a metric, baselines, and a pass/fail rule fixed in advance.
 - **Protocols and analysis code are committed before results exist.** Later changes are logged as amendments with the reason and the evidence that forced them.
-- **Negative results are reported in full.** Phase 1's local H1 and H2 failures stay on record next to the corrected replication.
+- **Negative results are reported in full.** Phase 1's local H1 and H2 failures stay on record next to the corrected replication, and Phase 2's failed core claim is written up as a paper.
+- **Papers use the ACL format** (official ACL LaTeX style).
 - **Primary metrics are ranking-based** (AUROC, AURC), with calibration (ECE, Brier) measured only after giving every method the same post-hoc calibration, so that a method cannot win just by being recalibrated.
 
 ## Author
@@ -168,8 +186,15 @@ Awab Mohamed, independent researcher, Qatar.
 ```bibtex
 @misc{mohamed2026tcl,
   author = {Mohamed, Awab},
-  title  = {Truth Calibration Layer: Jointly Trained, Multi-Dimensional Trust Estimation for Language Models},
+  title  = {Truth Calibration Layer: A Research Program on Trust Estimation for Language Models},
   year   = {2026},
   url    = {https://github.com/awabmoha/truth-calibration-layer}
+}
+
+@misc{mohamed2026joint,
+  author = {Mohamed, Awab},
+  title  = {Joint Training Does Not Make Trust Heads Transfer: A Preregistered Negative Result},
+  year   = {2026},
+  url    = {https://github.com/awabmoha/truth-calibration-layer/tree/main/paper/acl-phase2}
 }
 ```

@@ -1,0 +1,162 @@
+% ACL-format version of paper/TCL-Phase2-Negative-Result.md.
+% Compile with the official ACL style files (https://github.com/acl-org/acl-style-files),
+% e.g. by uploading this file and references.bib to the ACL template on Overleaf.
+\documentclass[11pt]{article}
+
+\usepackage[final]{acl}
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{inconsolata}
+\usepackage{booktabs}
+\usepackage{amsmath}
+
+\newcommand{\Ltrust}{\mathcal{L}_{\text{trust}}}
+\newcommand{\LLM}{\mathcal{L}_{\text{LM}}}
+
+\title{Joint Training Does Not Make Trust Heads Transfer:\\A Preregistered Negative Result}
+
+\author{Awab Mohamed \\
+  Independent researcher, Qatar \\
+  \url{https://github.com/awabmoha/truth-calibration-layer}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A trust head reads a language model's hidden states and predicts whether its answer is correct. A natural hope is that training this head \emph{jointly} with the model, under $\LLM + \lambda \Ltrust$, will shape the backbone so that trust estimates generalize better than a head on a frozen model. I test this with a preregistered comparison of four arms on identical data: a frozen-backbone head, LoRA fine-tuning for trust only, joint LoRA fine-tuning, and LoRA fine-tuning for language modeling only followed by a head. The model is Qwen2.5-0.5B-Instruct, trained on TriviaQA or SQuAD and tested on the other, with three seeds per arm and paired bootstrap confidence intervals. The pass rule, fixed before training, required the joint arm to beat the frozen head in both transfer directions while preserving generation quality. It fails. Joint training beats the frozen head from TriviaQA to SQuAD (+0.022 AUROC) but is significantly worse from SQuAD to TriviaQA ($-$0.038), and language-model fine-tuning alone matches its gain (+0.031). After the analysis I found that the language-modeling target lacked the end-of-turn token; I fixed it and ran the one rerun my protocol allowed. Answers returned to their original length, but the transfer result did not change (+0.034 and $-$0.038). Across every arm and both runs, a head trained on one dataset's correctness labels transfers far below the model's raw token confidence (0.56--0.65 vs.\ 0.71--0.76 AUROC) and semantic entropy (0.77).
+\end{abstract}
+
+\section{Introduction}
+
+Language models produce wrong answers as fluently as right ones. A common response is to estimate, for each answer, how likely it is to be correct, and to use that estimate to decide whether to show, flag, or withhold it. Many such estimators read hidden states with a trained probe \citep{azaria-mitchell-2023-internal,marks2024geometry,orgad2025llms}. They often work well on the data they were trained on and poorly on data from another distribution \citep{orgad2025llms}.
+
+One proposed remedy is to stop treating the model as fixed: train the trust head and the backbone together, so the model learns representations that support trust estimation while a language-modeling loss keeps its generation intact. Fine-tuning through a model's features gives better uncertainty estimates than prompting \citep{kapoor2024large}, and joint training of a detection head with LoRA adapters has been reported to make hallucinated and faithful tokens more separable \citep{ridder2026ragognizer}. Neither work isolates the joint objective: the comparisons that would separate ``joint training helps'' from ``any fine-tuning helps'' or ``language-model fine-tuning helps'' are missing, and none is made across datasets with seeds and confidence intervals.
+
+This paper makes that comparison. It is part of my Truth Calibration Layer (TCL) research program, in which the jointly trained version is the central claim, and every test has its hypotheses, arms, and decision rules committed before any result exists. The question is narrow: \emph{does a trust head trained jointly with the backbone rank correct above incorrect answers better than a frozen head, on a dataset it was not trained on?}
+
+\paragraph{Contributions.}
+(1) A controlled four-arm comparison (frozen, trust-only, joint, LM-only) on identical data, with transfer in both directions between a closed-book and a reading-comprehension QA dataset, three seeds per arm, paired bootstrap CIs, and an explicit generation-quality bar.
+(2) A negative result, replicated after fixing an implementation flaw: joint training does not transfer better than a frozen head, and its gains in one direction are explained by language-model fine-tuning alone.
+(3) Evidence that the transfer gap is general: every trained head falls far below untrained signals (raw token confidence, semantic entropy) on a new dataset.
+(4) A full record of the process, including the flaw, the single preregistered rerun it led to, and label audits.
+
+\section{Related Work}
+
+\paragraph{Hidden-state probes.} Classifiers on hidden states detect false statements \citep{azaria-mitchell-2023-internal}, and truth-like directions can be found with or without supervision \citep{burns2023discovering,marks2024geometry}. \citet{orgad2025llms} showed that correctness signal concentrates in specific answer tokens and that hidden-state error detectors fail to generalize across datasets. \citet{kossen2024semantic} trained probes to predict semantic entropy, and \citet{khanmohammadi2025calibrating} trained a classifier on how a frozen model's representations respond to perturbation. In all of these the language model stays frozen.
+
+\paragraph{Training the model for uncertainty.} \citet{kapoor2024large} fine-tuned models with LoRA on graded examples and found uncertainty estimates that generalize well. LitCab \citep{liu2024litcab} trains a single linear layer while keeping the model frozen. The closest prior work is RAGognizer \citep{ridder2026ragognizer}, which trains a token-level hallucination-detection head jointly with LoRA adapters for retrieval-augmented QA. It reports no frozen-backbone head on the same data, no comparison of its cross-dataset results against non-joint training, and single runs without confidence intervals, and its own ablation found that training for detection alone gave slightly higher separability than the joint objective.
+
+\paragraph{Untrained signals.} Token probabilities, calibrated post hoc \citep{platt1999probabilistic,guo2017calibration}, and semantic entropy over sampled answers \citep{kuhn2023semantic,farquhar2024detecting} need no correctness labels. Models can also judge their own answers \citep[P(True);][]{kadavath2022language}. I use these as reference baselines, and I rank answers by AUROC with risk--coverage results \citep{geifman2017selective}.
+
+\section{Setup}
+
+\paragraph{Model, data, labels.} Qwen2.5-0.5B-Instruct \citep{qwen2024qwen25} answers with its chat prompt and greedy decoding. Data are TriviaQA \texttt{rc.nocontext} \citep{joshi-etal-2017-triviaqa} and SQuAD v1.1 \citep{rajpurkar-etal-2016-squad}, the latter split so that each Wikipedia article falls in one split; each has 2,500 training, 500 validation, and 1,500 test questions. The base model answers every question once, and these fixed answers are used for training and for the primary evaluation, so every arm is judged on identical items. An answer is correct if, after normalization, it matches an accepted answer under a fixed rule validated beforehand on 600 manually audited answers. Base accuracy is 14.3\% on TriviaQA and 69.2\% on SQuAD.
+
+\paragraph{Trust head and arms.} The head reads the mean hidden state over the answer tokens at layer 12 of 24, the best depth in an earlier layer sweep, through a two-layer MLP (LayerNorm, $896\!\to\!256$, GELU, dropout 0.1, $256\!\to\!1$, sigmoid), trained with unweighted binary cross-entropy. The arms are: \textbf{A}, frozen backbone, head only; \textbf{B}, LoRA trained on $\Ltrust$; \textbf{C}, LoRA trained on $\LLM + \lambda\Ltrust$; \textbf{D}, LoRA trained on $\LLM$, then a head on the adapted, frozen backbone. $\LLM$ is the negative log-likelihood of the reference answer given the prompt, never of the model's own answer. LoRA \citep{hu2022lora} has rank 16 and $\alpha=32$ on all attention and MLP projections; AdamW uses learning rates $2\cdot10^{-4}$ (LoRA) and $10^{-3}$ (head), effective batch 16, three epochs, fp16, keeping the epoch with the lowest validation trust loss. $\lambda\in\{0.1, 0.5, 1.0\}$ is chosen by validation AUROC with seed 0. Every arm has three seeds per training dataset.
+
+\paragraph{Evaluation and decision rules.} The primary metric is AUROC on the \emph{other} dataset's 1,500 fixed answers. The difference $d(X,Y)$ between two arms is averaged over seeds, with a 95\% CI from 1,000 paired bootstrap resamples of the test items. Each fine-tuned model also regenerates its test answers, labeled with the same rule, and its perplexity is measured on 200 WikiText-2 test paragraphs \citep{merity2017pointer}. The generation bar allows an accuracy drop of at most one point on each test set and a perplexity rise of at most 3\%. Fixed before training: \textbf{H3-T passes} if $d(C,A)$ has a CI lower bound above zero in \emph{both} directions and C meets the bar; \textbf{H3-J} is the same for $d(C,B)$; if $d(C,D)$ includes zero in both directions, any gain is attributed to LM fine-tuning. Reference baselines on the same answers and labels are raw token confidence (geometric mean of the answer tokens' probabilities), P(True), and semantic entropy over ten samples.
+
+\paragraph{The rerun.} After the first analysis I found that the LM target lacked the chat template's end-of-turn token (\texttt{<|im\_end|>}), so the LM loss taught the model to produce the answer but never to stop. Before further training I preregistered one rerun: the only change is that the target gains this token; C and D are retrained with $\lambda$ reselected (16 trainings), and A and B, which have no LM loss, are reused. The decision rules are unchanged, and I committed in advance to drop the claim if H3-T failed again, with no further reruns.
+
+\section{Results}
+
+\paragraph{The fix restored answer length.} Before the fix, C and D answered in a median of 5--19 words (base model: 2); after it, 1--2 words on both test sets (Table~\ref{tab:gen}).
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrr}
+\toprule
+Arm & TQA $\to$ SQuAD & SQuAD $\to$ TQA \\
+\midrule
+A: frozen head & 0.557 & 0.645 \\
+B: trust-only LoRA & 0.572 & 0.629 \\
+C: joint, first run & 0.578 & 0.606 \\
+C: joint, rerun & 0.591 & 0.606 \\
+D: LM-only, first run & 0.588 & 0.643 \\
+D: LM-only, rerun & 0.598 & 0.647 \\
+\midrule
+\textit{Raw token confidence} & \textit{0.762} & \textit{0.712} \\
+\textit{Semantic entropy} & \textit{0.775} & \textit{0.773} \\
+\textit{P(True)} & \textit{0.622} & \textit{0.643} \\
+\bottomrule
+\end{tabular}
+\caption{Transfer AUROC on the other dataset's 1,500 fixed answers, mean over three seeds. A and B are shared by both runs.}
+\label{tab:transfer}
+\end{table}
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llcc}
+\toprule
+& Run & TQA $\to$ SQuAD & SQuAD $\to$ TQA \\
+\midrule
+C$-$A & 1 & \textbf{+.022} [.009, .035] & \textbf{$-$.038} [$-$.060, $-$.017] \\
+      & 2 & \textbf{+.034} [.022, .047] & \textbf{$-$.038} [$-$.061, $-$.015] \\
+C$-$B & 1 & +.006 [$-$.008, .020] & \textbf{$-$.022} [$-$.035, $-$.011] \\
+      & 2 & \textbf{+.018} [.007, .031] & \textbf{$-$.022} [$-$.036, $-$.009] \\
+C$-$D & 1 & $-$.009 [$-$.018, .000] & \textbf{$-$.036} [$-$.053, $-$.019] \\
+      & 2 & $-$.007 [$-$.015, .002] & \textbf{$-$.040} [$-$.057, $-$.023] \\
+D$-$A & 1 & \textbf{+.031} [.018, .045] & $-$.002 [$-$.022, .019] \\
+      & 2 & \textbf{+.041} [.028, .055] & +.002 [$-$.016, .022] \\
+\bottomrule
+\end{tabular}
+\caption{Paired transfer differences with 95\% CIs; run 1 is the first run, run 2 the rerun. Bold: CI excludes zero.}
+\label{tab:diffs}
+\end{table}
+
+\paragraph{Transfer.} H3-T and H3-J fail in both runs (Tables~\ref{tab:transfer} and \ref{tab:diffs}). From TriviaQA to SQuAD, joint training beats the frozen head, but LM-only fine-tuning does at least as well. From SQuAD to TriviaQA, joint training is significantly worse than the frozen, trust-only, and LM-only heads, and the fix did not move it. Every trained head is at least 0.06 AUROC below raw token confidence and 0.12 below semantic entropy.
+
+\paragraph{In-distribution.} On each training dataset's own test split, all trained heads beat raw confidence on TriviaQA (0.83--0.85 vs.\ 0.71), and the fine-tuned ones beat it on SQuAD (0.79--0.80 vs.\ 0.76). In the rerun, joint training beats trust-only fine-tuning by +0.010 on each dataset (CIs above zero) but is never significantly better than LM-only fine-tuning ($-$0.003 and +0.006). Its edge over the frozen head on TriviaQA is no longer significant after the fix (+0.008 [$-$0.003, 0.019]); on SQuAD it remains (+0.040 [0.026, 0.054]).
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llrrrc}
+\toprule
+Train & Arm & TQA acc. & SQuAD acc. & PPL & Words \\
+\midrule
+\multicolumn{2}{l}{Base model} & 14.3 & 69.2 & -- & 2 \\
+TQA & C & 18.4 / 14.8 & 57.5 / 52.6 & +5.6 / +1.9 & 10.5 / 1 \\
+TQA & D & 18.4 / 15.0 & 55.2 / 53.2 & +1.7 / +2.6 & 13 / 2 \\
+SQuAD & C & 18.2 / 14.7 & 87.8 / 80.4 & +10.6 / +9.1 & 17 / 2 \\
+SQuAD & D & 17.3 / 14.3 & 87.3 / 80.0 & +8.5 / +7.3 & 19 / 2 \\
+\bottomrule
+\end{tabular}
+\caption{Generation quality, first run / rerun: accuracy of regenerated answers (\%), perplexity rise (\%), and median words per answer on the training dataset's test set.}
+\label{tab:gen}
+\end{table}
+
+\paragraph{Generation quality.} No fine-tuned arm meets the bar in either run (Table~\ref{tab:gen}). In the first run, long answers inflated accuracy under the containment-based label rule. After the fix, models trained on TriviaQA answer SQuAD questions in single words and lose 16 points there, having adopted TriviaQA's short-answer style; some of that loss may be label error. Models trained on SQuAD raise perplexity by 7--9\%.
+
+\paragraph{Label audits.} Before the first analysis I relabeled 300 fresh labels by hand: the rule was wrong on 13 (4.3\%), including 9 of 100 base-model SQuAD answers, all correct answers marked wrong. For the rerun I relabeled 100 regenerated answers, drawn before any rerun metric was read: 5 errors, all correct short SQuAD answers marked wrong. Because every arm is scored on the same fixed answers and labels, label noise lowers absolute SQuAD AUROCs but does not favor any arm.
+
+\section{Discussion}
+
+\paragraph{Joint training is not what limits transfer.} The design separates the joint objective from its confounds, and the confounds explain everything that improved. Where C beats A, D beats A by as much or more, so the gain comes from adapting the backbone to the training data, not from training it for trust. In the other direction, C is worse than every alternative.
+
+\paragraph{The gap is shared by every trained head.} The frozen head, a frozen logistic probe from my earlier work (0.575 and 0.682), and all fine-tuned heads transfer at 0.56--0.68 AUROC, against 0.71--0.76 for raw token confidence and 0.77 for semantic entropy. A head trained on one dataset's labels seems to learn that dataset's notion of a likely-correct answer: for TriviaQA (closed-book, 14\% correct), recognizing questions the model knows; for SQuAD (reading comprehension, 69\% correct), recognizing well-extracted spans. Neither carries over, fine-tuning the backbone does not prevent it, and joint training, which also adapts the backbone to one dataset's answer style, may make it worse.
+
+\paragraph{What would change the conclusion.} This is one 0.5B model, two datasets, and 2,500 training questions per dataset. A larger model, training on a mixture of datasets, or a head that starts from raw confidence and learns only a correction could behave differently. Each is a new hypothesis, not a rescue of this one.
+
+\section{Conclusion}
+
+Under a preregistered four-arm design, training a trust head jointly with a 0.5B language model does not produce trust estimates that transfer across datasets better than a frozen head, before or after fixing a flaw in the language-modeling target. Where it helps, language-model fine-tuning alone helps as much. The larger obstacle is common to every learned head tested: trained on one dataset's correctness labels, they fall well below untrained confidence signals on another. Learned trust estimators should be evaluated on held-out datasets by default, against those untrained signals.
+
+\section*{Limitations}
+
+The study uses one small model (0.5B parameters), LoRA fine-tuning only, and two short-answer QA datasets whose base accuracies differ greatly (14\% vs.\ 69\%), which makes transfer especially hard; closer pairs might transfer better. Labels come from an automatic rule audited at 4--5\% error, with all audit labels decided by one person; on SQuAD the errors run in one direction (correct answers marked wrong). The generation bar combines accuracy under the same rule and perplexity on encyclopedic text, neither a full measure of generation quality. The flaw in the LM target was found after the first analysis, so the rerun is a second attempt; it was preregistered with its outcome rules stated in advance, and both runs are reported in full.
+
+\section*{Reproducibility}
+
+Every protocol, amendment, checkpoint, training and analysis script, run record, and label audit is in the repository linked above, with the Kaggle notebook pinned to the code commit. The runs that count used about 24 Kaggle T4 session hours.
+
+\bibliography{references}
+
+\end{document}

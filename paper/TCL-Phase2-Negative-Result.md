@@ -2,7 +2,7 @@
 
 **Awab Mohamed**
 
-Draft, November 20, 2026. Code, data, run records, and the locked protocols: https://github.com/awabmoha/truth-calibration-layer
+November 2026. This is the readable Markdown copy; the version of record, in ACL format, is [`acl-phase2/tcl-phase2-negative-result.tex`](acl-phase2/tcl-phase2-negative-result.tex). Code, data, run records, and the locked protocols: https://github.com/awabmoha/truth-calibration-layer
 
 ## Abstract
 

@@ -4,7 +4,7 @@ Code, question sets, run records, and analysis outputs for the TCL research prog
 
 This is a research pipeline, not a packaged library.
 
-## Current Pipeline (Phase 1, used again in Phase 2)
+## Phase 1 Pipeline (its records are reused in Phases 2 and 3)
 
 | Step | Script | Runs on |
 |---|---|---|
@@ -17,10 +17,22 @@ This is a research pipeline, not a packaged library.
 
 The GPU step is driven by [../notebooks/tcl_phase1_kaggle_runs.ipynb](../notebooks/tcl_phase1_kaggle_runs.ipynb), which pins the exact code commit for each run.
 
+## Phase 2 and 2b Pipeline
+
+| Step | Script | Runs on |
+|---|---|---|
+| Labeling rule v3 and its tests and validation | `scripts/labeling.py` (`answer_match_v3`), `scripts/test_labeling_v3.py`, `scripts/validate_labeling_v3.py` | CPU |
+| Train one arm (A-D) for one seed: trust head, LoRA, LM loss (`--lm-target reference` for Phase 2, `reference_eot` for 2b), scoring of fixed and regenerated answers, perplexity | `scripts/train_trust_head.py` | GPU (Kaggle) |
+| Run one part of a training dataset's trainings, two at a time on two GPUs, with lambda selection | `scripts/run_phase2_part.py` | GPU (Kaggle) |
+| Decisions (H3-T, H3-J), paired bootstrap CIs, generation bar, reference baselines, label-audit sample | `scripts/run_phase2_analysis.py` | CPU |
+
+The GPU steps are driven by [../notebooks/tcl_phase2_kaggle_runs.ipynb](../notebooks/tcl_phase2_kaggle_runs.ipynb).
+
 ## Data
 
 | Path | Contents |
 |---|---|
+| `data/phase2/` | The fixed WikiText-2 perplexity sample (200 paragraphs) |
 | `data/phase1_kaggle/` | Phase 1 question sets: `triviaqa.csv` (4,500), `squad.csv` (4,500, article-disjoint splits), `nq_open.csv` (3,610), each with a `split` column and a metadata file |
 | `data/benchmarks/` | TCL-v0 subsets (100-1,000 questions) with split and manual-review files |
 | `data/seed_questions.csv`, `data/diagnostic_questions_100.csv` | Small smoke-test sets |
@@ -31,6 +43,9 @@ The GPU step is driven by [../notebooks/tcl_phase1_kaggle_runs.ipynb](../noteboo
 |---|---|
 | `runs/phase1_kaggle/<model>/<dataset>/` | Phase 1 inference outputs: `records.jsonl` and `config.json` (committed), `hidden_chunk_*.npz` (local only, excluded by `.gitignore`) |
 | `runs/phase1_kaggle_analysis/` | Phase 1 decisions, metrics, test predictions, layer sweep, and label audit |
+| `runs/phase2/`, `runs/phase2b/` | Phase 2 and 2b trainings: per arm and seed, test scores on fixed answers, regenerated answers, metrics (with optimizer step counts), training log |
+| `runs/phase2_analysis/`, `runs/phase2b_analysis/` | Phase 2 and 2b decisions, details with every CI, per-arm metrics, run log, and the Phase 2 label audit |
+| `runs/phase2b_audit/` | The Phase 2b label audit (100 regenerated answers) |
 | `runs/phase1_local/` | Local Phase 1 re-analysis of the TCL-v0 records |
 | `runs/freegpu-*`, `runs/benchmark-*`, `runs/post_cloud_decision_*`, `runs/ablation_*` | TCL-v0 runs and checkpoints (June 2026) |
 | `runs/phase1_kaggle_download/` | Raw Kaggle zips and logs (local only, excluded by `.gitignore`) |
