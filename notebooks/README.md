@@ -4,7 +4,7 @@ Kaggle notebooks for every GPU step of the program. My laptop has no GPU, so mod
 
 ## Current Notebook
 
-`tcl_phase2_kaggle_runs.ipynb` is the latest notebook (Phases 2 and 2b, both complete). Set `TRAIN_DATASET` to `triviaqa` or `squad` and `PART` to `"1"`, `"2"`, `"3"`, or a list such as `"2,3"` (parts 2 and 3 need `LAMBDA` from part 1). `LM_TARGET = "reference"` reproduces Phase 2; `"reference_eot"` with `ARMS = "C,D"` reproduces Phase 2b. Run on Kaggle with GPU T4 x2 and Internet on, and download the zip each session writes to `/kaggle/working/`. `tcl_phase1_kaggle_runs.ipynb` produced the Phase 1 records; the other notebooks belong to the archived TCL-v0 work.
+`tcl_phase3_popqa_kaggle.ipynb` is the latest notebook (Phase 3 PopQA inference). Set `MODEL_TAG` to `qwen` or `phi`; `N_QUESTIONS = 1500` runs batch 1, and 3000 or 4500 add batches only if the size rule needs them. `tcl_phase2_kaggle_runs.ipynb` covers Phases 2 and 2b (both complete). Set `TRAIN_DATASET` to `triviaqa` or `squad` and `PART` to `"1"`, `"2"`, `"3"`, or a list such as `"2,3"` (parts 2 and 3 need `LAMBDA` from part 1). `LM_TARGET = "reference"` reproduces Phase 2; `"reference_eot"` with `ARMS = "C,D"` reproduces Phase 2b. Run on Kaggle with GPU T4 x2 and Internet on, and download the zip each session writes to `/kaggle/working/`. `tcl_phase1_kaggle_runs.ipynb` produced the Phase 1 records; the other notebooks belong to the archived TCL-v0 work.
 
 ## Current Recommendation
 
@@ -15,6 +15,7 @@ Kaggle is the recommended free-GPU environment. Colab Free remains a fallback fo
 - `tcl_v0_kaggle_free_gpu_dry_run.ipynb` - original free-GPU execution check, centered on Qwen SQuAD/TriviaQA dry runs.
 - `tcl_v0_kaggle_reviewed_model_runs.ipynb` - reusable reviewed-run notebook for Qwen, Phi-3.5 Mini, and Kaggle-hosted Gemma 2B-it.
 - `tcl_v0_kaggle_ablation_smoke.ipynb` - next-checkpoint ablation smoke notebook for layer, pooling, and raw-only baseline comparisons.
+- `tcl_phase3_popqa_kaggle.ipynb` - Phase 3 PopQA inference (same settings as Phase 1) for one model per session, pinned to the commit that drew the PopQA sample. Protocol: `docs/phase3/TCL-Phase3-Protocol.md`.
 - `tcl_phase2_kaggle_runs.ipynb` - Phase 2 trust-head training (arms A-D, lambda selection, three seeds), one part of one training dataset per session, two trainings at a time on the two GPUs. Protocol: `docs/phase2/TCL-Phase2-Protocol.md`.
 - `tcl_phase1_kaggle_runs.ipynb` - Phase 1 Kaggle runs (inference v2: answer-span confidence, layer sweep features, P(True), semantic entropy) for one model per session. Protocol: `docs/phase1/TCL-Phase1-Kaggle-Protocol.md`.
 
