@@ -31,11 +31,11 @@ Documents in the order they were written. Each protocol was committed before the
 | [TCL-Phase2b-Protocol.md](phase2/TCL-Phase2b-Protocol.md) | Locked protocol for the one rerun of arms C and D with the end-of-turn token in the LM target |
 | [TCL-Phase2b-Checkpoint.md](phase2/TCL-Phase2b-Checkpoint.md) | Results: the fix works, H3-T and H3-J fail again; the joint-transfer claim is dropped |
 
-## Phase 3 (protocol in draft)
+## Phase 3 (protocol locked, not started)
 
 | Document | Role |
 |---|---|
-| [TCL-Phase3-Protocol-DRAFT.md](phase3/TCL-Phase3-Protocol-DRAFT.md) | Draft protocol for H4-T: can a head trained on a mixture of datasets, given raw confidence, beat raw confidence on a held-out dataset? Not locked |
+| [TCL-Phase3-Protocol.md](phase3/TCL-Phase3-Protocol.md) | Locked protocol for H4-T: can a head trained on a mixture of datasets, given raw confidence, beat raw confidence on a held-out dataset (including the new PopQA)? |
 
 ## Archive
 
