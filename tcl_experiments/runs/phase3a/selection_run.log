@@ -1,0 +1,21 @@
+logistic reg=0.0001  equal        mean MR val AUROC 0.6892
+logistic reg=0.0001  proportional mean MR val AUROC 0.6905
+logistic reg=0.001   equal        mean MR val AUROC 0.6893
+logistic reg=0.001   proportional mean MR val AUROC 0.6904
+logistic reg=0.01    equal        mean MR val AUROC 0.6906
+logistic reg=0.01    proportional mean MR val AUROC 0.6914
+logistic reg=0.1     equal        mean MR val AUROC 0.6881
+logistic reg=0.1     proportional mean MR val AUROC 0.6891
+logistic reg=1       equal        mean MR val AUROC 0.6866
+logistic reg=1       proportional mean MR val AUROC 0.6868
+mlp      reg=0.0001  equal        mean MR val AUROC 0.7278
+mlp      reg=0.0001  proportional mean MR val AUROC 0.7268
+mlp      reg=0.001   equal        mean MR val AUROC 0.7278
+mlp      reg=0.001   proportional mean MR val AUROC 0.7268
+mlp      reg=0.01    equal        mean MR val AUROC 0.7278
+mlp      reg=0.01    proportional mean MR val AUROC 0.7268
+mlp      reg=0.1     equal        mean MR val AUROC 0.7278
+mlp      reg=0.1     proportional mean MR val AUROC 0.7268
+mlp      reg=1       equal        mean MR val AUROC 0.7286
+mlp      reg=1       proportional mean MR val AUROC 0.7270
+chosen: {'head': 'mlp', 'reg': 1.0, 'weighting': 'equal'}
