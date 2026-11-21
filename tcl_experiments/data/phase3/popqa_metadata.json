@@ -1,0 +1,7 @@
+{
+  "source": "akariasai/PopQA (test)",
+  "total_rows": 14267,
+  "seed": 2030,
+  "batches": 3,
+  "batch_size": 1500
+}
