@@ -122,7 +122,14 @@ Let `d(X, Y)` be the seed-averaged AUROC difference X minus Y on a pair's test s
 
 ## 10. Amendments
 
-None yet.
+**2026-11-21: Implementation details fixed in code, before any run on real data.** The protocol does not specify how the heads are fitted; these details are fixed in `run_phase3_heads.py` (docstring) and tested on synthetic data only:
+- Features are standardized with training-mixture statistics; the raw-confidence input is its logit, standardized the same way.
+- Logistic head: scikit-learn `LogisticRegression` (lbfgs, `C = 1 / regularization`). It is deterministic, so its five seeds give identical scores.
+- MLP head: AdamW, learning rate 1e-3, weight decay = regularization, batch 256, up to 60 epochs, keeping the epoch with the lowest weighted loss on the training mixture's validation splits (never the held-out dataset's).
+- 3a ranks settings by mean validation AUROC of M+R rounded to 3 decimals before applying the tie rule.
+- The analysis computes AUROC by the rank (Mann-Whitney) formula, verified to equal scikit-learn's `roc_auc_score` on 200 random cases with ties.
+
+No decision rule, dataset, model, arm, or metric changes.
 
 ## References
 
