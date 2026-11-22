@@ -98,7 +98,13 @@ About 4,500 x 3 + 1,500 = 15,000 answers per model with passages, without semant
 
 ## 11. Amendments
 
-None yet.
+**2026-11-22: Implementation details fixed in code, before any model answered a grounding question.** Fixed in `prepare_phase3_grounding.py`, `label_grounding.py`, `run_phase3_h4_grounding.py`, and `run_phase3_h4_grounding_analysis.py` (docstrings); the scoring and analysis scripts were tested on synthetic data only (with a grounding signal, 7 of 8 pairs pass; without one, every pair fails on learnability):
+- One question per passage is kept within each MRQA split before sampling. MRQA's own training and development data share 15 NQ and 3 HotpotQA passages, which therefore appear in two of my splits of that dataset. This does not touch any comparison: when a dataset is held out, its own training split is not used.
+- Abstentions are detected as answers that contain "unanswerable", match the shared refusal rule, or are empty. They are left out of training, fitting, and evaluation for every arm, so all arms score the same answers, and they are counted per split.
+- The NLI premise is truncated to fit 512 tokens; the question and answer are never truncated.
+- Inference skips semantic entropy (`--se-splits ""`) and uses the new `--abstain-instruction` flag.
+
+No decision rule, dataset, model, arm, threshold, or metric changes.
 
 ## References
 

@@ -34,6 +34,7 @@ CORRECTNESS_METHOD = "strict_answer_segment_match_v2_answer_span"
 RAW_SPAN_METHOD = "geometric_mean_answer_span_token_probability"
 RAW_FULL_METHOD = "geometric_mean_generated_token_probability"
 SYSTEM_PROMPT = "You answer factual questions with only the shortest correct answer. No explanation."
+ABSTAIN_LINE = "If the context does not contain the answer, reply: unanswerable."
 STOP_TOKEN_STRINGS = ["<end_of_turn>", "<|im_end|>", "<|end|>", "<|eot_id|>", "<|endoftext|>"]
 LAYER_FRACTIONS = {"q25": 0.25, "q50": 0.5, "final": 1.0}
 POOLINGS = ["answer_mean", "answer_last"]
@@ -200,6 +201,8 @@ def main() -> None:
     ap.add_argument("--chunk-size", type=int, default=200)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--resume", action="store_true")
+    ap.add_argument("--abstain-instruction", action="store_true",
+                    help="Context prompts only: allow the reply 'unanswerable' (Phase 3 grounding). Off by default.")
     args = ap.parse_args()
 
     torch.manual_seed(args.seed)
@@ -254,6 +257,7 @@ def main() -> None:
         "raw_span_method": RAW_SPAN_METHOD,
         "raw_full_method": RAW_FULL_METHOD,
         "chat_template_mode": args.chat_template_mode,
+        "abstain_instruction": bool(args.abstain_instruction),
         "seed": args.seed,
         "runtime": runtime_info(device, dtype),
     }
@@ -267,7 +271,10 @@ def main() -> None:
     for row in tqdm(rows, desc=f"{args.model_tag}/{args.dataset}"):
         question, context = row["question"].strip(), row.get("context", "").strip()
         accepted = [a.strip() for a in row["accepted_answers"].split("|") if a.strip()]
-        prompt = chat_prompt(tokenizer, user_message(question, context), args.chat_template_mode)
+        message = user_message(question, context)
+        if context and args.abstain_instruction:
+            message += "\n" + ABSTAIN_LINE
+        prompt = chat_prompt(tokenizer, message, args.chat_template_mode)
         inputs = tokenizer(prompt, return_tensors="pt", add_special_tokens=False).to(device)
         prompt_len = inputs["input_ids"].shape[1]
 

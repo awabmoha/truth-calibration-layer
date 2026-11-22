@@ -1,0 +1,46 @@
+{
+  "source": "mrqa-workshop/mrqa (parquet)",
+  "sample_seed": 2033,
+  "distractor_seed": 2034,
+  "distractor_share": 0.3333333333333333,
+  "datasets": {
+    "squad": {
+      "mrqa_subset": "SQuAD",
+      "rows": 4500,
+      "distractor_rows": 1500,
+      "unique_passages_available": {
+        "train": 18880,
+        "validation": 18880,
+        "test": 2067
+      }
+    },
+    "nq": {
+      "mrqa_subset": "NaturalQuestionsShort",
+      "rows": 4500,
+      "distractor_rows": 1500,
+      "unique_passages_available": {
+        "train": 79427,
+        "validation": 79427,
+        "test": 5332
+      }
+    },
+    "hotpotqa": {
+      "mrqa_subset": "HotpotQA",
+      "rows": 4500,
+      "distractor_rows": 1500,
+      "unique_passages_available": {
+        "train": 63189,
+        "validation": 63189,
+        "test": 5860
+      }
+    },
+    "relation_extraction": {
+      "mrqa_subset": "RelationExtraction",
+      "rows": 1500,
+      "distractor_rows": 500,
+      "unique_passages_available": {
+        "test": 2093
+      }
+    }
+  }
+}

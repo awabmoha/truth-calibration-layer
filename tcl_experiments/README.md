@@ -29,6 +29,9 @@ The GPU step is driven by [../notebooks/tcl_phase1_kaggle_runs.ipynb](../noteboo
 | H4 (self-consistency): one-pass consistency heads, combiner with raw confidence, scores | `scripts/run_phase3_h4.py` | CPU |
 | H4 consistency-label audit sample (seed 2032) | `scripts/draw_phase3_h4_audit.py` | CPU |
 | H4 decision: learnability, non-redundancy, AURC gain with bootstrap CIs | `scripts/run_phase3_h4_analysis.py` | CPU |
+| Grounding data: MRQA samples (SQuAD, NQ, HotpotQA, RelationExtraction) with distractor passages | `scripts/prepare_phase3_grounding.py` | CPU |
+| Grounding inference (passage in the prompt, `--abstain-instruction`) and NLI grounding labels | `scripts/run_inference_v2.py`, `scripts/label_grounding.py` | GPU (Kaggle) |
+| H4 (grounding): one-pass grounding heads, combiner, scores; decision | `scripts/run_phase3_h4_grounding.py`, `scripts/run_phase3_h4_grounding_analysis.py` | CPU |
 
 ## Phase 2 and 2b Pipeline
 
@@ -45,6 +48,7 @@ The GPU steps are driven by [../notebooks/tcl_phase2_kaggle_runs.ipynb](../noteb
 
 | Path | Contents |
 |---|---|
+| `data/phase3_grounding/` | Grounding question sets from MRQA with distractor passages (seeds 2033, 2034) and metadata |
 | `data/phase3/` | The Phase 3 PopQA sample (4,500 test questions in three batches) and its metadata |
 | `data/phase2/` | The fixed WikiText-2 perplexity sample (200 paragraphs) |
 | `data/phase1_kaggle/` | Phase 1 question sets: `triviaqa.csv` (4,500), `squad.csv` (4,500, article-disjoint splits), `nq_open.csv` (3,610), each with a `split` column and a metadata file |
