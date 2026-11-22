@@ -16,7 +16,7 @@ My first core claim was that training a small trust head *jointly* with the lang
 | 0. Theory | A consistent, testable formulation of TCL | **Done**: [theory paper v2](paper/TCL-Theory-Paper-v2.md) |
 | 1. Foundation | Do frozen hidden states carry correctness signal beyond calibrated confidence, and does it transfer? | **Closed**: signal is real but small and model-dependent; it does not transfer |
 | 2. Core test (H3) | Does joint training beat a frozen head trained on the same data? | **Done**: H3 fails, twice. Joint training does not transfer; the claim is dropped ([Phase 2](docs/phase2/TCL-Phase2-Checkpoint.md), [Phase 2b](docs/phase2/TCL-Phase2b-Checkpoint.md)) |
-| 3. Transfer + trust vector (H4-T, H4) | Can a head trained on several datasets beat raw confidence on a new one? Are further trust dimensions learnable and non-redundant there? | **Protocol locked** ([protocol](docs/phase3/TCL-Phase3-Protocol.md)); not started |
+| 3. Transfer + trust vector (H4-T, H4) | Can a head trained on several datasets beat raw confidence on a new one? Are further trust dimensions learnable and non-redundant there? | **H4-T done: fails.** The head beats raw confidence on 1 of 6 held-out pairs; TCL's correctness dimension becomes calibrated raw confidence ([checkpoint](docs/phase3/TCL-Phase3-Checkpoint.md)). H4: planned |
 | 4. Generalization (H5) | Do the results hold on math (GSM8K) and a 7-8B model? Does joint training behave differently at that scale? | Planned |
 | 5. Claim level (H6) | Can trust be estimated per claim in long-form text? | Planned |
 
@@ -32,7 +32,24 @@ The full plan, hypotheses, decision gates, and change log are in [TCL-Research-P
 
 **Phase 1 re-tested TCL-v0 at scale** (1,500 test questions per run instead of 200, a third dataset, a layer sweep, and stronger baselines such as semantic entropy). It confirmed a real hidden-state signal, but also showed what TCL-v0 could not see: its 200-question test sets were too small, its SQuAD questions shared passages between train and test, its headline metric could be matched by recalibrating raw confidence alone, and one checkpoint used automatic rather than reviewed labels. The Phase 1 results below replace the TCL-v0 numbers; the original records are kept unchanged in [docs/archive/tcl-v0/](docs/archive/tcl-v0/).
 
-**Phase 2 tested the core claim** that TCL-v0 never could: whether training the trust head jointly with the model beats a frozen probe on a dataset it was not trained on. It does not (below). I then found a flaw in my setup (the model was never taught where to stop answering), fixed it, and ran the one rerun the plan allows (Phase 2b). The fix worked, but the transfer result did not change, so I dropped the joint-transfer claim. Phase 3 is being redesigned around transfer.
+**Phase 2 tested the core claim** that TCL-v0 never could: whether training the trust head jointly with the model beats a frozen probe on a dataset it was not trained on. It does not (below). I then found a flaw in my setup (the model was never taught where to stop answering), fixed it, and ran the one rerun the plan allows (Phase 2b). The fix worked, but the transfer result did not change, so I dropped the joint-transfer claim.
+
+**Phase 3 tested the strongest version of a learned correctness head I could design:** trained on a mixture of datasets, given raw confidence as an input, and tested on a held-out dataset, including PopQA, which no earlier phase used. It still does not beat the model's calibrated raw confidence (below), so raw confidence becomes TCL's correctness signal.
+
+## Phase 3 Results
+
+Qwen2.5-0.5B and Phi-3.5-mini; heads trained on two or three of TriviaQA, SQuAD, and NQ-Open and tested on a dataset left out of training, or on PopQA. The head design (an MLP) was chosen on validation splits only; 5 seeds; the analysis ran once.
+
+| Test AUROC | Raw confidence (R) | Mixture head + raw conf. (M+R) | M+R - R [95% CI] | Semantic entropy |
+|---|---:|---:|---|---:|
+| Qwen, TriviaQA | 0.712 | 0.744 | +0.032 [-0.010, +0.077] | 0.773 |
+| Qwen, SQuAD | **0.762** | 0.667 | -0.096 [-0.131, -0.061] | 0.775 |
+| Qwen, PopQA | 0.828 | **0.907** | **+0.079** [+0.052, +0.105] | 0.879 |
+| Phi, TriviaQA | **0.836** | 0.795 | -0.041 [-0.064, -0.017] | 0.842 |
+| Phi, NQ-Open | 0.765 | 0.760 | -0.006 [-0.036, +0.024] | 0.762 |
+| Phi, PopQA | **0.864** | 0.809 | -0.055 [-0.080, -0.029] | 0.881 |
+
+**H4-T fails:** the head beats raw confidence on 1 of 6 pairs, and the preregistered rule needed 4. Training on a mixture does improve transfer over single-dataset heads on every pair, but not enough, and the head mostly ignores its raw-confidence input. The one clear win (Qwen on PopQA, where the model answers 9.5% correctly with confident guesses) is a lead for later work. Full results and label audits (1 rule error in 100 per model): [Phase 3 checkpoint](docs/phase3/TCL-Phase3-Checkpoint.md).
 
 ## Phase 2 and 2b Results
 
@@ -119,7 +136,7 @@ Phase 1 also caught problems in the earlier TCL-v0 records: test sets too small 
 | [paper/](paper/) | The Phase 2 negative-result paper (ACL format), [theory paper v2](paper/TCL-Theory-Paper-v2.md), theory paper v1, and the archived TCL-v0 empirical note |
 | [docs/phase1/](docs/phase1/) | Phase 1 protocols (locked before evaluation), checkpoints with all results, and the label audit |
 | [docs/phase2/](docs/phase2/) | Phase 2 labeling rule v3, the locked Phase 2 and 2b protocols, and both results checkpoints |
-| [docs/phase3/](docs/phase3/) | The locked Phase 3 protocol |
+| [docs/phase3/](docs/phase3/) | The locked Phase 3 protocol and its checkpoint |
 | [docs/archive/tcl-v0/](docs/archive/tcl-v0/) | June 2026 TCL-v0 notes, runbooks, and run logs, kept for history |
 | [tcl_experiments/](tcl_experiments/) | Code, question sets with fixed splits, run records, and analysis outputs |
 | [notebooks/](notebooks/) | Kaggle notebooks for GPU runs |

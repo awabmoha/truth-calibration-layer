@@ -17,6 +17,16 @@ This is a research pipeline, not a packaged library.
 
 The GPU step is driven by [../notebooks/tcl_phase1_kaggle_runs.ipynb](../notebooks/tcl_phase1_kaggle_runs.ipynb), which pins the exact code commit for each run.
 
+## Phase 3 Pipeline
+
+| Step | Script | Runs on |
+|---|---|---|
+| Draw the PopQA sample (seed 2030, three batches of 1,500) | `scripts/prepare_phase3_popqa.py` | CPU |
+| PopQA inference with the Phase 1 settings | `scripts/run_inference_v2.py`, driven by [../notebooks/tcl_phase3_popqa_kaggle.ipynb](../notebooks/tcl_phase3_popqa_kaggle.ipynb) | GPU (Kaggle) |
+| Draw the PopQA label-audit sample (seed 2031) | `scripts/draw_phase3_audit.py` | CPU |
+| 3a design selection (`select`, validation splits only) and 3b scoring of every arm (`score`) | `scripts/run_phase3_heads.py` | CPU |
+| H4-T decision, paired bootstrap CIs, secondary metrics, refusal-excluded results | `scripts/run_phase3_analysis.py` | CPU |
+
 ## Phase 2 and 2b Pipeline
 
 | Step | Script | Runs on |
@@ -32,6 +42,7 @@ The GPU steps are driven by [../notebooks/tcl_phase2_kaggle_runs.ipynb](../noteb
 
 | Path | Contents |
 |---|---|
+| `data/phase3/` | The Phase 3 PopQA sample (4,500 test questions in three batches) and its metadata |
 | `data/phase2/` | The fixed WikiText-2 perplexity sample (200 paragraphs) |
 | `data/phase1_kaggle/` | Phase 1 question sets: `triviaqa.csv` (4,500), `squad.csv` (4,500, article-disjoint splits), `nq_open.csv` (3,610), each with a `split` column and a metadata file |
 | `data/benchmarks/` | TCL-v0 subsets (100-1,000 questions) with split and manual-review files |
@@ -43,6 +54,10 @@ The GPU steps are driven by [../notebooks/tcl_phase2_kaggle_runs.ipynb](../noteb
 |---|---|
 | `runs/phase1_kaggle/<model>/<dataset>/` | Phase 1 inference outputs: `records.jsonl` and `config.json` (committed), `hidden_chunk_*.npz` (local only, excluded by `.gitignore`) |
 | `runs/phase1_kaggle_analysis/` | Phase 1 decisions, metrics, test predictions, layer sweep, and label audit |
+| `runs/phase3a/` | Phase 3a design selection: every setting's validation AUROC, the chosen setting, run log |
+| `runs/phase3_popqa/<model>/popqa/` | PopQA inference outputs (records and config committed; hidden states local only) |
+| `runs/phase3_audit/` | PopQA label-audit samples and reviewed labels (100 per model) |
+| `runs/phase3b/`, `runs/phase3b_analysis/` | Phase 3b test scores per arm and seed, manifest with label counts, H4-T decision, details with every CI, run logs |
 | `runs/phase2/`, `runs/phase2b/` | Phase 2 and 2b trainings: per arm and seed, test scores on fixed answers, regenerated answers, metrics (with optimizer step counts), training log |
 | `runs/phase2_analysis/`, `runs/phase2b_analysis/` | Phase 2 and 2b decisions, details with every CI, per-arm metrics, run log, and the Phase 2 label audit |
 | `runs/phase2b_audit/` | The Phase 2b label audit (100 regenerated answers) |
