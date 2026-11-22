@@ -26,6 +26,9 @@ The GPU step is driven by [../notebooks/tcl_phase1_kaggle_runs.ipynb](../noteboo
 | Draw the PopQA label-audit sample (seed 2031) | `scripts/draw_phase3_audit.py` | CPU |
 | 3a design selection (`select`, validation splits only) and 3b scoring of every arm (`score`) | `scripts/run_phase3_heads.py` | CPU |
 | H4-T decision, paired bootstrap CIs, secondary metrics, refusal-excluded results | `scripts/run_phase3_analysis.py` | CPU |
+| H4 (self-consistency): one-pass consistency heads, combiner with raw confidence, scores | `scripts/run_phase3_h4.py` | CPU |
+| H4 consistency-label audit sample (seed 2032) | `scripts/draw_phase3_h4_audit.py` | CPU |
+| H4 decision: learnability, non-redundancy, AURC gain with bootstrap CIs | `scripts/run_phase3_h4_analysis.py` | CPU |
 
 ## Phase 2 and 2b Pipeline
 

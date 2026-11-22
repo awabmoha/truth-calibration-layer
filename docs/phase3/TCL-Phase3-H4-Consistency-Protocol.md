@@ -102,7 +102,14 @@ The consistency label comes from an NLI model, not from a rule I wrote. Before a
 
 ## 10. Amendments
 
-None yet.
+**2026-11-22: Implementation details fixed in code, before any run on real data.** The protocol does not specify these; they are fixed in `run_phase3_h4.py` and `run_phase3_h4_analysis.py` (docstrings) and tested on synthetic data only (one dataset where consistency carries signal: every pair passes; one where it is noise: every pair fails):
+- The consistency head's early stopping holds back a random 10% of its training rows (seeded per seed).
+- The sampled label is smoothed before its logit is taken: `(10 * y_c + 0.5) / 11`.
+- The oracle R+C cannot be fitted on validation splits, which have no sampled answers, so its combiner is fitted on the training datasets' test splits. It stays ungated.
+- "Averaged over 5 seeds" means each metric is computed per seed and then averaged, as in Phase 3 (and inside every bootstrap resample).
+- The audit (Section 6) compares my hand count of samples that mean the same as the greedy answer with the NLI count (`10 * y_c`), drawn by `draw_phase3_h4_audit.py`.
+
+No decision rule, dataset, model, arm, threshold, or metric changes.
 
 ## References
 
