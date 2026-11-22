@@ -163,7 +163,7 @@ These rules apply to every phase. I change them only through the change-control 
 ### Phase 3: Transfer and a Second Trust Dimension
 
 - **Goal:** test H4-T, then H4. Revised November 20, 2026, after Phase 2 (see changelog).
-- **H4-T status (November 22, 2026): fails** (`docs/phase3/TCL-Phase3-Checkpoint.md`). H4 follows with calibrated raw confidence as the correctness baseline, under its own locked protocol.
+- **H4-T status (November 22, 2026): fails** (`docs/phase3/TCL-Phase3-Checkpoint.md`). H4 follows with calibrated raw confidence as the correctness baseline; the self-consistency protocol is locked (`docs/phase3/TCL-Phase3-H4-Consistency-Protocol.md`).
 - **Transfer requirement (all of Phase 3):** heads are trained on a mixture of datasets and evaluated on a dataset left out of training (leave-one-dataset-out), and on at least one dataset never used in any earlier phase. In-distribution results are reported but not gated.
 - **Method:** frozen-backbone heads (TCL-F), following the Section 8 row for a failed H3-T. Each head receives calibrated raw confidence as an input, so it learns a correction to it rather than starting from nothing.
 - **H4-T passes if:** the head's AUROC exceeds calibrated raw confidence's on the held-out dataset with the 95% CI of the difference excluding zero, for a majority of held-out datasets, with at least one being a dataset no earlier phase used. Semantic entropy is reported as a reference.
@@ -225,15 +225,17 @@ Phases 0-2 run on free compute. The Phase 2 result decides whether paid compute 
 
 ## 11. Publication Track
 
-1. Phase 1: arXiv note / workshop paper (probing beyond calibrated baselines, with transfer).
-2. Phase 2 and 2b: negative-result paper on joint training and transfer (`paper/TCL-Phase2-Negative-Result.md`).
-3. Phase 3: transfer and multi-dimensional trust.
-4. Phases 4-5: full TCL paper with generalization and claim-level results.
+Revised November 22, 2026. I no longer write a separate paper for each phase.
+
+1. **Already public:** the Phase 2 and 2b negative result as a preprint on Zenodo (DOI 10.5281/zenodo.24403374), and every phase's protocol, checkpoint, code, and records in this repository.
+2. **One cumulative paper at the first positive result.** If H4 passes, I write up Phases 1-3 together; if not, the next phase that succeeds (4, then 5) is written up with every earlier phase. Earlier negative results are always included, as the evidence that motivates the positive one.
+3. **If no phase succeeds,** I publish the whole program as one negative-result paper.
 
 ## Changelog
 
 | Date | Change | Reason |
 |---|---|---|
+| 2026-11-22 | **H4 protocol for self-consistency locked** (`docs/phase3/TCL-Phase3-H4-Consistency-Protocol.md`) before any H4 code or metric. A one-pass head predicts the sampled self-consistency label; it passes on a pair if its AUROC is at least 0.70, its Spearman correlation with calibrated raw confidence is below 0.7, and combining it with raw confidence lowers correctness AURC (CI above zero); H4 passes on a majority of the 6 eligible pairs, including one PopQA pair. Uses existing Phase 1 and Phase 3 data only; the head's design is fixed to the Phase 3a setting. Only consistency label counts were computed before locking. **Publication plan changed:** no separate papers per phase; Phases 1-3 are written up together at the first positive result (H4, or a later phase), with every earlier result included. | H4-T failed, so raw confidence is the correctness dimension and H4 is the next test in Phase 3; semantic entropy beat raw confidence on most Phase 3 pairs, which makes consistency the most promising next dimension. |
 | 2026-11-22 | **Phase 3b analysis run once** (`docs/phase3/TCL-Phase3-Checkpoint.md`): **H4-T fails**. `d(M+R, R)` has its CI above zero on 1 of 6 eligible pairs (Qwen / PopQA, +0.079); on 3 pairs the head is significantly worse. 3a chose an MLP head (weight decay 1, equal weighting) on validation splits only. Qwen's PopQA sample was extended to 3,000 questions by the size rule, decided from labels alone. Label audits: 1 rule error in 100 per model. As fixed in Section 8, TCL's correctness dimension becomes calibrated raw confidence. Phases 2 and 3 will be written up together as one paper. | The preregistered rule, applied once. |
 | 2026-11-21 | **Phase 3 protocol locked** (`docs/phase3/TCL-Phase3-Protocol.md`) before any Phase 3 code or metric. Tests H4-T with Qwen2.5-0.5B and Phi-3.5-mini (Gemma dropped: near-chance token confidence, frequent refusals), PopQA as the new held-out dataset, a pilot (3a) that selects the head design on training and validation splits only, and a pass rule of `d(M+R, R)` above zero on a majority of up to 6 eligible pairs, including at least one PopQA pair. Only label counts per split were computed before locking, to apply the size rule. | The four open decisions of the draft, settled; the draft's pilot would have read test splits, so design selection was moved to validation splits to keep all four pool test sets usable in the confirmatory test. |
 | 2026-11-20 | **Plan revised after Phase 2** (phase gate). Claim 1 (joint objective) marked not supported. New hypothesis **H4-T**: a correctness head trained on a mixture of datasets, given calibrated raw confidence, beats it on a held-out dataset. H4 is now judged on held-out data. H5 now tests the best method from Phases 2-3, and Phase 4 re-runs the joint-versus-frozen comparison at the larger scale. Phase 3 is renamed "Transfer and a Second Trust Dimension" and uses frozen heads (the Section 8 path for a failed H3-T). New gate row for H4-T failing. Publication track: Phase 2 and 2b become a negative-result paper (draft in `paper/TCL-Phase2-Negative-Result.md`). No Phase 3 threshold was set after seeing Phase 3 data; none exists yet. | Phase 2 and 2b: joint training does not transfer, and every head trained on one dataset's labels transfers below raw token confidence and semantic entropy. Transfer is the obstacle every phase has hit. |
