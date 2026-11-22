@@ -1,0 +1,101 @@
+source,dataset,id,question,accepted_answers,answer,v3_label,manual_label,flag_uncertain,reason,rule_error
+phase3_popqa_qwen,popqa,popqa-6341498,Who was the director of Brother of Sleep?,Joseph Vilsmaier | Josef Vilsmaier,Martin Scorsese,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2297768,What is Duncan the capital of?,"Stephens County | Stephens County, Oklahoma",Edinburgh,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-3312802,Who was the producer of Americana?,David Carradine | John Arthur Carradine,John Denver,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-3666171,In what city was Narcisse-Fortunat Belleau born?,Quebec City | Quebec | Ville de Québec | Québec | City of Québec | City of Quebec | Ville de Quebec | 3rd Summit of the Americas,Paris,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2942698,What is Will Smith's occupation?,record producer | music producer | film director | movie director | director | motion picture director | film producer | movie producer | producer | actor | actress | actors | actresses,actress,1,1,True,gold list includes actress; gender form of actor,False
+phase3_popqa_qwen,popqa,popqa-4658693,Who was the screenwriter for Water?,Anurag Kashyap | Deepa Mehta,John Travolta,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-4495198,Who was the screenwriter for Hoppa högst?,Astrid Lindgren | Astrid Anna Emilia Lindgren,John Hughes,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-5838429,What genre is Strangers?,science fiction | SF | scifi | sci Fi | sci-Fi | science-fiction | sci fi | sciencefiction,Horror,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2419704,What genre is Ross Macdonald?,detective fiction | detective and mystery fiction,Drama,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2610554,Who was the screenwriter for Where No One Has Gone Before?,Michael Reaves | James Michael Reaves | Diane Duane,John Hughes,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-4904058,Who was the director of La cruz?,Alejandro Agresti,Luis Buñuel,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2997075,Who was the director of Kitchen?,Yim Ho,Martin Scorsese,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-4018345,What is the religion of Angelo Maria Rivato?,Catholic Church | Roman Catholic Church | Church | Roman Apostolic Catholic Church,Christianity,0,0,True,Christianity is broader than the gold Catholic Church; counted incorrect,False
+phase3_popqa_qwen,popqa,popqa-1527903,Who was the director of The Great Wall?,Zhang Yimou,Martin Scorsese,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-5560960,Who is the author of Replacements?,Lisa Tuttle | Laura Waring | Maria Palmer | Ben M. Baglio | Lucy Daniels | Lisa Gracia Tuttle,J.K. Rowling,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2197462,Who was the composer of Cloud Atlas?,Tom Tykwer | Reinhold Heil | Reinhold E. Heil,David Bowie,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2413157,What is the religion of Caesar Baronius?,Catholic Church | Roman Catholic Church | Church | Roman Apostolic Catholic Church,Christianity,0,0,True,Christianity is broader than the gold Catholic Church; counted incorrect,False
+phase3_popqa_qwen,popqa,popqa-6404382,In what country is Greek?,United Kingdom | 🇬🇧 | UK | United Kingdom of Great Britain and Northern Ireland | U.K. | GBR | GB | U. K. | U K | G.B. | G. B. | G B | Great Britain | G.B.R. | G B R | Britain | Great Britain and Northern Ireland | Russia | Rossiya | Rossija | RU | ru | Rossijskaja Federatsija | Russian Federation | Rossiyskaya Federatsiya | Rus | RUS | RF | Canada | Dominion of Canada | British North America | CAN | CA | ca | can | Can. | Germany | FRG | BRD | Bundesrepublik Deutschland | Federal Republic of Germany | de | Deutschland | GER | BR Deutschland | DE | Ukraine | UA | UKR | ua | Ukrainia | 🇺🇦 | Ukr. | Ukraina | Albania | Republic of Albania | al | Republika e Shqipërisë | Shqipërisë | 🇦🇱 | ALB | Cyprus | cy | 🇨🇾 | Greek Cypriot State | Republic of Cyprus | Greek Administration of Southern Cyprus | Kazakhstan | Republic of Kazakhstan | kz | Qazaqstan | KAZ | 🇰🇿 | Abkhazia | Abkhasia | Abkazia | Abchasia | Abkhaziya | United States of America | the United States of America | America | U.S.A. | USA | U.S. | US | the US | the USA | US of A | the United States | U. S. A. | U. S. | the States | the U.S. | 'Merica | U.S | United States | 'Murica | Sweden | Kingdom of Sweden | SE | se | SWE | 🇸🇪 | Italy | Italia | Italian Republic | IT | 🇮🇹 | ITA | Armenia | Republic of Armenia | 🇦🇲 | ARM | AM | Australia | Commonwealth of Australia | AU | AUS | au | British Colony of Australia | 🇦🇺 | Straya | Aussieland | Greece | Hellenic Republic | Hellas | gr | el | 🇬🇷 | Greek Republic | GRE | Ellada | Greek | Turkey | Republic of Turkey | 🇹🇷 | TUR | TR | Egypt | Republic of Egypt | eg | EGY | 🇪🇬 | Arab Republic of Egypt | Arab Rep. Egypt | Rep. Egypt | Israel | State of Israel | il | 🇮🇱 | Holy Land | the Jewish state | ISR,Greece,1,1,False,,False
+phase3_popqa_qwen,popqa,popqa-4094902,Who is the author of Fat?,Rob Grant | Robert Grant,J.K. Rowling,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1447370,Who was the composer of The Last Starfighter?,Craig Safan | Craig Alan Safan,John Williams,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2933256,Who was the producer of The Distance?,Simon Climie,David Fincher,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-243653,Who was the director of The Ghost?,Herbert Achternbusch,Martin Scorsese,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-5772020,Who was the composer of Six Weeks?,Dudley Moore | Dudley Stuart John Moore,John Cage,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-3685013,Who is the father of Charles Catton the younger?,"Charles Catton | Charles, the elder Catton | R. A. Catton | Charles Catton the Elder | Charles I Catton | Charles, I Catton | Charles Caton | Charles (I) Catton | Caton | Catton R.A. | Catton | R.A. Catton | [Charles Catton] | Charles Catton the elder, RA","Charles Catton the younger's father was John Catton, 1st Baron Catton.",1,0,True,names a different father (John Catton); matches only because it repeats the question's subject name,True
+phase3_popqa_qwen,popqa,popqa-1305822,What is the religion of Kingdom of England?,Catholic Church | Roman Catholic Church | Church | Roman Apostolic Catholic Church,Christianity,0,0,True,Christianity is broader than the gold Catholic Church; counted incorrect,False
+phase3_popqa_qwen,popqa,popqa-4170967,Who was the composer of From Above?,Ben Folds | Benjamin Scott Folds,Pyotr Ilyich Tchaikovsky,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-4321617,Who is the author of Annals?,Tacitus | Publius Cornelius Tacitus | Gaius Cornelius Tacitus | P. Cornelius Tacitus | C. Cornelius Tacitus | Cornelius Tacitus,William Shakespeare,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2674885,Who was the director of The Raid?,Ching Siu-tung,James Cameron,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-4288997,Who is the father of Leif Claesson?,Stig Claesson | John Stig Claesson,Leif Erikson's father was Erik the Red.,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2963274,Who was the producer of Hello?,Atul Agnihotri,Steven Spielberg,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-971618,What genre is C. L. Blast?,soul music | soul | Soul,rock,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-189068,Who is the author of GNU Affero General Public License?,"Free Software Foundation | FSF | Free Software Foundation, Inc.",Linus Torvalds,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-3399386,Who was the screenwriter for At the Movies?,Paul Germain,John Travolta,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2566059,What is Agneta Bolme Börjefors's occupation?,journalist | journo | journalists | television presenter | host | hostess | TV host | television host | TV presenter | TV anchor | television anchor,Doctor,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-3397298,What is the religion of Assumption College for Sisters?,Catholic Church | Roman Catholic Church | Church | Roman Apostolic Catholic Church,Christianity,0,0,True,Christianity is broader than the gold Catholic Church; counted incorrect,False
+phase3_popqa_qwen,popqa,popqa-2191684,Who is the mother of Ériu?,Ernmas,Lady Bracknell,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-3677626,What genre is Chambers?,sitcom | situational comedy | situation comedy,Drama,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-886757,Who was the screenwriter for Samson?,Gianfranco Parolini,John Travolta,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-3669311,What is the capital of Møre og Romsdal?,Molde,Møre og Romsdal has no capital city.,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-3842870,What genre is Danny Ray?,reggae | reggae music,Drama,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2672513,Who was the director of The Circle?,Frank Borzage,Martin Scorsese,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1046068,What genre is October 1?,mystery film,Horror,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1662253,In what city was Maarten Biesheuvel born?,Schiedam,Amsterdam,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1124028,Who is the author of Rigged?,Ben Mezrich,Charles Dickens,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1976664,Who is the father of Mary of Waltham?,Edward III of England | Edward of Windsor | Edward III | King of England Edward III,Henry VIII,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-724210,Who is the author of Solar?,Ian McEwan | Ian Russell McEwan,Stephen Hawking,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-5822683,What sport does Stephen Connor play?,association football | football | soccer,Football (soccer),1,1,False,,False
+phase3_popqa_qwen,popqa,popqa-2742111,What sport does Vitālijs Astafjevs play?,association football | football | soccer,Ice hockey,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-5906208,Who is the author of That Summer?,Sarah Dessen,J.K. Rowling,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-5117100,In what city was Matt Hamilton born?,Hemel Hempstead | Hemel,New York City,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-5639301,In what city was Roy A. Roberts born?,"Muscotah | Muscotah, Kansas",New York City,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-5312652,What genre is Notch?,reggae | reggae music,Retro game engine,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-3773578,Who is the author of Common Ground?,J. Anthony Lukas | Jay Anthony Lukas,Richard Dawkins,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1000825,Who is the author of It?,Inger Christensen,J.K. Rowling,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-5107426,"Who is the father of Mary Herbert, Countess of Pembroke?","Gilbert Talbot, 7th Earl of Shrewsbury","Henry Herbert, 1st Earl of Pembroke",0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2695219,Who is the author of Doll?,Mitsukazu Mihara,Charlotte Perkins Gilman,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1334087,Who was the director of The Intern?,Nancy Meyers | Nancy Jane Meyers,Martin Scorsese,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-588438,What genre is Born American?,action film | action movie | film action | movie action | action,Hip hop,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1345373,Who was the director of The Valley?,Ghassan Salhab,Martin Scorsese,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-3113315,In what city was Josephus Nicolaus Laurenti born?,"Vienna | Wien | Vienna, Austria | W",Jerusalem,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-3121300,Who was the screenwriter for Teenage Exorcist?,Brinke Stevens | Fred Olen Ray | Fabulous Freddie Valentine,John Hughes,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-5938999,What genre is The Lost?,third-person shooter | TPS,Horror,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-5918225,Who was the producer of The Comic?,Carl Reiner | Carlton Reiner | Aaron Ruben,Vince Gilligan,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-308450,Who was the producer of Hired!?,Jam Handy | Henry Jamison Handy | Jamison Handy,"The producer of ""Hired!"" is David Koechner.",0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2910139,Who is the author of Private?,James Patterson | James Brendan Patterson | James B. Patterson | Maxine Paetro,J.K. Rowling,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2448445,Who was the producer of The Dentist?,Mack Sennett,John Travolta,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2522169,Who was the producer of You Ain't Goin' Nowhere?,Bob Dylan | Bob Landy | Robert Milkwood Thomas | Tedham Porterhouse | Robert Zimmerman | Blind Boy Grunt | Robert Allen Zimmerman | Jack Frost | Elston Gunn | Lucky Wilbury | Boo Wilbury | Sergei Petrov | Robert Dylan | Dylan,David Fincher,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-480853,Who was the producer of Toughest Gun in Tombstone?,Edward Small,John Huston,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-4938592,Who was the composer of Alone?,Dmitri Shostakovich | Shostakovich | Shosty | Dmitrii Dmitrievich Shostakovich | Dmitrij Šostakovič | Dmitri Dmitrievitch Chostakovitch | Dimitri Shostakovich,John Williams,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1634617,Who is the author of Genma Taisen?,Kazumasa Hirai,Tetsuji Kato,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-6464079,Who was the composer of Les Girls?,Cole Porter | Cole Albert Porter,Claude Debussy,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-3610824,In what country is 2001–02 Serie B?,Italy | Italia | Italian Republic | IT | 🇮🇹 | ITA,Italy,1,1,False,,False
+phase3_popqa_qwen,popqa,popqa-5971698,Who is the author of Things That Are?,Andrew Clements | Andrew Elburn Clements | Andrew Elborn Clements,J.K. Rowling,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-6205226,Who was the director of Wings of Destiny?,Rupert Kathner,Steven Spielberg,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-6227968,What genre is Ylana of Callisto?,science fiction | SF | scifi | sci Fi | sci-Fi | science-fiction | sci fi | sciencefiction,Fantasy,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1447653,What sport does Szymon Szewczyk play?,basketball | hoops | b-ball | basket ball | BB | Basketball,Skiing,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-804951,Who was the producer of On the Border?,Bill Szymczyk | Glyn Johns | Glyn Thomas Johns,David Fincher,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-5950197,Who is the author of The Ram?,"Marie-Catherine Le Jumel de Barneville, baroness d'Aulnoy | La Mothe, Marie-Catherine, | Madame d' Aulnoy | Marie-Catherine de La Mothe d' Aulnoy | Countess d'Aulnoy",J.R.R. Tolkien,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-201731,Who was the screenwriter for The Robe?,Lloyd C. Douglas | Lloyd Cassel Douglas | Philip Dunne | Philip Ives Dunne | Albert Maltz | Gina Kaus,John Hughes,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-238284,Who is the author of In Our Time?,Ernest Hemingway | Hemingway | Ernest Miller Hemmingway | E. M. Hemmingway | E. Hemmingway | E. Hemingway | Ernest M. Hemingway | Ernest Miller Hemingway,J. G. Ballard,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-4170919,What genre is Frogs?,platform game | platformer | Platform video games,jazz,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2490440,What sport does Houston Dynamo FC play?,association football | football | soccer,soccer,1,1,False,,False
+phase3_popqa_qwen,popqa,popqa-1846417,What is City of Brussels the capital of?,Flanders | Flemish Region | Vlaanderen | Vlaams Gewest | Brussels Capital Region | Brussels Region | Brussels | BE-BRU | Bruxelles-Capitale | BXL | 20e | 04000 | BHG | Brussel | Brussels Gewest | Bruxelles | Brussel-Hoofdstad | Région Bruxellois | Brussels-Capital Region | Belgium | Kingdom of Belgium | BEL | be | 🇧🇪 | BE | European Union | EU | E.U. | eu | 🇪🇺 | Europe | Union | French Community of Belgium | Fédération Wallonie-Bruxelles | Wallonia-Brussels Federation | Communauté française | Franse Gemeenschap | Federation Wallonie-Bruxelles | Federation Wallonia-Brussels | Flemish Community | Flanders | Vlaamse Gemeenschap,Brussels,1,1,True,gold list includes Brussels (Brussels Region); answer restates the city name,False
+phase3_popqa_qwen,popqa,popqa-2761154,Who was the screenwriter for Cement?,Justin Monjo,John Logan,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1570040,Who was the producer of Let It Be?,Phil Spector | Harvey Phillip Spector | Phillip Harvey Spector | 00029306983 IPI,Alanis Morissette,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-6495336,Who was the screenwriter for Love Letter?,Shunji Iwai | Iwai Shunji,John Hughes,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1705344,Who was the producer of The Rock?,"Jerry Bruckheimer | Jerome Leon Bruckheimer | Don Simpson | Donald Clarence Simpson | Donald Clarence ""Don"" Simpson",Martin Scorsese,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-3399222,What genre is At This Moment?,country music | country and western | country & western | country | Nashville sound,Pop,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-654471,What is the capital of Mississippi?,"Jackson | Jackson, Mississippi | City of Jackson",Jackson,1,1,False,,False
+phase3_popqa_qwen,popqa,popqa-4188042,What is the religion of Rino Fisichella?,Catholic Church | Roman Catholic Church | Church | Roman Apostolic Catholic Church,Christianity,0,0,True,Christianity is broader than the gold Catholic Church; counted incorrect,False
+phase3_popqa_qwen,popqa,popqa-3531037,Who is the author of The Traveler?,John Twelve Hawks | J12H | JXIIH,J.K. Rowling,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1784129,"Who is the father of Dyfnwal, King of Strathclyde?","Eochaid, son of Rhun | Eochaid ap Rhun | Eochaid map Rhun | Eochaid mac Run | Eochaid of Scotland, King of Scotland",King David I,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-3738260,What sport does Noëlle van Lottum play?,tennis | lawn tennis | lawntennis,Swimming,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1686870,Who was the director of Rejected?,Don Hertzfeldt | Donald Hertzfeldt,Martin Scorsese,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-5047850,In what country is Mac Johnson Wildlife Area?,Canada | Dominion of Canada | British North America | CAN | CA | ca | can | Can.,United States,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2070625,What genre is I Do?,romantic comedy | romedy | romcom,Pop,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1246258,What sport does 1989–90 1. Slovenská národná hokejová liga season play?,ice hockey,Skiing,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-6220880,What is Ya'akov Ahimeir's occupation?,journalist | journo | journalists,writer,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-2405693,In what city was Jean Dorion born?,"Montreal | Montréal | City of Montreal | Montreal, Quebec | Ville de Montréal | Ville de Montreal",Paris,0,0,False,,False
+phase3_popqa_qwen,popqa,popqa-1266132,Who was the director of Come Undone?,Silvio Soldini,Martin Scorsese,0,0,False,,False
