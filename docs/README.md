@@ -31,13 +31,14 @@ Documents in the order they were written. Each protocol was committed before the
 | [TCL-Phase2b-Protocol.md](phase2/TCL-Phase2b-Protocol.md) | Locked protocol for the one rerun of arms C and D with the end-of-turn token in the LM target |
 | [TCL-Phase2b-Checkpoint.md](phase2/TCL-Phase2b-Checkpoint.md) | Results: the fix works, H3-T and H3-J fail again; the joint-transfer claim is dropped |
 
-## Phase 3 (H4-T done, H4 protocol locked)
+## Phase 3 (H4-T and H4 self-consistency done)
 
 | Document | Role |
 |---|---|
 | [TCL-Phase3-Protocol.md](phase3/TCL-Phase3-Protocol.md) | Locked protocol for H4-T: can a head trained on a mixture of datasets, given raw confidence, beat raw confidence on a held-out dataset (including the new PopQA)? |
 | [TCL-Phase3-Checkpoint.md](phase3/TCL-Phase3-Checkpoint.md) | Results: H4-T fails (1 of 6 pairs); mixture training helps but not enough; TCL's correctness dimension becomes calibrated raw confidence |
 | [TCL-Phase3-H4-Consistency-Protocol.md](phase3/TCL-Phase3-H4-Consistency-Protocol.md) | Locked protocol for H4 (self-consistency): can a one-pass head predict how consistently the model answers, and does that add to raw confidence on a held-out dataset? |
+| [TCL-Phase3-H4-Consistency-Checkpoint.md](phase3/TCL-Phase3-H4-Consistency-Checkpoint.md) | Results: self-consistency is learnable from one pass on every pair, but adds to raw confidence on 3 of 6 (4 needed); H4 fails by one pair |
 
 ## Archive
 

@@ -16,7 +16,7 @@ My first core claim was that training a small trust head *jointly* with the lang
 | 0. Theory | A consistent, testable formulation of TCL | **Done**: [theory paper v2](paper/TCL-Theory-Paper-v2.md) |
 | 1. Foundation | Do frozen hidden states carry correctness signal beyond calibrated confidence, and does it transfer? | **Closed**: signal is real but small and model-dependent; it does not transfer |
 | 2. Core test (H3) | Does joint training beat a frozen head trained on the same data? | **Done**: H3 fails, twice. Joint training does not transfer; the claim is dropped ([Phase 2](docs/phase2/TCL-Phase2-Checkpoint.md), [Phase 2b](docs/phase2/TCL-Phase2b-Checkpoint.md)) |
-| 3. Transfer + trust vector (H4-T, H4) | Can a head trained on several datasets beat raw confidence on a new one? Are further trust dimensions learnable and non-redundant there? | **H4-T done: fails.** The head beats raw confidence on 1 of 6 held-out pairs; TCL's correctness dimension becomes calibrated raw confidence ([checkpoint](docs/phase3/TCL-Phase3-Checkpoint.md)). H4: planned |
+| 3. Transfer + trust vector (H4-T, H4) | Can a head trained on several datasets beat raw confidence on a new one? Are further trust dimensions learnable and non-redundant there? | **H4-T fails:** the head beats raw confidence on 1 of 6 held-out pairs; TCL's correctness dimension becomes calibrated raw confidence ([checkpoint](docs/phase3/TCL-Phase3-Checkpoint.md)). **H4 (self-consistency) fails by one pair:** learnable from one pass everywhere, adds to raw confidence on 3 of 6 ([checkpoint](docs/phase3/TCL-Phase3-H4-Consistency-Checkpoint.md)). Grounding next |
 | 4. Generalization (H5) | Do the results hold on math (GSM8K) and a 7-8B model? Does joint training behave differently at that scale? | Planned |
 | 5. Claim level (H6) | Can trust be estimated per claim in long-form text? | Planned |
 
@@ -50,6 +50,8 @@ Qwen2.5-0.5B and Phi-3.5-mini; heads trained on two or three of TriviaQA, SQuAD,
 | Phi, PopQA | **0.864** | 0.809 | -0.055 [-0.080, -0.029] | 0.881 |
 
 **H4-T fails:** the head beats raw confidence on 1 of 6 pairs, and the preregistered rule needed 4. Training on a mixture does improve transfer over single-dataset heads on every pair, but not enough, and the head mostly ignores its raw-confidence input. The one clear win (Qwen on PopQA, where the model answers 9.5% correctly with confident guesses) is a lead for later work. Full results and label audits (1 rule error in 100 per model): [Phase 3 checkpoint](docs/phase3/TCL-Phase3-Checkpoint.md).
+
+**H4, self-consistency.** I then tested whether a head can predict, from one pass, how consistently the model would answer if asked again (normally measured with 10 extra samples), and whether that adds to raw confidence. It is learnable on every held-out pair (AUROC 0.73-0.95) and not redundant with raw confidence, but it lowers selective-prediction AURC on only 3 of 6 pairs, where 4 were needed, so H4 fails by one pair. On Qwen, one pass plus raw confidence matches or beats semantic entropy (TriviaQA 0.785 vs 0.773, PopQA 0.895 vs 0.879 AUROC). Details: [H4 checkpoint](docs/phase3/TCL-Phase3-H4-Consistency-Checkpoint.md).
 
 ## Phase 2 and 2b Results
 

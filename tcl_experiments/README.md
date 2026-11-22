@@ -61,6 +61,7 @@ The GPU steps are driven by [../notebooks/tcl_phase2_kaggle_runs.ipynb](../noteb
 | `runs/phase3_popqa/<model>/popqa/` | PopQA inference outputs (records and config committed; hidden states local only) |
 | `runs/phase3_audit/` | PopQA label-audit samples and reviewed labels (100 per model) |
 | `runs/phase3b/`, `runs/phase3b_analysis/` | Phase 3b test scores per arm and seed, manifest with label counts, H4-T decision, details with every CI, run logs |
+| `runs/phase3_h4_audit/`, `runs/phase3_h4/`, `runs/phase3_h4_analysis/` | H4 self-consistency: label audit with my hand counts, test scores per arm and seed, decision and details, run logs |
 | `runs/phase2/`, `runs/phase2b/` | Phase 2 and 2b trainings: per arm and seed, test scores on fixed answers, regenerated answers, metrics (with optimizer step counts), training log |
 | `runs/phase2_analysis/`, `runs/phase2b_analysis/` | Phase 2 and 2b decisions, details with every CI, per-arm metrics, run log, and the Phase 2 label audit |
 | `runs/phase2b_audit/` | The Phase 2b label audit (100 regenerated answers) |
