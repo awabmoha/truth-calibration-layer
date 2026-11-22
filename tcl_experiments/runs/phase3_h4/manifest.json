@@ -1,0 +1,91 @@
+{
+  "created_at": "2026-11-22T16:30:09.820416+00:00",
+  "protocol": "docs/phase3/TCL-Phase3-H4-Consistency-Protocol.md",
+  "setting": {
+    "head": "mlp",
+    "reg": 1.0,
+    "weighting": "equal"
+  },
+  "cons_threshold": 0.5,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "pairs": [
+    {
+      "model": "qwen",
+      "held_out": "triviaqa",
+      "correct": 216,
+      "incorrect": 1284,
+      "consistent": 229,
+      "inconsistent": 1271,
+      "eligible": true
+    },
+    {
+      "model": "qwen",
+      "held_out": "squad",
+      "correct": 1040,
+      "incorrect": 460,
+      "consistent": 1103,
+      "inconsistent": 397,
+      "eligible": true
+    },
+    {
+      "model": "qwen",
+      "held_out": "nq_open",
+      "correct": 108,
+      "incorrect": 1392,
+      "consistent": 107,
+      "inconsistent": 1393,
+      "eligible": false
+    },
+    {
+      "model": "qwen",
+      "held_out": "popqa",
+      "correct": 285,
+      "incorrect": 2715,
+      "consistent": 425,
+      "inconsistent": 2575,
+      "eligible": true
+    },
+    {
+      "model": "phi",
+      "held_out": "triviaqa",
+      "correct": 779,
+      "incorrect": 721,
+      "consistent": 985,
+      "inconsistent": 515,
+      "eligible": true
+    },
+    {
+      "model": "phi",
+      "held_out": "squad",
+      "correct": 1405,
+      "incorrect": 95,
+      "consistent": 1405,
+      "inconsistent": 95,
+      "eligible": false
+    },
+    {
+      "model": "phi",
+      "held_out": "nq_open",
+      "correct": 322,
+      "incorrect": 1178,
+      "consistent": 579,
+      "inconsistent": 921,
+      "eligible": true
+    },
+    {
+      "model": "phi",
+      "held_out": "popqa",
+      "correct": 278,
+      "incorrect": 1222,
+      "consistent": 423,
+      "inconsistent": 1077,
+      "eligible": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "created_at": "2026-11-22T16:36:08.636664+00:00",
+  "protocol": "docs/phase3/TCL-Phase3-H4-Consistency-Protocol.md",
+  "eligible_pairs": [
+    "qwen/triviaqa",
+    "qwen/squad",
+    "qwen/popqa",
+    "phi/triviaqa",
+    "phi/nq_open",
+    "phi/popqa"
+  ],
+  "ineligible_pairs": [
+    "qwen/nq_open",
+    "phi/squad"
+  ],
+  "pairs_passing": [
+    "qwen/triviaqa",
+    "qwen/popqa",
+    "phi/nq_open"
+  ],
+  "needed": 4,
+  "includes_popqa_pair": true,
+  "H4_self_consistency": {
+    "passes": false,
+    "rule": "per pair: C-hat AUROC >= 0.70, Spearman with raw < 0.7, d_AURC CI lower bound > 0; majority of eligible pairs, including at least one PopQA pair"
+  }
+}

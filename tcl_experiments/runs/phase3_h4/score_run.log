@@ -1,0 +1,6 @@
+scored qwen held-out triviaqa: 1500 test answers
+scored qwen held-out squad: 1500 test answers
+scored qwen held-out popqa: 3000 test answers
+scored phi held-out triviaqa: 1500 test answers
+scored phi held-out nq_open: 1500 test answers
+scored phi held-out popqa: 1500 test answers
