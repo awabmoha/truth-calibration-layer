@@ -1,0 +1,30 @@
+{
+  "created_at": "2026-11-22T09:06:30.081944+00:00",
+  "protocol": "docs/phase3/TCL-Phase3-Protocol.md",
+  "chosen_setting": {
+    "head": "mlp",
+    "reg": 1.0,
+    "weighting": "equal"
+  },
+  "eligible_pairs": [
+    "qwen/triviaqa",
+    "qwen/squad",
+    "qwen/popqa",
+    "phi/triviaqa",
+    "phi/nq_open",
+    "phi/popqa"
+  ],
+  "ineligible_pairs": [
+    "qwen/nq_open",
+    "phi/squad"
+  ],
+  "pairs_with_d(MR,R)_ci_above_zero": [
+    "qwen/popqa"
+  ],
+  "needed": 4,
+  "includes_popqa_pair": true,
+  "H4-T": {
+    "passes": false,
+    "rule": "d(MR,R) CI lower bound > 0 on a majority of eligible pairs, including at least one PopQA pair"
+  }
+}
