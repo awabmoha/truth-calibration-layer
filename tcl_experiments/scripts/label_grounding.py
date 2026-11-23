@@ -56,8 +56,8 @@ def main() -> None:
     recs = [json.loads(line) for line in (args.run_dir / "records.jsonl").open(encoding="utf-8") if line.strip()]
     device = torch.device(args.device)
     tok = AutoTokenizer.from_pretrained(NLI_MODEL)
-    dtype = torch.float16 if device.type == "cuda" else torch.float32
-    model = AutoModelForSequenceClassification.from_pretrained(NLI_MODEL, torch_dtype=dtype).to(device).eval()
+    # float32, as in run_inference_v2.py: DeBERTa's attention fails in float16 on current transformers.
+    model = AutoModelForSequenceClassification.from_pretrained(NLI_MODEL, torch_dtype=torch.float32).to(device).eval()
     claims = [r for r in recs if not is_abstention(r["answer"])]
     probs = entail_probs(model, tok, device, [r["context"] for r in claims],
                          [hypothesis(r["question"], r["answer"]) for r in claims], args.batch)
