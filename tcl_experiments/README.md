@@ -31,6 +31,7 @@ The GPU step is driven by [../notebooks/tcl_phase1_kaggle_runs.ipynb](../noteboo
 | H4 decision: learnability, non-redundancy, AURC gain with bootstrap CIs | `scripts/run_phase3_h4_analysis.py` | CPU |
 | Grounding data: MRQA samples (SQuAD, NQ, HotpotQA, RelationExtraction) with distractor passages | `scripts/prepare_phase3_grounding.py` | CPU |
 | Grounding inference (passage in the prompt, `--abstain-instruction`) and NLI grounding labels | `scripts/run_inference_v2.py`, `scripts/label_grounding.py` | GPU (Kaggle) |
+| H4 grounding and correctness audit sample (seed 2035) | `scripts/draw_phase3_grounding_audit.py` | CPU |
 | H4 (grounding): one-pass grounding heads, combiner, scores; decision | `scripts/run_phase3_h4_grounding.py`, `scripts/run_phase3_h4_grounding_analysis.py` | CPU |
 
 ## Phase 2 and 2b Pipeline
@@ -66,6 +67,7 @@ The GPU steps are driven by [../notebooks/tcl_phase2_kaggle_runs.ipynb](../noteb
 | `runs/phase3_audit/` | PopQA label-audit samples and reviewed labels (100 per model) |
 | `runs/phase3b/`, `runs/phase3b_analysis/` | Phase 3b test scores per arm and seed, manifest with label counts, H4-T decision, details with every CI, run logs |
 | `runs/phase3_h4_audit/`, `runs/phase3_h4/`, `runs/phase3_h4_analysis/` | H4 self-consistency: label audit with my hand counts, test scores per arm and seed, decision and details, run logs |
+| `runs/phase3_grounding/`, `runs/phase3_h4g_audit/`, `runs/phase3_h4g/`, `runs/phase3_h4g_analysis/` | H4 grounding: answers and NLI labels per model and dataset (hidden states kept local), label audit with my labels, test scores per arm and seed, decision and details, run logs |
 | `runs/phase2/`, `runs/phase2b/` | Phase 2 and 2b trainings: per arm and seed, test scores on fixed answers, regenerated answers, metrics (with optimizer step counts), training log |
 | `runs/phase2_analysis/`, `runs/phase2b_analysis/` | Phase 2 and 2b decisions, details with every CI, per-arm metrics, run log, and the Phase 2 label audit |
 | `runs/phase2b_audit/` | The Phase 2b label audit (100 regenerated answers) |

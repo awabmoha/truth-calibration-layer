@@ -31,7 +31,7 @@ Documents in the order they were written. Each protocol was committed before the
 | [TCL-Phase2b-Protocol.md](phase2/TCL-Phase2b-Protocol.md) | Locked protocol for the one rerun of arms C and D with the end-of-turn token in the LM target |
 | [TCL-Phase2b-Checkpoint.md](phase2/TCL-Phase2b-Checkpoint.md) | Results: the fix works, H3-T and H3-J fail again; the joint-transfer claim is dropped |
 
-## Phase 3 (H4-T and H4 self-consistency done, grounding protocol locked)
+## Phase 3 (done: H4-T and H4 fail)
 
 | Document | Role |
 |---|---|
@@ -40,6 +40,7 @@ Documents in the order they were written. Each protocol was committed before the
 | [TCL-Phase3-H4-Consistency-Protocol.md](phase3/TCL-Phase3-H4-Consistency-Protocol.md) | Locked protocol for H4 (self-consistency): can a one-pass head predict how consistently the model answers, and does that add to raw confidence on a held-out dataset? |
 | [TCL-Phase3-H4-Consistency-Checkpoint.md](phase3/TCL-Phase3-H4-Consistency-Checkpoint.md) | Results: self-consistency is learnable from one pass on every pair, but adds to raw confidence on 3 of 6 (4 needed); H4 fails by one pair |
 | [TCL-Phase3-H4-Grounding-Protocol.md](phase3/TCL-Phase3-H4-Grounding-Protocol.md) | Locked protocol for H4 (grounding): can a one-pass head tell whether an answer is supported by the given passage, and does that add to raw confidence on held-out reading-comprehension data? |
+| [TCL-Phase3-H4-Grounding-Checkpoint.md](phase3/TCL-Phase3-H4-Grounding-Checkpoint.md) | Results: grounding is learnable but adds to raw confidence on 2 of 7 pairs, mostly by spotting irrelevant passages; NLI label wrong on 23 of 100; H4 fails for every dimension |
 
 ## Archive
 
