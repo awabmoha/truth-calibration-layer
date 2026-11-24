@@ -197,6 +197,8 @@ def main() -> None:
     ap.add_argument("--nli-model", default="microsoft/deberta-large-mnli")
     ap.add_argument("--device", choices=["auto", "cpu", "cuda"], default="auto")
     ap.add_argument("--torch-dtype", choices=["auto", "float32", "float16", "bfloat16"], default="auto")
+    ap.add_argument("--device-map", choices=["none", "auto"], default="none",
+                    help="auto: split the model across all visible GPUs (Phase 4a, 7B on two T4s). Default: one device.")
     ap.add_argument("--chat-template-mode", choices=["auto", "system_user", "user_only"], default="auto")
     ap.add_argument("--chunk-size", type=int, default=200)
     ap.add_argument("--seed", type=int, default=0)
@@ -219,7 +221,11 @@ def main() -> None:
     tokenizer = AutoTokenizer.from_pretrained(args.model)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
-    model = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=dtype).to(device).eval()
+    if args.device_map == "auto":
+        # Inputs go to cuda:0, where device_map="auto" places the embeddings.
+        model = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=dtype, device_map="auto").eval()
+    else:
+        model = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=dtype).to(device).eval()
     stops = stop_token_ids(tokenizer)
     stop_set = set(stops)
     true_ids = candidate_ids(tokenizer, ["True", " True", "true", " true"])
@@ -258,6 +264,7 @@ def main() -> None:
         "raw_full_method": RAW_FULL_METHOD,
         "chat_template_mode": args.chat_template_mode,
         "abstain_instruction": bool(args.abstain_instruction),
+        "device_map": args.device_map,
         "seed": args.seed,
         "runtime": runtime_info(device, dtype),
     }

@@ -314,7 +314,9 @@ def main() -> None:
     ap.add_argument("--runs", type=Path, default=ROOT / "runs", help="root holding phase1_kaggle/ and phase3_popqa/")
     ap.add_argument("--out-dir", type=Path, default=None)
     ap.add_argument("--selection", type=Path, default=ROOT / "runs" / "phase3a" / "selection.json")
+    ap.add_argument("--models", default=",".join(MODELS), help="comma-separated model tags (default: the Phase 3 models)")
     args = ap.parse_args()
+    MODELS[:] = args.models.split(",")  # in place: the H4 scripts share this list
     if args.mode == "select":
         select(args.runs, args.out_dir or ROOT / "runs" / "phase3a")
     else:

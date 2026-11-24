@@ -21,9 +21,19 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 from labeling import is_refusal, normalize
 
-NLI_MODEL = "microsoft/deberta-large-mnli"
 THRESHOLD = 0.5
-METHOD = "nli_entailment_question_answer_v1"
+
+# Grounding labelers. "phase3" is the Phase 3 labeler (default, unchanged). Phase 4a chooses
+# one of the three on the Phase 3 audit set before any 7B data (Phase 4a protocol, Section 4;
+# scripts/select_grounding_labeler.py).
+LABELERS = {
+    "phase3": {"nli_model": "microsoft/deberta-large-mnli", "template": "{q} {a}",
+               "method": "nli_entailment_question_answer_v1"},
+    "template": {"nli_model": "microsoft/deberta-large-mnli", "template": 'The answer to the question "{q}" is {a}.',
+                 "method": "nli_entailment_answer_template_v1"},
+    "wanli": {"nli_model": "MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli",
+              "template": 'The answer to the question "{q}" is {a}.', "method": "nli_wanli_answer_template_v1"},
+}
 
 
 def is_abstention(answer: str) -> bool:
@@ -31,8 +41,16 @@ def is_abstention(answer: str) -> bool:
     return not a or "unanswerable" in normalize(a) or is_refusal(a)
 
 
-def hypothesis(question: str, answer: str) -> str:
-    return f"{question.strip()} {answer.strip()}"
+def hypothesis(question: str, answer: str, labeler: str = "phase3") -> str:
+    return LABELERS[labeler]["template"].format(q=question.strip(), a=answer.strip())
+
+
+def load_nli(labeler: str, device):
+    name = LABELERS[labeler]["nli_model"]
+    tok = AutoTokenizer.from_pretrained(name)
+    # float32, as in run_inference_v2.py: DeBERTa's attention fails in float16 on current transformers.
+    model = AutoModelForSequenceClassification.from_pretrained(name, torch_dtype=torch.float32).to(device).eval()
+    return model, tok
 
 
 @torch.no_grad()
@@ -51,23 +69,23 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--run-dir", type=Path, required=True)
     ap.add_argument("--batch", type=int, default=16)
+    ap.add_argument("--labeler", choices=sorted(LABELERS), default="phase3")
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     args = ap.parse_args()
     recs = [json.loads(line) for line in (args.run_dir / "records.jsonl").open(encoding="utf-8") if line.strip()]
     device = torch.device(args.device)
-    tok = AutoTokenizer.from_pretrained(NLI_MODEL)
-    # float32, as in run_inference_v2.py: DeBERTa's attention fails in float16 on current transformers.
-    model = AutoModelForSequenceClassification.from_pretrained(NLI_MODEL, torch_dtype=torch.float32).to(device).eval()
+    model, tok = load_nli(args.labeler, device)
+    lab = LABELERS[args.labeler]
     claims = [r for r in recs if not is_abstention(r["answer"])]
     probs = entail_probs(model, tok, device, [r["context"] for r in claims],
-                         [hypothesis(r["question"], r["answer"]) for r in claims], args.batch)
+                         [hypothesis(r["question"], r["answer"], args.labeler) for r in claims], args.batch)
     by_id = {r["id"]: p for r, p in zip(claims, probs)}
     with (args.run_dir / "grounding.jsonl").open("w", encoding="utf-8") as f:
         for r in recs:
             p = by_id.get(r["id"])
             f.write(json.dumps({"id": r["id"], "abstain": p is None, "entail_prob": p,
                                 "grounded": None if p is None else int(p > THRESHOLD),
-                                "method": METHOD, "nli_model": NLI_MODEL}) + "\n")
+                                "method": lab["method"], "nli_model": lab["nli_model"]}) + "\n")
     n_g = sum(int(p > THRESHOLD) for p in probs)
     print(f"{args.run_dir}: {len(recs)} records, {len(recs) - len(claims)} abstentions, "
           f"{n_g} grounded, {len(claims) - n_g} not grounded", flush=True)

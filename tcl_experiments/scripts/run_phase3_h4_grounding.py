@@ -161,7 +161,9 @@ def main() -> None:
     ap.add_argument("--data-dir", type=Path, default=ROOT / "data" / "phase3_grounding")
     ap.add_argument("--selection", type=Path, default=ROOT / "runs" / "phase3a" / "selection.json")
     ap.add_argument("--out-dir", type=Path, default=ROOT / "runs" / "phase3_h4g")
+    ap.add_argument("--models", default=",".join(MODELS), help="comma-separated model tags (default: the Phase 3 models)")
     args = ap.parse_args()
+    MODELS[:] = args.models.split(",")  # in place: the H4 scripts share this list
     score(args.runs, args.data_dir, args.selection, args.out_dir)
 
 
