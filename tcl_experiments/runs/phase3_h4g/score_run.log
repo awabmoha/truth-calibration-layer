@@ -1,0 +1,7 @@
+scored qwen held-out squad: 1265 test answers (abstentions excluded)
+scored qwen held-out nq: 1272 test answers (abstentions excluded)
+scored qwen held-out hotpotqa: 1289 test answers (abstentions excluded)
+scored qwen held-out relation_extraction: 1356 test answers (abstentions excluded)
+scored phi held-out squad: 1122 test answers (abstentions excluded)
+scored phi held-out nq: 998 test answers (abstentions excluded)
+scored phi held-out hotpotqa: 1066 test answers (abstentions excluded)

@@ -1,0 +1,106 @@
+{
+  "created_at": "2026-11-24T06:18:42.099391+00:00",
+  "protocol": "docs/phase3/TCL-Phase3-H4-Grounding-Protocol.md",
+  "setting": {
+    "head": "mlp",
+    "reg": 1.0,
+    "weighting": "equal"
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "pairs": [
+    {
+      "model": "qwen",
+      "held_out": "squad",
+      "answers": 1500,
+      "abstentions": 235,
+      "correct": 681,
+      "incorrect": 584,
+      "grounded": 510,
+      "not_grounded": 755,
+      "eligible": true
+    },
+    {
+      "model": "qwen",
+      "held_out": "nq",
+      "answers": 1500,
+      "abstentions": 228,
+      "correct": 454,
+      "incorrect": 818,
+      "grounded": 303,
+      "not_grounded": 969,
+      "eligible": true
+    },
+    {
+      "model": "qwen",
+      "held_out": "hotpotqa",
+      "answers": 1500,
+      "abstentions": 211,
+      "correct": 504,
+      "incorrect": 785,
+      "grounded": 766,
+      "not_grounded": 523,
+      "eligible": true
+    },
+    {
+      "model": "qwen",
+      "held_out": "relation_extraction",
+      "answers": 1500,
+      "abstentions": 144,
+      "correct": 839,
+      "incorrect": 517,
+      "grounded": 497,
+      "not_grounded": 859,
+      "eligible": true
+    },
+    {
+      "model": "phi",
+      "held_out": "squad",
+      "answers": 1500,
+      "abstentions": 378,
+      "correct": 915,
+      "incorrect": 207,
+      "grounded": 649,
+      "not_grounded": 473,
+      "eligible": true
+    },
+    {
+      "model": "phi",
+      "held_out": "nq",
+      "answers": 1500,
+      "abstentions": 502,
+      "correct": 642,
+      "incorrect": 356,
+      "grounded": 374,
+      "not_grounded": 624,
+      "eligible": true
+    },
+    {
+      "model": "phi",
+      "held_out": "hotpotqa",
+      "answers": 1500,
+      "abstentions": 434,
+      "correct": 737,
+      "incorrect": 329,
+      "grounded": 761,
+      "not_grounded": 305,
+      "eligible": true
+    },
+    {
+      "model": "phi",
+      "held_out": "relation_extraction",
+      "answers": 1500,
+      "abstentions": 439,
+      "correct": 942,
+      "incorrect": 119,
+      "grounded": 563,
+      "not_grounded": 498,
+      "eligible": false
+    }
+  ]
+}
