@@ -58,7 +58,8 @@ Each hypothesis is falsifiable and has a test I declare in advance.
 | H3-J (secondary) | The joint objective beats trust-only fine-tuning of the backbone, at equal or better generation quality. | Phase 2 |
 | H4-T | A correctness head trained on a mixture of datasets, with calibrated raw confidence among its inputs, beats calibrated raw confidence on a dataset held out from training. | Phase 3 |
 | H4 | At least one additional trust dimension is learnable and carries information not captured by correctness confidence, **on a held-out dataset**. | Phase 3 |
-| H5 | The best trust method from Phases 2-3 generalizes to a non-QA task family and to a larger model. The joint-versus-frozen comparison is re-run at the larger scale. | Phase 4 |
+| H4-T, H4 at 7B | The Phase 3 tests (H4-T, H4 self-consistency, H4 grounding) re-run unchanged on a 7B model: does a learned head beat, or a second dimension add to, calibrated raw confidence at that scale? | Phase 4a |
+| H5 | The trust results of Phases 3-4a hold on a non-QA task family (GSM8K). The joint-versus-frozen comparison is re-run at the larger scale. | Phase 4b |
 | H6 | Trust estimates can be produced at claim level inside long-form generation. | Phase 5 |
 
 H3 is the core of TCL. Phase 1 showed that frozen probes do not transfer across datasets, so transfer (H3-T) is where a trained trust head has to prove itself, and it is the primary Phase 2 test. Whether the joint objective specifically matters (H3-J) is the secondary test. If either fails, I follow Section 8.
@@ -178,12 +179,20 @@ These rules apply to every phase. I change them only through the change-control 
 
 ### Phase 4: Generalization And Scale
 
+Revised November 24, 2026, after Phase 3 (see changelog): Phase 3 left no learned method that beats raw confidence, so there is no "best method" to carry forward. Phase 4 is split in two.
+
+**Phase 4a: the Phase 3 tests at 7B.**
+- **Goal:** carry out the Section 8 row "H4 fails for all dimensions": re-test before dropping multi-dimensionality.
+- **Work:** Qwen2.5-7B-Instruct (the family of Phase 3's 0.5B model), float16 on Kaggle's two T4s, inference only. The Phase 3 question sets, head design, arms, thresholds, and statistics, unchanged. One fix chosen before any 7B data: the grounding label, selected on the Phase 3 audit set.
+- **Compute:** about 20-25 free Kaggle GPU hours.
+- **Passes if:** H4-T or H4 (either dimension) passes by the Phase 3 majority rules on the 7B pairs. Protocol: `docs/phase4/TCL-Phase4a-Protocol.md`.
+
+**Phase 4b: task family and joint training at scale.**
 - **Goal:** test H5.
-- **Work:** one non-QA task family with automatic labels (GSM8K math); one larger model (Llama-3.1-8B or Qwen2.5-7B via QLoRA).
-- **Compute:** likely paid GPU for the 7B/8B runs (estimate in Section 10).
-- **H5 passes if:** my Phase 3 conclusions hold on both, within CIs.
-- **Joint training at scale:** the Phase 2 four-arm comparison (frozen, trust-only, joint, LM-only) is re-run on the larger model, as a new test with its own protocol. It decides whether the Phase 2 failure is specific to a 0.5B model.
-- **Deliverable:** the full TCL paper (conference submission target).
+- **Work:** one non-QA task family with automatic labels (GSM8K math), and the Phase 2 four-arm comparison (frozen, trust-only, joint, LM-only) re-run on the 7B model via QLoRA, as a new test with its own protocol.
+- **Compute:** likely paid GPU for the 7B training (estimate in Section 10).
+- **Scope is decided after 4a:** if 4a passes, 4b tests whether the result holds on GSM8K; if it fails, I revise this plan at that gate before any 4b work.
+- **Deliverable:** the full TCL paper (conference submission target), under the publication track in Section 11.
 
 ### Phase 5: Claim-Level Trust (Long Horizon)
 
@@ -222,7 +231,8 @@ My hardware: my laptop is CPU-only (Ryzen 7 5825U, about 6 GB RAM, integrated AM
 | 1 | Local + about 15 Kaggle hours | 3-4 weeks |
 | 2 | About 40-60 Kaggle hours (used: about 24 for the runs that count, plus failed sessions) | 5 weeks (done) |
 | 3 | About 30-50 Kaggle hours | 6-8 weeks |
-| 4 | Kaggle + about $100-300 paid GPU | 8-10 weeks |
+| 4a | About 20-25 Kaggle hours | 3-4 weeks |
+| 4b | Kaggle + about $100-300 paid GPU | 6-8 weeks |
 | 5 | Paid GPU | open |
 
 Phases 0-2 run on free compute. The Phase 2 result decides whether paid compute is worth it.
@@ -239,6 +249,7 @@ Revised November 22, 2026. I no longer write a separate paper for each phase.
 
 | Date | Change | Reason |
 |---|---|---|
+| 2026-11-24 | **Plan revised after Phase 3** (phase gate) and **Phase 4a protocol locked** (`docs/phase4/TCL-Phase4a-Protocol.md`) before any Phase 4a code or 7B output. Phase 4 split: **4a** re-runs Phase 3's H4-T, H4 self-consistency, and H4 grounding tests unchanged on Qwen2.5-7B-Instruct (float16, two T4s, inference only, about 20-25 free Kaggle hours); **4b** (GSM8K, joint training at 7B) is scoped after 4a. H5 reworded: there is no "best method from Phases 2-3" to carry forward. One fix chosen before any 7B data: the grounding label, selected among three NLI candidates on the Phase 3 audit set. A test passes on a majority of its eligible 7B pairs, including its new-dataset pair; H4 at 7B passes if either dimension passes. | Section 8 row "H4 fails for all dimensions": re-test at larger scale before dropping multi-dimensionality. Phase 3's gains appeared where raw confidence was weak, so a pass at 7B is not expected; the test is run as preregistered either way. |
 | 2026-11-24 | **H4 (grounding) analysis run once** (`docs/phase3/TCL-Phase3-H4-Grounding-Checkpoint.md`): **fails**. 2 of 7 eligible pairs pass (Qwen / SQuAD, Qwen / NQ); 4 were needed, including Qwen / RelationExtraction, which fails. Phi / RelationExtraction was dropped by the size rule (125 incorrect). Learnability (6 of 7 at or above 0.70) and non-redundancy (Spearman 0.11-0.61) mostly hold; the AURC gain fails on 5 of 7. By the ungated AUROC the combination beats raw confidence on 5 of 7, but only through distractor rows: among answers from the right passage it adds nothing. Label audit: the NLI grounding label is wrong on 23 of 100 answers (mostly supported short answers rejected), rule v3 on 11 of 100. **H4 has failed for every testable dimension**; per Section 8, trust is effectively one-dimensional at this scale and Phase 4 re-tests at larger scale. | The single preregistered grounding run. Under the publication plan, Phases 1-3 wait for the first successful phase. |
 | 2026-11-22 | **H4 protocol for grounding locked** (`docs/phase3/TCL-Phase3-H4-Grounding-Protocol.md`) before any grounding data or metric. **Data source changed** from SQuAD 2.0 to MRQA (SQuAD, Natural Questions, HotpotQA as the pool; RelationExtraction held out), with distractor passages (one third of questions) as negatives instead of SQuAD 2.0's unanswerable questions; the model may answer "unanswerable"; grounding is labeled by NLI entailment. Same head design, arms, thresholds, and majority rule as the self-consistency test (8 eligible pairs at most, including the new dataset for at least one model). About 15 Kaggle GPU hours. | Self-consistency failed by one pair, so the plan's next dimension is tested. SQuAD 2.0 is a single dataset; distractors give the same kind of negative in every dataset, which a held-out test needs. |
 | 2026-11-22 | **H4 (self-consistency) analysis run once** (`docs/phase3/TCL-Phase3-H4-Consistency-Checkpoint.md`): **fails by one pair**. 3 of 6 pairs pass (Qwen / TriviaQA, Qwen / PopQA, Phi / NQ-Open); 4 were needed. Learnability (AUROC 0.73-0.95) and non-redundancy (Spearman 0.26-0.62) hold on every pair; the AURC gain over raw confidence fails on 3. By the ungated AUROC, the one-pass combination beats raw confidence on 4 of 6 pairs and matches semantic entropy on Qwen. Consistency-label audit: 92 of 100 binary labels agree with my hand count. As fixed in Section 8, grounding is tested next, and a failed H4 is re-tested at Phase 4 scale. | The preregistered rule, applied once. |

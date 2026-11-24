@@ -42,6 +42,12 @@ Documents in the order they were written. Each protocol was committed before the
 | [TCL-Phase3-H4-Grounding-Protocol.md](phase3/TCL-Phase3-H4-Grounding-Protocol.md) | Locked protocol for H4 (grounding): can a one-pass head tell whether an answer is supported by the given passage, and does that add to raw confidence on held-out reading-comprehension data? |
 | [TCL-Phase3-H4-Grounding-Checkpoint.md](phase3/TCL-Phase3-H4-Grounding-Checkpoint.md) | Results: grounding is learnable but adds to raw confidence on 2 of 7 pairs, mostly by spotting irrelevant passages; NLI label wrong on 23 of 100; H4 fails for every dimension |
 
+## Phase 4 (4a protocol locked)
+
+| Document | Role |
+|---|---|
+| [TCL-Phase4a-Protocol.md](phase4/TCL-Phase4a-Protocol.md) | Locked protocol for Phase 4a: Phase 3's three tests (H4-T, self-consistency, grounding) re-run unchanged on Qwen2.5-7B, with one grounding-label fix chosen before any 7B data |
+
 ## Archive
 
 [archive/tcl-v0/](archive/tcl-v0/) holds the June 2026 TCL-v0 work: experiment plans, evidence reports, runbooks, and Kaggle run logs. Each file carries an "Archived" note. Their conclusions are superseded by Phase 1, which re-tested them on larger, corrected data.
