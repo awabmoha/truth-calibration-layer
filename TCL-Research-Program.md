@@ -54,17 +54,17 @@ The paper is also missing the hidden-state probing and uncertainty-estimation li
 
 Each hypothesis is falsifiable and has a test I declare in advance.
 
-| ID | Hypothesis | Tested in |
-|---|---|---|
-| H1 | Frozen hidden states improve correctness **ranking** (AUROC, AURC) beyond calibrated raw confidence. | Phase 1 |
-| H2 | Frozen-probe signal transfers across QA datasets with bounded degradation. | Phase 1 |
-| H3-T (primary) | A trust head trained jointly with the backbone (`L_LM + lambda * L_trust`) **transfers across datasets** better than a frozen head trained on identical data. | Phase 2 |
-| H3-J (secondary) | The joint objective beats trust-only fine-tuning of the backbone, at equal or better generation quality. | Phase 2 |
-| H4-T | A correctness head trained on a mixture of datasets, with calibrated raw confidence among its inputs, beats calibrated raw confidence on a dataset held out from training. | Phase 3 |
-| H4 | At least one additional trust dimension is learnable and carries information not captured by correctness confidence, **on a held-out dataset**. | Phase 3 |
-| H4-T, H4 at 7B | The Phase 3 tests (H4-T, H4 self-consistency, H4 grounding) re-run unchanged on a 7B model: does a learned head beat, or a second dimension add to, calibrated raw confidence at that scale? | Phase 4a |
-| H5 | The trust results of Phases 3-4a hold on a non-QA task family (GSM8K). The joint-versus-frozen comparison is re-run at the larger scale. | Phase 4b |
-| H6 | Trust estimates can be produced at claim level inside long-form generation. | Phase 5 |
+| ID | Hypothesis | Tested in | Result |
+|---|---|---|---|
+| H1 | Frozen hidden states improve correctness **ranking** (AUROC, AURC) beyond calibrated raw confidence. | Phase 1 | Fails on the TCL-v0 records; **H1-R passes** at its threshold on the Kaggle runs |
+| H2 | Frozen-probe signal transfers across QA datasets with bounded degradation. | Phase 1 | Fails (H2 and H2-R) |
+| H3-T (primary) | A trust head trained jointly with the backbone (`L_LM + lambda * L_trust`) **transfers across datasets** better than a frozen head trained on identical data. | Phase 2 | Fails, twice (Phases 2, 2b) |
+| H3-J (secondary) | The joint objective beats trust-only fine-tuning of the backbone, at equal or better generation quality. | Phase 2 | Fails, twice |
+| H4-T | A correctness head trained on a mixture of datasets, with calibrated raw confidence among its inputs, beats calibrated raw confidence on a dataset held out from training. | Phase 3 | Fails (1 of 6) |
+| H4 | At least one additional trust dimension is learnable and carries information not captured by correctness confidence, **on a held-out dataset**. | Phase 3 | Fails (self-consistency 3 of 6, grounding 2 of 7) |
+| H4-T, H4 at 7B | The Phase 3 tests (H4-T, H4 self-consistency, H4 grounding) re-run unchanged on a 7B model: does a learned head beat, or a second dimension add to, calibrated raw confidence at that scale? | Phase 4a | Fails (H4-T 0 of 3, self-consistency 2 of 3 without PopQA, grounding not testable) |
+| H5 | The trust results of Phases 3-4a hold on a non-QA task family (GSM8K). The joint-versus-frozen comparison is re-run at the larger scale. | Phase 4b | Not tested (program closed) |
+| H6 | Trust estimates can be produced at claim level inside long-form generation. | Phase 5 | Not tested (program closed) |
 
 H3 is the core of TCL. Phase 1 showed that frozen probes do not transfer across datasets, so transfer (H3-T) is where a trained trust head has to prove itself, and it is the primary Phase 2 test. Whether the joint objective specifically matters (H3-J) is the secondary test. If either fails, I follow Section 8.
 
@@ -237,12 +237,12 @@ My hardware: my laptop is CPU-only (Ryzen 7 5825U, about 6 GB RAM, integrated AM
 | 0 | Local | 2-3 weeks |
 | 1 | Local + about 15 Kaggle hours | 3-4 weeks |
 | 2 | About 40-60 Kaggle hours (used: about 24 for the runs that count, plus failed sessions) | 5 weeks (done) |
-| 3 | About 30-50 Kaggle hours | 6-8 weeks |
-| 4a | About 20-25 Kaggle hours | 3-4 weeks |
-| 4b | Kaggle + about $100-300 paid GPU | 6-8 weeks |
-| 5 | Paid GPU | open |
+| 3 | About 30-50 Kaggle hours | 6-8 weeks (done) |
+| 4a | About 20-25 Kaggle hours (used: about 12) | 3-4 weeks (done in 4 days) |
+| 4b | Kaggle + about $100-300 paid GPU | not run |
+| 5 | Paid GPU | not run |
 
-Phases 0-2 run on free compute. The Phase 2 result decides whether paid compute is worth it.
+Phases 0-4a ran entirely on free compute. No paid compute was used: the program closed at the Phase 4b gate, the first point where it would have been needed.
 
 ## 11. Publication Track
 

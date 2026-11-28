@@ -2,6 +2,8 @@
 
 Status: locked before any Phase 2b training. Written November 20, 2026.
 
+**Outcome** (added November 28, 2026; the protocol text above and below is unchanged): H3-T and H3-J failed again; the joint-training claim is dropped ([checkpoint](TCL-Phase2b-Checkpoint.md)).
+
 This protocol fixes the single follow-up that my program plan allows after Phase 2. Phase 2 ([checkpoint](TCL-Phase2-Checkpoint.md)) failed H3-T and H3-J, and the result fell closest to the plan's "H3-T fails, C < A" row: *investigate once; if it still fails, drop the joint claim and publish the negative result.* Phase 2b is that one investigation. Changes after this point are logged as amendments (Section 9) with the reason; the decision rules in Section 6 cannot change once any Phase 2b test result has been computed.
 
 ## 1. Why a Rerun

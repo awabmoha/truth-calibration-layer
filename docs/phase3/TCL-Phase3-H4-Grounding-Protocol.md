@@ -2,6 +2,8 @@
 
 Status: **locked** on November 22, 2026, before any grounding data was drawn, any model answered a grounding question, or any metric existed. The only numbers seen are MRQA passage lengths and dataset sizes from public samples, used to choose datasets. Changes after this point are logged as amendments (Section 11) with the reason; the decision rule in Section 5 cannot change once any grounding test metric has been computed.
 
+**Outcome** (added November 28, 2026; the protocol text above and below is unchanged): H4 failed for grounding (2 of 7 pairs) ([checkpoint](TCL-Phase3-H4-Grounding-Checkpoint.md)). An ungated re-run with the label fixed in Phase 4a would pass 5 of 7; the recorded decision stands.
+
 This protocol tests **H4** from my program plan (`TCL-Research-Program.md`, Sections 4 and 7) for the second trust dimension in the plan's order, **grounding**. The first, self-consistency, failed by one pair (`TCL-Phase3-H4-Consistency-Checkpoint.md`).
 
 ## 1. Question

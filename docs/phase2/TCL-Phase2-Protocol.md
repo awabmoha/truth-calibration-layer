@@ -2,6 +2,8 @@
 
 Status: locked before any Phase 2 training. Written October 18, 2026.
 
+**Outcome** (added November 28, 2026; the protocol text above and below is unchanged): H3-T and H3-J failed ([checkpoint](TCL-Phase2-Checkpoint.md)).
+
 This protocol fixes how I test H3-T and H3-J from `TCL-Research-Program.md`. I commit it before writing the training code and before any Phase 2 model is trained. Changes after this point are logged as amendments (Section 11) with the reason; the decision rules in Section 8 cannot change once any Phase 2 test result has been computed.
 
 ## 1. Questions

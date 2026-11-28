@@ -2,6 +2,8 @@
 
 Status: **locked** on November 21, 2026, before any Phase 3 code was written and before any Phase 3 metric was computed. The only Phase 3 numbers seen before locking are the correct/incorrect counts per split (Section 3), computed from labels alone to apply the size rule. Changes after this point are logged as amendments (Section 10) with the reason; the decision rule in Section 7 cannot change once any Phase 3 test metric has been computed.
 
+**Outcome** (added November 28, 2026; the protocol text above and below is unchanged): H4-T failed (1 of 6 pairs) ([checkpoint](TCL-Phase3-Checkpoint.md)).
+
 This protocol tests **H4-T** from my program plan (`TCL-Research-Program.md`, Sections 4 and 7). The H4 trust dimensions follow in a later protocol.
 
 ## 1. Question

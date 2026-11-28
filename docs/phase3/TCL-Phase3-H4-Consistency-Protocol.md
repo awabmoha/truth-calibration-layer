@@ -2,6 +2,8 @@
 
 Status: **locked** on November 22, 2026, before any H4 code was written and before any H4 metric was computed. The only H4 numbers seen before locking are the consistency label counts per test split (Section 2), computed from labels alone to apply the size rule. Changes after this point are logged as amendments (Section 10) with the reason; the decision rule in Section 5 cannot change once any H4 test metric has been computed.
 
+**Outcome** (added November 28, 2026; the protocol text above and below is unchanged): H4 failed for self-consistency, by one pair (3 of 6) ([checkpoint](TCL-Phase3-H4-Consistency-Checkpoint.md)).
+
 This protocol tests **H4** from my program plan (`TCL-Research-Program.md`, Sections 4 and 7) for the first trust dimension in the plan's order, **self-consistency**. Grounding and evidence density get their own protocols later.
 
 ## 1. Question

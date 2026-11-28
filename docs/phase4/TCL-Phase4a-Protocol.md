@@ -2,6 +2,8 @@
 
 Status: **locked** on November 24, 2026, before any Phase 4a code was written and before Qwen2.5-7B answered any question. Changes are logged as amendments (Section 11) with the reason, and the decision rule in Section 7 cannot change after any Phase 4a test metric has been computed.
 
+**Outcome** (added November 28, 2026; the protocol text above and below is unchanged): H4-T failed (0 of 3), self-consistency failed (2 of 3, without PopQA), grounding was not testable; every step in Section 9 was carried out, using about 12 Kaggle GPU hours ([checkpoint](TCL-Phase4a-Checkpoint.md)). The program closed afterwards.
+
 This protocol carries out the program plan's Section 8 row **"H4 fails for all dimensions"**: *trust is effectively one-dimensional at this scale; I re-test at Phase 4 scale before dropping multi-dimensionality.* It re-runs Phase 3's three preregistered tests (H4-T, H4 self-consistency, H4 grounding) on a 7B model, with the same designs, thresholds, and statistics. It is the first part of Phase 4; Phase 4b (a non-QA task and joint training at scale) is planned after 4a's result.
 
 ## 1. Question

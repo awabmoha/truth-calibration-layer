@@ -2,6 +2,8 @@
 
 Status: locked before any Kaggle Phase 1 data is generated. Written October 16, 2026.
 
+**Outcome** (added November 28, 2026; the protocol text above and below is unchanged): H1-R passed, exactly at its threshold (4 of 6 pairings); H2-R failed (2 of 6 directions) ([checkpoint](TCL-Phase1-Kaggle-Checkpoint.md)).
+
 This addendum covers the GPU part of Phase 1. It also responds to three defects I found in the TCL-v0 records after the local Phase 1 gate. The local H1/H2 results in `docs/phase1/TCL-Phase1-Local-Checkpoint.md` stand as recorded. The runs below are a **separately reported replication on corrected data**, not a replacement for those results.
 
 ## 1. Defects Found in the TCL-v0 Records

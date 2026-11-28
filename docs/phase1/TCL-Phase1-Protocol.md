@@ -2,6 +2,8 @@
 
 Status: locked before any Phase 1 test-set evaluation. Written October 16, 2026.
 
+**Outcome** (added November 28, 2026; the protocol text above and below is unchanged): H1 and H2 failed on the TCL-v0 records (2 of 6 each) ([checkpoint](TCL-Phase1-Local-Checkpoint.md)).
+
 This document fixes how I test H1 and H2 from `TCL-Research-Program.md` on the existing TCL-v0 records. I am committing it, together with the analysis script, before running the script. Nothing below may change after the test results are seen, except through the change-control rules in the program plan.
 
 ## 1. Scope
