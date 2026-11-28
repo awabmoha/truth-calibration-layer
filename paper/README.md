@@ -2,7 +2,7 @@
 
 | File | Status |
 |---|---|
-| Final paper | **In preparation:** one paper covering Phases 1-4a, for arXiv and TMLR. Outline, synthesis, analyses, and literature review: [../docs/final/](../docs/final/). |
+| [tcl-final/](tcl-final/) | **Final paper, first draft** (November 28, 2026): *Token Confidence Is Hard to Beat*, covering Phases 1-4a, in TMLR format (`tcl-final.tex`, `references.bib`; `tcl-final-draft.docx` is a pandoc conversion for reading). For arXiv, then TMLR. Built from [../docs/final/](../docs/final/). |
 | [TCL-Theory-Paper-v2.md](TCL-Theory-Paper-v2.md) / `.docx` | **Theory paper** (October 2026), kept unchanged as the record of the predictions. Separates the jointly trained proposal (TCL-J) from its frozen baseline (TCL-F), defines an operational trust vector, and states hypotheses H1-H6. References verified against their sources. A status note at the top records how every hypothesis turned out. |
 | [acl-phase2/](acl-phase2/) | **Phase 2 negative-result paper** (November 2026), ACL format: [PDF](acl-phase2/tcl-phase2-negative-result.pdf), `tcl-phase2-negative-result.tex`, and `references.bib`. Joint training does not make trust heads transfer, and every trained head transfers below raw token confidence. |
 | [TCL-Phase2-Negative-Result.md](TCL-Phase2-Negative-Result.md) | The same paper as Markdown, for reading on GitHub. The `.tex` is the version of record. |
