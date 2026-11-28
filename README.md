@@ -68,6 +68,10 @@ I re-ran Phase 3's three tests unchanged on Qwen2.5-7B-Instruct (float16 on Kagg
 
 Trust is effectively one-dimensional from 0.5B to 7B on QA, and I drop the multi-dimensional claim at this program's scale. One ungated check changes how I read Phase 3: with the fixed grounding label, the Phase 3 grounding test would have passed (5 of 7 pairs, mostly from irrelevant-passage answers); its recorded failure stands, but it was partly a labeling failure. Details, audits, scale comparison: [Phase 4a checkpoint](docs/phase4/TCL-Phase4a-Checkpoint.md).
 
+![Phases 3 and 4a: learned correctness heads vs free token-probability baselines](assets/phase3-4a-correctness-heads.svg)
+
+![Phases 3 and 4a: self-consistency and grounding gains over answer probability, with CIs](assets/phase3-4a-trust-dimensions.svg)
+
 ## Phase 2 and 2b Results
 
 Qwen2.5-0.5B with LoRA, trained on TriviaQA or on SQuAD (2,500 questions), tested on 1,500 fixed answers from each dataset; 3 seeds per arm, 28 trainings. Arm A is a frozen-backbone trust head, B fine-tunes the backbone for trust only, C is TCL-J (`L_LM + lambda * L_trust`), and D fine-tunes for language modeling only, then trains a head.
@@ -165,7 +169,7 @@ Phase 1 also caught problems in the earlier TCL-v0 records: test sets too small 
 | [notebooks/](notebooks/) | Kaggle notebooks for GPU runs |
 | [assets/](assets/) | Figures and the scripts that generate them |
 
-Start with [docs/README.md](docs/README.md) for a guided reading order.
+Start with [docs/README.md](docs/README.md) for a guided reading order. To report an error, ask about a result, or point to missing prior work, see [CONTRIBUTING.md](CONTRIBUTING.md); security problems go through [SECURITY.md](SECURITY.md).
 
 ## Reproducing Phase 1
 
@@ -219,6 +223,7 @@ python tcl_experiments/scripts/final_analyses.py
 python assets/make_phase1_figure.py
 python assets/make_history_figures.py
 python assets/make_phase2_figure.py
+python assets/make_final_figures.py
 ```
 
 ## How I Work

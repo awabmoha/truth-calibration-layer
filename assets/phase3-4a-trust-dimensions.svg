@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 496" width="980" height="496" role="img" aria-labelledby="t d">
+<title id="t">Self-consistency and grounding gains over answer probability</title>
+<desc id="d">AURC gain with 95% CIs for the self-consistency and grounding heads on every eligible pair at 0.5B, 3.8B and 7B. Self-consistency passes on 5 of 9 pairs, grounding on 2 of 9; neither passes its preregistered rule at any size.</desc>
+<style>
+  .bg { fill: #fcfcfb; }
+  .h1 { font: 600 17px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #0b0b0b; }
+  .sub, .tick, .leg, .note { font: 12px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #52514e; }
+  .row, .val { font: 13px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #0b0b0b; }
+  .val { font-size: 12px; }
+  .grid { stroke: #e4e3df; stroke-width: 1; }
+  .axis { stroke: #8a8984; stroke-width: 1.5; }
+  .link { stroke: #c9c8c2; stroke-width: 2; stroke-linecap: round; }
+  .c1 { fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2; } .l1 { stroke: #2a78d6; stroke-width: 2; fill: none; }
+  .c2 { fill: #eb6834; stroke: #fcfcfb; stroke-width: 2; } .l2 { stroke: #eb6834; stroke-width: 2; fill: none; }
+  .c0 { fill: #8a8984; stroke: #fcfcfb; stroke-width: 2; }
+  .dash { stroke-dasharray: 6 4; }
+  @media (prefers-color-scheme: dark) {
+    .bg { fill: #1a1a19; }
+    .h1, .row, .val { fill: #f0efec; }
+    .sub, .tick, .leg, .note { fill: #c3c2b7; }
+    .grid { stroke: #33332f; } .link { stroke: #4a4a45; }
+    .c1 { fill: #3987e5; stroke: #1a1a19; } .l1 { stroke: #3987e5; }
+    .c2 { fill: #d95926; stroke: #1a1a19; } .l2 { stroke: #d95926; }
+    .c0 { fill: #a3a29b; stroke: #1a1a19; }
+  }
+</style>
+<rect class="bg" width="980" height="496" rx="8"/>
+<text class="h1" x="24" y="34">Phases 3 and 4a: extra trust dimensions add little to answer probability</text>
+<text class="sub" x="24" y="54">Gain in selective prediction (AURC of answer probability minus AURC of the combination), mean of 5 seeds,</text>
+<text class="sub" x="24" y="70">with its 95% paired bootstrap CI. A pair passed only if the CI is above zero (blue).</text>
+<circle class="c1" cx="30" cy="96" r="5"/><text class="leg" x="42" y="100">CI above zero</text>
+<circle class="c0" cx="160" cy="96" r="5"/><text class="leg" x="172" y="100">CI includes or is below zero</text>
+<text class="sub" x="24" y="134">Self-consistency (R + C-hat)</text>
+<line class="grid" x1="242.5" x2="242.5" y1="142" y2="414"/>
+<text class="tick" x="242.5" y="430" text-anchor="middle">-0.02</text>
+<line class="axis" x1="319.4" x2="319.4" y1="142" y2="414"/>
+<text class="tick" x="319.4" y="430" text-anchor="middle">+0.00</text>
+<line class="grid" x1="396.3" x2="396.3" y1="142" y2="414"/>
+<text class="tick" x="396.3" y="430" text-anchor="middle">+0.02</text>
+<text class="row" x="192" y="161" text-anchor="end">Qwen 0.5B / PopQA</text>
+<line class="link" x1="375.8" x2="420.4" y1="156" y2="156"/>
+<circle class="c1" cx="397.7" cy="156" r="6"><title>Qwen 0.5B / PopQA: +0.0204 [+0.0147, +0.0263]</title></circle>
+<text class="row" x="192" y="191" text-anchor="end">Qwen 0.5B / SQuAD</text>
+<line class="link" x1="316.2" x2="350.9" y1="186" y2="186"/>
+<circle class="c0" cx="332.5" cy="186" r="6"><title>Qwen 0.5B / SQuAD: +0.0034 [-0.0008, +0.0082]</title></circle>
+<text class="row" x="192" y="221" text-anchor="end">Qwen 0.5B / TriviaQA</text>
+<line class="link" x1="357.4" x2="451.5" y1="216" y2="216"/>
+<circle class="c1" cx="401.3" cy="216" r="6"><title>Qwen 0.5B / TriviaQA: +0.0213 [+0.0099, +0.0343]</title></circle>
+<text class="row" x="192" y="251" text-anchor="end">Phi 3.8B / NQ-Open</text>
+<line class="link" x1="344.3" x2="417.4" y1="246" y2="246"/>
+<circle class="c1" cx="379.8" cy="246" r="6"><title>Phi 3.8B / NQ-Open: +0.0157 [+0.0065, +0.0255]</title></circle>
+<text class="row" x="192" y="281" text-anchor="end">Phi 3.8B / PopQA</text>
+<line class="link" x1="297.1" x2="362.0" y1="276" y2="276"/>
+<circle class="c0" cx="331.2" cy="276" r="6"><title>Phi 3.8B / PopQA: +0.0031 [-0.0058, +0.0111]</title></circle>
+<text class="row" x="192" y="311" text-anchor="end">Phi 3.8B / TriviaQA</text>
+<line class="link" x1="250.7" x2="322.2" y1="306" y2="306"/>
+<circle class="c0" cx="287.5" cy="306" r="6"><title>Phi 3.8B / TriviaQA: -0.0083 [-0.0179, +0.0007]</title></circle>
+<text class="row" x="192" y="341" text-anchor="end">Qwen 7B / NQ-Open</text>
+<line class="link" x1="362.7" x2="431.4" y1="336" y2="336"/>
+<circle class="c1" cx="396.9" cy="336" r="6"><title>Qwen 7B / NQ-Open: +0.0202 [+0.0113, +0.0291]</title></circle>
+<text class="row" x="192" y="371" text-anchor="end">Qwen 7B / PopQA</text>
+<line class="link" x1="318.3" x2="377.0" y1="366" y2="366"/>
+<circle class="c0" cx="346.0" cy="366" r="6"><title>Qwen 7B / PopQA: +0.0069 [-0.0003, +0.0150]</title></circle>
+<text class="row" x="192" y="401" text-anchor="end">Qwen 7B / TriviaQA</text>
+<line class="link" x1="321.9" x2="382.7" y1="396" y2="396"/>
+<circle class="c1" cx="352.1" cy="396" r="6"><title>Qwen 7B / TriviaQA: +0.0085 [+0.0006, +0.0165]</title></circle>
+<text class="sub" x="514" y="134">Grounding (R + G-hat)</text>
+<line class="grid" x1="732.5" x2="732.5" y1="142" y2="414"/>
+<text class="tick" x="732.5" y="430" text-anchor="middle">-0.02</text>
+<line class="axis" x1="809.4" x2="809.4" y1="142" y2="414"/>
+<text class="tick" x="809.4" y="430" text-anchor="middle">+0.00</text>
+<line class="grid" x1="886.3" x2="886.3" y1="142" y2="414"/>
+<text class="tick" x="886.3" y="430" text-anchor="middle">+0.02</text>
+<text class="row" x="682" y="161" text-anchor="end">Qwen 0.5B / HotpotQA</text>
+<line class="link" x1="808.3" x2="881.2" y1="156" y2="156"/>
+<circle class="c0" cx="844.5" cy="156" r="6"><title>Qwen 0.5B / HotpotQA: +0.0091 [-0.0003, +0.0187]</title></circle>
+<text class="row" x="682" y="191" text-anchor="end">Qwen 0.5B / NQ</text>
+<line class="link" x1="822.9" x2="902.3" y1="186" y2="186"/>
+<circle class="c1" cx="863.5" cy="186" r="6"><title>Qwen 0.5B / NQ: +0.0141 [+0.0035, +0.0242]</title></circle>
+<text class="row" x="682" y="221" text-anchor="end">Qwen 0.5B / RelationExt.</text>
+<line class="link" x1="803.0" x2="848.9" y1="216" y2="216"/>
+<circle class="c0" cx="825.2" cy="216" r="6"><title>Qwen 0.5B / RelationExt.: +0.0041 [-0.0017, +0.0103]</title></circle>
+<text class="row" x="682" y="251" text-anchor="end">Qwen 0.5B / SQuAD</text>
+<line class="link" x1="813.2" x2="873.6" y1="246" y2="246"/>
+<circle class="c1" cx="844.3" cy="246" r="6"><title>Qwen 0.5B / SQuAD: +0.0091 [+0.0010, +0.0167]</title></circle>
+<text class="row" x="682" y="281" text-anchor="end">Phi 3.8B / HotpotQA</text>
+<line class="link" x1="768.8" x2="863.2" y1="276" y2="276"/>
+<circle class="c0" cx="812.1" cy="276" r="6"><title>Phi 3.8B / HotpotQA: +0.0007 [-0.0105, +0.0140]</title></circle>
+<text class="row" x="682" y="311" text-anchor="end">Phi 3.8B / NQ</text>
+<line class="link" x1="708.3" x2="810.9" y1="306" y2="306"/>
+<circle class="c0" cx="768.6" cy="306" r="6"><title>Phi 3.8B / NQ: -0.0106 [-0.0263, +0.0004]</title></circle>
+<text class="row" x="682" y="341" text-anchor="end">Phi 3.8B / SQuAD</text>
+<line class="link" x1="805.3" x2="847.3" y1="336" y2="336"/>
+<circle class="c0" cx="822.8" cy="336" r="6"><title>Phi 3.8B / SQuAD: +0.0035 [-0.0011, +0.0098]</title></circle>
+<text class="row" x="682" y="371" text-anchor="end">Qwen 7B / HotpotQA</text>
+<line class="link" x1="731.0" x2="797.0" y1="366" y2="366"/>
+<circle class="c0" cx="762.3" cy="366" r="6"><title>Qwen 7B / HotpotQA: -0.0123 [-0.0204, -0.0032]</title></circle>
+<text class="row" x="682" y="401" text-anchor="end">Qwen 7B / NQ</text>
+<line class="link" x1="753.5" x2="809.7" y1="396" y2="396"/>
+<circle class="c0" cx="771.4" cy="396" r="6"><title>Qwen 7B / NQ: -0.0099 [-0.0145, +0.0001]</title></circle>
+<text class="note" x="24" y="466">Each test needed a majority of its eligible pairs, including the new dataset (PopQA; RelationExtraction). Grounding at 7B</text>
+<text class="note" x="24" y="482">was not testable (RelationExtraction failed the size rule). Sources: docs/phase3/ and docs/phase4/ checkpoints.</text>
+</svg>

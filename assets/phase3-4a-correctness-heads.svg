@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 468" width="900" height="468" role="img" aria-labelledby="t d">
+<title id="t">Learned correctness heads vs token-probability baselines</title>
+<desc id="d">Held-out test AUROC of the learned correctness head and three free token-probability baselines on nine model-dataset pairs. The head beats the best baseline only on Qwen 0.5B PopQA, by 0.012.</desc>
+<style>
+  .bg { fill: #fcfcfb; }
+  .h1 { font: 600 17px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #0b0b0b; }
+  .sub, .tick, .leg, .note { font: 12px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #52514e; }
+  .row, .val { font: 13px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #0b0b0b; }
+  .val { font-size: 12px; }
+  .grid { stroke: #e4e3df; stroke-width: 1; }
+  .axis { stroke: #8a8984; stroke-width: 1.5; }
+  .link { stroke: #c9c8c2; stroke-width: 2; stroke-linecap: round; }
+  .c1 { fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2; } .l1 { stroke: #2a78d6; stroke-width: 2; fill: none; }
+  .c2 { fill: #eb6834; stroke: #fcfcfb; stroke-width: 2; } .l2 { stroke: #eb6834; stroke-width: 2; fill: none; }
+  .c0 { fill: #8a8984; stroke: #fcfcfb; stroke-width: 2; }
+  .dash { stroke-dasharray: 6 4; }
+  @media (prefers-color-scheme: dark) {
+    .bg { fill: #1a1a19; }
+    .h1, .row, .val { fill: #f0efec; }
+    .sub, .tick, .leg, .note { fill: #c3c2b7; }
+    .grid { stroke: #33332f; } .link { stroke: #4a4a45; }
+    .c1 { fill: #3987e5; stroke: #1a1a19; } .l1 { stroke: #3987e5; }
+    .c2 { fill: #d95926; stroke: #1a1a19; } .l2 { stroke: #d95926; }
+    .c0 { fill: #a3a29b; stroke: #1a1a19; }
+  }
+</style>
+<rect class="bg" width="900" height="468" rx="8"/>
+<text class="h1" x="24" y="34">Phases 3 and 4a: learned correctness heads vs free token probabilities</text>
+<text class="sub" x="24" y="54">Test AUROC on a dataset the head never saw. The head (blue) reads hidden states and also gets the</text>
+<text class="sub" x="24" y="70">answer-span probability as input. It beats the strongest free baseline on 1 of 9 pairs.</text>
+<circle class="c1" cx="30" cy="96" r="5"/><text class="leg" x="42" y="100">Learned head (M+R)</text>
+<circle class="c0" cx="190" cy="96" r="5"/><text class="leg" x="202" y="100">Answer-span probability (preregistered baseline)</text>
+<circle class="c2" cx="510" cy="96" r="5"/><text class="leg" x="522" y="100">Minimum token probability</text>
+<circle cx="710" cy="96" r="4" style="fill:none;stroke:#8a8984;stroke-width:2"/><text class="leg" x="722" y="100">First-token probability</text>
+<line class="grid" x1="200.0" x2="200.0" y1="114" y2="386"/>
+<text class="tick" x="200.0" y="402" text-anchor="middle">0.6</text>
+<line class="grid" x1="388.6" x2="388.6" y1="114" y2="386"/>
+<text class="tick" x="388.6" y="402" text-anchor="middle">0.7</text>
+<line class="grid" x1="577.1" x2="577.1" y1="114" y2="386"/>
+<text class="tick" x="577.1" y="402" text-anchor="middle">0.8</text>
+<line class="grid" x1="765.7" x2="765.7" y1="114" y2="386"/>
+<text class="tick" x="765.7" y="402" text-anchor="middle">0.9</text>
+<text class="row" x="186" y="133" text-anchor="end">Qwen 0.5B / PopQA</text>
+<line class="link" x1="630.1" x2="779.8" y1="128" y2="128"/>
+<circle cx="734.8" cy="128" r="5" style="fill:none;stroke:#8a8984;stroke-width:2"><title>first token 0.884</title></circle>
+<circle class="c0" cx="630.1" cy="128" r="6"><title>answer span 0.828</title></circle>
+<circle class="c2" cx="758.0" cy="128" r="6"><title>minimum token 0.896</title></circle>
+<circle class="c1" cx="779.8" cy="128" r="6"><title>learned head 0.907</title></circle>
+<text class="row" x="186" y="163" text-anchor="end">Qwen 0.5B / SQuAD</text>
+<line class="link" x1="325.5" x2="506.1" y1="158" y2="158"/>
+<circle cx="421.4" cy="158" r="5" style="fill:none;stroke:#8a8984;stroke-width:2"><title>first token 0.717</title></circle>
+<circle class="c0" cx="506.1" cy="158" r="6"><title>answer span 0.762</title></circle>
+<circle class="c2" cx="482.6" cy="158" r="6"><title>minimum token 0.750</title></circle>
+<circle class="c1" cx="325.5" cy="158" r="6"><title>learned head 0.667</title></circle>
+<text class="row" x="186" y="193" text-anchor="end">Qwen 0.5B / TriviaQA</text>
+<line class="link" x1="410.8" x2="527.0" y1="188" y2="188"/>
+<circle cx="474.5" cy="188" r="5" style="fill:none;stroke:#8a8984;stroke-width:2"><title>first token 0.746</title></circle>
+<circle class="c0" cx="410.8" cy="188" r="6"><title>answer span 0.712</title></circle>
+<circle class="c2" cx="527.0" cy="188" r="6"><title>minimum token 0.773</title></circle>
+<circle class="c1" cx="470.9" cy="188" r="6"><title>learned head 0.744</title></circle>
+<text class="row" x="186" y="223" text-anchor="end">Phi 3.8B / NQ-Open</text>
+<line class="link" x1="404.4" x2="511.5" y1="218" y2="218"/>
+<circle cx="404.4" cy="218" r="5" style="fill:none;stroke:#8a8984;stroke-width:2"><title>first token 0.708</title></circle>
+<circle class="c0" cx="511.5" cy="218" r="6"><title>answer span 0.765</title></circle>
+<circle class="c2" cx="481.3" cy="218" r="6"><title>minimum token 0.749</title></circle>
+<circle class="c1" cx="501.0" cy="218" r="6"><title>learned head 0.760</title></circle>
+<text class="row" x="186" y="253" text-anchor="end">Phi 3.8B / PopQA</text>
+<line class="link" x1="594.1" x2="730.6" y1="248" y2="248"/>
+<circle cx="716.7" cy="248" r="5" style="fill:none;stroke:#8a8984;stroke-width:2"><title>first token 0.874</title></circle>
+<circle class="c0" cx="698.3" cy="248" r="6"><title>answer span 0.864</title></circle>
+<circle class="c2" cx="730.6" cy="248" r="6"><title>minimum token 0.881</title></circle>
+<circle class="c1" cx="594.1" cy="248" r="6"><title>learned head 0.809</title></circle>
+<text class="row" x="186" y="283" text-anchor="end">Phi 3.8B / TriviaQA</text>
+<line class="link" x1="567.9" x2="644.4" y1="278" y2="278"/>
+<circle cx="591.1" cy="278" r="5" style="fill:none;stroke:#8a8984;stroke-width:2"><title>first token 0.807</title></circle>
+<circle class="c0" cx="644.4" cy="278" r="6"><title>answer span 0.836</title></circle>
+<circle class="c2" cx="641.7" cy="278" r="6"><title>minimum token 0.834</title></circle>
+<circle class="c1" cx="567.9" cy="278" r="6"><title>learned head 0.795</title></circle>
+<text class="row" x="186" y="313" text-anchor="end">Qwen 7B / NQ-Open</text>
+<line class="link" x1="402.7" x2="468.6" y1="308" y2="308"/>
+<circle cx="402.7" cy="308" r="5" style="fill:none;stroke:#8a8984;stroke-width:2"><title>first token 0.707</title></circle>
+<circle class="c0" cx="468.6" cy="308" r="6"><title>answer span 0.742</title></circle>
+<circle class="c2" cx="454.4" cy="308" r="6"><title>minimum token 0.735</title></circle>
+<circle class="c1" cx="461.2" cy="308" r="6"><title>learned head 0.738</title></circle>
+<text class="row" x="186" y="343" text-anchor="end">Qwen 7B / PopQA</text>
+<line class="link" x1="659.7" x2="731.3" y1="338" y2="338"/>
+<circle cx="726.1" cy="338" r="5" style="fill:none;stroke:#8a8984;stroke-width:2"><title>first token 0.879</title></circle>
+<circle class="c0" cx="700.4" cy="338" r="6"><title>answer span 0.865</title></circle>
+<circle class="c2" cx="731.3" cy="338" r="6"><title>minimum token 0.882</title></circle>
+<circle class="c1" cx="659.7" cy="338" r="6"><title>learned head 0.844</title></circle>
+<text class="row" x="186" y="373" text-anchor="end">Qwen 7B / TriviaQA</text>
+<line class="link" x1="626.6" x2="678.5" y1="368" y2="368"/>
+<circle cx="626.6" cy="368" r="5" style="fill:none;stroke:#8a8984;stroke-width:2"><title>first token 0.826</title></circle>
+<circle class="c0" cx="678.5" cy="368" r="6"><title>answer span 0.854</title></circle>
+<circle class="c2" cx="677.0" cy="368" r="6"><title>minimum token 0.853</title></circle>
+<circle class="c1" cx="639.4" cy="368" r="6"><title>learned head 0.833</title></circle>
+<text class="note" x="24" y="438">Head: mean of 5 seeds. The minimum-token and first-token comparisons are exploratory (not preregistered).</text>
+<text class="note" x="24" y="454">Source: docs/final/TCL-Final-Analyses.md, Section 3.</text>
+</svg>
