@@ -107,7 +107,7 @@ Kaggle sessions stop after about 12 hours, so the pool and grounding runs go in 
 
 ## 11. Amendments
 
-None yet.
+**2026-11-28: Grounding audit composition.** The protocol planned the grounding audit as 25 gold-passage and 25 distractor answers. With the passage and the abstention line, Qwen2.5-7B abstained on 1,996 of the 2,000 held-out distractor rows (SQuAD 498 of 500, NQ 500, HotpotQA 499, RelationExtraction 499), leaving 4 distractor answers. The audit therefore takes all 4, and gold rows fill the rest of the 50 (seed 2042, as planned). I decided this from abstention counts alone, before computing any metric. Nothing else changes: abstentions stay out of every arm, as fixed in Section 5. The grounding test at 7B is thus effectively a test on gold-passage answers, unlike Phase 3, where most of the head's gain came from distractor rows. I report this with the results.
 
 ## References
 

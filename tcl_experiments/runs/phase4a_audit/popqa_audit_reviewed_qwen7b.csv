@@ -1,0 +1,101 @@
+source,dataset,id,question,accepted_answers,answer,v3_label,manual_label,flag_uncertain,reason,rule_error
+phase4a_popqa_qwen7b,popqa,popqa-3803489,Who is the author of Cross My Heart and Hope to Spy?,Ally Carter | Sarah Leigh Fogleman,Judy Blume,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5671878,What genre is Isis?,post-metal | postmetal | metalgaze | shoegaze metal | atmospheric metal | experimental metal | post metal,Rock,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-3308605,In what city was Cornelis Springer born?,"Amsterdam | Mokum | Amsterdam, NL | Amsterdam, Netherlands | A'dam",Amsterdam,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5772020,Who was the composer of Six Weeks?,Dudley Moore | Dudley Stuart John Moore,George Gershwin,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5080809,Who was the producer of The Grapes of Wrath?,Nunnally Johnson | Nunnally Hunter Johnson,Darryl F. Zanuck,0,0,True,"Darryl F. Zanuck is the credited producer; gold lists only Nunnally Johnson; judged against the gold list, counted incorrect",False
+phase4a_popqa_qwen7b,popqa,popqa-4979636,Who is the father of Stephen Lee?,Tsung-Dao Lee | T. D. Lee | Tsung Dao Lee | Li Zhengdao,Peter Turner,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-4079416,Who was the composer of Excursions?,Samuel Barber | Samuel Osborne Barber II | Samuel Osborne Barber,Jean Sibelius,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5240458,Who was the producer of The Mist?,Frank Darabont,Frank Darabont,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-3466354,What genre is Before You Go?,comedy film | comedy movie,Horror,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2142435,Who was the screenwriter for Candy?,Luke Davies,John August,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2203037,What is the religion of Jacob?,Judaism | Jewish | Jewish religion,Judaism,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1334087,Who was the director of The Intern?,Nancy Meyers | Nancy Jane Meyers,Ned Vizzini,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1345495,Who was the director of Dry?,Stephanie Okereke | Stephanie Okereke Linus,Sofia Coppola,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-759554,Who was the composer of California Gurls?,Bonnie McKee | Bonnie Leigh McKee | Max Martin | Karl Martin Sandberg | Martin White | Katy Perry | Katheryn Elizabeth Hudson Perry | Katheryn Elizabeth Hudson | Katheryn Hudson | Katy Hudson | Katheryn Perry | Snoop Dogg | Snoop Doggy Dogg | Bigg Snoop Dogg | Snoop Lion | Calvin Broadus | Snoopzilla | Cordozar Calvin Broadus | Snoop D.O. Double G | Snoop Rock | Calvin Cordozar Broadus Jr. | Calvin Broadus Jr. | Cordozar Calvin Broadus Jr. | Keresztes Ildikó | Calvin Corde Broadus | Snoop-A-Loop | Benny Blanco | Benjamin Joseph Levin | 00503442298 IPI,Dr. Dre,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2702620,What is Algiers the capital of?,Algeria | Alger | Algérie | Al-Jaza'ir | Algerie | Algeria | People’s Democratic Republic of Algeria | dz | 🇩🇿 | ALG,Algeria,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-4685415,Who was the producer of Apostrophe (')?,Frank Zappa | Frank Vincent Zappa,Tommy LiPuma,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1691938,What is the capital of Slovenia?,"Ljubljana | Ljubljana, Slovenia | Laibach | Lublana | Labacum | Aemona",Ljubljana,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5996544,Who was the screenwriter for Time After Time?,Ed Burns | David Simon | David Judah Simon,Dean Rieck,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-3677626,What genre is Chambers?,sitcom | situational comedy | situation comedy,Fiction,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-3499247,Who was the screenwriter for Zombie Stripper Apocalypse?,Takao Nakano,Tucker Foley,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-3524029,What is the capital of Harding County?,"Buffalo | Buffalo, South Dakota",Wessington Springs,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1632004,In what city was Amoene van Haersolte born?,Utrecht | Utreg | Utrecht (city),Utrecht,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-997300,Who was the composer of Symphony No. 1?,Sergei Prokofiev | Sergei Sergeyevich Prokofiev | Sergej Sergeevič Prokofʹev | Sergey Prokofiev | Sergej Prokofjev | Sergiusz Prokofiew | Serge Prokofiev | Serge Sergevitch Prokofieff | Serge Prokofieff,Ludwig van Beethoven,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-3255842,What is Alan Bjerga's occupation?,journalist | journo | journalists,Journalist,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2218076,Who is the author of Company?,George Furth,Tom Stoppard,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1001002,Who is the author of Little Children?,Tom Perrotta,Jodi Picoult,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1067884,What genre is Asian School Girls?,action film | action movie | film action | movie action | action,K-pop,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-6118725,Who is the author of Voyage d'Egypte et de Nubie?,Frederic Louis Norden,Louis-François Cassas,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2912893,Who was the screenwriter for Tine?,Knud Leif Thomsen,Anders Thomas Jensen,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-6078726,What genre is Unity?,jazz | jazz music | jass | jas | jaz | Jazz,First-person shooter,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2918599,Who was the director of Rails?,Mario Camerini,Eli Roth,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-4669357,"In what city was Francisco Fernández de la Cueva, 10th Duke of Alburquerque born?","Genoa | Genoa, Italy | Genova, Italy | Genova",Madrid,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2163529,"Who is the father of Gaston of Foix, Prince of Viana?",Gaston IV of Foix | Gaston IV de Foix,Charles II of Navarre,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1182482,Who is the author of Let's Take the Long Way Home?,Gail Caldwell,William Kent Krueger,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1402420,Who was the director of Metro?,Thomas Carter | Thomas Colbert Carter | T. R. Carter,James Mangold,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-6225870,Who was the screenwriter for Yellow?,Chris Chan Lee,N/A,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1666339,Who is the author of Good People?,David Lindsay-Abaire,Portia Nelson,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2209385,What genre is Black Dynamite?,action film | action movie | film action | movie action | action | blaxploitation | blacksploitation,"Comedy, action, satire",1,1,True,lists several genres including the accepted action; counted correct,False
+phase4a_popqa_qwen7b,popqa,popqa-2840241,What sport does Irina Crasnoscioc play?,basketball | hoops | b-ball | basket ball | BB | Basketball,figure skating,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5988707,Who is the author of Three Weeks?,Elinor Glyn | Elinor Sutherland,E.M. Forster,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-304828,Who was the screenwriter for Diane?,Christopher Isherwood | Christopher William Bradshaw Isherwood,Nora Ephron,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5906805,Who was the composer of The East?,Halli Cauthery,Unknown,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-6260898,What is the capital of Beiyang Government?,Beijing | Peking | Beiping | Peiping | Yanjing | Zhongdu | Khanbaliq | BJ | Shun Tian Fu | Pekin | beijing,Tianjin,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1660128,In what city was Julius Erving born?,"New York City | NYC | New York | the five boroughs | Big Apple | City of New York | NY City | New York, New York | New York City, New York | New York, NY | New York City (NYC)",Philadelphia,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1470594,Who was the director of Uno?,"Vince Gilligan | George Vincent Gilligan, Jr.",Jan Švankmajer,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-4185917,What is Havergal Brian's occupation?,composer,Composer,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2198169,Who was the producer of Believe in Me?,Robert Chartoff | Robert Irwin Chartoff | Irwin Winkler,Tommy Mottola,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-3544122,What genre is MASH?,war film | war movie,"Comedy, war, drama",0,1,True,lists several genres including war (gold war film); counted correct; rule misses it,True
+phase4a_popqa_qwen7b,popqa,popqa-312603,Who was the composer of The Miracle?,Elmer Bernstein,Antonín Dvořák,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2566059,What is Agneta Bolme Börjefors's occupation?,journalist | journo | journalists | television presenter | host | hostess | TV host | television host | TV presenter | TV anchor | television anchor,Actress,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-504817,What genre is Slam Stewart?,jazz | jazz music | jass | jas | jaz | Jazz,Blues,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2886500,Who was the composer of Nerone?,Arturo Toscanini | Arrigo Boito | Tobia Gorrio | Arrigo Enrico Boito | Enrico Giuseppe Giovanni Boito | Vincenzo Tommasini,Claudio Monteverdi,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5941835,Who is the author of The Middle Years?,Henry James | Henricus James,L.M. Montgomery,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1662253,In what city was Maarten Biesheuvel born?,Schiedam,Amsterdam,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-3919096,What is Dinesh Singh's occupation?,politician | political leader | political figure | polit. | pol,Actor,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1000825,Who is the author of It?,Inger Christensen,Stephen King,0,0,True,"ambiguous title: answer fits Stephen King's novel, gold is Inger Christensen's poem; counted incorrect",False
+phase4a_popqa_qwen7b,popqa,popqa-5208267,In what city was Montxu Miranda born?,Santurtzi | Santurce,Bilbao,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-149716,What is Claudio Naranjo's occupation?,psychiatrist | alienist | head-shrinker | shrinker,Psychologist,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-4846365,Who was the screenwriter for Charulata?,Satyajit Ray | Manik Da,Rabindranath Tagore,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-3090028,Who is the author of Lucky?,Alice Sebold,William Faulkner,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5649223,Who was the screenwriter for The Road?,Cormac McCarthy | Charles McCarthy | Joe Penhall | Joe Scott Penhall,Cormac McCarthy,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5861183,Who is the author of Sweet Eros?,Terrence McNally,J.D. Salinger,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-636929,Who was the producer of Neighbors?,Seth Rogen | Seth Aaron Rogen,Chris Miller,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-4413153,Who was the producer of The Party?,Blake Edwards | William Blake Crump,Charles Brackett,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-6296317,Who was the director of Mary?,Abel Ferrara,David Gordon Green,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1805806,What is Tolis Voskopoulos's occupation?,composer,Actor,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-155062,Who was the producer of Jump?,Stephen Chow | Stephen Chow Sing Chi | Chow Sing Chi | Zhou Xingchi | Stephen Chiau | Stephen Chiau Sing-chi,Tommy Lee Jones,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5864547,Who was the producer of Mission Kashmir?,Vidhu Vinod Chopra,Farooq Abdullah,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-6368219,What is the capital of Afghanistan?,Kabul | Cabool | Caubul | Kabol | Cabul,Kabul,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-4725190,What is John Mayne's occupation?,journalist | journo | journalists,Historian,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5559863,Who was the screenwriter for Manhattan?,Woody Allen | Allan Stewart Konigsberg | Allen Stewart Konigsberg | Heywood Allen | Marshall Brickman,Woody Allen,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2648097,Who was the screenwriter for Sun?,Alessandro Blasetti,James S. A. Corey,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1719999,Who is the author of Great Expectations?,Charles Dickens | Dickens | C.Dickens | Charles John Huffam Dickens | Boz,Charles Dickens,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1398877,Who was the composer of Ghost?,Hossein Shahabi,Andrew Lloyd Webber,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-969963,What genre is Arrival?,pop music | pop | Pop,Science fiction,0,0,True,"ambiguous title: answer fits the film, gold is the album (pop); counted incorrect",False
+phase4a_popqa_qwen7b,popqa,popqa-2717363,"In what country is Faculty of Engineering (LTH), Lund University?",Sweden | Kingdom of Sweden | SE | se | SWE | 🇸🇪,Sweden,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-3078837,Who was the producer of Bad?,Quincy Jones | Q | Quincy | Quincy Delight Jones Jr. | Quincy Delight Jones Jr | Quincy Jones Jr.,Rick Rubin,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2450568,Who was the director of The Pornographers?,Shohei Imamura | Shôhei Imamura | Imamura Shohei,Derek Cianfrance,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-4409015,Who was the screenwriter for Time Out?,Laurent Cantet,Nicholas Griffin,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1917994,What is Sarah Dawn Finer's occupation?,actor | actress | actors | actresses | songwriter | song writer,Actress,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-157382,Who was the screenwriter for Coach Carter?,John Gatins | Mark Schwahn,Albert Bergeron,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-3194701,Who was the screenwriter for The Prestige?,Christopher Nolan | Christopher Jonathan James Nolan | Nolan | Christopher Edward Nolan | Christopher Priest | Christopher McKenzie Priest | John Luther Novak | Colin Wedgelock,Christopher Nolan and Jonathan Nolan,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1195592,Who is the mother of Menelaus?,Aerope,Leda,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-3080072,In what city was Franklin Rosemont born?,"Chicago | Chicago, Illinois | The Windy City | City by the Lake | The Queen of the West | Chi-Town | Chitown | The Second City | City of Chicago | City of Broad Shoulders | Chi-Raq | Chicago, IL",Chicago,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2449932,What genre is The Miracle?,comedy film | comedy movie,Drama,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-310505,Who was the director of Submission?,Stefan Jarl,Abdellatif Kechiche,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2415240,What sport does Joey Harrington play?,American football | gridiron football | 🏈 | football | American rules football,Football,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2953719,What genre is Evil Dead: Hail to the King?,survival horror | survival horror video game,Horror,0,0,True,Horror is broader than the gold survival horror; counted incorrect,False
+phase4a_popqa_qwen7b,popqa,popqa-3836996,What is the religion of Ali Ibn Ibrahim Qomi?,Shia Islam | Shīa Islam | Shiism | Shiah Islam | Shiʿa Islam | Shi'a Islam,Shia Islam,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5718052,Who was the screenwriter for Pulse?,Wes Craven | Wesley Earl Craven,Hideo Nakata,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-985722,What is the religion of Assumption of Mary?,Anglican Communion | Eastern Orthodox Church | Eastern Church | Orthodox Church | Orthodox Catholic Church | Greek Church | Eastern Orthodox communion | Church of the Seven Councils | Oriental Orthodox Churches | oriental orthodox churches | Oriental Orthodoxy | Catholic Church | Roman Catholic Church | Church | Roman Apostolic Catholic Church,Catholicism,0,0,True,"gold lists Anglican and Eastern Orthodox; Catholic Church also holds the feast; judged against the gold list, counted incorrect",False
+phase4a_popqa_qwen7b,popqa,popqa-5091341,In what city was Mark Holzemer born?,"Littleton | LIttleton, Colorado | Littleton, Colorado",Chicago,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5105702,What sport does Jonathan Rossini play?,association football | football | soccer,ice hockey,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-1527171,In what country is Brooks?,United States of America | the United States of America | America | U.S.A. | USA | U.S. | US | the US | the USA | US of A | the United States | U. S. A. | U. S. | the States | the U.S. | 'Merica | U.S | United States | 'Murica,United States,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5049215,In what country is Mackay Courthouse?,Australia | Commonwealth of Australia | AU | AUS | au | British Colony of Australia | 🇦🇺 | Straya | Aussieland,Australia,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-3581916,In what city was Bruce Collie born?,Nuremberg | Nürnberg | Kreisfreie Stadt Nürnberg | Nüremberg,Sydney,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-4565898,Who was the producer of Ada?,Lawrence Weingarten,David Geffen,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-4394181,What is the capital of East Timor?,Dili | City of Dili,Dili,1,1,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-5988796,Who was the director of Three the Hard Way?,"Gordon Parks, Jr.",Quentin Tarantino,0,0,False,,False
+phase4a_popqa_qwen7b,popqa,popqa-2112028,Who was the producer of Recovery?,Dr. Dre | Andre Romelle Young | The Mechanic | Brickhard,Steve Lillywhite,0,0,False,,False
