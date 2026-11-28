@@ -2,12 +2,14 @@
 
 ## Reading Order
 
-1. **[../README.md](../README.md)**: what TCL is and where the research stands.
+1. **[../README.md](../README.md)**: what TCL is and how it ended (the program closed on November 28, 2026).
 2. **[../TCL-Research-Program.md](../TCL-Research-Program.md)**: the master plan, with hypotheses H1-H6, the locked evaluation protocol, phase gates, pivots, and the change log.
 3. **[../paper/TCL-Theory-Paper-v2.md](../paper/TCL-Theory-Paper-v2.md)**: the theory, including the joint objective, the trust vector, and why joint training could help.
 4. **[phase1/TCL-Phase1-Kaggle-Checkpoint.md](phase1/TCL-Phase1-Kaggle-Checkpoint.md)**: the main Phase 1 results.
 5. **[phase2/TCL-Phase2-Checkpoint.md](phase2/TCL-Phase2-Checkpoint.md)** and **[phase2/TCL-Phase2b-Checkpoint.md](phase2/TCL-Phase2b-Checkpoint.md)**: the Phase 2 results and the rerun.
 6. **[../paper/acl-phase2/](../paper/acl-phase2/)**: the Phase 2 negative-result paper.
+7. **[phase3/](phase3/)** and **[phase4/](phase4/)**: the Phase 3 tests (H4-T, self-consistency, grounding) and their re-run at 7B (Phase 4a).
+8. **[final/TCL-Program-Synthesis.md](final/TCL-Program-Synthesis.md)**: every result in one place, then [final/TCL-Final-Analyses.md](final/TCL-Final-Analyses.md), the [literature review](final/reports/TCL%20novelty%20literature%20review.md), and the [paper outline](final/TCL-Paper-Outline.md).
 
 ## Phase 1 (closed)
 
@@ -54,6 +56,7 @@ Documents in the order they were written. Each protocol was committed before the
 | Document | Role |
 |---|---|
 | [TCL-Program-Synthesis.md](final/TCL-Program-Synthesis.md) | Every preregistered test in one place and the five findings that hold across phases |
+| [TCL-Final-Analyses.md](final/TCL-Final-Analyses.md) | Exploratory reporting analyses: minimum detectable effects, the weak-confidence pattern corrected for its artifacts, and how the choice of token-probability baseline changes the verdict |
 | [TCL novelty literature review](final/reports/TCL%20novelty%20literature%20review.md) | Which findings are already known and which are new, with closest prior work, reviewer risks, and verified references; research notes in [final/research_notes/](final/research_notes/) |
 | [TCL-Paper-Outline.md](final/TCL-Paper-Outline.md) | Positioning, contributions, section plan, and the checks to do before submission |
 

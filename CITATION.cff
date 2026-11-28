@@ -8,7 +8,7 @@ type: software
 license: MIT
 repository-code: "https://github.com/awabmoha/truth-calibration-layer"
 url: "https://github.com/awabmoha/truth-calibration-layer"
-date-released: "2026-11-20"
+date-released: "2026-11-28"
 keywords:
   - trust estimation
   - uncertainty estimation

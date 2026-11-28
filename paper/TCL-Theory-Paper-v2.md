@@ -2,13 +2,16 @@
 
 **Awab Mohamed**\
 Independent Research Preprint, Qatar\
-Version 2, October 2026 (status note added November 2026)
+Version 2, October 2026 (status note updated November 28, 2026)
 
 > **Status of the hypotheses (November 2026).** This paper states the theory and the tests as they were fixed before any experiment. The tests have since run, and the text below is kept unchanged so that the predictions stay on record.
 >
 > - **H1** passed at its threshold in Phase 1 (4 of 6 pairings), and **H2** failed: frozen probes do not transfer ([Phase 1 checkpoint](../docs/phase1/TCL-Phase1-Kaggle-Checkpoint.md)).
 > - **H3-T and H3-J**, the core test of TCL-J, **failed** in Phase 2 and again in its one preregistered rerun. Joint training did not transfer better than a frozen head, and every trained head transferred below raw token confidence ([negative-result paper](acl-phase2/)).
-> - The joint-objective claim is dropped. H4 is now tested on held-out datasets, together with a new transfer hypothesis (H4-T), and H5 tests the best method from Phases 2-3 ([research program](../TCL-Research-Program.md), Section 4).
+> - The joint-objective claim is dropped. H4 was then tested on held-out datasets, together with a new transfer hypothesis (H4-T).
+> - **H4-T failed** (a head trained on a mixture of datasets, given raw confidence, beat it on 1 of 6 held-out pairs) and **H4 failed** for both dimensions tested, self-consistency (3 of 6) and grounding (2 of 7) ([Phase 3](../docs/phase3/)).
+> - **Both failed again at 7B** (Qwen2.5-7B: H4-T 0 of 3; self-consistency 2 of 3 without the required PopQA pair; grounding not testable) ([Phase 4a](../docs/phase4/TCL-Phase4a-Checkpoint.md)).
+> - **H5 and H6 were not tested.** I closed the program on November 28, 2026, at the Phase 4b gate. Its conclusion: on short-answer QA from 0.5B to 7B, learned trust signals add little or nothing beyond the model's own answer probability on new data ([synthesis](../docs/final/TCL-Program-Synthesis.md)).
 
 ## Abstract
 

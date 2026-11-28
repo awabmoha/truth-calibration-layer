@@ -1,0 +1,163 @@
+{
+  "H4-T (M+R)": {
+    "pairs": [
+      "qwen/triviaqa",
+      "qwen/squad",
+      "qwen/popqa",
+      "phi/triviaqa",
+      "phi/nq_open",
+      "phi/popqa",
+      "qwen7b/triviaqa",
+      "qwen7b/nq_open",
+      "qwen7b/popqa"
+    ],
+    "n": 9,
+    "raw_auroc": [
+      0.7118,
+      0.7623,
+      0.8281,
+      0.8357,
+      0.7652,
+      0.8643,
+      0.8537,
+      0.7424,
+      0.8654
+    ],
+    "gain_auroc": [
+      0.0319,
+      -0.0958,
+      0.0794,
+      -0.0406,
+      -0.0056,
+      -0.0553,
+      -0.0207,
+      -0.0039,
+      -0.0216
+    ],
+    "spearman_full": -0.43333333333333335,
+    "spearman_full_ci95_pair_bootstrap": [
+      -0.9487179487179486,
+      0.3571428571428571
+    ],
+    "spearman_headroom_normalized": -0.5166666666666667,
+    "spearman_split_sample_mean": -0.26916666666666667,
+    "spearman_split_sample_range_5_95": [
+      -0.5,
+      0.017499999999999717
+    ],
+    "spearman_leave_one_model_out": {
+      "phi": -0.3714285714285715,
+      "qwen": -0.7142857142857143,
+      "qwen7b": -0.2
+    }
+  },
+  "self-consistency (R+C-hat)": {
+    "pairs": [
+      "qwen/triviaqa",
+      "qwen/squad",
+      "qwen/popqa",
+      "phi/triviaqa",
+      "phi/nq_open",
+      "phi/popqa",
+      "qwen7b/triviaqa",
+      "qwen7b/nq_open",
+      "qwen7b/popqa"
+    ],
+    "n": 9,
+    "raw_auroc": [
+      0.7118,
+      0.7623,
+      0.8281,
+      0.8357,
+      0.7652,
+      0.8643,
+      0.8537,
+      0.7424,
+      0.8654
+    ],
+    "gain_auroc": [
+      0.073,
+      0.0119,
+      0.0669,
+      -0.0107,
+      0.0216,
+      -0.0019,
+      0.0156,
+      0.0298,
+      0.0123
+    ],
+    "spearman_full": -0.6,
+    "spearman_full_ci95_pair_bootstrap": [
+      -0.9473684210526315,
+      0.14285714285714285
+    ],
+    "spearman_headroom_normalized": -0.48333333333333334,
+    "spearman_split_sample_mean": -0.5341666666666667,
+    "spearman_split_sample_range_5_95": [
+      -0.7666666666666667,
+      -0.25
+    ],
+    "spearman_leave_one_model_out": {
+      "phi": -0.5428571428571429,
+      "qwen": -0.6,
+      "qwen7b": -0.7142857142857143
+    }
+  },
+  "grounding (R+G-hat)": {
+    "pairs": [
+      "qwen/squad",
+      "qwen/nq",
+      "qwen/hotpotqa",
+      "qwen/relation_extraction",
+      "phi/squad",
+      "phi/nq",
+      "phi/hotpotqa",
+      "qwen7b/nq",
+      "qwen7b/hotpotqa"
+    ],
+    "n": 9,
+    "raw_auroc": [
+      0.8353,
+      0.7796,
+      0.7455,
+      0.8314,
+      0.8206,
+      0.708,
+      0.6697,
+      0.7162,
+      0.6014
+    ],
+    "gain_auroc": [
+      0.0229,
+      0.0249,
+      0.025,
+      0.014,
+      0.0228,
+      -0.0226,
+      0.0111,
+      -0.0041,
+      -0.006
+    ],
+    "spearman_full": 0.6333333333333333,
+    "spearman_full_ci95_pair_bootstrap": [
+      -0.15596330275229356,
+      0.894736842105263
+    ],
+    "spearman_headroom_normalized": 0.8166666666666667,
+    "spearman_split_sample_mean": 0.619,
+    "spearman_split_sample_range_5_95": [
+      0.38333333333333336,
+      0.7999999999999999
+    ],
+    "spearman_leave_one_model_out": {
+      "phi": 0.48571428571428577,
+      "qwen": 0.49999999999999994,
+      "qwen7b": 0.3571428571428572
+    }
+  },
+  "pooled": {
+    "n": 27,
+    "spearman_full": -0.19104404440303108,
+    "spearman_headroom_normalized": -0.1598656563564564
+  }
+}

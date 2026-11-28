@@ -1,8 +1,8 @@
 # Notebooks
 
-Kaggle notebooks for every GPU step of the program. My laptop has no GPU, so model inference and training run here; analysis runs locally.
+Kaggle notebooks for every GPU step of the program. My laptop has no GPU, so model inference and training ran here; analysis runs locally. The program closed on November 28, 2026, so no further notebooks are planned.
 
-## Current Notebook
+## Latest Notebook
 
 `tcl_phase4a_kaggle.ipynb` is the latest notebook (Phase 4a, Qwen2.5-7B in float16 on GPU T4 x2): set `TASKS` (any of `pool`, `popqa`, `grounding`, `relabel`) and `TAG`; `LIMIT = 50` with `ONLY_SPLITS = "test"` is the smoke test. `tcl_phase3_popqa_kaggle.ipynb` ran Phase 3 PopQA inference. Set `MODEL_TAG` to `qwen` or `phi`; `N_QUESTIONS = 1500` runs batch 1, and 3000 or 4500 add batches only if the size rule needs them. `tcl_phase2_kaggle_runs.ipynb` covers Phases 2 and 2b (both complete). Set `TRAIN_DATASET` to `triviaqa` or `squad` and `PART` to `"1"`, `"2"`, `"3"`, or a list such as `"2,3"` (parts 2 and 3 need `LAMBDA` from part 1). `LM_TARGET = "reference"` reproduces Phase 2; `"reference_eot"` with `ARMS = "C,D"` reproduces Phase 2b. Run on Kaggle with GPU T4 x2 and Internet on, and download the zip each session writes to `/kaggle/working/`. `tcl_phase1_kaggle_runs.ipynb` produced the Phase 1 records; the other notebooks belong to the archived TCL-v0 work.
 

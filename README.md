@@ -1,13 +1,13 @@
 # Truth Calibration Layer (TCL)
 
-![Status](https://img.shields.io/badge/status-Phase%202%20%2B%202b%20done%20%C2%B7%20H3%20fails-334155)
+![Status](https://img.shields.io/badge/status-program%20closed%20%C2%B7%20final%20paper%20in%20preparation-334155)
 ![Scope](https://img.shields.io/badge/scope-trust%20estimation%20for%20LLMs-0f766e)
 ![Release](https://img.shields.io/github/v/release/awabmoha/truth-calibration-layer?label=release)
 ![License](https://img.shields.io/badge/license-MIT%20code%20%C2%B7%20CC%20BY%204.0%20docs-475569)
 
 Language models say wrong things with the same fluency as right things. **TCL is my research program to make a model emit, alongside each answer, a calibrated estimate of how much that answer can be trusted, and to have that ability learned inside the model rather than bolted on afterwards.**
 
-My first core claim was that training a small trust head *jointly* with the language model (`L_LM + lambda * L_trust`) produces trust estimates that transfer to new data better than a probe on a frozen model. I tested it in Phase 2 under rules fixed in advance, and it failed, twice. The program now targets the obstacle every phase has hit: **learned trust estimates that hold up on data they were not trained on.** The research runs in phases, each with predeclared hypotheses, locked protocols, and pass/fail rules written before any results are seen.
+I ran it in phases, each with predeclared hypotheses, locked protocols, and pass/fail rules written before any results were seen. **The program is closed (November 28, 2026), and its answer is negative:** on short-answer QA, from 0.5B to 7B parameters, learned hidden-state trust signals (frozen probes, jointly trained heads, mixture-trained heads, and two extra trust dimensions) add little or nothing beyond the model's own answer probability on data they were not trained on. Apart from Phase 1's in-distribution result, every preregistered test failed, every failure is reported here, and the whole program is being written up as one paper ([docs/final/](docs/final/)).
 
 ## Where the Research Stands
 
@@ -133,16 +133,20 @@ Phase 1 also caught problems in the earlier TCL-v0 records: test sets too small 
 
 ## What I Claim and What I Do Not
 
-**Supported by current evidence:**
-- Frozen hidden states contain answer-correctness signal beyond calibrated token confidence, for some models and datasets, under the tested QA settings.
-- That signal does not reliably transfer across datasets.
-- A one-pass probe can approach the ranking quality of sampling-based semantic entropy at a fraction of the cost.
-- Training a trust head jointly with a 0.5B model improves in-distribution trust ranking over a trust-only fine-tuned head by about 0.01 AUROC on TriviaQA and SQuAD, but not over LM-only fine-tuning.
+**Supported by the evidence (short-answer QA, 0.5B-7B):**
+- Frozen hidden states carry answer-correctness signal beyond token confidence for some models and datasets, in distribution; it is large only where token confidence is poor (Gemma-2B).
+- No learned correctness head beats the model's answer probability on a held-out dataset, including a head trained on a mixture of datasets and given that probability as an input (1 of 6 pairs at 0.5B and 3.8B, 0 of 3 at 7B).
+- Joint LM + trust training improves the head in distribution but not on a new dataset, in two preregistered runs.
+- A one-pass self-consistency head, combined with answer probability, matches or beats 10-sample semantic entropy on several held-out pairs, but its selective-prediction gain is small and passed the preregistered rule at no model size.
+- A one-pass grounding head mostly detects answers given from an irrelevant passage, which a 7B model avoids by abstaining; NLI grounding labels are noisy enough to change the verdict.
+- The choice of token-probability baseline matters: against first-token probability the learned head wins on 4 of 9 held-out pairs, against the answer-span or minimum-token probability on at most 1 (exploratory).
 
 **Not claimed:**
 - That joint training produces trust estimates that transfer across datasets. Phase 2 and its preregistered rerun (2b) tested this and it failed both times; the claim is dropped.
+- That trust is multi-dimensional in a way learned heads can exploit: self-consistency and grounding both failed at 0.5B, 3.8B, and 7B.
+- That these findings are new phenomena: the literature review ([docs/final/](docs/final/)) finds each of them partly reported before; what this program adds is a strict, preregistered, held-out-dataset test.
 - That TCL makes models truthful, solves hallucination, or verifies open-ended factuality.
-- That results generalize beyond the tested models (0.5B-3.8B) and short-answer QA.
+- That results generalize beyond the tested models (0.5B-7B) and short-answer QA.
 - That trust scores are ready for deployment decisions.
 
 ## Repository Map
@@ -150,12 +154,12 @@ Phase 1 also caught problems in the earlier TCL-v0 records: test sets too small 
 | Path | What it holds |
 |---|---|
 | [TCL-Research-Program.md](TCL-Research-Program.md) | Master plan: hypotheses, locked evaluation protocol, phases, gates, change log |
-| [paper/](paper/) | The Phase 2 negative-result paper (ACL format), [theory paper v2](paper/TCL-Theory-Paper-v2.md), theory paper v1, and the archived TCL-v0 empirical note |
+| [paper/](paper/) | The Phase 2 negative-result paper (ACL format), [theory paper v2](paper/TCL-Theory-Paper-v2.md), theory paper v1, and the archived TCL-v0 empirical note (the final paper will go here) |
 | [docs/phase1/](docs/phase1/) | Phase 1 protocols (locked before evaluation), checkpoints with all results, and the label audit |
 | [docs/phase2/](docs/phase2/) | Phase 2 labeling rule v3, the locked Phase 2 and 2b protocols, and both results checkpoints |
 | [docs/phase3/](docs/phase3/) | The locked Phase 3 protocols and their checkpoints |
 | [docs/phase4/](docs/phase4/) | The locked Phase 4a protocol and its checkpoint |
-| [docs/final/](docs/final/) | The program synthesis, the literature review (with its research notes), and the final paper outline |
+| [docs/final/](docs/final/) | The program synthesis, the final reporting analyses, the literature review (with its research notes), and the final paper outline |
 | [docs/archive/tcl-v0/](docs/archive/tcl-v0/) | June 2026 TCL-v0 notes, runbooks, and run logs, kept for history |
 | [tcl_experiments/](tcl_experiments/) | Code, question sets with fixed splits, run records, and analysis outputs |
 | [notebooks/](notebooks/) | Kaggle notebooks for GPU runs |
@@ -200,6 +204,15 @@ python tcl_experiments/scripts/run_phase2_analysis.py --in-dir tcl_experiments/r
 
 Every run's scores, regenerated answers, and metrics are committed, so the analysis can be rerun without a GPU.
 
+## Reproducing Phases 3 and 4a
+
+Every Phase 3 and 4a analysis runs on a CPU from committed records, except that the hidden-state arrays (`*.npz`) are not committed; regenerate them with the pinned Kaggle notebooks ([notebooks/](notebooks/)). The step-by-step pipelines, with every script, are in [tcl_experiments/README.md](tcl_experiments/README.md). The final reporting analyses (minimum detectable effects, the corrected weak-confidence pattern, baseline choice) need only committed files:
+
+```bash
+python tcl_experiments/scripts/phase4a_ungated.py
+python tcl_experiments/scripts/final_analyses.py
+```
+
 ## Figures
 
 ```bash
@@ -212,7 +225,7 @@ python assets/make_phase2_figure.py
 
 - **Every experiment maps to a hypothesis** in the research program, with a metric, baselines, and a pass/fail rule fixed in advance.
 - **Protocols and analysis code are committed before results exist.** Later changes are logged as amendments with the reason and the evidence that forced them.
-- **Negative results are reported in full.** Phase 1's local H1 and H2 failures stay on record next to the corrected replication, and Phase 2's failed core claim is written up as a paper.
+- **Negative results are reported in full.** Phase 1's local H1 and H2 failures stay on record next to the corrected replication, Phase 2's failed core claim is written up as a paper, and the whole program, which ended without a passing transfer test, is being written up as one paper.
 - **Papers use the ACL format** (official ACL LaTeX style).
 - **Primary metrics are ranking-based** (AUROC, AURC), with calibration (ECE, Brier) measured only after giving every method the same post-hoc calibration, so that a method cannot win just by being recalibrated.
 

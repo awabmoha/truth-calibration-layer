@@ -19,7 +19,8 @@ The literature review settles what this paper is: **a preregistered, held-out-da
 2. **A controlled joint-training null:** LM + trust LoRA, trust-only LoRA, LM-only LoRA, and a frozen head, in a four-arm design run twice. In-distribution gains, no transfer gain; plain LM fine-tuning explains the one positive direction. Must be reconciled with Kapoor et al. (2024).
 3. **A preregistered cross-dataset test of one-pass self-consistency** (cf. SEPs, CoCoA Light): it matches or beats 10-sample semantic entropy when combined with answer probability, but passes a preregistered selective-prediction bar on only some pairs, and its gain shrinks from 0.5B to 7B within Qwen.
 4. **Grounding diagnostics:** the head's gain comes from irrelevant-passage answers (split by passage type), a case a 7B model removes by abstaining; and an NLI-label hypothesis template flips a preregistered conclusion (2 of 7 to 5 of 7 pairs, exploratory).
-5. **The weak-confidence pattern**, reported descriptively with the corrections the review asks for (Section "Analyses to add").
+5. **The baseline matters:** against the first-token probability the learned head wins on 4 of 9 held-out pairs; against the minimum token probability or the answer span, on 1 of 9 at most. This connects the program to the disagreement in the literature (exploratory; [TCL-Final-Analyses.md](TCL-Final-Analyses.md)).
+6. **The weak-confidence pattern**, as a hypothesis: Gemma (near-chance raw confidence, large probe gains) and a self-consistency correlation that survives artifact corrections but not significance.
 
 ## Section Plan
 
@@ -36,14 +37,14 @@ The literature review settles what this paper is: **a preregistered, held-out-da
 11. **Conclusion.**
 - **Appendix:** every protocol's decision table, amendments, label audits, per-seed results, compute.
 
-## Analyses to Add Before Drafting (Reporting Only, No New Tests)
+## Analyses Added Before Drafting (Reporting Only, No New Tests)
 
-These use saved scores only. They are reported as exploratory and change no recorded decision.
+**Done November 28, 2026:** [TCL-Final-Analyses.md](TCL-Final-Analyses.md) (`scripts/final_analyses.py`). They use saved scores only, are exploratory, and change no recorded decision.
 
-1. **Minimum detectable effect** for each preregistered test, from the bootstrap CIs, so each null says how large a gain it rules out. The weakest is Phase 2 (2 training datasets x 3 seeds).
+1. **Minimum detectable effect** for each preregistered test, from the bootstrap CIs, so each null says how large a gain it rules out. (Result: Phase 2 is not the weakest; H4-T MDEs are 0.03-0.06 AUROC.)
 2. **Weak-confidence correlation, corrected:** a headroom-normalized gain (gain / (1 - raw AUROC)), split-sample estimation (raw AUROC and gain from disjoint halves of the test items) to remove the shared-noise artifact, and a bootstrap clustered by model and dataset.
 3. **Paired CIs for the 7B H4-T losses** (already computed in `runs/phase4a_h4t_analysis/details.json`; to be tabulated).
-4. **Optional, if cheap:** a first-token-probability baseline next to the answer-span baseline, to show how much the baseline choice matters for the probe-vs-logit gap.
+4. **Baseline choice:** first-token and minimum-token probabilities next to the answer-span baseline. (Result: the most useful new diagnostic; see contribution 5.)
 
 ## Checks Before Submission (From the Review)
 

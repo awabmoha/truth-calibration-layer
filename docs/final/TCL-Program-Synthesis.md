@@ -36,7 +36,7 @@ Every test of transfer to a dataset the head did not see failed against calibrat
 - **Phase 3 (mixture training plus raw confidence as an input):** the head beats raw confidence on 1 of 6 pairs, is significantly worse on 3.
 - **Phase 4a (7B):** adding hidden states to raw confidence lowers AUROC on all 3 pairs (by 0.004-0.022).
 
-Mixture training does help relative to single-dataset heads (Phase 3, every pair), so the failure is not a training bug; it is that raw confidence is a strong, free baseline that most published probe comparisons do not calibrate or do not test out of distribution.
+Mixture training does help relative to single-dataset heads (Phase 3, every pair), so the failure is not a training bug; it is that raw confidence is a strong, free baseline. It is not even the strongest free one: the minimum token probability beats the answer-span probability on 4 of 9 H4-T pairs, and against the best of three token-probability baselines the learned head wins on 1 of 9 pairs, by 0.012 ([TCL-Final-Analyses.md](TCL-Final-Analyses.md), Section 3). Against the first-token probability, a common baseline in the literature, it wins on 4 of 9: the choice of baseline changes the verdict.
 
 ### 3.2 Learned signals help where raw confidence is weak
 
@@ -49,7 +49,7 @@ The clearest wins in the program sit where the model's raw confidence was poor:
 | Qwen 0.5B on PopQA, Phase 3 | 0.828 | +0.079 |
 | Qwen 7B on PopQA, Phase 4a | 0.865 | -0.022 |
 
-Gemma is the only model whose frozen probe transferred, and it is the model whose raw token confidence was close to chance. Across the 27 eligible Phase 3 and 4a pairs, the correlation between raw-confidence AUROC and a head's gain is negative for the correctness head (Spearman -0.43) and the consistency head (-0.60), as this predicts. For grounding it is positive (+0.63), for a different reason (Section 3.4). These correlations are descriptive and decided nothing.
+Gemma is the only model whose frozen probe transferred, and it is the model whose raw token confidence was close to chance. Across the 27 eligible Phase 3 and 4a pairs, the correlation between raw-confidence AUROC and a head's gain is negative for the correctness head (Spearman -0.43) and the consistency head (-0.60), as this predicts. For grounding it is positive (+0.63), for a different reason (Section 3.4). These correlations are descriptive and decided nothing, and after correcting for their built-in artifacts ([TCL-Final-Analyses.md](TCL-Final-Analyses.md), Section 2) only the self-consistency correlation holds up (-0.48 to -0.71), with a CI over 9 pairs that still includes zero. Gemma is the clearest evidence; the correlation is a hypothesis.
 
 ### 3.3 Joint training buys in-distribution accuracy, not transfer
 

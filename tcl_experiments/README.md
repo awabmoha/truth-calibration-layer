@@ -43,6 +43,7 @@ The GPU step is driven by [../notebooks/tcl_phase1_kaggle_runs.ipynb](../noteboo
 | The three label audits (seeds 2040-2042) | `scripts/draw_phase4a_audits.py` | CPU |
 | Scoring and decisions: the Phase 3 scripts with `--runs runs/phase4a --models qwen7b` | `run_phase3_heads.py score`, `run_phase3_analysis.py`, `run_phase3_h4.py`, `run_phase3_h4_analysis.py`, `run_phase3_h4_grounding.py`, `run_phase3_h4_grounding_analysis.py` | CPU |
 | Scale comparison and weak-confidence pattern (ungated) | `scripts/phase4a_ungated.py` | CPU |
+| Final reporting analyses after closing the program: minimum detectable effects, corrected weak-confidence pattern, baseline choice | `scripts/final_analyses.py` | CPU |
 
 ## Phase 2 and 2b Pipeline
 
@@ -82,6 +83,7 @@ The GPU steps are driven by [../notebooks/tcl_phase2_kaggle_runs.ipynb](../noteb
 | `runs/phase4a_audit/` | The three Phase 4a label audits with my labels |
 | `runs/phase4a_h4t*/`, `runs/phase4a_h4c*/`, `runs/phase4a_h4g*/` | Phase 4a scores, decisions, and details for H4-T, self-consistency, and grounding, with run logs |
 | `runs/phase4a_relabel_h4g*/`, `runs/phase4a_ungated/` | Ungated: the Phase 3 grounding analysis with the fixed label; scale comparison and weak-confidence pattern |
+| `runs/final_analyses/` | Minimum detectable effects (`mde.csv`), the corrected weak-confidence pattern, and the baseline-choice table |
 | `runs/phase2/`, `runs/phase2b/` | Phase 2 and 2b trainings: per arm and seed, test scores on fixed answers, regenerated answers, metrics (with optimizer step counts), training log |
 | `runs/phase2_analysis/`, `runs/phase2b_analysis/` | Phase 2 and 2b decisions, details with every CI, per-arm metrics, run log, and the Phase 2 label audit |
 | `runs/phase2b_audit/` | The Phase 2b label audit (100 regenerated answers) |
