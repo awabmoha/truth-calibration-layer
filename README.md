@@ -18,10 +18,12 @@ My first core claim was that training a small trust head *jointly* with the lang
 | 2. Core test (H3) | Does joint training beat a frozen head trained on the same data? | **Done**: H3 fails, twice. Joint training does not transfer; the claim is dropped ([Phase 2](docs/phase2/TCL-Phase2-Checkpoint.md), [Phase 2b](docs/phase2/TCL-Phase2b-Checkpoint.md)) |
 | 3. Transfer + trust vector (H4-T, H4) | Can a head trained on several datasets beat raw confidence on a new one? Are further trust dimensions learnable and non-redundant there? | **H4-T fails:** the head beats raw confidence on 1 of 6 held-out pairs; TCL's correctness dimension becomes calibrated raw confidence ([checkpoint](docs/phase3/TCL-Phase3-Checkpoint.md)). **H4 (self-consistency) fails by one pair:** learnable from one pass everywhere, adds to raw confidence on 3 of 6 ([checkpoint](docs/phase3/TCL-Phase3-H4-Consistency-Checkpoint.md)). **H4 (grounding) fails:** learnable, but adds to raw confidence on 2 of 7 pairs ([checkpoint](docs/phase3/TCL-Phase3-H4-Grounding-Checkpoint.md)). Trust is one-dimensional at this scale; Phase 4 re-tests |
 | 4a. Phase 3 tests at 7B | Do the Phase 3 tests pass on Qwen2.5-7B? | **Fails:** no learned head beats raw confidence (0 of 3 pairs); self-consistency adds to it on 2 of 3 but misses on PopQA; grounding not testable. Trust is one-dimensional from 0.5B to 7B on QA ([checkpoint](docs/phase4/TCL-Phase4a-Checkpoint.md)) |
-| 4b. Generalization (H5) | Math (GSM8K) and joint training at 7B | Scoped at the Phase 4b gate, after 4a |
-| 5. Claim level (H6) | Can trust be estimated per claim in long-form text? | Planned |
+| 4b. Generalization (H5) | Math (GSM8K) and joint training at 7B | **Not run:** the program closed at this gate |
+| 5. Claim level (H6) | Can trust be estimated per claim in long-form text? | **Not started** |
 
 The full plan, hypotheses, decision gates, and change log are in [TCL-Research-Program.md](TCL-Research-Program.md).
+
+**The program is closed (November 28, 2026).** Apart from Phase 1's in-distribution result, every preregistered test failed, in one consistent pattern: on short-answer QA from 0.5B to 7B, learned hidden-state trust signals add little or nothing beyond the model's own answer probability on new data, and what they add appears where that confidence is weak. I am writing the whole program up as one paper. The cross-phase synthesis, the literature review that fixes which findings are new, and the paper outline are in [docs/final/](docs/final/).
 
 ## How the Project Got Here
 
@@ -153,6 +155,7 @@ Phase 1 also caught problems in the earlier TCL-v0 records: test sets too small 
 | [docs/phase2/](docs/phase2/) | Phase 2 labeling rule v3, the locked Phase 2 and 2b protocols, and both results checkpoints |
 | [docs/phase3/](docs/phase3/) | The locked Phase 3 protocols and their checkpoints |
 | [docs/phase4/](docs/phase4/) | The locked Phase 4a protocol and its checkpoint |
+| [docs/final/](docs/final/) | The program synthesis, the literature review (with its research notes), and the final paper outline |
 | [docs/archive/tcl-v0/](docs/archive/tcl-v0/) | June 2026 TCL-v0 notes, runbooks, and run logs, kept for history |
 | [tcl_experiments/](tcl_experiments/) | Code, question sets with fixed splits, run records, and analysis outputs |
 | [notebooks/](notebooks/) | Kaggle notebooks for GPU runs |

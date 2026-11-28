@@ -34,6 +34,8 @@ Every phase below exists to test one of these. Phase 1 showed that frozen probes
 
 **Status after Phase 4a (November 28, 2026):** claims 2 and 3 are not supported at 7B either. On Qwen2.5-7B no learned correctness head beats calibrated raw confidence (0 of 3 pairs), self-consistency adds to it on 2 of 3 pairs but misses on the PopQA pair by a CI bound of -0.0003, and grounding is not testable (the model abstains on 1,996 of 2,000 irrelevant passages and rarely answers wrongly otherwise). As fixed in the Phase 4a protocol, trust is effectively one-dimensional from 0.5B to 7B on QA, and I drop the multi-dimensional claim for this program's scale. The plan is revised at the Phase 4b gate before any 4b work.
 
+**Program closed (November 28, 2026), at the Phase 4b gate.** I end the experimental program here. Apart from Phase 1's in-distribution result (H1-R passed, exactly at its threshold), every preregistered test failed, including every test of transfer to a new dataset, and the failures point the same way: under a fair comparison, learned hidden-state trust signals add little or nothing beyond calibrated raw confidence from 0.5B to 7B on QA, and what they add appears where confidence is weak and shrinks with scale. Phase 4b would need paid GPU time to test the hypothesis with the weakest support left, so I do not run it, and Phase 5 is not started. Under Section 11, item 3, I write the whole program up as one paper.
+
 ## 3. Theory Issues I Must Resolve First
 
 Status: resolved in `paper/TCL-Theory-Paper-v2.md` (October 2026). Phase 0 gate met: Section 8 of the paper gives every hypothesis a metric, a baseline list, and a pass/fail threshold (recorded November 20, 2026).
@@ -196,12 +198,14 @@ Revised November 24, 2026, after Phase 3 (see changelog): Phase 3 left no learne
 - **Compute:** likely paid GPU for the 7B training (estimate in Section 10).
 - **Scope is decided after 4a:** if 4a passes, 4b tests whether the result holds on GSM8K; if it fails, I revise this plan at that gate before any 4b work.
 - **Deliverable:** the full TCL paper (conference submission target), under the publication track in Section 11.
+- **Status (November 28, 2026): not run.** The program closed at this gate (see Section 2 and the changelog).
 
 ### Phase 5: Claim-Level Trust (Long Horizon)
 
 - **Goal:** test H6, the claim-extraction vision from my original paper.
 - **Work:** long-form biographies with FActScore-style atomic-claim labels; per-claim trust from token-span hidden states.
 - **Deliverable:** TCL as a claim-level reliability layer for long-form generation.
+- **Status (November 28, 2026): not started.** The program closed at the Phase 4b gate.
 
 ## 8. Decision Gates And Pivots
 
@@ -247,11 +251,13 @@ Revised November 22, 2026. I no longer write a separate paper for each phase.
 1. **Already public:** the Phase 2 and 2b negative result as a preprint on Zenodo (DOI 10.5281/zenodo.24403374), and every phase's protocol, checkpoint, code, and records in this repository.
 2. **One cumulative paper at the first positive result.** If H4 passes, I write up Phases 1-3 together; if not, the next phase that succeeds (4, then 5) is written up with every earlier phase. Earlier negative results are always included, as the evidence that motivates the positive one.
 3. **If no phase succeeds,** I publish the whole program as one negative-result paper.
+4. **Applied November 28, 2026:** no phase succeeded and the program is closed, so item 3 applies. The paper covers Phases 1-4a with every result, preprint on arXiv and submission to TMLR (free to publish, indexed in Scopus). Before drafting, a literature review fixes which findings are new (`docs/final/`).
 
 ## Changelog
 
 | Date | Change | Reason |
 |---|---|---|
+| 2026-11-28 | **Program closed at the Phase 4b gate.** No more experiments: Phase 4b (GSM8K, joint training at 7B, paid GPU) and Phase 5 are not run. Section 11, item 3 applies: one paper covering Phases 1-4a. | Every preregistered test after Phase 1's in-distribution H1-R failed (Phases 1-4a), in a consistent pattern: calibrated raw confidence is not beaten from 0.5B to 7B, and the remaining gains shrink with scale. Phase 4b tests the hypothesis with the weakest support left and would need paid GPU time. |
 | 2026-11-28 | **Phase 4a run and closed** (`docs/phase4/TCL-Phase4a-Checkpoint.md`): H4-T and H4 fail at 7B (self-consistency 2 of 3 pairs without PopQA; grounding not testable). One amendment before any metric: the grounding audit takes the 4 answered distractor rows and 46 gold rows. | Protocol Section 8, row "Both fail (or are not testable)": the multi-dimensional claim is dropped for this program's scale, and Phase 4b is scoped at its gate. |
 | 2026-11-24 | **Plan revised after Phase 3** (phase gate) and **Phase 4a protocol locked** (`docs/phase4/TCL-Phase4a-Protocol.md`) before any Phase 4a code or 7B output. Phase 4 split: **4a** re-runs Phase 3's H4-T, H4 self-consistency, and H4 grounding tests unchanged on Qwen2.5-7B-Instruct (float16, two T4s, inference only, about 20-25 free Kaggle hours); **4b** (GSM8K, joint training at 7B) is scoped after 4a. H5 reworded: there is no "best method from Phases 2-3" to carry forward. One fix chosen before any 7B data: the grounding label, selected among three NLI candidates on the Phase 3 audit set. A test passes on a majority of its eligible 7B pairs, including its new-dataset pair; H4 at 7B passes if either dimension passes. | Section 8 row "H4 fails for all dimensions": re-test at larger scale before dropping multi-dimensionality. Phase 3's gains appeared where raw confidence was weak, so a pass at 7B is not expected; the test is run as preregistered either way. |
 | 2026-11-24 | **H4 (grounding) analysis run once** (`docs/phase3/TCL-Phase3-H4-Grounding-Checkpoint.md`): **fails**. 2 of 7 eligible pairs pass (Qwen / SQuAD, Qwen / NQ); 4 were needed, including Qwen / RelationExtraction, which fails. Phi / RelationExtraction was dropped by the size rule (125 incorrect). Learnability (6 of 7 at or above 0.70) and non-redundancy (Spearman 0.11-0.61) mostly hold; the AURC gain fails on 5 of 7. By the ungated AUROC the combination beats raw confidence on 5 of 7, but only through distractor rows: among answers from the right passage it adds nothing. Label audit: the NLI grounding label is wrong on 23 of 100 answers (mostly supported short answers rejected), rule v3 on 11 of 100. **H4 has failed for every testable dimension**; per Section 8, trust is effectively one-dimensional at this scale and Phase 4 re-tests at larger scale. | The single preregistered grounding run. Under the publication plan, Phases 1-3 wait for the first successful phase. |

@@ -49,6 +49,14 @@ Documents in the order they were written. Each protocol was committed before the
 | [TCL-Phase4a-Protocol.md](phase4/TCL-Phase4a-Protocol.md) | Locked protocol for Phase 4a: Phase 3's three tests (H4-T, self-consistency, grounding) re-run unchanged on Qwen2.5-7B, with one grounding-label fix chosen before any 7B data |
 | [TCL-Phase4a-Checkpoint.md](phase4/TCL-Phase4a-Checkpoint.md) | Results: H4-T fails (0 of 3); self-consistency passes 2 of 3 but not PopQA; grounding not testable (the 7B model refuses irrelevant passages); scale comparison and the Phase 3 grounding rerun with the fixed label |
 
+## Final (program closed November 28, 2026)
+
+| Document | Role |
+|---|---|
+| [TCL-Program-Synthesis.md](final/TCL-Program-Synthesis.md) | Every preregistered test in one place and the five findings that hold across phases |
+| [TCL novelty literature review](final/reports/TCL%20novelty%20literature%20review.md) | Which findings are already known and which are new, with closest prior work, reviewer risks, and verified references; research notes in [final/research_notes/](final/research_notes/) |
+| [TCL-Paper-Outline.md](final/TCL-Paper-Outline.md) | Positioning, contributions, section plan, and the checks to do before submission |
+
 ## Archive
 
 [archive/tcl-v0/](archive/tcl-v0/) holds the June 2026 TCL-v0 work: experiment plans, evidence reports, runbooks, and Kaggle run logs. Each file carries an "Archived" note. Their conclusions are superseded by Phase 1, which re-tested them on larger, corrected data.
