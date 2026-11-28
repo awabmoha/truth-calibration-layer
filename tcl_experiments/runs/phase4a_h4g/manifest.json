@@ -1,0 +1,62 @@
+{
+  "created_at": "2026-11-28T10:12:03.950487+00:00",
+  "protocol": "docs/phase3/TCL-Phase3-H4-Grounding-Protocol.md",
+  "setting": {
+    "head": "mlp",
+    "reg": 1.0,
+    "weighting": "equal"
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "pairs": [
+    {
+      "model": "qwen7b",
+      "held_out": "squad",
+      "answers": 1500,
+      "abstentions": 525,
+      "correct": 908,
+      "incorrect": 67,
+      "grounded": 747,
+      "not_grounded": 228,
+      "eligible": false
+    },
+    {
+      "model": "qwen7b",
+      "held_out": "nq",
+      "answers": 1500,
+      "abstentions": 654,
+      "correct": 620,
+      "incorrect": 226,
+      "grounded": 483,
+      "not_grounded": 363,
+      "eligible": true
+    },
+    {
+      "model": "qwen7b",
+      "held_out": "hotpotqa",
+      "answers": 1500,
+      "abstentions": 604,
+      "correct": 663,
+      "incorrect": 233,
+      "grounded": 741,
+      "not_grounded": 155,
+      "eligible": true
+    },
+    {
+      "model": "qwen7b",
+      "held_out": "relation_extraction",
+      "answers": 1500,
+      "abstentions": 585,
+      "correct": 840,
+      "incorrect": 75,
+      "grounded": 632,
+      "not_grounded": 283,
+      "eligible": false
+    }
+  ]
+}

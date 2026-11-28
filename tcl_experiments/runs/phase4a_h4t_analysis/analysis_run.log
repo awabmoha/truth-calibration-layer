@@ -1,0 +1,27 @@
+qwen7b/triviaqa    d(MR,R) -0.021 [-0.042, +0.000]
+qwen7b/nq_open     d(MR,R) -0.004 [-0.035, +0.027]
+qwen7b/popqa       d(MR,R) -0.022 [-0.045, +0.005]
+{
+  "created_at": "2026-11-28T10:07:18.758616+00:00",
+  "protocol": "docs/phase3/TCL-Phase3-Protocol.md",
+  "chosen_setting": {
+    "head": "mlp",
+    "reg": 1.0,
+    "weighting": "equal"
+  },
+  "eligible_pairs": [
+    "qwen7b/triviaqa",
+    "qwen7b/nq_open",
+    "qwen7b/popqa"
+  ],
+  "ineligible_pairs": [
+    "qwen7b/squad"
+  ],
+  "pairs_with_d(MR,R)_ci_above_zero": [],
+  "needed": 2,
+  "includes_popqa_pair": false,
+  "H4-T": {
+    "passes": false,
+    "rule": "d(MR,R) CI lower bound > 0 on a majority of eligible pairs, including at least one PopQA pair"
+  }
+}

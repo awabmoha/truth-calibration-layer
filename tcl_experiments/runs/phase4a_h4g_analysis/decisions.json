@@ -1,0 +1,19 @@
+{
+  "created_at": "2026-11-28T10:14:57.900812+00:00",
+  "protocol": "docs/phase3/TCL-Phase3-H4-Grounding-Protocol.md",
+  "eligible_pairs": [
+    "qwen7b/nq",
+    "qwen7b/hotpotqa"
+  ],
+  "ineligible_pairs": [
+    "qwen7b/squad",
+    "qwen7b/relation_extraction"
+  ],
+  "pairs_passing": [],
+  "needed": 2,
+  "includes_new_dataset_pair": false,
+  "H4_grounding": {
+    "passes": false,
+    "rule": "per pair: G-hat AUROC >= 0.70, Spearman with raw < 0.7, d_AURC CI lower bound > 0; majority of eligible pairs, including the new-dataset pair of at least one model"
+  }
+}

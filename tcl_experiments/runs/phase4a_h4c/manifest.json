@@ -1,0 +1,55 @@
+{
+  "created_at": "2026-11-28T10:07:21.616859+00:00",
+  "protocol": "docs/phase3/TCL-Phase3-H4-Consistency-Protocol.md",
+  "setting": {
+    "head": "mlp",
+    "reg": 1.0,
+    "weighting": "equal"
+  },
+  "cons_threshold": 0.5,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "pairs": [
+    {
+      "model": "qwen7b",
+      "held_out": "triviaqa",
+      "correct": 836,
+      "incorrect": 664,
+      "consistent": 1080,
+      "inconsistent": 420,
+      "eligible": true
+    },
+    {
+      "model": "qwen7b",
+      "held_out": "squad",
+      "correct": 1414,
+      "incorrect": 86,
+      "consistent": 1470,
+      "inconsistent": 30,
+      "eligible": false
+    },
+    {
+      "model": "qwen7b",
+      "held_out": "nq_open",
+      "correct": 344,
+      "incorrect": 1156,
+      "consistent": 807,
+      "inconsistent": 693,
+      "eligible": true
+    },
+    {
+      "model": "qwen7b",
+      "held_out": "popqa",
+      "correct": 275,
+      "incorrect": 1225,
+      "consistent": 554,
+      "inconsistent": 946,
+      "eligible": true
+    }
+  ]
+}
