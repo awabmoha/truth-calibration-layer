@@ -16,7 +16,7 @@
 \newcommand{\Ltrust}{\mathcal{L}_{\text{trust}}}
 \newcommand{\LLM}{\mathcal{L}_{\text{LM}}}
 
-\title{Token Confidence Is Hard to Beat: A Preregistered Study of\\Learned Trust Heads for Language Model Question Answering}
+\title{Token Confidence Is Hard to Beat:\\A Preregistered Study of Learned Trust Heads\\for Language Model Question Answering}
 
 \author{\name Awab Mohamed \\
   \addr Independent researcher, Qatar\\
@@ -67,7 +67,7 @@ The program ran in phases, each with hypotheses, arms, metrics, a size rule, and
 \begin{table}[t]
 \centering
 \small
-\begin{tabular}{@{}llll@{}}
+\begin{tabular}{@{}l p{2.6cm} p{6.2cm} p{3.9cm}@{}}
 \toprule
 Phase & Hypothesis & Test & Result \\
 \midrule
@@ -165,21 +165,21 @@ The consistency head was learnable on every held-out pair (AUROC 0.73--0.95) and
 \small
 \begin{tabular}{@{}lllll@{}}
 \toprule
- & \multicolumn{2}{c}{Self-consistency (R + C-hat)} & \multicolumn{2}{c}{Grounding (R + G-hat)} \
-Model & Held out & AURC gain [95\% CI] & Held out & AURC gain [95\% CI] \
+ & \multicolumn{2}{c}{Self-consistency (R + C-hat)} & \multicolumn{2}{c}{Grounding (R + G-hat)} \\
+Model & Held out & AURC gain [95\% CI] & Held out & AURC gain [95\% CI] \\
 \midrule
-\multirow{4}{*}{Qwen 0.5B} & TriviaQA & \textbf{+0.021} [+0.010, +0.034] & SQuAD & \textbf{+0.009} [+0.001, +0.017] \
- & SQuAD & +0.003 [$-$0.001, +0.008] & NQ & \textbf{+0.014} [+0.004, +0.024] \
- & PopQA & \textbf{+0.020} [+0.015, +0.026] & HotpotQA & +0.009 [$-$0.000, +0.019] \
- & & & RelationExt. & +0.004 [$-$0.002, +0.010] \
+\multirow{4}{*}{Qwen 0.5B} & TriviaQA & \textbf{+0.021} [+0.010, +0.034] & SQuAD & \textbf{+0.009} [+0.001, +0.017] \\
+ & SQuAD & +0.003 [$-$0.001, +0.008] & NQ & \textbf{+0.014} [+0.004, +0.024] \\
+ & PopQA & \textbf{+0.020} [+0.015, +0.026] & HotpotQA & +0.009 [$-$0.000, +0.019] \\
+ & & & RelationExt. & +0.004 [$-$0.002, +0.010] \\
 \midrule
-\multirow{3}{*}{Phi 3.8B} & TriviaQA & $-$0.008 [$-$0.018, +0.001] & SQuAD & +0.004 [$-$0.001, +0.010] \
- & NQ-Open & \textbf{+0.016} [+0.007, +0.026] & NQ & $-$0.011 [$-$0.026, +0.000] \
- & PopQA & +0.003 [$-$0.006, +0.011] & HotpotQA & +0.001 [$-$0.011, +0.014] \
+\multirow{3}{*}{Phi 3.8B} & TriviaQA & $-$0.008 [$-$0.018, +0.001] & SQuAD & +0.004 [$-$0.001, +0.010] \\
+ & NQ-Open & \textbf{+0.016} [+0.007, +0.026] & NQ & $-$0.011 [$-$0.026, +0.000] \\
+ & PopQA & +0.003 [$-$0.006, +0.011] & HotpotQA & +0.001 [$-$0.011, +0.014] \\
 \midrule
-\multirow{3}{*}{Qwen 7B} & TriviaQA & \textbf{+0.009} [+0.001, +0.017] & NQ & $-$0.010 [$-$0.015, +0.000] \
- & NQ-Open & \textbf{+0.020} [+0.011, +0.029] & HotpotQA & $-$0.012 [$-$0.020, $-$0.003] \
- & PopQA & +0.007 [$-$0.000, +0.015] & & \
+\multirow{3}{*}{Qwen 7B} & TriviaQA & \textbf{+0.009} [+0.001, +0.017] & NQ & $-$0.010 [$-$0.015, +0.000] \\
+ & NQ-Open & \textbf{+0.020} [+0.011, +0.029] & HotpotQA & $-$0.012 [$-$0.020, $-$0.003] \\
+ & PopQA & +0.007 [$-$0.000, +0.015] & & \\
 \bottomrule
 \end{tabular}
 \caption{Gain in selective-prediction risk (AURC of the token probability minus AURC of the combination; positive is better), mean of 5 seeds. Bold: CI above zero. The new datasets are PopQA (self-consistency) and RelationExtraction (grounding). Pairs failing the size rule are omitted; at 7B only NQ and HotpotQA were eligible for grounding.}
