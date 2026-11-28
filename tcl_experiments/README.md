@@ -34,6 +34,16 @@ The GPU step is driven by [../notebooks/tcl_phase1_kaggle_runs.ipynb](../noteboo
 | H4 grounding and correctness audit sample (seed 2035) | `scripts/draw_phase3_grounding_audit.py` | CPU |
 | H4 (grounding): one-pass grounding heads, combiner, scores; decision | `scripts/run_phase3_h4_grounding.py`, `scripts/run_phase3_h4_grounding_analysis.py` | CPU |
 
+## Phase 4a Pipeline
+
+| Step | Script | Runs on |
+|---|---|---|
+| Choose the grounding labeler on the Phase 3 audit set | `scripts/select_grounding_labeler.py`, driven by [../notebooks/tcl_phase4a_labeler_kaggle.ipynb](../notebooks/tcl_phase4a_labeler_kaggle.ipynb) | GPU (Kaggle) |
+| 7B inference (`--device-map auto`, float16 on two GPUs), grounding labels, Phase 3 relabel | `scripts/run_inference_v2.py`, `scripts/label_grounding.py --labeler`, driven by [../notebooks/tcl_phase4a_kaggle.ipynb](../notebooks/tcl_phase4a_kaggle.ipynb) | GPU (Kaggle) |
+| The three label audits (seeds 2040-2042) | `scripts/draw_phase4a_audits.py` | CPU |
+| Scoring and decisions: the Phase 3 scripts with `--runs runs/phase4a --models qwen7b` | `run_phase3_heads.py score`, `run_phase3_analysis.py`, `run_phase3_h4.py`, `run_phase3_h4_analysis.py`, `run_phase3_h4_grounding.py`, `run_phase3_h4_grounding_analysis.py` | CPU |
+| Scale comparison and weak-confidence pattern (ungated) | `scripts/phase4a_ungated.py` | CPU |
+
 ## Phase 2 and 2b Pipeline
 
 | Step | Script | Runs on |
@@ -68,6 +78,10 @@ The GPU steps are driven by [../notebooks/tcl_phase2_kaggle_runs.ipynb](../noteb
 | `runs/phase3b/`, `runs/phase3b_analysis/` | Phase 3b test scores per arm and seed, manifest with label counts, H4-T decision, details with every CI, run logs |
 | `runs/phase3_h4_audit/`, `runs/phase3_h4/`, `runs/phase3_h4_analysis/` | H4 self-consistency: label audit with my hand counts, test scores per arm and seed, decision and details, run logs |
 | `runs/phase3_grounding/`, `runs/phase3_h4g_audit/`, `runs/phase3_h4g/`, `runs/phase3_h4g_analysis/` | H4 grounding: answers and NLI labels per model and dataset (hidden states kept local), label audit with my labels, test scores per arm and seed, decision and details, run logs |
+| `runs/phase4a/` | Phase 4a 7B answers and labels (`phase1_kaggle/`, `phase3_popqa/`, `phase3_grounding/` under `qwen7b/`; hidden states local only), the Phase 3 answers relabeled (`phase3_relabel/`), and the labeler selection |
+| `runs/phase4a_audit/` | The three Phase 4a label audits with my labels |
+| `runs/phase4a_h4t*/`, `runs/phase4a_h4c*/`, `runs/phase4a_h4g*/` | Phase 4a scores, decisions, and details for H4-T, self-consistency, and grounding, with run logs |
+| `runs/phase4a_relabel_h4g*/`, `runs/phase4a_ungated/` | Ungated: the Phase 3 grounding analysis with the fixed label; scale comparison and weak-confidence pattern |
 | `runs/phase2/`, `runs/phase2b/` | Phase 2 and 2b trainings: per arm and seed, test scores on fixed answers, regenerated answers, metrics (with optimizer step counts), training log |
 | `runs/phase2_analysis/`, `runs/phase2b_analysis/` | Phase 2 and 2b decisions, details with every CI, per-arm metrics, run log, and the Phase 2 label audit |
 | `runs/phase2b_audit/` | The Phase 2b label audit (100 regenerated answers) |

@@ -1,0 +1,36 @@
+qwen/squad                   learn AUROC 0.863  rho +0.604  d_AURC +0.0167 [+0.0086, +0.0247]  PASS
+qwen/nq                      learn AUROC 0.860  rho +0.565  d_AURC +0.0126 [+0.0008, +0.0238]  PASS
+qwen/hotpotqa                learn AUROC 0.782  rho +0.552  d_AURC +0.0199 [+0.0091, +0.0302]  PASS
+qwen/relation_extraction     learn AUROC 0.875  rho +0.607  d_AURC +0.0113 [+0.0052, +0.0178]  PASS
+phi/squad                    learn AUROC 0.833  rho +0.303  d_AURC +0.0078 [+0.0027, +0.0149]  PASS
+phi/nq                       learn AUROC 0.805  rho +0.196  d_AURC -0.0092 [-0.0267, +0.0033]  fail
+phi/hotpotqa                 learn AUROC 0.748  rho +0.246  d_AURC +0.0065 [-0.0041, +0.0198]  fail
+{
+  "created_at": "2026-11-28T11:09:34.624049+00:00",
+  "protocol": "docs/phase3/TCL-Phase3-H4-Grounding-Protocol.md",
+  "eligible_pairs": [
+    "qwen/squad",
+    "qwen/nq",
+    "qwen/hotpotqa",
+    "qwen/relation_extraction",
+    "phi/squad",
+    "phi/nq",
+    "phi/hotpotqa"
+  ],
+  "ineligible_pairs": [
+    "phi/relation_extraction"
+  ],
+  "pairs_passing": [
+    "qwen/squad",
+    "qwen/nq",
+    "qwen/hotpotqa",
+    "qwen/relation_extraction",
+    "phi/squad"
+  ],
+  "needed": 4,
+  "includes_new_dataset_pair": true,
+  "H4_grounding": {
+    "passes": true,
+    "rule": "per pair: G-hat AUROC >= 0.70, Spearman with raw < 0.7, d_AURC CI lower bound > 0; majority of eligible pairs, including the new-dataset pair of at least one model"
+  }
+}

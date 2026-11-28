@@ -17,7 +17,8 @@ My first core claim was that training a small trust head *jointly* with the lang
 | 1. Foundation | Do frozen hidden states carry correctness signal beyond calibrated confidence, and does it transfer? | **Closed**: signal is real but small and model-dependent; it does not transfer |
 | 2. Core test (H3) | Does joint training beat a frozen head trained on the same data? | **Done**: H3 fails, twice. Joint training does not transfer; the claim is dropped ([Phase 2](docs/phase2/TCL-Phase2-Checkpoint.md), [Phase 2b](docs/phase2/TCL-Phase2b-Checkpoint.md)) |
 | 3. Transfer + trust vector (H4-T, H4) | Can a head trained on several datasets beat raw confidence on a new one? Are further trust dimensions learnable and non-redundant there? | **H4-T fails:** the head beats raw confidence on 1 of 6 held-out pairs; TCL's correctness dimension becomes calibrated raw confidence ([checkpoint](docs/phase3/TCL-Phase3-Checkpoint.md)). **H4 (self-consistency) fails by one pair:** learnable from one pass everywhere, adds to raw confidence on 3 of 6 ([checkpoint](docs/phase3/TCL-Phase3-H4-Consistency-Checkpoint.md)). **H4 (grounding) fails:** learnable, but adds to raw confidence on 2 of 7 pairs ([checkpoint](docs/phase3/TCL-Phase3-H4-Grounding-Checkpoint.md)). Trust is one-dimensional at this scale; Phase 4 re-tests |
-| 4. Generalization (H5) | Do the results hold on math (GSM8K) and a 7-8B model? Does joint training behave differently at that scale? | Planned |
+| 4a. Phase 3 tests at 7B | Do the Phase 3 tests pass on Qwen2.5-7B? | **Fails:** no learned head beats raw confidence (0 of 3 pairs); self-consistency adds to it on 2 of 3 but misses on PopQA; grounding not testable. Trust is one-dimensional from 0.5B to 7B on QA ([checkpoint](docs/phase4/TCL-Phase4a-Checkpoint.md)) |
+| 4b. Generalization (H5) | Math (GSM8K) and joint training at 7B | Scoped at the Phase 4b gate, after 4a |
 | 5. Claim level (H6) | Can trust be estimated per claim in long-form text? | Planned |
 
 The full plan, hypotheses, decision gates, and change log are in [TCL-Research-Program.md](TCL-Research-Program.md).
@@ -54,6 +55,16 @@ Qwen2.5-0.5B and Phi-3.5-mini; heads trained on two or three of TriviaQA, SQuAD,
 **H4, self-consistency.** I then tested whether a head can predict, from one pass, how consistently the model would answer if asked again (normally measured with 10 extra samples), and whether that adds to raw confidence. It is learnable on every held-out pair (AUROC 0.73-0.95) and not redundant with raw confidence, but it lowers selective-prediction AURC on only 3 of 6 pairs, where 4 were needed, so H4 fails by one pair. On Qwen, one pass plus raw confidence matches or beats semantic entropy (TriviaQA 0.785 vs 0.773, PopQA 0.895 vs 0.879 AUROC). Details: [H4 checkpoint](docs/phase3/TCL-Phase3-H4-Consistency-Checkpoint.md).
 
 **H4, grounding.** Last, I tested whether a head can tell, from one pass, whether an answer is supported by the passage the model was given (MRQA reading comprehension, one third of passages swapped for unrelated ones, RelationExtraction held out). It is learnable on 6 of 7 held-out pairs and not redundant with raw confidence, but it lowers AURC on only 2 of 7, so H4 fails for grounding too. What the head mostly learns is to spot an irrelevant passage; among answers given from the right passage it adds nothing, and Phi, which already answers "unanswerable" to most irrelevant passages, gains almost nothing. The NLI grounding label was wrong on 23 of 100 audited answers. With both dimensions failed, trust is effectively one-dimensional at this scale, and Phase 4 re-tests at 7-8B. Details: [grounding checkpoint](docs/phase3/TCL-Phase3-H4-Grounding-Checkpoint.md).
+
+## Phase 4a Results
+
+I re-ran Phase 3's three tests unchanged on Qwen2.5-7B-Instruct (float16 on Kaggle's two T4s, about 11 GPU hours), with one fix chosen before any 7B data: a better grounding label. **All three fail.**
+
+- **H4-T:** adding hidden states to calibrated raw confidence makes the ranking slightly worse on all 3 held-out pairs (TriviaQA, NQ-Open, PopQA).
+- **H4, self-consistency:** passes on TriviaQA and NQ-Open, misses on PopQA by a CI bound of -0.0003; the rule requires the PopQA pair, so it fails. One pass plus raw confidence again matches or beats 10-sample semantic entropy (TriviaQA 0.869 vs 0.864, NQ-Open 0.772 vs 0.747 AUROC).
+- **H4, grounding:** not testable. The 7B model says "unanswerable" to 1,996 of 2,000 irrelevant passages and is rarely wrong on what it answers, so the RelationExtraction pair fails the size rule; the two eligible pairs fail anyway.
+
+Trust is effectively one-dimensional from 0.5B to 7B on QA, and I drop the multi-dimensional claim at this program's scale. One ungated check changes how I read Phase 3: with the fixed grounding label, the Phase 3 grounding test would have passed (5 of 7 pairs, mostly from irrelevant-passage answers); its recorded failure stands, but it was partly a labeling failure. Details, audits, scale comparison: [Phase 4a checkpoint](docs/phase4/TCL-Phase4a-Checkpoint.md).
 
 ## Phase 2 and 2b Results
 
@@ -140,7 +151,8 @@ Phase 1 also caught problems in the earlier TCL-v0 records: test sets too small 
 | [paper/](paper/) | The Phase 2 negative-result paper (ACL format), [theory paper v2](paper/TCL-Theory-Paper-v2.md), theory paper v1, and the archived TCL-v0 empirical note |
 | [docs/phase1/](docs/phase1/) | Phase 1 protocols (locked before evaluation), checkpoints with all results, and the label audit |
 | [docs/phase2/](docs/phase2/) | Phase 2 labeling rule v3, the locked Phase 2 and 2b protocols, and both results checkpoints |
-| [docs/phase3/](docs/phase3/) | The locked Phase 3 protocol and its checkpoint |
+| [docs/phase3/](docs/phase3/) | The locked Phase 3 protocols and their checkpoints |
+| [docs/phase4/](docs/phase4/) | The locked Phase 4a protocol and its checkpoint |
 | [docs/archive/tcl-v0/](docs/archive/tcl-v0/) | June 2026 TCL-v0 notes, runbooks, and run logs, kept for history |
 | [tcl_experiments/](tcl_experiments/) | Code, question sets with fixed splits, run records, and analysis outputs |
 | [notebooks/](notebooks/) | Kaggle notebooks for GPU runs |

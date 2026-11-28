@@ -1,0 +1,196 @@
+{
+  "H4-T": {
+    "pairs": [
+      "phi/nq_open",
+      "phi/popqa",
+      "phi/triviaqa",
+      "qwen/popqa",
+      "qwen/squad",
+      "qwen/triviaqa",
+      "qwen7b/nq_open",
+      "qwen7b/popqa",
+      "qwen7b/triviaqa"
+    ],
+    "n": 9,
+    "spearman": -0.43333333333333335,
+    "pearson": -0.15652627149895262,
+    "points": [
+      {
+        "pair": "phi/nq_open",
+        "raw_auroc": 0.7651825918231765,
+        "gain_auroc": -0.005553153571164926
+      },
+      {
+        "pair": "phi/popqa",
+        "raw_auroc": 0.8642630903460538,
+        "gain_auroc": -0.055253211506081534
+      },
+      {
+        "pair": "phi/triviaqa",
+        "raw_auroc": 0.8356725344025467,
+        "gain_auroc": -0.04058797241742762
+      },
+      {
+        "pair": "qwen/popqa",
+        "raw_auroc": 0.82808051436141,
+        "gain_auroc": 0.07940990598042064
+      },
+      {
+        "pair": "qwen/squad",
+        "raw_auroc": 0.7623432274247491,
+        "gain_auroc": -0.09579933110367889
+      },
+      {
+        "pair": "qwen/triviaqa",
+        "raw_auroc": 0.7117875274027922,
+        "gain_auroc": 0.03186980789200422
+      },
+      {
+        "pair": "qwen7b/nq_open",
+        "raw_auroc": 0.7424270238191035,
+        "gain_auroc": -0.003938249376357894
+      },
+      {
+        "pair": "qwen7b/popqa",
+        "raw_auroc": 0.8653684601113173,
+        "gain_auroc": -0.02160801484230046
+      },
+      {
+        "pair": "qwen7b/triviaqa",
+        "raw_auroc": 0.8537454242808554,
+        "gain_auroc": -0.020720982014181155
+      }
+    ]
+  },
+  "self-consistency": {
+    "pairs": [
+      "phi/nq_open",
+      "phi/popqa",
+      "phi/triviaqa",
+      "qwen/popqa",
+      "qwen/squad",
+      "qwen/triviaqa",
+      "qwen7b/nq_open",
+      "qwen7b/popqa",
+      "qwen7b/triviaqa"
+    ],
+    "n": 9,
+    "spearman": -0.6,
+    "pearson": -0.5313166213452771,
+    "points": [
+      {
+        "pair": "phi/nq_open",
+        "raw_auroc": 0.7651825918231765,
+        "gain_auroc": 0.021640531904796978
+      },
+      {
+        "pair": "phi/popqa",
+        "raw_auroc": 0.8642630903460538,
+        "gain_auroc": -0.0019392669170719135
+      },
+      {
+        "pair": "phi/triviaqa",
+        "raw_auroc": 0.8356725344025467,
+        "gain_auroc": -0.01067729707883247
+      },
+      {
+        "pair": "qwen/popqa",
+        "raw_auroc": 0.82808051436141,
+        "gain_auroc": 0.06688817808794556
+      },
+      {
+        "pair": "qwen/squad",
+        "raw_auroc": 0.7623432274247491,
+        "gain_auroc": 0.01188837792642139
+      },
+      {
+        "pair": "qwen/triviaqa",
+        "raw_auroc": 0.7117875274027922,
+        "gain_auroc": 0.07300680743048349
+      },
+      {
+        "pair": "qwen7b/nq_open",
+        "raw_auroc": 0.7424270238191035,
+        "gain_auroc": 0.029778657358976446
+      },
+      {
+        "pair": "qwen7b/popqa",
+        "raw_auroc": 0.8653684601113173,
+        "gain_auroc": 0.012335139146567586
+      },
+      {
+        "pair": "qwen7b/triviaqa",
+        "raw_auroc": 0.8537454242808554,
+        "gain_auroc": 0.01555041938087276
+      }
+    ]
+  },
+  "grounding": {
+    "pairs": [
+      "phi/hotpotqa",
+      "phi/nq",
+      "phi/squad",
+      "qwen/hotpotqa",
+      "qwen/nq",
+      "qwen/relation_extraction",
+      "qwen/squad",
+      "qwen7b/hotpotqa",
+      "qwen7b/nq"
+    ],
+    "n": 9,
+    "spearman": 0.6333333333333333,
+    "pearson": 0.6282628067516215,
+    "points": [
+      {
+        "pair": "phi/hotpotqa",
+        "raw_auroc": 0.6697446726027227,
+        "gain_auroc": 0.011117938904537827
+      },
+      {
+        "pair": "phi/nq",
+        "raw_auroc": 0.707959239035318,
+        "gain_auroc": -0.022630736112569494
+      },
+      {
+        "pair": "phi/squad",
+        "raw_auroc": 0.8206119162640901,
+        "gain_auroc": 0.02278503735381865
+      },
+      {
+        "pair": "qwen/hotpotqa",
+        "raw_auroc": 0.7454529370134466,
+        "gain_auroc": 0.025025275502982613
+      },
+      {
+        "pair": "qwen/nq",
+        "raw_auroc": 0.7796091250821279,
+        "gain_auroc": 0.024860247945456382
+      },
+      {
+        "pair": "qwen/relation_extraction",
+        "raw_auroc": 0.8314425158439055,
+        "gain_auroc": 0.014020098533069958
+      },
+      {
+        "pair": "qwen/squad",
+        "raw_auroc": 0.8352518455937079,
+        "gain_auroc": 0.02289541970913045
+      },
+      {
+        "pair": "qwen7b/hotpotqa",
+        "raw_auroc": 0.6014150790722363,
+        "gain_auroc": -0.005965859437205068
+      },
+      {
+        "pair": "qwen7b/nq",
+        "raw_auroc": 0.7161504424778761,
+        "gain_auroc": -0.00414930059948615
+      }
+    ]
+  },
+  "pooled": {
+    "n": 27,
+    "spearman": -0.19104404440303108,
+    "pearson": -0.0834625848867446
+  }
+}

@@ -42,11 +42,12 @@ Documents in the order they were written. Each protocol was committed before the
 | [TCL-Phase3-H4-Grounding-Protocol.md](phase3/TCL-Phase3-H4-Grounding-Protocol.md) | Locked protocol for H4 (grounding): can a one-pass head tell whether an answer is supported by the given passage, and does that add to raw confidence on held-out reading-comprehension data? |
 | [TCL-Phase3-H4-Grounding-Checkpoint.md](phase3/TCL-Phase3-H4-Grounding-Checkpoint.md) | Results: grounding is learnable but adds to raw confidence on 2 of 7 pairs, mostly by spotting irrelevant passages; NLI label wrong on 23 of 100; H4 fails for every dimension |
 
-## Phase 4 (4a protocol locked)
+## Phase 4 (4a done: H4-T and H4 fail at 7B)
 
 | Document | Role |
 |---|---|
 | [TCL-Phase4a-Protocol.md](phase4/TCL-Phase4a-Protocol.md) | Locked protocol for Phase 4a: Phase 3's three tests (H4-T, self-consistency, grounding) re-run unchanged on Qwen2.5-7B, with one grounding-label fix chosen before any 7B data |
+| [TCL-Phase4a-Checkpoint.md](phase4/TCL-Phase4a-Checkpoint.md) | Results: H4-T fails (0 of 3); self-consistency passes 2 of 3 but not PopQA; grounding not testable (the 7B model refuses irrelevant passages); scale comparison and the Phase 3 grounding rerun with the fixed label |
 
 ## Archive
 
